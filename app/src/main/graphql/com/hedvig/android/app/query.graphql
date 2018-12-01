@@ -1,0 +1,28 @@
+query GetInsurance {
+  insurance {
+    address
+    postalNumber
+    monthlyCost
+    safetyIncreasers
+    personsInHousehold
+    certificateUrl
+    status
+    type
+    activeFrom
+    insuredAtOtherCompany
+    presaleInformationUrl
+    policyUrl
+    currentInsurerName
+    perilCategories {
+      title
+      description
+    	iconUrl
+      perils {
+        id
+        title
+        imageUrl
+        description
+      }
+    }
+  }
+}
