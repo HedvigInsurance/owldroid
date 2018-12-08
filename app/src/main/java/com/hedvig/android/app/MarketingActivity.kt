@@ -31,6 +31,9 @@ class MarketingActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var apolloClient: ApolloClient
 
+    @Inject
+    lateinit var context: Context
+
     val uiHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +57,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
             val urls = response.data()?.marketingStories()?.filter { it.asset()?.mimeType() == "image/jpeg" }?.map { it.asset()?.url().toString() }
             runOnUiThread {
                 text123.visibility = TextView.GONE
-                pager.adapter = StoryPageAdapter(this@MarketingActivity, urls.orEmpty())
+                pager.adapter = StoryPageAdapter(context, urls.orEmpty())
                 pager.visibility = ViewPager.VISIBLE
                 marketing_proceed.setOnClickListener {
                     pager.currentItem = pager.currentItem + 1
@@ -76,7 +79,6 @@ class MarketingActivity : DaggerAppCompatActivity() {
 }
 
 class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdapter() {
-
     fun getView(position: Int, viewPager: ViewPager): View {
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.page_marketing_story, viewPager, false) as LinearLayout
@@ -109,6 +111,5 @@ class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdap
     override fun getCount(): Int {
         return data.size
     }
-
 }
 
