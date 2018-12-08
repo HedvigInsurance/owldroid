@@ -43,7 +43,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
     val dataCallback: ApolloCall.Callback<MarketingStoriesQuery.Data> = ApolloCallback(object : ApolloCall.Callback<MarketingStoriesQuery.Data>() {
 
         override fun onStatusEvent(event: ApolloCall.StatusEvent) {
-            Timber.e("StatusEvent: " + event.toString())
+            Timber.e("StatusEvent: %s", event.toString())
         }
 
         override fun onFailure(e: ApolloException) {
@@ -53,9 +53,12 @@ class MarketingActivity : DaggerAppCompatActivity() {
         override fun onResponse(response: Response<MarketingStoriesQuery.Data>) {
             val urls = response.data()?.marketingStories()?.filter { it.asset()?.mimeType() == "image/jpeg" }?.map { it.asset()?.url().toString() }
             runOnUiThread {
-                text123.visibility = TextView.GONE;
+                text123.visibility = TextView.GONE
                 pager.adapter = StoryPageAdapter(this@MarketingActivity, urls.orEmpty())
-                pager.visibility = ViewPager.VISIBLE;
+                pager.visibility = ViewPager.VISIBLE
+                marketing_proceed.setOnClickListener {
+                    pager.currentItem = pager.currentItem + 1
+                }
             }
         }
 
