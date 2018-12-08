@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -59,8 +60,18 @@ class MarketingActivity : DaggerAppCompatActivity() {
                 text123.visibility = TextView.GONE
                 pager.adapter = StoryPageAdapter(context, urls.orEmpty())
                 pager.visibility = ViewPager.VISIBLE
+                marketing_proceed.visibility = Button.VISIBLE
+                marketing_login.visibility = Button.VISIBLE
                 marketing_proceed.setOnClickListener {
+                    val max = (pager.adapter as StoryPageAdapter).count - 1
+                    if (pager.currentItem == max) {
+                        Timber.e("Should navigate to chat!")
+                        return@setOnClickListener
+                    }
                     pager.currentItem = pager.currentItem + 1
+                }
+                marketing_login.setOnClickListener {
+                    Timber.e("Should show login with BankID!")
                 }
             }
         }
