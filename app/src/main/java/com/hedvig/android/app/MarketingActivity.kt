@@ -1,5 +1,6 @@
 package com.hedvig.android.app
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -90,6 +91,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
 }
 
 class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdapter() {
+    @SuppressLint("ClickableViewAccessibility") // TODO Fix this later on
     fun getView(position: Int, viewPager: ViewPager): View {
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.page_marketing_story, viewPager, false) as LinearLayout
@@ -104,6 +106,18 @@ class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdap
                 .centerCrop()
                 .into(imageView)
         imageView.visibility = ImageView.VISIBLE
+        imageView.setOnTouchListener { v, event ->
+            val viewCoords = intArrayOf(0, 0)
+            imageView.getLocationOnScreen(viewCoords)
+            val x = event.x - viewCoords[0]
+            val twentyPercent = imageView.measuredWidth * 0.25
+            if (x > twentyPercent) {
+                viewPager.currentItem += 1
+            } else {
+                viewPager.currentItem -= 1
+            }
+            true
+        }
 
         return view
     }
