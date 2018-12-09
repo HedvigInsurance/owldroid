@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Hedvig</string>
-    <string name="marketing_proceed">Proceed</string>
-    <string name="marketing_login">Log in</string>
+    <string name="marketing_proceed">Ny här?</string>
+    <string name="marketing_login">Logga in</string>
 </resources>
