@@ -1,4 +1,4 @@
-package hedvig.com.android.app
+package com.hedvig.android.app
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("hedvig.com.android.app", appContext.packageName)
+        assertEquals("com.hedvig.android.app", appContext.packageName)
     }
 }

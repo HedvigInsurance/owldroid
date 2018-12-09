@@ -1,4 +1,4 @@
-package hedvig.com.android.app
+package com.hedvig.android.app
 
 import org.junit.Test
 

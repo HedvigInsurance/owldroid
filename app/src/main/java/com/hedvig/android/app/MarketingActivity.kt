@@ -69,7 +69,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
                         Timber.e("Should navigate to chat!")
                         return@setOnClickListener
                     }
-                    pager.currentItem = pager.currentItem + 1
+                    pager.currentItem += 1
                 }
                 marketing_login.setOnClickListener {
                     Timber.e("Should show login with BankID!")
