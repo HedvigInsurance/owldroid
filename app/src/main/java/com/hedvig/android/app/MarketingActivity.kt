@@ -8,6 +8,7 @@ import android.os.Looper
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -64,12 +65,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
                 marketing_proceed.visibility = Button.VISIBLE
                 marketing_login.visibility = Button.VISIBLE
                 marketing_proceed.setOnClickListener {
-                    val max = (pager.adapter as StoryPageAdapter).count - 1
-                    if (pager.currentItem == max) {
-                        Timber.e("Should navigate to chat!")
-                        return@setOnClickListener
-                    }
-                    pager.currentItem += 1
+                    Timber.e("Should navigate to chat!")
                 }
                 marketing_login.setOnClickListener {
                     Timber.e("Should show login with BankID!")
@@ -107,6 +103,9 @@ class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdap
                 .into(imageView)
         imageView.visibility = ImageView.VISIBLE
         imageView.setOnTouchListener { v, event ->
+            if (event.action != MotionEvent.ACTION_UP) {
+                return@setOnTouchListener true
+            }
             val viewCoords = intArrayOf(0, 0)
             imageView.getLocationOnScreen(viewCoords)
             val x = event.x - viewCoords[0]

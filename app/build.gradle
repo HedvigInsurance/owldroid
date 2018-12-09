@@ -10,13 +10,18 @@ apply plugin: 'com.apollographql.android'
 
 android {
     compileSdkVersion 28
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
         applicationId "com.hedvig.android.app"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -37,6 +42,7 @@ dependencies {
 
     implementation "com.apollographql.apollo:apollo-runtime:$apollo_version"
     implementation "com.apollographql.apollo:apollo-android-support:$apollo_version"
+    androidTestImplementation "com.apollographql.apollo:apollo-espresso-support:$apollo_version"
 
     def dagger_version = '2.19'
 
@@ -52,8 +58,15 @@ dependencies {
 
     def okhttp3_version = '3.12.0'
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3_version"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.8.4'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'org.robolectric:robolectric:4.0.2'
+
 }
