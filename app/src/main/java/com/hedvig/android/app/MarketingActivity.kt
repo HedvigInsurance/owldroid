@@ -1,7 +1,7 @@
 package com.hedvig.android.app
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,9 +19,16 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloCallback
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.api.internal.Optional
 import com.apollographql.apollo.exception.ApolloException
-import com.apollographql.apollo.fetcher.ApolloResponseFetchers
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
 import com.hedvig.android.app.graphql.MarketingStoriesQuery
 import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerAppCompatActivity
@@ -46,7 +53,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
         fetchMarketingStories()
     }
 
-    val dataCallback: ApolloCall.Callback<MarketingStoriesQuery.Data> = ApolloCallback(object : ApolloCall.Callback<MarketingStoriesQuery.Data>() {
+    val dataCallback: ApolloCall.Callback<Optional<MarketingStoriesQuery.Data>> = ApolloCallback(object : ApolloCall.Callback<Optional<MarketingStoriesQuery.Data>>() {
 
         override fun onStatusEvent(event: ApolloCall.StatusEvent) {
             Timber.e("StatusEvent: %s", event.toString())
@@ -56,12 +63,31 @@ class MarketingActivity : DaggerAppCompatActivity() {
             Timber.e("Failed to load marketing stories :(")
         }
 
-        override fun onResponse(response: Response<MarketingStoriesQuery.Data>) {
-            val urls = response.data()?.marketingStories()?.filter { it.asset()?.mimeType() == "image/jpeg" }?.map { it.asset()?.url().toString() }
+        override fun onResponse(response: Response<Optional<MarketingStoriesQuery.Data>>) {
+            //val urls = response.data()?.marketingStories()?.filter { it.asset()?.mimeType() == "image/jpeg" }?.map { it.asset()?.url().toString() }
+            val data = response.data()?.get()?.marketingStories()
             runOnUiThread {
                 text123.visibility = TextView.GONE
-                pager.adapter = StoryPageAdapter(context, urls.orEmpty())
+                pager.adapter = StoryPageAdapter(context, data as List<MarketingStoriesQuery.MarketingStory>)
                 pager.visibility = ViewPager.VISIBLE
+                val pageChangeListener = object: ViewPager.OnPageChangeListener {
+                    override fun onPageScrollStateChanged(p0: Int) {}
+
+                    override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
+
+                    override fun onPageSelected(p0: Int) {
+                        val currentView = pager.findViewWithTag<View>(p0)
+                        if (currentView is PlayerView) {
+                            val player = currentView.player
+                            player.seekTo(0)
+                            player.playWhenReady = true
+                        }
+                    }
+                }
+                pager.addOnPageChangeListener(pageChangeListener)
+                pager.post {
+                    pageChangeListener.onPageSelected(0)
+                }
                 marketing_proceed.visibility = Button.VISIBLE
                 marketing_login.visibility = Button.VISIBLE
                 marketing_proceed.setOnClickListener {
@@ -86,39 +112,82 @@ class MarketingActivity : DaggerAppCompatActivity() {
     }
 }
 
-class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdapter() {
-    @SuppressLint("ClickableViewAccessibility") // TODO Fix this later on
-    fun getView(position: Int, viewPager: ViewPager): View {
+class StoryPageAdapter(val context: Context, val data: List<MarketingStoriesQuery.MarketingStory>) : PagerAdapter() {
+    private fun getView(position: Int, viewPager: ViewPager): View {
         val layoutInflater = LayoutInflater.from(context)
         val view = layoutInflater.inflate(R.layout.page_marketing_story, viewPager, false) as LinearLayout
-        val imageView = view.findViewById<ImageView>(R.id.story_image)
+        val story = data[position].asset().get()
+        val mimeType = story.mimeType().get()
+        val url = story.url()
+        if (mimeType == "image/jpeg") {
+            val playerView = view.findViewById<PlayerView>(R.id.story_video)
+            view.removeView(playerView)
+            val imageView = setupImageView(view, viewPager, url)
+            imageView.tag = position
+        } else if (mimeType == "video/mp4" || mimeType == "video/quicktime") {
+            val imageView = view.findViewById<ImageView>(R.id.story_image)
+            view.removeView(imageView)
+            val playerView = setupPlayerView(view, viewPager, url)
+            playerView.tag = position
+        }
 
-        val videoView = view.findViewById<PlayerView>(R.id.story_video)
-        view.removeView(videoView)
+        return view
+    }
+
+    private fun setupPlayerView(parentView: LinearLayout, viewPager: ViewPager, url: String): PlayerView {
+        val playerView = parentView.findViewById<PlayerView>(R.id.story_video)
+        val player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
+        playerView.player = player
+        val dataSourceFactory = DefaultDataSourceFactory(context, Util.getUserAgent(context, BuildConfig.APPLICATION_ID))
+        when (Util.inferContentType(url)) {
+            C.TYPE_HLS -> {
+                val mediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
+                player.prepare(mediaSource)
+            }
+
+            C.TYPE_OTHER -> {
+                val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
+                player.prepare(mediaSource)
+            }
+        }
+        player.playWhenReady = false
+        player.volume = 0f
+        playerView.visibility = PlayerView.VISIBLE
+        setupTouchListeners(playerView, viewPager)
+
+        return playerView
+    }
+
+    private fun setupImageView(parentView: LinearLayout, viewPager: ViewPager, url: String): ImageView {
+        val imageView = parentView.findViewById<ImageView>(R.id.story_image)
 
         Picasso.get()
-                .load(data[position])
+                .load(url)
                 .fit()
                 .centerCrop()
                 .into(imageView)
         imageView.visibility = ImageView.VISIBLE
-        imageView.setOnTouchListener { v, event ->
+        setupTouchListeners(imageView, viewPager)
+
+        return imageView
+    }
+
+    private fun setupTouchListeners(view: View, pager: ViewPager) {
+        view.setOnTouchListener { _, event ->
             if (event.action != MotionEvent.ACTION_UP) {
                 return@setOnTouchListener true
             }
             val viewCoords = intArrayOf(0, 0)
-            imageView.getLocationOnScreen(viewCoords)
+            view.getLocationOnScreen(viewCoords)
             val x = event.x - viewCoords[0]
-            val twentyPercent = imageView.measuredWidth * 0.25
+            val twentyPercent = view.measuredWidth * 0.25
             if (x > twentyPercent) {
-                viewPager.currentItem += 1
+                pager.currentItem += 1
             } else {
-                viewPager.currentItem -= 1
+                pager.currentItem -= 1
             }
             true
         }
-
-        return view
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -126,6 +195,10 @@ class StoryPageAdapter(val context: Context, val data: List<String>) : PagerAdap
         val view = getView(position, pager)
         pager.addView(view)
         return view
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
+        container.removeView(view as View)
     }
 
     override fun isViewFromObject(p0: View, p1: Any): Boolean {

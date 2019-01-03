@@ -8,6 +8,10 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.apollographql.android'
 
+apollo {
+    nullableValueType = 'apolloOptional'
+}
+
 android {
     compileSdkVersion 28
     compileOptions {
