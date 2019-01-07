@@ -1,6 +1,5 @@
 package com.hedvig.android.app
 
-import android.app.Application
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
