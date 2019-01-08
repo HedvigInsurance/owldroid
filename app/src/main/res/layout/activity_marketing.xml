@@ -35,46 +35,43 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/marketing_login"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="42dp"
             android:background="@drawable/button_secondary"
             android:fontFamily="@font/circular_book"
             android:text="@string/marketing_login"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:visibility="visible" />
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/marketing_proceed"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/button_primary"
             android:fontFamily="@font/circular_book"
-            android:text="@string/marketing_proceed"
+            android:text="@string/marketing_cta"
             android:textAllCaps="false"
             android:textColor="#000000"
-            android:textSize="18sp"
-            android:visibility="visible" />
-    </LinearLayout>
+            android:textSize="16sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/marketing_login"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
