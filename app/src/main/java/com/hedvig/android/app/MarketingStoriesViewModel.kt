@@ -43,7 +43,7 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
     fun nextScreen() {
         val currentStoryIndex = page.value ?: 0
         val nScreens = marketingStories.value?.size ?: return
-        if (currentStoryIndex + 1 > nScreens) {
+        if (currentStoryIndex + 1 >= nScreens) {
             return
         }
         page.value = currentStoryIndex + 1
