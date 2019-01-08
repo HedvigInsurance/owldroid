@@ -1,5 +1,6 @@
 package com.hedvig.android.app
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -12,21 +13,31 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.squareup.picasso.Picasso
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 class StoryFragment : Fragment() {
 
+    @Inject
+    lateinit var cache: SimpleCache
+
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
     private var player: SimpleExoPlayer? = null
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,19 +79,12 @@ class StoryFragment : Fragment() {
         val playerView = parentView.findViewById<PlayerView>(R.id.story_video)
         player = ExoPlayerFactory.newSimpleInstance(context, DefaultTrackSelector())
         playerView.player = player
+
         val dataSourceFactory =
             DefaultDataSourceFactory(context, Util.getUserAgent(context, BuildConfig.APPLICATION_ID))
-        when (Util.inferContentType(url)) {
-            C.TYPE_HLS -> {
-                val mediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
-                player?.prepare(mediaSource)
-            }
-
-            C.TYPE_OTHER -> {
-                val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
-                player?.prepare(mediaSource)
-            }
-        }
+        val cacheDataSourceFactory = CacheDataSourceFactory(cache, dataSourceFactory)
+        val mediaSource = ExtractorMediaSource.Factory(cacheDataSourceFactory).createMediaSource(Uri.parse(url))
+        player?.prepare(mediaSource)
         player?.playWhenReady = false
         player?.volume = 0f
         playerView.visibility = PlayerView.VISIBLE

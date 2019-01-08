@@ -1,6 +1,8 @@
 package com.hedvig.android.app
 
 import android.animation.ValueAnimator
+import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -11,6 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
+import com.google.android.exoplayer2.upstream.DataSpec
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.CacheUtil
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import com.google.android.exoplayer2.util.Util
 import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_marketing.*
@@ -20,6 +27,9 @@ class MarketingActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var cache: SimpleCache
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +93,6 @@ class MarketingActivity : DaggerAppCompatActivity() {
                     pager.currentItem = newPage ?: return@Observer
                 })
 
-                // Warm up cache
                 it.forEach { story ->
                     val asset = story.asset().get()
                     val mimetype = asset.mimeType().get()
@@ -91,7 +100,17 @@ class MarketingActivity : DaggerAppCompatActivity() {
                     if (mimetype == "image/jpeg") {
                         Picasso.get().load(url).fetch()
                     } else if (mimetype == "video/mp4" || mimetype == "video/quicktime") {
-                        // Cache videos
+                        val dataSourceFactory =
+                            DefaultDataSourceFactory(this, Util.getUserAgent(this, BuildConfig.APPLICATION_ID))
+                        AsyncTask.execute {
+                            CacheUtil.cache(
+                                DataSpec(Uri.parse(url)),
+                                cache,
+                                dataSourceFactory.createDataSource(),
+                                null,
+                                null
+                            )
+                        }
                     }
                 }
             })
