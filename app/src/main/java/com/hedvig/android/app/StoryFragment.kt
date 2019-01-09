@@ -132,6 +132,9 @@ class StoryFragment : Fragment() {
             marketingStoriesViewModel.pauseStory()
         }
         view.setOnTouchListener { _, event ->
+            if (marketingStoriesViewModel.blurred.value != null && marketingStoriesViewModel.blurred.value == true) {
+                return@setOnTouchListener false
+            }
             if (event.action == MotionEvent.ACTION_DOWN) {
                 handler.postDelayed(holding, 150)
             }

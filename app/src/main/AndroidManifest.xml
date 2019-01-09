@@ -5,7 +5,9 @@
     <application
         android:name=".App" android:theme="@style/AppTheme"
     >
-        <activity android:name=".MarketingActivity">
+        <activity
+            android:name=".MarketingActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" android:launchMode="singleInstance" />
 

@@ -1,14 +1,17 @@
 package com.hedvig.android.app
 
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.animation.doOnEnd
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -71,9 +74,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
                         when {
                             newPage == n -> {
                                 animator.doOnEnd {
-                                    if (newPage != nStories - 1) {
-                                        marketingStoriesViewModel.nextScreen()
-                                    }
+                                    marketingStoriesViewModel.nextScreen()
                                 }
                                 animator.start()
                             }
@@ -81,6 +82,75 @@ class MarketingActivity : DaggerAppCompatActivity() {
                             newPage > n -> progressBar.progress = 100
                         }
                     })
+
+                    marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
+                        if (blurred) {
+                            blur_overlay.visibility = View.VISIBLE
+                            ValueAnimator.ofFloat(0f, 230f).apply {
+                                duration = 300
+                                addUpdateListener { opacity ->
+                                    blur_overlay.setBackgroundColor(
+                                        Color.argb(
+                                            (opacity.animatedValue as Float).toInt(),
+                                            255,
+                                            255,
+                                            255
+                                        )
+                                    )
+                                }
+                                start()
+                            }
+
+/*                            val swipeListener = GestureDetector(this, object : OnSwipeListener() {
+                                override fun onSwipe(direction: Direction): Boolean {
+                                    Timber.e("onSwipe triggered")
+                                    return when (direction) {
+                                        Direction.DOWN -> {
+                                            Timber.e("Swiped down!")
+                                            true
+                                        }
+                                        else -> {
+                                            Timber.e("Swiped another direction")
+                                            false
+                                        }
+                                    }
+                                }
+                            })
+
+                            blur_overlay.setOnTouchListener { _, motionEvent ->
+                                Timber.e("Touched blur overlay")
+                                swipeListener.onTouchEvent(motionEvent)
+                            }*/
+
+                            val currentTop = marketing_proceed.top
+                            val newTop = activity_marketing.height / 2 + marketing_proceed.height / 2
+                            val translation = (newTop - currentTop).toFloat()
+
+                            ValueAnimator.ofFloat(0f, translation).apply {
+                                duration = 300
+                                addUpdateListener { translation ->
+                                    marketing_proceed.translationY = translation.animatedValue as Float
+                                    val elapsed = translation.animatedFraction
+                                    val backgroundColor = Color.rgb(
+                                        (255 - 154 * elapsed).toInt(),
+                                        (255 - 225 * elapsed).toInt(),
+                                        255
+                                    )
+                                    val drawableWrap =
+                                        DrawableCompat.wrap(marketing_proceed.background).mutate()
+                                    DrawableCompat.setTint(drawableWrap, backgroundColor)
+                                    val textColor = Color.rgb(
+                                        (255 * elapsed).toInt(),
+                                        (255 * elapsed).toInt(),
+                                        (255 * elapsed).toInt()
+                                    )
+                                    marketing_proceed.setTextColor(textColor)
+                                }
+                                start()
+                            }
+                        }
+                    })
+
                     marketingStoriesViewModel.paused.observe(this, Observer { shouldPause ->
                         if (shouldPause) {
                             animator.pause()

@@ -21,6 +21,7 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
     val marketingStories = MutableLiveData<List<MarketingStoriesQuery.MarketingStory>>()
     val page = MutableLiveData<Int>()
     val paused = MutableLiveData<Boolean>()
+    val blurred = MutableLiveData<Boolean>()
 
     init {
         loadMarketingStories()
@@ -43,8 +44,10 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
     fun nextScreen() {
         val currentStoryIndex = page.value ?: 0
         val nScreens = marketingStories.value?.size ?: return
-        if (currentStoryIndex + 1 >= nScreens) {
+        if (currentStoryIndex + 1 > nScreens) {
             return
+        } else if (currentStoryIndex + 1 == nScreens) {
+            blurred.value = true
         }
         page.value = currentStoryIndex + 1
     }
@@ -63,6 +66,11 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
 
     fun resumeStory() {
         paused.value = false
+    }
+
+    fun unblur() {
+        page.value = 0
+        blurred.value = false
     }
 }
 

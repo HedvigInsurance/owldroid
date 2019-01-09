@@ -26,6 +26,13 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#00FFFFFF"
+        android:id="@+id/blur_overlay" />
+
     <LinearLayout
         android:id="@+id/story_progress_indicator_container"
         android:orientation="horizontal"
