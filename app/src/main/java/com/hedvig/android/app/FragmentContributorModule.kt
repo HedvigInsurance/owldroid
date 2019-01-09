@@ -7,4 +7,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentContributorModule {
     @ContributesAndroidInjector
     abstract fun contributeStoryFragment(): StoryFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeMarketingFragment(): MarketingFragment
 }
