@@ -1,10 +1,10 @@
 package com.hedvig.android.app
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.hedvig.android.app.graphql.MarketingStoriesQuery
 import dagger.Binds
 import dagger.MapKey

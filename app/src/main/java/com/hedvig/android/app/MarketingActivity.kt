@@ -1,21 +1,22 @@
 package com.hedvig.android.app
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v4.graphics.drawable.DrawableCompat
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.animation.doOnEnd
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager.widget.ViewPager
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheUtil
@@ -23,8 +24,8 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_marketing.*
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_marketing.*
 
 class MarketingActivity : DaggerAppCompatActivity() {
 
@@ -73,18 +74,20 @@ class MarketingActivity : DaggerAppCompatActivity() {
                         animator.cancel()
                         when {
                             newPage == n -> {
-                                animator.doOnEnd {
-                                    marketingStoriesViewModel.nextScreen()
-                                }
+                                animator.addListener(object : AnimatorListenerAdapter() {
+                                    override fun onAnimationEnd(animation: Animator) {
+                                        marketingStoriesViewModel.nextScreen()
+                                    }
+                                })
                                 animator.start()
                             }
-                            newPage < n -> progressBar.progress = 0
+                            newPage!! < n -> progressBar.progress = 0
                             newPage > n -> progressBar.progress = 100
                         }
                     })
 
                     marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
-                        if (blurred) {
+                        if (blurred!!) {
                             blur_overlay.visibility = View.VISIBLE
                             ValueAnimator.ofFloat(0f, 230f).apply {
                                 duration = 300
@@ -152,7 +155,7 @@ class MarketingActivity : DaggerAppCompatActivity() {
                     })
 
                     marketingStoriesViewModel.paused.observe(this, Observer { shouldPause ->
-                        if (shouldPause) {
+                        if (shouldPause!!) {
                             animator.pause()
                         } else {
                             animator.resume()

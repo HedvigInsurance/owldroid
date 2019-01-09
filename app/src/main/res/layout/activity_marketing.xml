@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_marketing"
@@ -42,7 +42,7 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatButton
             android:id="@+id/marketing_login"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatButton
             android:id="@+id/marketing_proceed"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
@@ -81,4 +81,4 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
