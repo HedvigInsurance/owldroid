@@ -195,7 +195,6 @@ class MarketingFragment: Fragment() {
                                 DataSpec(Uri.parse(url)),
                                 cache,
                                 dataSourceFactory.createDataSource(),
-                                null,
                                 null
                             )
                         }
