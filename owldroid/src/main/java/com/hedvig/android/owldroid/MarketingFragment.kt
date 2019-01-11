@@ -84,12 +84,14 @@ class MarketingFragment: Fragment() {
                 marketing_proceed.visibility = AppCompatButton.VISIBLE
 
                 marketing_login.setOnClickListener {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                     val intent = Intent("marketingResult")
                     intent.putExtra("type", MarketingResult.LOGIN)
                     localBroadcastManager.sendBroadcast(intent)
                 }
 
                 marketing_proceed.setOnClickListener {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                     val intent = Intent("marketingResult")
                     intent.putExtra("type", MarketingResult.ONBOARD)
                     localBroadcastManager.sendBroadcast(intent)
