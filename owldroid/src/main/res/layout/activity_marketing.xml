@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_marketing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hedvig.android.owldroid.MarketingActivity">
+
+    <com.hedvig.android.owldroid.StoryPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#00FFFFFF"
+        android:id="@+id/blur_overlay" />
+
+    <LinearLayout
+        android:id="@+id/story_progress_indicator_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatButton
+            android:id="@+id/marketing_login"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/button_secondary"
+            android:fontFamily="@font/circular_book"
+            android:text="@string/marketing_login"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.v7.widget.AppCompatButton
+            android:id="@+id/marketing_proceed"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/button_primary"
+            android:fontFamily="@font/circular_book"
+            android:text="@string/marketing_cta"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/marketing_login"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

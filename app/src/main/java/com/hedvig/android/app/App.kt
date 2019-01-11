@@ -13,7 +13,6 @@ class App : DaggerApplication() {
         Timber.plant(Timber.DebugTree())
     }
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        throw NotImplementedError()
-        //return DaggerAppComponent.builder().create(this)
+        return DaggerAppComponent.builder().create(this)
     }
 }

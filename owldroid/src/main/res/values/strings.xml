@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Hedvig</string>
+    <string name="marketing_cta">Skaffa Hedvig</string>
+    <string name="marketing_login">Redan medlem? Logga in</string>
+</resources>
