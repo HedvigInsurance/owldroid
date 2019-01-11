@@ -20,6 +20,7 @@ import android.support.v7.widget.AppCompatButton
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.google.android.exoplayer2.upstream.DataSpec
@@ -62,6 +63,7 @@ class MarketingFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         marketingStoriesViewModel = activity?.run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
         } ?: throw Exception("No Activity")
