@@ -6,14 +6,17 @@ import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.AppCompatButton
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +34,18 @@ import kotlinx.android.synthetic.main.activity_marketing.*
 import javax.inject.Inject
 
 class MarketingFragment: Fragment() {
+
+    enum class MarketingResult {
+        ONBOARD,
+        LOGIN;
+
+        override fun toString(): String {
+            return when (this) {
+                ONBOARD -> "onboard"
+                LOGIN -> "login"
+            }
+        }
+    }
 
     @Inject
     lateinit var cache: SimpleCache
@@ -63,7 +78,22 @@ class MarketingFragment: Fragment() {
         marketingStoriesViewModel
             .marketingStories
             .observe(this, Observer {
-                text123.visibility = TextView.GONE
+                val localBroadcastManager = LocalBroadcastManager.getInstance(context!!)
+                marketing_login.visibility = AppCompatButton.VISIBLE
+                marketing_proceed.visibility = AppCompatButton.VISIBLE
+
+                marketing_login.setOnClickListener {
+                    val intent = Intent("marketingResult")
+                    intent.putExtra("type", MarketingResult.LOGIN)
+                    localBroadcastManager.sendBroadcast(intent)
+                }
+
+                marketing_proceed.setOnClickListener {
+                    val intent = Intent("marketingResult")
+                    intent.putExtra("type", MarketingResult.ONBOARD)
+                    localBroadcastManager.sendBroadcast(intent)
+                }
+
                 val nStories = it?.size ?: throw Exception("Got no stories")
                 pager.adapter = StoryPageAdapter(activity?.supportFragmentManager ?: throw Error("Could not find fragment manager"), nStories)
                 pager.visibility = ViewPager.VISIBLE
