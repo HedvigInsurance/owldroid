@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.di
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory

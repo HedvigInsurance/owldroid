@@ -1,19 +1,12 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.ui.marketing
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Handler
 import android.os.Looper
+import com.hedvig.android.owldroid.data.marketing.MarketingStoriesRepository
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
-import dagger.Binds
-import dagger.MapKey
-import dagger.Module
-import dagger.multibindings.IntoMap
 import javax.inject.Inject
-import javax.inject.Provider
-import javax.inject.Singleton
-import kotlin.reflect.KClass
 
 class MarketingStoriesViewModel @Inject constructor(private val marketingStoriesRepository: MarketingStoriesRepository) :
     ViewModel() {
@@ -72,27 +65,5 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
         page.value = 0
         blurred.value = false
     }
-}
-
-@Singleton
-class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T = viewModels[modelClass]?.get() as T
-}
-
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-@Retention(AnnotationRetention.RUNTIME)
-@MapKey
-annotation class ViewModelKey(val value: KClass<out ViewModel>)
-
-@Module
-abstract class ViewModelModule {
-    @Binds
-    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(MarketingStoriesViewModel::class)
-    internal abstract fun marketingStoriesViewModel(viewModel: MarketingStoriesViewModel): ViewModel
 }
 

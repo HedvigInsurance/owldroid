@@ -1,16 +1,15 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.util
 
 import android.view.GestureDetector
 import android.view.MotionEvent
-import timber.log.Timber
 
-abstract class OnSwipeListener: GestureDetector.SimpleOnGestureListener() {
+// This class hugely inspired by https://stackoverflow.com/a/26387629
+abstract class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        Timber.e("fling detected")
         val x1 = e1!!.x
         val x2 = e2!!.x
-        val y1 = e1!!.y
-        val y2 = e2!!.y
+        val y1 = e1.y
+        val y2 = e2.y
 
         val direction = getDirection(x1, x2, y1, y2)
 
@@ -38,16 +37,21 @@ abstract class OnSwipeListener: GestureDetector.SimpleOnGestureListener() {
         companion object {
             fun fromAngle(angle: Double): Direction {
                 if (inRange(angle, 45f, 135f)) {
-                    return Direction.UP
+                    return UP
                 }
-                if (inRange(angle, 0f, 45f) || inRange(angle, 315f, 360f)) {
-                    return Direction.RIGHT
+                if (inRange(
+                        angle,
+                        0f,
+                        45f
+                    ) || inRange(angle, 315f, 360f)
+                ) {
+                    return RIGHT
                 }
                 if (inRange(angle, 225f, 315f)) {
-                    return Direction.DOWN
+                    return DOWN
                 }
 
-                return Direction.LEFT
+                return LEFT
             }
 
             private fun inRange(angle: Double, init: Float, end: Float): Boolean {

@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.ui.marketing
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

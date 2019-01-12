@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.data.marketing
 
 import android.content.Context
 import android.net.Uri
@@ -12,7 +12,10 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
+import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.android.owldroid.util.head
+import com.hedvig.android.owldroid.util.tail
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 import java.util.concurrent.Callable
@@ -66,7 +69,12 @@ class MarketingStoriesRepository @Inject constructor(
                 Picasso.get().load(url).fetch()
             } else if (mimeType == "video/mp4" || mimeType == "video/quicktime") {
                 val dataSourceFactory =
-                    DefaultDataSourceFactory(context, Util.getUserAgent(context, BuildConfig.APPLICATION_ID))
+                    DefaultDataSourceFactory(
+                        context, Util.getUserAgent(
+                            context,
+                            BuildConfig.APPLICATION_ID
+                        )
+                    )
                 CacheUtil.cache(DataSpec(Uri.parse(url)), cache, dataSourceFactory.createDataSource(), null)
             }
         })

@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.ui.marketing
 
 import android.content.Context
 import android.support.v4.view.ViewPager

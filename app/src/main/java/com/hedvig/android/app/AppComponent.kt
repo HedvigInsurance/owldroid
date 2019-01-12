@@ -1,8 +1,8 @@
 package com.hedvig.android.app
 
-import com.hedvig.android.owldroid.FragmentContributorModule
-import com.hedvig.android.owldroid.OwldroidModule
-import com.hedvig.android.owldroid.ViewModelModule
+import com.hedvig.android.owldroid.di.FragmentContributorModule
+import com.hedvig.android.owldroid.di.OwldroidModule
+import com.hedvig.android.owldroid.di.ViewModelModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

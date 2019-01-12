@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.ui.marketing
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -15,15 +15,20 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.AppCompatButton
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.android.owldroid.util.OnSwipeListener
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_marketing.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MarketingFragment : Fragment() {
@@ -131,70 +136,78 @@ class MarketingFragment : Fragment() {
 
     private fun setupBlurOverlay() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
-            if (blurred!!) {
-                blur_overlay.visibility = View.VISIBLE
-                ValueAnimator.ofFloat(0f, 230f).apply {
-                    duration = 300
-                    addUpdateListener { opacity ->
-                        blur_overlay.setBackgroundColor(
-                            Color.argb(
-                                (opacity.animatedValue as Float).toInt(),
-                                255,
-                                255,
-                                255
-                            )
-                        )
-                    }
-                    start()
-                }
+            if (!blurred!!) {
+                blur_overlay.visibility = View.GONE
+                marketing_proceed.translationY = 0f
+                val drawableWrap = DrawableCompat.wrap(marketing_proceed.background).mutate()
+                DrawableCompat.setTint(drawableWrap, Color.rgb(255, 255, 255))
+                marketing_proceed.setTextColor(Color.rgb(0, 0, 0))
+                return@Observer
+            }
 
-/*                            val swipeListener = GestureDetector(this, object : OnSwipeListener() {
-                                override fun onSwipe(direction: Direction): Boolean {
-                                    Timber.e("onSwipe triggered")
-                                    return when (direction) {
-                                        Direction.DOWN -> {
-                                            Timber.e("Swiped down!")
-                                            true
-                                        }
-                                        else -> {
-                                            Timber.e("Swiped another direction")
-                                            false
-                                        }
-                                    }
-                                }
-                            })
-
-                            blur_overlay.setOnTouchListener { _, motionEvent ->
-                                Timber.e("Touched blur overlay")
-                                swipeListener.onTouchEvent(motionEvent)
-                            }*/
-
-                val currentTop = marketing_proceed.top
-                val newTop = activity_marketing.height / 2 + marketing_proceed.height / 2
-                val translation = (newTop - currentTop).toFloat()
-
-                ValueAnimator.ofFloat(0f, translation).apply {
-                    duration = 300
-                    addUpdateListener { translation ->
-                        marketing_proceed.translationY = translation.animatedValue as Float
-                        val elapsed = translation.animatedFraction
-                        val backgroundColor = Color.rgb(
-                            (255 - 154 * elapsed).toInt(),
-                            (255 - 225 * elapsed).toInt(),
+            blur_overlay.visibility = View.VISIBLE
+            ValueAnimator.ofFloat(0f, 230f).apply {
+                duration = 300
+                addUpdateListener { opacity ->
+                    blur_overlay.setBackgroundColor(
+                        Color.argb(
+                            (opacity.animatedValue as Float).toInt(),
+                            255,
+                            255,
                             255
                         )
-                        val drawableWrap =
-                            DrawableCompat.wrap(marketing_proceed.background).mutate()
-                        DrawableCompat.setTint(drawableWrap, backgroundColor)
-                        val textColor = Color.rgb(
-                            (255 * elapsed).toInt(),
-                            (255 * elapsed).toInt(),
-                            (255 * elapsed).toInt()
-                        )
-                        marketing_proceed.setTextColor(textColor)
-                    }
-                    start()
+                    )
                 }
+                start()
+            }
+
+            val swipeListener = GestureDetector(context, object : OnSwipeListener() {
+                override fun onSwipe(direction: Direction): Boolean {
+                    Timber.e("onSwipe triggered")
+                    return when (direction) {
+                        Direction.DOWN -> {
+                            marketingStoriesViewModel.unblur()
+                            true
+                        }
+                        else -> {
+                            Timber.e("Swiped another direction")
+                            false
+                        }
+                    }
+                }
+            })
+
+            blur_overlay.setOnTouchListener { _, motionEvent ->
+                Timber.e("Touched blur overlay")
+                swipeListener.onTouchEvent(motionEvent)
+                true
+            }
+
+            val currentTop = marketing_proceed.top
+            val newTop = activity_marketing.height / 2 + marketing_proceed.height / 2
+            val translation = (newTop - currentTop).toFloat()
+
+            ValueAnimator.ofFloat(0f, translation).apply {
+                duration = 300
+                addUpdateListener { translation ->
+                    marketing_proceed.translationY = translation.animatedValue as Float
+                    val elapsed = translation.animatedFraction
+                    val backgroundColor = Color.rgb(
+                        (255 - 154 * elapsed).toInt(),
+                        (255 - 225 * elapsed).toInt(),
+                        255
+                    )
+                    val drawableWrap =
+                        DrawableCompat.wrap(marketing_proceed.background).mutate()
+                    DrawableCompat.setTint(drawableWrap, backgroundColor)
+                    val textColor = Color.rgb(
+                        (255 * elapsed).toInt(),
+                        (255 * elapsed).toInt(),
+                        (255 * elapsed).toInt()
+                    )
+                    marketing_proceed.setTextColor(textColor)
+                }
+                start()
             }
         })
     }

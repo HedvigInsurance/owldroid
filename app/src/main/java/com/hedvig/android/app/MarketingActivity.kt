@@ -2,8 +2,8 @@ package com.hedvig.android.app
 
 import android.os.Bundle
 import android.widget.FrameLayout
-import com.hedvig.android.owldroid.MarketingFragment
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
 import dagger.android.support.DaggerAppCompatActivity
 
 class MarketingActivity : DaggerAppCompatActivity() {

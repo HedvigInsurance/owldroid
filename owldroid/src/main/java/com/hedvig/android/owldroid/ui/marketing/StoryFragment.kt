@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid
+package com.hedvig.android.owldroid.ui.marketing
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -22,6 +22,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
+import com.hedvig.android.owldroid.BuildConfig
+import com.hedvig.android.owldroid.R
 import com.squareup.picasso.Picasso
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -43,7 +45,7 @@ class StoryFragment : Fragment() {
         super.onCreate(savedInstanceState)
         marketingStoriesViewModel = activity?.run {
             ViewModelProviders.of(this).get(MarketingStoriesViewModel::class.java)
-        } ?: throw Exception("Invalid activity")
+        } ?: throw RuntimeException("Invalid activity")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,7 +83,12 @@ class StoryFragment : Fragment() {
         playerView.player = player
 
         val dataSourceFactory =
-            DefaultDataSourceFactory(context, Util.getUserAgent(context, BuildConfig.APPLICATION_ID))
+            DefaultDataSourceFactory(
+                context, Util.getUserAgent(
+                    context,
+                    BuildConfig.APPLICATION_ID
+                )
+            )
         val cacheDataSourceFactory = CacheDataSourceFactory(cache, dataSourceFactory)
         val mediaSource = ExtractorMediaSource.Factory(cacheDataSourceFactory).createMediaSource(Uri.parse(url))
         player?.prepare(mediaSource)
