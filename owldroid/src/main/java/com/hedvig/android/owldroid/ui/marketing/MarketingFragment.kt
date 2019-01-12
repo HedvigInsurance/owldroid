@@ -1,7 +1,5 @@
 package com.hedvig.android.owldroid.ui.marketing
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -12,23 +10,26 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.ViewPager
+import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.AppCompatButton
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.android.owldroid.util.OnSwipeListener
+import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
+import com.hedvig.android.owldroid.util.compatSetTint
+import com.hedvig.android.owldroid.util.doOnEnd
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_marketing.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class MarketingFragment : Fragment() {
@@ -108,11 +109,9 @@ class MarketingFragment : Fragment() {
                 animator.cancel()
                 when {
                     newPage == n -> {
-                        animator.addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                marketingStoriesViewModel.nextScreen()
-                            }
-                        })
+                        animator.doOnEnd {
+                            marketingStoriesViewModel.nextScreen()
+                        }
                         animator.start()
                     }
                     newPage!! < n -> progressBar.progress = 0
@@ -138,20 +137,16 @@ class MarketingFragment : Fragment() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
             if (!blurred!!) {
                 blur_overlay.visibility = View.GONE
-                marketing_proceed.translationY = 0f
-                val drawableWrap = DrawableCompat.wrap(marketing_proceed.background).mutate()
-                DrawableCompat.setTint(drawableWrap, Color.rgb(255, 255, 255))
-                marketing_proceed.setTextColor(Color.rgb(0, 0, 0))
                 return@Observer
             }
 
             blur_overlay.visibility = View.VISIBLE
-            ValueAnimator.ofFloat(0f, 230f).apply {
+            ValueAnimator.ofInt(0, 230).apply {
                 duration = 300
                 addUpdateListener { opacity ->
                     blur_overlay.setBackgroundColor(
                         Color.argb(
-                            (opacity.animatedValue as Float).toInt(),
+                            opacity.animatedValue as Int,
                             255,
                             255,
                             255
@@ -161,24 +156,57 @@ class MarketingFragment : Fragment() {
                 start()
             }
 
-            val swipeListener = GestureDetector(context, object : OnSwipeListener() {
-                override fun onSwipe(direction: Direction): Boolean {
-                    Timber.e("onSwipe triggered")
-                    return when (direction) {
-                        Direction.DOWN -> {
-                            marketingStoriesViewModel.unblur()
-                            true
+            val swipeListener = GestureDetector(context, SimpleOnSwipeListener {
+                when (it) {
+                    OnSwipeListener.Direction.DOWN -> {
+                        blur_overlay.setOnTouchListener(null)
+                        ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
+                            duration = 200
+                            interpolator = FastOutSlowInInterpolator()
+                            addUpdateListener { translation ->
+                                marketing_proceed.translationY = translation.animatedValue as Float
+                                val elapsed = translation.animatedFraction
+                                val backgroundColor = Color.rgb(
+                                    (101 + 154 * elapsed).toInt(),
+                                    (30 + 225 * elapsed).toInt(),
+                                    255
+                                )
+                                marketing_proceed.background.compatSetTint(backgroundColor)
+                                val textColor = Color.rgb(
+                                    (255 - 255 * elapsed).toInt(),
+                                    (255 - 255 * elapsed).toInt(),
+                                    (255 - 255 * elapsed).toInt()
+                                )
+                                marketing_proceed.setTextColor(textColor)
+                            }
+                            doOnEnd {
+                                marketingStoriesViewModel.unblur()
+                            }
+                            start()
                         }
-                        else -> {
-                            Timber.e("Swiped another direction")
-                            false
+                        ValueAnimator.ofInt(230, 0).apply {
+                            duration = 200
+                            addUpdateListener { opacity ->
+                                blur_overlay.setBackgroundColor(
+                                    Color.argb(
+                                        opacity.animatedValue as Int,
+                                        255,
+                                        255,
+                                        255
+                                    )
+                                )
+                            }
+                            start()
                         }
+                        true
+                    }
+                    else -> {
+                        false
                     }
                 }
             })
 
             blur_overlay.setOnTouchListener { _, motionEvent ->
-                Timber.e("Touched blur overlay")
                 swipeListener.onTouchEvent(motionEvent)
                 true
             }
@@ -188,22 +216,21 @@ class MarketingFragment : Fragment() {
             val translation = (newTop - currentTop).toFloat()
 
             ValueAnimator.ofFloat(0f, translation).apply {
-                duration = 300
+                duration = 500
+                interpolator = OvershootInterpolator()
                 addUpdateListener { translation ->
                     marketing_proceed.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
                     val backgroundColor = Color.rgb(
-                        (255 - 154 * elapsed).toInt(),
-                        (255 - 225 * elapsed).toInt(),
+                        minOf((255 - 154 * elapsed).toInt(), 255),
+                        minOf((255 - 225 * elapsed).toInt(), 255),
                         255
                     )
-                    val drawableWrap =
-                        DrawableCompat.wrap(marketing_proceed.background).mutate()
-                    DrawableCompat.setTint(drawableWrap, backgroundColor)
+                    marketing_proceed.background.compatSetTint(backgroundColor)
                     val textColor = Color.rgb(
-                        (255 * elapsed).toInt(),
-                        (255 * elapsed).toInt(),
-                        (255 * elapsed).toInt()
+                        minOf((255 * elapsed).toInt(), 255),
+                        minOf((255 * elapsed).toInt(), 255),
+                        minOf((255 * elapsed).toInt(), 255)
                     )
                     marketing_proceed.setTextColor(textColor)
                 }
