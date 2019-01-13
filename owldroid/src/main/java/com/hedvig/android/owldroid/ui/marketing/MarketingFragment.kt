@@ -21,6 +21,8 @@ import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
@@ -160,6 +162,8 @@ class MarketingFragment : Fragment() {
                 when (it) {
                     OnSwipeListener.Direction.DOWN -> {
                         blur_overlay.setOnTouchListener(null)
+                        hedvig_face_animation.visibility = LottieAnimationView.GONE
+                        marketing_say_hello.visibility = TextView.GONE
                         ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
                             duration = 200
                             interpolator = FastOutSlowInInterpolator()
@@ -233,6 +237,14 @@ class MarketingFragment : Fragment() {
                         minOf((255 * elapsed).toInt(), 255)
                     )
                     marketing_proceed.setTextColor(textColor)
+                }
+                doOnEnd {
+                    marketing_say_hello.translationY = translation
+                    marketing_say_hello.visibility = TextView.VISIBLE
+                    hedvig_face_animation.useHardwareAcceleration(true)
+                    hedvig_face_animation.visibility = LottieAnimationView.VISIBLE
+                    hedvig_face_animation.translationY = translation
+                    hedvig_face_animation.playAnimation()
                 }
                 start()
             }
