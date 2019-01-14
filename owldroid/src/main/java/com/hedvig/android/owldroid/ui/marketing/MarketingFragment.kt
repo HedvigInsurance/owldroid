@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -81,6 +82,7 @@ class MarketingFragment : Fragment() {
         marketingStoriesViewModel
             .marketingStories
             .observe(this, Observer {
+                loading_spinner.visibility = ProgressBar.GONE
                 setupButtons()
                 setupPager(it)
                 setupBlurOverlay()
@@ -148,6 +150,19 @@ class MarketingFragment : Fragment() {
             }
 
             blur_overlay.visibility = View.VISIBLE
+            ValueAnimator.ofFloat(1f, 0f).apply {
+                duration = 300
+                addUpdateListener { opacity ->
+                    marketing_hedvig_logo.alpha = opacity.animatedValue as Float
+                    story_progress_indicator_container.alpha = opacity.animatedValue as Float
+                }
+                doOnEnd {
+                    marketing_hedvig_logo.visibility = ImageView.GONE
+                    story_progress_indicator_container.visibility = LinearLayout.GONE
+                }
+                start()
+            }
+
             ValueAnimator.ofInt(0, 100).apply {
                 duration = 300
                 addUpdateListener { opacity ->
@@ -167,6 +182,9 @@ class MarketingFragment : Fragment() {
                         blur_overlay.setOnTouchListener(null)
                         hedvig_face_animation.visibility = LottieAnimationView.GONE
                         marketing_say_hello.visibility = TextView.GONE
+                        marketing_hedvig_logo.visibility = ImageView.VISIBLE
+                        story_progress_indicator_container.visibility = LinearLayout.VISIBLE
+
                         ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
                             duration = 200
                             interpolator = FastOutSlowInInterpolator()
@@ -194,6 +212,9 @@ class MarketingFragment : Fragment() {
                         ValueAnimator.ofInt(0, 100).apply {
                             duration = 200
                             addUpdateListener { opacity ->
+                                marketing_hedvig_logo.alpha = opacity.animatedFraction
+                                story_progress_indicator_container.alpha = opacity.animatedFraction
+
                                 val backgroundColor = percentageFade(
                                     resources.getColor(R.color.blur_white),
                                     resources.getColor(R.color.transparent_white),

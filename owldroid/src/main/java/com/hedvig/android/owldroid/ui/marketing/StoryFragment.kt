@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -154,6 +155,7 @@ class StoryFragment : Fragment() {
                 marketingStoriesViewModel.resumeStory()
                 return@setOnTouchListener true
             }
+            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             val viewCoords = intArrayOf(0, 0)
             view.getLocationOnScreen(viewCoords)
             val x = event.x - viewCoords[0]

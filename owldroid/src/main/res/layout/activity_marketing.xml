@@ -5,6 +5,7 @@
     android:id="@+id/activity_marketing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     tools:context="com.hedvig.android.owldroid.ui.marketing.MarketingFragment">
 
     <com.hedvig.android.owldroid.ui.marketing.StoryPager
@@ -19,6 +20,25 @@
         android:layout_height="match_parent"
         android:background="@color/transparent_white"
         android:visibility="gone" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/marketing_hedvig_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_hedvig_wordmark_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loading_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/story_progress_indicator_container"
