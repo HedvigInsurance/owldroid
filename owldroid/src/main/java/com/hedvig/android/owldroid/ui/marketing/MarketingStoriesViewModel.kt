@@ -34,23 +34,25 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
         }
     }
 
-    fun nextScreen() {
+    fun nextScreen(): Boolean {
         val currentStoryIndex = page.value ?: 0
-        val nScreens = marketingStories.value?.size ?: return
+        val nScreens = marketingStories.value?.size ?: return false
         if (currentStoryIndex + 1 > nScreens) {
-            return
+            return false
         } else if (currentStoryIndex + 1 == nScreens) {
             blurred.value = true
         }
         page.value = currentStoryIndex + 1
+        return true
     }
 
-    fun previousScreen() {
+    fun previousScreen(): Boolean {
         val currentStoryIndex = page.value ?: 0
         if (currentStoryIndex - 1 < 0) {
-            return
+            return false
         }
         page.value = currentStoryIndex - 1
+        return true
     }
 
     fun pauseStory() {

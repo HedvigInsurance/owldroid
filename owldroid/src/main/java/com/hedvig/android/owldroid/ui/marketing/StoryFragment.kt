@@ -155,15 +155,18 @@ class StoryFragment : Fragment() {
                 marketingStoriesViewModel.resumeStory()
                 return@setOnTouchListener true
             }
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             val viewCoords = intArrayOf(0, 0)
             view.getLocationOnScreen(viewCoords)
             val x = event.x - viewCoords[0]
             val oneFourth = view.measuredWidth * 0.25
             if (x > oneFourth) {
-                marketingStoriesViewModel.nextScreen()
+                if (marketingStoriesViewModel.nextScreen()) {
+                    view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                }
             } else {
-                marketingStoriesViewModel.previousScreen()
+                if (marketingStoriesViewModel.previousScreen()) {
+                    view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                }
             }
             true
         }

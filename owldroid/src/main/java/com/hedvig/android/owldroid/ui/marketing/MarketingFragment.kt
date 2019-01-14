@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -167,8 +168,8 @@ class MarketingFragment : Fragment() {
                 duration = 300
                 addUpdateListener { opacity ->
                     val backgroundColor = percentageFade(
-                        resources.getColor(R.color.transparent_white),
-                        resources.getColor(R.color.blur_white),
+                        ContextCompat.getColor(context!!, R.color.transparent_white),
+                        ContextCompat.getColor(context!!, R.color.blur_white),
                         opacity.animatedFraction
                     )
                     blur_overlay.setBackgroundColor(backgroundColor)
@@ -192,14 +193,14 @@ class MarketingFragment : Fragment() {
                                 marketing_proceed.translationY = translation.animatedValue as Float
                                 val elapsed = translation.animatedFraction
                                 val backgroundColor = percentageFade(
-                                    resources.getColor(R.color.purple),
-                                    resources.getColor(R.color.white),
+                                    ContextCompat.getColor(context!!, R.color.purple),
+                                    ContextCompat.getColor(context!!, R.color.white),
                                     elapsed
                                 )
                                 marketing_proceed.background.compatSetTint(backgroundColor)
                                 val textColor = percentageFade(
-                                    resources.getColor(R.color.white),
-                                    resources.getColor(R.color.black),
+                                    ContextCompat.getColor(context!!, R.color.white),
+                                    ContextCompat.getColor(context!!, R.color.black),
                                     elapsed
                                 )
                                 marketing_proceed.setTextColor(textColor)
@@ -216,8 +217,8 @@ class MarketingFragment : Fragment() {
                                 story_progress_indicator_container.alpha = opacity.animatedFraction
 
                                 val backgroundColor = percentageFade(
-                                    resources.getColor(R.color.blur_white),
-                                    resources.getColor(R.color.transparent_white),
+                                    ContextCompat.getColor(context!!, R.color.blur_white),
+                                    ContextCompat.getColor(context!!, R.color.transparent_white),
                                     opacity.animatedFraction
                                 )
                                 blur_overlay.setBackgroundColor(backgroundColor)
@@ -248,14 +249,14 @@ class MarketingFragment : Fragment() {
                     marketing_proceed.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
                     val backgroundColor = percentageFade(
-                        resources.getColor(R.color.white),
-                        resources.getColor(R.color.purple),
+                        ContextCompat.getColor(context!!, R.color.white),
+                        ContextCompat.getColor(context!!, R.color.purple),
                         elapsed
                     )
                     marketing_proceed.background.compatSetTint(backgroundColor)
                     val textColor = percentageFade(
-                        resources.getColor(R.color.black),
-                        resources.getColor(R.color.white),
+                        ContextCompat.getColor(context!!, R.color.black),
+                        ContextCompat.getColor(context!!, R.color.white),
                         elapsed
                     )
                     marketing_proceed.setTextColor(textColor)
