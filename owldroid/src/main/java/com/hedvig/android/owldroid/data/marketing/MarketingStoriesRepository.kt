@@ -37,11 +37,11 @@ class MarketingStoriesRepository @Inject constructor(
             .enqueue(object : ApolloCall.Callback<Optional<MarketingStoriesQuery.Data>>() {
 
                 override fun onStatusEvent(event: ApolloCall.StatusEvent) {
-                    Timber.e("StatusEvent: %s", event.toString())
+                    Timber.d("StatusEvent: %s", event.toString())
                 }
 
                 override fun onFailure(e: ApolloException) {
-                    Timber.e("Failed to load marketing stories :(")
+                    Timber.d("Failed to load marketing stories :(")
                 }
 
                 override fun onResponse(response: Response<Optional<MarketingStoriesQuery.Data>>) {
