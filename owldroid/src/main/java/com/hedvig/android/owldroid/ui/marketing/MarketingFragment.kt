@@ -142,7 +142,7 @@ class MarketingFragment : Fragment() {
 
     private fun setupBlurOverlay() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
-            if (!blurred!!) {
+            if (blurred == null || !blurred) {
                 blur_overlay.visibility = View.GONE
                 return@Observer
             }
