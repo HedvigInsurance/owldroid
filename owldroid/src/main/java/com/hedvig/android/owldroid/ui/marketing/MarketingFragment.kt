@@ -258,6 +258,7 @@ class MarketingFragment : Fragment() {
         marketing_proceed.visibility = AppCompatButton.VISIBLE
 
         marketing_login.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             val intent = Intent("marketingResult")
             intent.putExtra("type", MarketingResult.LOGIN)
