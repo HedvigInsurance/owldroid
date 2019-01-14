@@ -75,7 +75,12 @@ class MarketingStoriesRepository @Inject constructor(
                             BuildConfig.APPLICATION_ID
                         )
                     )
-                CacheUtil.cache(DataSpec(Uri.parse(url)), cache, dataSourceFactory.createDataSource(), null)
+                CacheUtil.cache(
+                    DataSpec(Uri.parse(url)),
+                    cache,
+                    dataSourceFactory.createDataSource(),
+                    null
+                )
             }
         })
     }
