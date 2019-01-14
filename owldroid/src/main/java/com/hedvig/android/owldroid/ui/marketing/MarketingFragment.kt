@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -14,6 +13,7 @@ import android.support.v4.view.ViewPager
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.AppCompatButton
 import android.view.GestureDetector
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +30,7 @@ import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.compatSetTint
 import com.hedvig.android.owldroid.util.doOnEnd
+import com.hedvig.android.owldroid.util.percentageFade
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_marketing.*
 import javax.inject.Inject
@@ -67,7 +68,11 @@ class MarketingFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.activity_marketing, container, false) as ConstraintLayout
+        val view = inflater.inflate(
+            R.layout.activity_marketing,
+            container,
+            false
+        ) as ConstraintLayout
         observeMarketingStories()
         return view
     }
@@ -143,17 +148,15 @@ class MarketingFragment : Fragment() {
             }
 
             blur_overlay.visibility = View.VISIBLE
-            ValueAnimator.ofInt(0, 230).apply {
+            ValueAnimator.ofInt(0, 100).apply {
                 duration = 300
                 addUpdateListener { opacity ->
-                    blur_overlay.setBackgroundColor(
-                        Color.argb(
-                            opacity.animatedValue as Int,
-                            255,
-                            255,
-                            255
-                        )
+                    val backgroundColor = percentageFade(
+                        resources.getColor(R.color.transparent_white),
+                        resources.getColor(R.color.blur_white),
+                        opacity.animatedFraction
                     )
+                    blur_overlay.setBackgroundColor(backgroundColor)
                 }
                 start()
             }
@@ -170,16 +173,16 @@ class MarketingFragment : Fragment() {
                             addUpdateListener { translation ->
                                 marketing_proceed.translationY = translation.animatedValue as Float
                                 val elapsed = translation.animatedFraction
-                                val backgroundColor = Color.rgb(
-                                    (101 + 154 * elapsed).toInt(),
-                                    (30 + 225 * elapsed).toInt(),
-                                    255
+                                val backgroundColor = percentageFade(
+                                    resources.getColor(R.color.purple),
+                                    resources.getColor(R.color.white),
+                                    elapsed
                                 )
                                 marketing_proceed.background.compatSetTint(backgroundColor)
-                                val textColor = Color.rgb(
-                                    (255 - 255 * elapsed).toInt(),
-                                    (255 - 255 * elapsed).toInt(),
-                                    (255 - 255 * elapsed).toInt()
+                                val textColor = percentageFade(
+                                    resources.getColor(R.color.white),
+                                    resources.getColor(R.color.black),
+                                    elapsed
                                 )
                                 marketing_proceed.setTextColor(textColor)
                             }
@@ -188,17 +191,15 @@ class MarketingFragment : Fragment() {
                             }
                             start()
                         }
-                        ValueAnimator.ofInt(230, 0).apply {
+                        ValueAnimator.ofInt(0, 100).apply {
                             duration = 200
                             addUpdateListener { opacity ->
-                                blur_overlay.setBackgroundColor(
-                                    Color.argb(
-                                        opacity.animatedValue as Int,
-                                        255,
-                                        255,
-                                        255
-                                    )
+                                val backgroundColor = percentageFade(
+                                    resources.getColor(R.color.blur_white),
+                                    resources.getColor(R.color.transparent_white),
+                                    opacity.animatedFraction
                                 )
+                                blur_overlay.setBackgroundColor(backgroundColor)
                             }
                             start()
                         }
@@ -225,16 +226,16 @@ class MarketingFragment : Fragment() {
                 addUpdateListener { translation ->
                     marketing_proceed.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
-                    val backgroundColor = Color.rgb(
-                        minOf((255 - 154 * elapsed).toInt(), 255),
-                        minOf((255 - 225 * elapsed).toInt(), 255),
-                        255
+                    val backgroundColor = percentageFade(
+                        resources.getColor(R.color.white),
+                        resources.getColor(R.color.purple),
+                        elapsed
                     )
                     marketing_proceed.background.compatSetTint(backgroundColor)
-                    val textColor = Color.rgb(
-                        minOf((255 * elapsed).toInt(), 255),
-                        minOf((255 * elapsed).toInt(), 255),
-                        minOf((255 * elapsed).toInt(), 255)
+                    val textColor = percentageFade(
+                        resources.getColor(R.color.black),
+                        resources.getColor(R.color.white),
+                        elapsed
                     )
                     marketing_proceed.setTextColor(textColor)
                 }
@@ -264,6 +265,7 @@ class MarketingFragment : Fragment() {
         }
 
         marketing_proceed.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             val intent = Intent("marketingResult")
             intent.putExtra("type", MarketingResult.ONBOARD)
