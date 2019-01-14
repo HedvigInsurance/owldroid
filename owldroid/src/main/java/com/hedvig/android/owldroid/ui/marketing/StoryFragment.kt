@@ -19,7 +19,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
@@ -84,8 +84,8 @@ class StoryFragment : Fragment() {
         playerView.player = player
 
         val dataSourceFactory =
-            DefaultDataSourceFactory(
-                context, Util.getUserAgent(
+            DefaultHttpDataSourceFactory(
+                Util.getUserAgent(
                     context,
                     BuildConfig.APPLICATION_ID
                 )
