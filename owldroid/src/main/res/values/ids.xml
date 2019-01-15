@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="marketing_screen_content" type="id" />
+    <item name="logo_content" type="id" />
     <item name="marketing_proceed" type="id" />
     <item name="marketing_say_hello" type="id" />
     <item name="pager" type="id" />
