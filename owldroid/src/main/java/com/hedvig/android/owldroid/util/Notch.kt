@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.os.Build
 
 fun hasNotch(activity: Activity): Boolean {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    whenApiVersion(Build.VERSION_CODES.P) {
         val displayCutout = activity.window.decorView.rootWindowInsets.displayCutout
         if (displayCutout != null) {
             return true
