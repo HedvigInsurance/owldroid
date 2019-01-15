@@ -5,9 +5,12 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
@@ -32,7 +35,9 @@ import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.compatSetTint
 import com.hedvig.android.owldroid.util.doOnEnd
+import com.hedvig.android.owldroid.util.hasNotch
 import com.hedvig.android.owldroid.util.percentageFade
+import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_marketing.*
 import javax.inject.Inject
@@ -56,6 +61,9 @@ class MarketingFragment : Fragment() {
 
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
 
+    @ColorInt
+    private var previousStatusBarColor: Int? = null
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -63,7 +71,19 @@ class MarketingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        if (hasNotch(activity!!)) {
+            whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
+                val window = (activity as FragmentActivity).window
+                previousStatusBarColor = window.statusBarColor
+                val color = ContextCompat.getColor(
+                    context!!,
+                    R.color.black
+                )
+                window.statusBarColor = color
+            }
+        } else {
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         marketingStoriesViewModel = activity?.run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
         } ?: throw Exception("No Activity")
@@ -281,7 +301,7 @@ class MarketingFragment : Fragment() {
 
         marketing_login.setOnClickListener {
             it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            restoreStatusBar()
             val intent = Intent("marketingResult")
             intent.putExtra("type", MarketingResult.LOGIN)
             localBroadcastManager.sendBroadcast(intent)
@@ -289,10 +309,20 @@ class MarketingFragment : Fragment() {
 
         marketing_proceed.setOnClickListener {
             it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            restoreStatusBar()
             val intent = Intent("marketingResult")
             intent.putExtra("type", MarketingResult.ONBOARD)
             localBroadcastManager.sendBroadcast(intent)
+        }
+    }
+
+    private fun restoreStatusBar() {
+        if (hasNotch(activity!!)) {
+            whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
+                (activity as FragmentActivity).window.statusBarColor = previousStatusBarColor!!
+            }
+        } else {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
     }
 }
