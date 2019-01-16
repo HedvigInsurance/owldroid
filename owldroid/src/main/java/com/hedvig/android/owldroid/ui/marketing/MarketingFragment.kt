@@ -28,6 +28,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
@@ -60,12 +61,14 @@ class MarketingFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     @ColorInt
     private var previousStatusBarColor: Int? = null
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
         super.onAttach(context)
     }
 
@@ -159,7 +162,11 @@ class MarketingFragment : Fragment() {
             })
         }
         marketingStoriesViewModel.page.observe(this, Observer { newPage ->
-            pager.currentItem = newPage ?: return@Observer
+            if (newPage == null) {
+                return@Observer
+            }
+            trackViewedStory(newPage)
+            pager.currentItem = newPage
         })
     }
 
@@ -200,6 +207,7 @@ class MarketingFragment : Fragment() {
             val swipeListener = GestureDetector(context, SimpleOnSwipeListener {
                 when (it) {
                     OnSwipeListener.Direction.DOWN -> {
+                        trackDismissBlurOverlay()
                         blur_overlay.setOnTouchListener(null)
                         hedvig_face_animation.visibility = LottieAnimationView.GONE
                         marketing_say_hello.visibility = TextView.GONE
@@ -300,6 +308,7 @@ class MarketingFragment : Fragment() {
         marketing_proceed.visibility = AppCompatButton.VISIBLE
 
         marketing_login.setOnClickListener {
+            trackClickLogin()
             it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
             val intent = Intent("marketingResult")
@@ -308,6 +317,7 @@ class MarketingFragment : Fragment() {
         }
 
         marketing_proceed.setOnClickListener {
+            trackClickGetHedvig()
             it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
             val intent = Intent("marketingResult")
@@ -324,5 +334,29 @@ class MarketingFragment : Fragment() {
         } else {
             activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
+    }
+
+    private fun trackViewedStory(storyIndex: Int) {
+        val bundle = Bundle()
+        bundle.putInt("story_number", storyIndex + 1)
+        firebaseAnalytics.logEvent("viewed_story", bundle)
+    }
+
+    private fun trackClickGetHedvig() {
+        val bundle = Bundle()
+        bundle.putInt("story_number", marketingStoriesViewModel.page.value!! + 1)
+        bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
+        firebaseAnalytics.logEvent("click_get_hedvig", bundle)
+    }
+
+    private fun trackClickLogin() {
+        val bundle = Bundle()
+        bundle.putInt("story_number", marketingStoriesViewModel.page.value!! + 1)
+        bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
+        firebaseAnalytics.logEvent("click_login", bundle)
+    }
+
+    private fun trackDismissBlurOverlay() {
+        firebaseAnalytics.logEvent("dismiss_blur_overlay", null)
     }
 }

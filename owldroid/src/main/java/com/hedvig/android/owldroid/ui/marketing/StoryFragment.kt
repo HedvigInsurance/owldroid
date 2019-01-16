@@ -23,6 +23,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
 import com.squareup.picasso.Picasso
@@ -35,10 +36,12 @@ class StoryFragment : Fragment() {
     lateinit var cache: SimpleCache
 
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var player: SimpleExoPlayer? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context)
         super.onAttach(context)
     }
 
@@ -138,6 +141,7 @@ class StoryFragment : Fragment() {
         val holding = Runnable {
             isHolding = true
             marketingStoriesViewModel.pauseStory()
+            trackClickPausedStory()
         }
         view.setOnTouchListener { _, event ->
             if (marketingStoriesViewModel.blurred.value != null && marketingStoriesViewModel.blurred.value == true) {
@@ -161,15 +165,35 @@ class StoryFragment : Fragment() {
             val oneFourth = view.measuredWidth * 0.25
             if (x > oneFourth) {
                 if (marketingStoriesViewModel.nextScreen()) {
+                    trackClickNextScreen()
                     view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                 }
             } else {
                 if (marketingStoriesViewModel.previousScreen()) {
+                    trackClickPreviousScreen()
                     view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                 }
             }
             true
         }
+    }
+
+    private fun trackClickPausedStory() {
+        val bundle = Bundle()
+        bundle.putInt("story", arguments!!.getInt(POSITION_KEY) + 1)
+        firebaseAnalytics.logEvent("click_pause_story", bundle)
+    }
+
+    private fun trackClickNextScreen() {
+        val bundle = Bundle()
+        bundle.putInt("story", arguments!!.getInt(POSITION_KEY) + 1)
+        firebaseAnalytics.logEvent("click_next_screen", bundle)
+    }
+
+    private fun trackClickPreviousScreen() {
+        val bundle = Bundle()
+        bundle.putInt("story", arguments!!.getInt(POSITION_KEY) + 1)
+        firebaseAnalytics.logEvent("click_prev_screen", bundle)
     }
 
     companion object {
