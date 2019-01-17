@@ -1,5 +1,6 @@
 package com.hedvig.android.app
 
+import com.hedvig.android.app.profile.MyInfoActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -16,4 +17,7 @@ abstract class ActivityContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeProfileActivity(): ProfileActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeProfileMyInfoActivity(): MyInfoActivity
 }

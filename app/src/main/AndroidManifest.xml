@@ -21,5 +21,6 @@
         <activity android:name=".MarketingActivity" android:screenOrientation="portrait" />
         <activity android:name=".LogoActivity" android:screenOrientation="portrait" />
         <activity android:name=".ProfileActivity" />
+        <activity android:name=".profile.MyInfoActivity" />
     </application>
 </manifest>

@@ -2,6 +2,7 @@ query Profile {
     member {
         firstName
         lastName
+        email
     }
     cashback {
         name

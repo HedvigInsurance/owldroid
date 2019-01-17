@@ -3,6 +3,7 @@
     <item name="marketing_screen_content" type="id" />
     <item name="logo_content" type="id" />
     <item name="profile_screen_content" type="id" />
+    <item name="profile_member_info_screen_content" type="id" />
     <item name="marketing_proceed" type="id" />
     <item name="marketing_say_hello" type="id" />
     <item name="pager" type="id" />
