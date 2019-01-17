@@ -13,4 +13,7 @@ abstract class ActivityContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeLogoActivity(): LogoActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeProfileActivity(): ProfileActivity
 }

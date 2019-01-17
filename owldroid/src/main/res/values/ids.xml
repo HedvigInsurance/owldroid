@@ -2,6 +2,7 @@
 <resources>
     <item name="marketing_screen_content" type="id" />
     <item name="logo_content" type="id" />
+    <item name="profile_screen_content" type="id" />
     <item name="marketing_proceed" type="id" />
     <item name="marketing_say_hello" type="id" />
     <item name="pager" type="id" />
@@ -12,4 +13,10 @@
     <item name="hedvig_face_animation" type="id" />
     <item name="marketing_login" type="id" />
     <item name="activity_marketing" type="id" />
+    <item name="profile_loading_spinner" type="id" />
+    <item name="profile_charity_image" type="id" />
+    <item name="profile_my_info_row" type="id" />
+    <item name="profile_info_row_name" type="id" />
+    <item name="profile_rows_container" type="id" />
+    <item name="profile_my_info_icon" type="id" />
 </resources>

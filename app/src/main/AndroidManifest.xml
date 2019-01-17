@@ -20,5 +20,6 @@
 
         <activity android:name=".MarketingActivity" android:screenOrientation="portrait" />
         <activity android:name=".LogoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ProfileActivity" />
     </application>
 </manifest>

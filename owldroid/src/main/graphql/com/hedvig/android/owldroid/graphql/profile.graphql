@@ -1,0 +1,10 @@
+query Profile {
+    member {
+        firstName
+        lastName
+    }
+    cashback {
+        name
+        imageUrl
+    }
+}
