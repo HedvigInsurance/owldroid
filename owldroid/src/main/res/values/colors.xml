@@ -12,4 +12,6 @@
     <color name="off_white">#f9fafc</color>
     <color name="off_black">#414150</color>
     <color name="off_black_dark">#141033</color>
+    <color name="dark_purple">#0F007A</color>
+    <color name="green">#1BE9B6</color>
 </resources>

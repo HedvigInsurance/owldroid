@@ -52,7 +52,15 @@ class ProfileFragment : Fragment() {
             val lastName = it.lastName().or("Testerson")
             profile_info_row_name.text = "$firstName $lastName"
             profile_my_info_row.setOnClickListener {
-                val intent = Intent("profileMyInfo")
+                val intent = Intent("profileNavigation")
+                intent.putExtra("subscreen", "my_info")
+                localBroadcastManager.sendBroadcast(intent)
+            }
+
+            profile_payment_monthly_cost.text = "179 kr/månad · Betalas via autogiro"
+            profile_payment_row.setOnClickListener {
+                val intent = Intent("profileNavigation")
+                intent.putExtra("subscreen", "payment")
                 localBroadcastManager.sendBroadcast(intent)
             }
         })

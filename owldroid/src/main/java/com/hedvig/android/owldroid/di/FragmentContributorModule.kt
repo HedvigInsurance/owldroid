@@ -4,6 +4,7 @@ import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
 import com.hedvig.android.owldroid.ui.marketing.StoryFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment
+import com.hedvig.android.owldroid.ui.profile.payment.PaymentFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,4 +21,7 @@ abstract class FragmentContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeMyInfoFragment(): MyInfoFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributePaymentFragment(): PaymentFragment
 }

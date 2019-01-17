@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.ui.profile.myinfo
+package com.hedvig.android.owldroid.ui.profile.payment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -9,18 +9,17 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.RelativeLayout
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.compatSetTint
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_my_info.*
+import kotlinx.android.synthetic.main.activity_payment.*
 import javax.inject.Inject
 
-class MyInfoFragment : Fragment() {
+class PaymentFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -34,17 +33,11 @@ class MyInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        profileViewModel = activity?.run {
-            ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        } ?: throw Exception("No Activity")
+        profileViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(
-            R.layout.activity_my_info,
-            container,
-            false
-        )
+        val view = inflater.inflate(R.layout.activity_payment, container, false)
 
         observeProfile()
 
@@ -53,17 +46,11 @@ class MyInfoFragment : Fragment() {
 
     private fun observeProfile() {
         profileViewModel.member.observe(this, Observer {
-            val firstName = it!!.firstName().or("Test")
-            val lastName = it.lastName().or("Testerson")
-            val email = it.email().or("test@hedvig.com")
-            profile_my_info_loading_spinner.visibility = ProgressBar.GONE
-            profile_my_info_name_container.visibility = TextView.VISIBLE
-            profile_my_info_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
-            profile_my_info_contact_details_container.visibility = LinearLayout.VISIBLE
-
-            profile_my_info_name.text = "$firstName\n$lastName"
-            profile_my_info_email.text = email
-            profile_my_info_phone_number.text = "+46 70 123 45 67"
+            profile_payment_loading_spinner.visibility = ProgressBar.GONE
+            profile_payment_amount_container.visibility = RelativeLayout.VISIBLE
+            profile_payment_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.green))
+            profile_payment_amount.text = "179"
         })
     }
+
 }

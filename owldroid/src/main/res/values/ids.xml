@@ -26,4 +26,13 @@
     <item name="profile_my_info_email" type="id" />
     <item name="profile_my_info_phone_number" type="id" />
     <item name="profile_my_info_contact_details_container" type="id" />
+    <item name="profile_payment_row" type="id" />
+    <item name="profile_payment_icon" type="id" />
+    <item name="profile_payment_monthly_cost" type="id" />
+    <item name="profile_payment_screen_content" type="id" />
+    <item name="profile_payment_loading_spinner" type="id" />
+    <item name="profile_payment_amount_container" type="id" />
+    <item name="profile_payment_header" type="id" />
+    <item name="profile_my_info_sphere" type="id" />
+    <item name="profile_payment_sphere" type="id" />
 </resources>

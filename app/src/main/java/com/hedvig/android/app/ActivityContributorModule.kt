@@ -1,6 +1,7 @@
 package com.hedvig.android.app
 
 import com.hedvig.android.app.profile.MyInfoActivity
+import com.hedvig.android.app.profile.PaymentActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,4 +21,7 @@ abstract class ActivityContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeProfileMyInfoActivity(): MyInfoActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeProfilePaymentActivity(): PaymentActivity
 }

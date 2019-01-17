@@ -8,4 +8,6 @@
     <string name="profile_my_info_contact_details">Kontaktuppgifter</string>
     <string name="profile_my_info_email_label">Epost</string>
     <string name="profile_my_info_phone_number_label">Telefonnummer</string>
+    <string name="payment_row_title">Betalning</string>
+    <string name="profile_payment_header">Min betalning</string>
 </resources>

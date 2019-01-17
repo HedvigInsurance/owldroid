@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
 import android.widget.FrameLayout
 import com.hedvig.android.app.profile.MyInfoActivity
+import com.hedvig.android.app.profile.PaymentActivity
 import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.R
 import dagger.android.support.DaggerAppCompatActivity
@@ -33,14 +34,22 @@ class ProfileActivity : DaggerAppCompatActivity() {
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                startActivity(Intent(this@ProfileActivity, MyInfoActivity::class.java))
+                when (intent.getStringExtra("subscreen")) {
+                    "my_info" -> startActivity(Intent(this@ProfileActivity, MyInfoActivity::class.java))
+                    "payment" -> startActivity(Intent(this@ProfileActivity, PaymentActivity::class.java))
+                }
             }
         }
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter("profileMyInfo"))
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter("profileNavigation"))
     }
 
-    override fun onStop() {
+    override fun onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
-        super.onStop()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter("profileMyInfo"))
+        super.onResume()
     }
 }
