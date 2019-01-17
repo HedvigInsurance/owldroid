@@ -3,6 +3,7 @@ package com.hedvig.android.app.profile
 import android.os.Bundle
 import android.widget.FrameLayout
 import com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment
+import com.hedvig.android.owldroid.R
 import dagger.android.support.DaggerAppCompatActivity
 
 class MyInfoActivity : DaggerAppCompatActivity() {

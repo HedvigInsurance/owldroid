@@ -4,5 +4,5 @@
     <string name="marketing_login">Redan medlem? Logga in</string>
     <string name="marketing_say_hello">Säg hej till Hedvig!</string>
     <string name="my_info_row_title">Min info</string>
-    <string name="howdy">Howdy</string>
+    <string name="my_info_title">Min info</string>
 </resources>

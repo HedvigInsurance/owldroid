@@ -3,8 +3,10 @@ package com.hedvig.android.owldroid.ui.profile
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +20,7 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_profile.*
 import javax.inject.Inject
 
-class ProfileFragment: Fragment() {
+class ProfileFragment : Fragment() {
     @Inject
     lateinit var asyncStorageNativeReader: AsyncStorageNativeReader
 
@@ -47,12 +49,14 @@ class ProfileFragment: Fragment() {
     }
 
     private fun observeProfile() {
+        val localBroadcastManager = LocalBroadcastManager.getInstance(context!!)
         profileViewModel.member.observe(this, Observer {
             profile_loading_spinner.visibility = ProgressBar.GONE
             profile_rows_container.visibility = LinearLayout.VISIBLE
             profile_info_row_name.text = it!!.firstName().or("Test Testerson")
             profile_my_info_row.setOnClickListener {
-                Toast.makeText(context!!, "Should navigate to my info screen", Toast.LENGTH_LONG).show()
+                val intent = Intent("profileMyInfo")
+                localBroadcastManager.sendBroadcast(intent)
             }
         })
     }

@@ -11,4 +11,5 @@
     <color name="gray">#9b9baa</color>
     <color name="off_white">#f9fafc</color>
     <color name="off_black">#414150</color>
+    <color name="off_black_dark">#414150</color>
 </resources>
