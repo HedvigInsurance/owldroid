@@ -5,4 +5,7 @@
     <string name="marketing_say_hello">Säg hej till Hedvig!</string>
     <string name="my_info_row_title">Min info</string>
     <string name="my_info_title">Min info</string>
+    <string name="profile_my_info_contact_details">Kontaktuppgifter</string>
+    <string name="profile_my_info_email_label">Epost</string>
+    <string name="profile_my_info_phone_number_label">Telefonnummer</string>
 </resources>

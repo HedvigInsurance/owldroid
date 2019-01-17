@@ -13,6 +13,7 @@ import com.hedvig.android.owldroid.R
 import dagger.android.support.DaggerAppCompatActivity
 
 class ProfileActivity : DaggerAppCompatActivity() {
+    private lateinit var broadcastReceiver: BroadcastReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,11 +31,16 @@ class ProfileActivity : DaggerAppCompatActivity() {
         content.id = R.id.profile_screen_content
         setContentView(content)
 
-        val broadcastReceiver = object : BroadcastReceiver() {
+        broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 startActivity(Intent(this@ProfileActivity, MyInfoActivity::class.java))
             }
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter("profileMyInfo"))
+    }
+
+    override fun onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
+        super.onStop()
     }
 }

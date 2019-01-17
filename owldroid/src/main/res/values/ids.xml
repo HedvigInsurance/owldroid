@@ -20,4 +20,10 @@
     <item name="profile_info_row_name" type="id" />
     <item name="profile_rows_container" type="id" />
     <item name="profile_my_info_icon" type="id" />
+    <item name="profile_my_info_loading_spinner" type="id" />
+    <item name="profile_my_info_header" type="id" />
+    <item name="profile_my_info_name_container" type="id" />
+    <item name="profile_my_info_email" type="id" />
+    <item name="profile_my_info_phone_number" type="id" />
+    <item name="profile_my_info_contact_details_container" type="id" />
 </resources>
