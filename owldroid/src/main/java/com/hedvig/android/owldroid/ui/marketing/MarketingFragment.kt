@@ -63,9 +63,6 @@ class MarketingFragment : Fragment() {
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    @ColorInt
-    private var previousStatusBarColor: Int? = null
-
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
@@ -74,19 +71,7 @@ class MarketingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (hasNotch(activity!!)) {
-            whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
-                val window = (activity as FragmentActivity).window
-                previousStatusBarColor = window.statusBarColor
-                val color = ContextCompat.getColor(
-                    context!!,
-                    R.color.black
-                )
-                window.statusBarColor = color
-            }
-        } else {
-            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        }
+        hideStatusBar()
         marketingStoriesViewModel = activity?.run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
         } ?: throw Exception("No Activity")
@@ -326,14 +311,12 @@ class MarketingFragment : Fragment() {
         }
     }
 
+    private fun hideStatusBar() {
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
     private fun restoreStatusBar() {
-        if (hasNotch(activity!!)) {
-            whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
-                (activity as FragmentActivity).window.statusBarColor = previousStatusBarColor!!
-            }
-        } else {
-            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        }
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     private fun trackViewedStory(storyIndex: Int) {
