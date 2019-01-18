@@ -32,6 +32,14 @@ class ProfileActivity : DaggerAppCompatActivity() {
         content.id = R.id.profile_screen_content
         setContentView(content)
 
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
+        super.onPause()
+    }
+
+    override fun onResume() {
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.getStringExtra("subscreen")) {
@@ -41,15 +49,6 @@ class ProfileActivity : DaggerAppCompatActivity() {
             }
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter("profileNavigation"))
-    }
-
-    override fun onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
-        super.onPause()
-    }
-
-    override fun onResume() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, IntentFilter("profileMyInfo"))
         super.onResume()
     }
 }

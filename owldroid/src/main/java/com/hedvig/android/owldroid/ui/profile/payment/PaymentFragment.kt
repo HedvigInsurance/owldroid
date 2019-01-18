@@ -50,6 +50,9 @@ class PaymentFragment : Fragment() {
             profile_payment_amount_container.visibility = RelativeLayout.VISIBLE
             profile_payment_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.green))
             profile_payment_amount.text = "179"
+
+            profile_payment_bank.text = "SEB"
+            profile_payment_account.text = "*** 8672"
         })
     }
 

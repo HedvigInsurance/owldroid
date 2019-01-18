@@ -35,4 +35,8 @@
     <item name="profile_payment_header" type="id" />
     <item name="profile_my_info_sphere" type="id" />
     <item name="profile_payment_sphere" type="id" />
+    <item name="profile_payment_details_container" type="id" />
+    <item name="profile_payment_bank_container" type="id" />
+    <item name="profile_payment_bank" type="id" />
+    <item name="profile_payment_account" type="id" />
 </resources>

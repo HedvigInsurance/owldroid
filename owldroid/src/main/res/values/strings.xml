@@ -10,4 +10,8 @@
     <string name="profile_my_info_phone_number_label">Telefonnummer</string>
     <string name="payment_row_title">Betalning</string>
     <string name="profile_payment_header">Min betalning</string>
+    <string name="profile_payment_payment">Betalning</string>
+    <string name="profile_payment_direct_debit">Autogiro</string>
+    <string name="payment_27th">Den 27:e varje månad</string>
+    <string name="profile_payment_bank">Bank</string>
 </resources>
