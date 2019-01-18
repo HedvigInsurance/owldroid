@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import dagger.Module
 import dagger.Provides
 import java.io.File
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -23,5 +24,11 @@ class AppModule {
             File(context.cacheDir, "hedvig_story_video_cache"),
             LeastRecentlyUsedCacheEvictor(10 * 1024 * 1024)
         )
+    }
+
+    @Provides
+    @Named("GRAPHQL_URL")
+    fun provideGraphqlUrl(): String {
+        return "https://graphql.dev.hedvigit.com/graphql"
     }
 }
