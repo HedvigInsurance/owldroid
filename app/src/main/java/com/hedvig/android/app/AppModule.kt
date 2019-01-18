@@ -8,6 +8,7 @@ import com.hedvig.android.owldroid.util.react.SharedPreferencesAsyncStorageNativ
 import dagger.Module
 import dagger.Provides
 import java.io.File
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -31,5 +32,11 @@ class AppModule {
     @Singleton
     fun asyncStorageNativeReader(context: Context): AsyncStorageNativeReader {
         return SharedPreferencesAsyncStorageNativeReader(context)
+    }
+
+    @Provides
+    @Named("GRAPHQL_URL")
+    fun provideGraphqlUrl(): String {
+        return "https://graphql.dev.hedvigit.com/graphql"
     }
 }

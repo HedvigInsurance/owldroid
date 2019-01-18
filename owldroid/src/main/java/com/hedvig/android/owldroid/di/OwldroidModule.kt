@@ -11,6 +11,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -47,10 +48,10 @@ class OwldroidModule {
 
     @Provides
     @Singleton
-    fun apolloClient(okHttpClient: OkHttpClient, normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>): ApolloClient {
+    fun apolloClient(okHttpClient: OkHttpClient, normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>, @Named("GRAPHQL_URL") graphqlUrl: String): ApolloClient {
         return ApolloClient
                 .builder()
-                .serverUrl("https://graphql.dev.hedvigit.com/graphql")
+                .serverUrl(graphqlUrl)
                 .okHttpClient(okHttpClient)
                 .normalizedCache(normalizedCacheFactory)
                 .build()
