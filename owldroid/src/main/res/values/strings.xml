@@ -14,4 +14,6 @@
     <string name="profile_payment_direct_debit">Autogiro</string>
     <string name="payment_27th">Den 27:e varje månad</string>
     <string name="profile_payment_bank">Bank</string>
+    <string name="profile_payment_change_bank_account">Ändra bankkonto</string>
+    <string name="profile_payment_deductible">Självrisk  1 500 kr</string>
 </resources>

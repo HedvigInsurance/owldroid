@@ -34,9 +34,11 @@
     <item name="profile_payment_amount_container" type="id" />
     <item name="profile_payment_header" type="id" />
     <item name="profile_my_info_sphere" type="id" />
-    <item name="profile_payment_sphere" type="id" />
+    <item name="profile_payment_price_sphere" type="id" />
     <item name="profile_payment_details_container" type="id" />
     <item name="profile_payment_bank_container" type="id" />
     <item name="profile_payment_bank" type="id" />
     <item name="profile_payment_account" type="id" />
+    <item name="profile_payment_change_bank_account" type="id" />
+    <item name="profile_payment_deductible_sphere" type="id" />
 </resources>

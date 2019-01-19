@@ -11,6 +11,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(private val profileRepository: ProfileRepository): ViewModel() {
 
     val member = MutableLiveData<ProfileQuery.Member>()
+    val insurance = MutableLiveData<ProfileQuery.Insurance>()
 
     init {
         loadProfile()
@@ -21,6 +22,7 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
             val handler = Handler(Looper.getMainLooper())
             handler.post {
                 member.value = it!!.member()
+                insurance.value = it.insurance()
             }
         }
     }

@@ -57,7 +57,11 @@ class ProfileFragment : Fragment() {
                 localBroadcastManager.sendBroadcast(intent)
             }
 
-            profile_payment_monthly_cost.text = "179 kr/månad · Betalas via autogiro"
+        })
+
+        profileViewModel.insurance.observe(this, Observer {
+            val monthlyCost = it!!.monthlyCost().or(179)
+            profile_payment_monthly_cost.text = "$monthlyCost kr/månad · Betalas via autogiro"
             profile_payment_row.setOnClickListener {
                 val intent = Intent("profileNavigation")
                 intent.putExtra("subscreen", "payment")

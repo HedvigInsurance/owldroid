@@ -4,6 +4,9 @@ query Profile {
         lastName
         email
     }
+    insurance {
+        monthlyCost
+    }
     cashback {
         name
         imageUrl
