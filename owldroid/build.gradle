@@ -76,3 +76,10 @@ dependencies {
 
     implementation "com.google.firebase:firebase-core:16.0.1"
 }
+
+tasks.register("updateSchema", Exec) {
+    group = 'GraphQL'
+    description = 'Fetches the latest schema from our dev GraphQL-server'
+
+    commandLine 'apollo', 'service:download', '--endpoint=https://graphql.dev.hedvigit.com/graphql', "$projectDir/src/main/graphql/com/hedvig/android/owldroid/schema.json"
+}
