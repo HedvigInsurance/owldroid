@@ -46,24 +46,21 @@ class MyInfoFragment : Fragment() {
             false
         )
 
-        observeProfile()
+        loadData()
 
         return view
     }
 
-    private fun observeProfile() {
-        profileViewModel.member.observe(this, Observer {
-            val firstName = it!!.firstName().or("Test")
-            val lastName = it.lastName().or("Testerson")
-            val email = it.email().or("test@hedvig.com")
+    private fun loadData() {
+        profileViewModel.data.observe(this, Observer { profileData ->
             profile_my_info_loading_spinner.visibility = ProgressBar.GONE
             profile_my_info_name_container.visibility = TextView.VISIBLE
             profile_my_info_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
             profile_my_info_contact_details_container.visibility = LinearLayout.VISIBLE
 
-            profile_my_info_name.text = "$firstName\n$lastName"
-            profile_my_info_email.text = email
-            profile_my_info_phone_number.text = "+46 70 123 45 67"
+            profile_my_info_name.text = "${profileData!!.member().firstName().get()}\n${profileData.member().lastName().get()}"
+            profile_my_info_email.text = profileData.member().email().or("")
+            profile_my_info_phone_number.text = profileData.member().phoneNumber().or("")
         })
     }
 }

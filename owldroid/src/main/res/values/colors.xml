@@ -9,6 +9,7 @@
     <color name="white">#ffffff</color>
     <color name="purple">#651eff</color>
     <color name="gray">#9b9baa</color>
+    <color name="light_gray">#e9ecef</color>
     <color name="off_white">#f9fafc</color>
     <color name="off_black">#414150</color>
     <color name="off_black_dark">#141033</color>

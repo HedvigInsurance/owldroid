@@ -3,9 +3,14 @@ query Profile {
         firstName
         lastName
         email
+        phoneNumber
     }
     insurance {
         monthlyCost
+    }
+    bankAccount {
+        bankName
+        descriptor
     }
     cashback {
         name

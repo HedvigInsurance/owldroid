@@ -45,11 +45,14 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
 
     api "com.shopify:livedata-ktx:1.0.1"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
 
     testImplementation 'junit:junit:4.12'
 
     api "com.apollographql.apollo:apollo-runtime:$apollo_version"
     api "com.apollographql.apollo:apollo-android-support:$apollo_version"
+    api "com.apollographql.apollo:apollo-rx2-support:$apollo_version"
     androidTestImplementation "com.apollographql.apollo:apollo-espresso-support:$apollo_version"
 
     def dagger_version = '2.16'

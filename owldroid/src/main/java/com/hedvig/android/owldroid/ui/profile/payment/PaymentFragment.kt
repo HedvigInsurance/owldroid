@@ -49,14 +49,14 @@ class PaymentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.activity_payment, container, false)
 
-        observeProfile()
+        loadData()
 
         return view
     }
 
-    private fun observeProfile() {
+    private fun loadData() {
         val localBroadcastManager = LocalBroadcastManager.getInstance(context!!)
-        profileViewModel.insurance.observe(this, Observer {
+        profileViewModel.data.observe(this, Observer { profileData ->
             profile_payment_loading_spinner.visibility = ProgressBar.GONE
             profile_payment_amount_container.visibility = RelativeLayout.VISIBLE
             profile_payment_details_container.visibility = LinearLayout.VISIBLE
@@ -65,7 +65,7 @@ class PaymentFragment : Fragment() {
             profile_payment_change_bank_account.background.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
 
             profile_payment_price_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.green))
-            val monthlyCost = it!!.monthlyCost().get().toString()
+            val monthlyCost = profileData!!.insurance().monthlyCost().get().toString()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = "kr/mån"
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -73,8 +73,8 @@ class PaymentFragment : Fragment() {
             amountPartTwo.setSpan(AbsoluteSizeSpan(20, true), 0, perMonthLabel.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
             profile_payment_amount.text = TextUtils.concat(amountPartOne, amountPartTwo)
 
-            profile_payment_bank.text = "SEB"
-            profile_payment_account.text = "*** 8672"
+            profile_payment_bank.text = profileData.bankAccount().get().bankName()
+            profile_payment_account.text = profileData.bankAccount().get().descriptor()
 
             profile_payment_change_bank_account.setOnClickListener {
                 val intent = Intent("profileNavigation")
@@ -83,5 +83,4 @@ class PaymentFragment : Fragment() {
             }
         })
     }
-
 }
