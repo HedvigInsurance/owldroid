@@ -1,9 +1,11 @@
 package com.hedvig.android.app
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.FrameLayout
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
+import com.ice.restring.Restring
 import dagger.android.support.DaggerAppCompatActivity
 
 class MarketingActivity : DaggerAppCompatActivity() {
@@ -15,8 +17,8 @@ class MarketingActivity : DaggerAppCompatActivity() {
                 super.onAttachedToWindow()
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.add(
-                    R.id.marketing_screen_content,
-                    MarketingFragment()
+                        R.id.marketing_screen_content,
+                        MarketingFragment()
                 )
                 transaction.commitAllowingStateLoss()
             }
@@ -25,6 +27,10 @@ class MarketingActivity : DaggerAppCompatActivity() {
 
         content.id = R.id.marketing_screen_content
         setContentView(content)
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(Restring.wrapContext(newBase))
     }
 }
 
