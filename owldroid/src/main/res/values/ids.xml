@@ -41,4 +41,5 @@
     <item name="profile_payment_account" type="id" />
     <item name="profile_payment_change_bank_account" type="id" />
     <item name="profile_payment_deductible_sphere" type="id" />
+    <item name="toolbar" type="id" />
 </resources>
