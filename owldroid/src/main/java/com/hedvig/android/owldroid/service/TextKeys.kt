@@ -24,7 +24,7 @@ class TextKeys @Inject constructor(val apolloClient: ApolloClient) {
                     }
 
                     override fun onFailure(e: ApolloException) {
-                        Timber.d("Failed to load text keys :(")
+                        Timber.e(e, "Failed to load text keys")
                     }
 
                     override fun onResponse(response: Response<Optional<TextKeysQuery.Data>>) {
