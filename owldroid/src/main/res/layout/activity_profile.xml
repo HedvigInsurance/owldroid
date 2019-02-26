@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:padding="16dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/circular_bold"
+            android:gravity="bottom"
+            android:text="@string/profile_title"
+            android:textColor="@color/black"
+            android:textSize="32sp" />
+    </android.support.v7.widget.Toolbar>
 
     <ProgressBar
         android:id="@id/profile_loading_spinner"
@@ -12,7 +30,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@id/profile_charity_image"
@@ -27,122 +46,27 @@
         android:id="@id/profile_rows_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_marginTop="140dp"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_charity_image">
+        app:layout_constraintTop_toBottomOf="@id/profile_charity_image"
+        tools:visibility="visible">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@id/profile_my_info_row"
+        <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+            android:id="@id/profileInfoRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            app:description="Blargh"
+            app:drawableSrc="@drawable/icon_my_info"
+            app:name="@string/my_info_row_title" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@id/profile_my_info_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_my_info"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/profile_my_info_icon"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_bold"
-                    android:text="@string/my_info_row_title"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@id/profile_info_row_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_book"
-                    android:textColor="@color/off_black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_navigate_next"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@id/profile_payment_row"
+        <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@id/profile_payment_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_payment"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/profile_payment_icon"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_bold"
-                    android:text="@string/payment_row_title"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@id/profile_payment_monthly_cost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_book"
-                    android:textColor="@color/off_black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_navigate_next"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
+            app:description="Blargh"
+            app:drawableSrc="@drawable/icon_my_home"
+            app:name="@string/my_home_row_title" />
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

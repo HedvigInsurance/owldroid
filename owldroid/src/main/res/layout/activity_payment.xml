@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:divider="?android:dividerHorizontal"
+    android:showDividers="middle">
 
     <ProgressBar
         android:id="@id/profile_payment_loading_spinner"
@@ -11,7 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@id/profile_payment_header"
@@ -22,8 +26,7 @@
         android:text="@string/profile_payment_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@id/profile_payment_amount_container"
@@ -33,14 +36,15 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_payment_header">
+        app:layout_constraintTop_toBottomOf="@id/profile_payment_header"
+        tools:visibility="visible">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@id/profile_payment_price_sphere"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:src="@drawable/sphere" />
 
         <!--        <RelativeLayout
@@ -91,7 +95,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_payment_amount_container">
+        app:layout_constraintTop_toBottomOf="@id/profile_payment_amount_container"
+        tools:visibility="visible">
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -131,8 +136,17 @@
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_payment_details_container">
+        app:layout_constraintTop_toBottomOf="@id/profile_payment_details_container"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/light_gray"
+            tools:visibility="visible" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -183,6 +197,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_payment_bank_container" />
+        app:layout_constraintTop_toBottomOf="@id/profile_payment_bank_container"
+        tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>

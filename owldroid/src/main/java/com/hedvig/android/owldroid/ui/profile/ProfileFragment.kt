@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.graphql.ProfileQuery
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_profile.*
 import javax.inject.Inject
@@ -43,30 +44,36 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeProfile() {
-        val localBroadcastManager = LocalBroadcastManager.getInstance(context!!)
-        profileViewModel.member.observe(this, Observer {
+        profileViewModel.data.observe(this, Observer { profileData ->
             profile_loading_spinner.visibility = ProgressBar.GONE
             profile_rows_container.visibility = LinearLayout.VISIBLE
 
-            val firstName = it!!.firstName().or("Test")
-            val lastName = it.lastName().or("Testerson")
-            profile_info_row_name.text = "$firstName $lastName"
-            profile_my_info_row.setOnClickListener {
-                val intent = Intent("profileNavigation")
-                intent.putExtra("subscreen", "my_info")
-                localBroadcastManager.sendBroadcast(intent)
-            }
-
-        })
-
-        profileViewModel.insurance.observe(this, Observer {
-            val monthlyCost = it!!.monthlyCost().or(179)
-            profile_payment_monthly_cost.text = "$monthlyCost kr/månad · Betalas via autogiro"
-            profile_payment_row.setOnClickListener {
-                val intent = Intent("profileNavigation")
-                intent.putExtra("subscreen", "payment")
-                localBroadcastManager.sendBroadcast(intent)
-            }
+            setupProfileRow(profileData!!)
+            setupPaymentRow(profileData)
         })
     }
+
+    private fun setupProfileRow(profileData: ProfileQuery.Data) {
+//        val firstName = profileData.member().firstName().or("")
+//        val lastName = profileData.member().lastName().or("")
+//        profile_info_row_name.text = "$firstName $lastName"
+        profileInfoRow.setOnClickListener {
+            val intent = Intent("profileNavigation")
+            intent.putExtra("subscreen", "my_info")
+            getLocalBroadcastManager().sendBroadcast(intent)
+        }
+    }
+
+    private fun setupPaymentRow(profileData: ProfileQuery.Data) {
+//        val cost = profileData.insurance().monthlyCost().or(0)
+//        profile_payment_monthly_cost.text = "$cost kr/månad · Betalas via autogiro"
+//        profile_payment_row.setOnClickListener {
+//            val intent = Intent("profileNavigation")
+//            intent.putExtra("subscreen", "payment")
+//            getLocalBroadcastManager().sendBroadcast(intent)
+//        }
+    }
+
+
+    private fun getLocalBroadcastManager() = LocalBroadcastManager.getInstance(context!!)
 }

@@ -16,7 +16,6 @@
     <item name="activity_marketing" type="id" />
     <item name="profile_loading_spinner" type="id" />
     <item name="profile_charity_image" type="id" />
-    <item name="profile_my_info_row" type="id" />
     <item name="profile_info_row_name" type="id" />
     <item name="profile_rows_container" type="id" />
     <item name="profile_my_info_icon" type="id" />
@@ -27,8 +26,7 @@
     <item name="profile_my_info_phone_number" type="id" />
     <item name="profile_my_info_contact_details_container" type="id" />
     <item name="profile_payment_row" type="id" />
-    <item name="profile_payment_icon" type="id" />
-    <item name="profile_payment_monthly_cost" type="id" />
+    <item name="profile_menu_row_description" type="id" />
     <item name="profile_payment_screen_content" type="id" />
     <item name="profile_payment_loading_spinner" type="id" />
     <item name="profile_payment_amount_container" type="id" />
@@ -42,4 +40,9 @@
     <item name="profile_payment_change_bank_account" type="id" />
     <item name="profile_payment_deductible_sphere" type="id" />
     <item name="toolbar" type="id" />
+    <item name="profile_menu_row" type="id" />
+    <item name="profile_menu_row_icon" type="id" />
+    <item name="profile_menu_row_name" type="id" />
+    <item name="profile_menu_item_description" type="id" />
+    <item name="profileInfoRow" type="id" />
 </resources>
