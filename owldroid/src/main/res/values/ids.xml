@@ -16,8 +16,10 @@
     <item name="activity_marketing" type="id" />
     <item name="profile_loading_spinner" type="id" />
     <item name="profile_charity_image" type="id" />
+
     <item name="profile_my_info_row" type="id" />
-    <item name="profile_info_row_name" type="id" />
+    <item name="profile_my_home_row" type="id" />
+
     <item name="profile_rows_container" type="id" />
     <item name="profile_my_info_icon" type="id" />
     <item name="profile_my_info_loading_spinner" type="id" />
@@ -27,7 +29,6 @@
     <item name="profile_my_info_phone_number" type="id" />
     <item name="profile_my_info_contact_details_container" type="id" />
     <item name="profile_payment_row" type="id" />
-    <item name="profile_menu_row_icon" type="id" />
     <item name="profile_menu_row_description" type="id" />
     <item name="profile_payment_screen_content" type="id" />
     <item name="profile_payment_loading_spinner" type="id" />
@@ -46,4 +47,9 @@
     <item name="profile_menu_row_icon" type="id"/>
     <item name="profile_menu_row_name" type="id"/>
     <item name="profile_menu_item_description" type="id"/>
+    <item name="profile_coinsured_row" type="id" />
+    <item name="profile_charity_row" type="id" />
+    <item name="profile_insurance_certificate_row" type="id" />
+    <item name="profile_feedback" type="id" />
+    <item name="profile_log_out_button" type="id" />
 </resources>

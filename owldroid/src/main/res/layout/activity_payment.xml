@@ -59,7 +59,7 @@
                         android:layout_height="80dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/sphere" />
+                        android:src="@icon/sphere" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"

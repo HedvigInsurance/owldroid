@@ -11,13 +11,14 @@
         android:layout_height="140dp"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom"
             android:fontFamily="@font/circular_bold"
+            android:gravity="bottom"
             android:text="@string/profile_title"
             android:textColor="@color/black"
             android:textSize="32sp" />
@@ -33,39 +34,82 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="gone" />
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@id/profile_charity_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@id/profile_rows_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_charity_image"
-        tools:visibility="visible">
-
-        <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+        <LinearLayout
+            android:id="@id/profile_rows_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:drawableSrc="@drawable/icon_my_info"
-            app:description="Blargh"
-            app:name="@string/my_info_row_title" />
+            android:layout_marginTop="140dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_charity_image"
+            tools:visibility="visible">
 
-        <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:drawableSrc="@drawable/icon_my_home"
-            app:description="Blargh"
-            app:name="@string/my_home_row_title" />
-    </LinearLayout>
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_my_info_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconImage="@drawable/icon_my_info"
+                app:name="@string/my_info_row_title" />
+
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_my_home_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconImage="@drawable/icon_my_home"
+                app:name="@string/my_home_row_title" />
+
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_coinsured_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconImage="@drawable/icon_coinsured"
+                app:name="@string/profile_coinsured_row_name" />
+
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_charity_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconImage="@drawable/icon_charity"
+                app:name="@string/profile_charity_row_name" />
+
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_payment_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconImage="@drawable/icon_payment"
+                app:name="@string/profile_payment_row_name" />
+
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_insurance_certificate_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:description="@string/profile_insurance_certificate_description"
+                app:iconImage="@drawable/icon_insurance_certificate"
+                app:name="@string/profile_insurance_certificate_row_name" />
+
+            <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                android:id="@id/profile_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:description="@string/profile_feedback_description"
+                app:iconImage="@drawable/icon_feedback"
+                app:name="@string/profile_feedback_row_name" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@id/profile_log_out_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pink"
+                android:textAlignment="center"
+                android:padding="8dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/profile_log_out"/>
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
