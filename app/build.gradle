@@ -49,4 +49,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui:$navigation_version"
     implementation "android.arch.navigation:navigation-runtime-ktx:$navigation_version"
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+repositories {
+    mavenCentral()
 }

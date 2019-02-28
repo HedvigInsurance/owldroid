@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ProfileMenuRow">
-        <attr name="drawableSrc" format="string" />
+        <attr name="iconImage" format="string" />
         <attr name="name" format="string" />
         <attr name="description" format="string" />
     </declare-styleable>

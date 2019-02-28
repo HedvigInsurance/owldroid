@@ -39,10 +39,7 @@ class ProfileFragment : Fragment() {
         } ?: throw Exception("No Activity")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,36 +48,54 @@ class ProfileFragment : Fragment() {
         collapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
 
-        observeProfile()
+        populateData()
     }
 
-    private fun observeProfile() {
+    private fun populateData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             profile_loading_spinner.visibility = ProgressBar.GONE
             profile_rows_container.visibility = LinearLayout.VISIBLE
 
-            setupProfileRow(profileData!!)
-            setupPaymentRow(profileData)
+            setupMyInfoRow(profileData!!)
+            setupMyHomeRow(profileData)
+            setupCoinsured(profileData)
+            setupCharity(profileData)
+            setupPayment(profileData)
         })
     }
 
-    private fun setupProfileRow(profileData: ProfileQuery.Data) {
-//        val firstName = profileData.member().firstName().or("")
-//        val lastName = profileData.member().lastName().or("")
-//        profile_info_row_name.text = "$firstName $lastName"
-        profileInfoRow.setOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "my_info")
-            localBroadcastManager.sendBroadcast(intent)
-        }
+    private fun setupMyInfoRow(profileData: ProfileQuery.Data) {
+        val firstName = profileData.member().firstName() ?: ""
+        val lastName = profileData.member().lastName() ?: ""
+        profile_my_info_row.description = "$firstName $lastName"
+        attachNavigationOnClick(profile_my_info_row, "my_info")
     }
 
-    private fun setupPaymentRow(profileData: ProfileQuery.Data) {
-//        val cost = profileData.insurance().monthlyCost().or(0)
-//        profile_payment_monthly_cost.text = "$cost kr/månad · Betalas via autogiro"
-        profilePaymentRow.setOnClickListener {
+    private fun setupMyHomeRow(profileData: ProfileQuery.Data) {
+        profile_my_home_row.description = profileData.insurance().address()
+        attachNavigationOnClick(profile_my_home_row, "my_home")
+    }
+
+    private fun setupCoinsured(profileData: ProfileQuery.Data) {
+        val personsInHousehold = profileData.insurance().personsInHousehold() ?: 1
+        profile_coinsured_row.description = "${personsInHousehold - 1} medförsäkrade"
+        attachNavigationOnClick(profile_coinsured_row, "coinsured")
+    }
+
+    private fun setupCharity(profileData: ProfileQuery.Data) {
+        profile_charity_row.description = profileData.cashback()?.name()
+        attachNavigationOnClick(profile_charity_row, "charity")
+    }
+
+    private fun setupPayment(profileData: ProfileQuery.Data) {
+        profile_payment_row.description = "${profileData.insurance().monthlyCost()?.toString()} kr/månad - Betalas via autogiro"
+        attachNavigationOnClick(profile_payment_row, "payment")
+    }
+
+    private fun attachNavigationOnClick(view: View, subscreen: String) {
+        view.setOnClickListener {
             val intent = Intent("profileNavigation")
-            intent.putExtra("action", "payment")
+            intent.putExtra("action", subscreen)
             localBroadcastManager.sendBroadcast(intent)
         }
     }

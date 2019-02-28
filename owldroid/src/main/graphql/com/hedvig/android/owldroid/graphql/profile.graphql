@@ -7,7 +7,9 @@ query Profile {
         phoneNumber
     }
     insurance {
+        address
         monthlyCost
+        personsInHousehold
     }
     bankAccount {
         bankName
