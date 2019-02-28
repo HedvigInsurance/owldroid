@@ -13,8 +13,8 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
-import com.hedvig.android.owldroid.util.head
-import com.hedvig.android.owldroid.util.tail
+import com.hedvig.android.owldroid.util.extensions.head
+import com.hedvig.android.owldroid.util.extensions.tail
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 import java.util.concurrent.Callable

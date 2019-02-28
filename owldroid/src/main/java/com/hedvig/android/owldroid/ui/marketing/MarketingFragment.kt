@@ -23,7 +23,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
-import com.hedvig.android.owldroid.util.*
+import com.hedvig.android.owldroid.util.OnSwipeListener
+import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.percentageFade
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_marketing.*
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.util
+package com.hedvig.android.owldroid.util.extensions
 
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager

@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.util
+package com.hedvig.android.owldroid.util.extensions
 
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt

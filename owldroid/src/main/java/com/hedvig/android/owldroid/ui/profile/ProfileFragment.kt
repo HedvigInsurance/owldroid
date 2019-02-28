@@ -15,7 +15,7 @@ import android.widget.ProgressBar
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.android.owldroid.util.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_profile.*

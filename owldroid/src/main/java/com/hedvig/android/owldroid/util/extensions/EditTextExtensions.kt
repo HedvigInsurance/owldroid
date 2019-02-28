@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.util
+package com.hedvig.android.owldroid.util.extensions
 
 import android.text.Editable
 import android.text.TextWatcher

@@ -24,7 +24,7 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.CustomTypefaceSpan
-import com.hedvig.android.owldroid.util.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_payment.*
 import javax.inject.Inject
