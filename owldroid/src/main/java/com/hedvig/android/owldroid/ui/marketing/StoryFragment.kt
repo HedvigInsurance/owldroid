@@ -7,11 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
-import android.view.HapticFeedbackConstants
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -56,10 +52,11 @@ class StoryFragment : Fragment() {
         val position = arguments?.getInt(POSITION_KEY) ?: throw Exception("No position provided")
 
         val view = inflater.inflate(R.layout.page_marketing_story, container, false) as LinearLayout
-        val story = marketingStoriesViewModel.marketingStories.value?.get(position) ?: throw Exception("No data")
-        val asset = story.asset().get()
-        val mimeType = asset.mimeType().get()
-        val url = asset.url()
+        val story = marketingStoriesViewModel.marketingStories.value?.get(position)
+                ?: throw Exception("No data")
+        val asset = story.asset()
+        val mimeType = asset?.mimeType()
+        val url = asset?.url() ?: ""
         if (mimeType == "image/jpeg") {
             val playerView = view.findViewById<PlayerView>(R.id.story_video)
             view.removeView(playerView)
@@ -87,12 +84,12 @@ class StoryFragment : Fragment() {
         playerView.player = player
 
         val dataSourceFactory =
-            DefaultHttpDataSourceFactory(
-                Util.getUserAgent(
-                    context,
-                    BuildConfig.APPLICATION_ID
+                DefaultHttpDataSourceFactory(
+                        Util.getUserAgent(
+                                context,
+                                BuildConfig.APPLICATION_ID
+                        )
                 )
-            )
         val cacheDataSourceFactory = CacheDataSourceFactory(cache, dataSourceFactory)
         val mediaSource = ExtractorMediaSource.Factory(cacheDataSourceFactory).createMediaSource(Uri.parse(url))
         player?.prepare(mediaSource)
@@ -125,10 +122,10 @@ class StoryFragment : Fragment() {
         val imageView = parentView.findViewById<ImageView>(R.id.story_image)
 
         Picasso.get()
-            .load(url)
-            .fit()
-            .centerCrop()
-            .into(imageView)
+                .load(url)
+                .fit()
+                .centerCrop()
+                .into(imageView)
         imageView.visibility = ImageView.VISIBLE
         setupTouchListeners(imageView)
 

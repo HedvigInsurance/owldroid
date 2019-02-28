@@ -19,19 +19,18 @@
     <item name="profile_info_row_name" type="id" />
     <item name="profile_rows_container" type="id" />
     <item name="profile_my_info_icon" type="id" />
-    <item name="profile_my_info_loading_spinner" type="id" />
+    <item name="loadingSpinner" type="id" />
     <item name="profile_my_info_header" type="id" />
-    <item name="profile_my_info_name_container" type="id" />
-    <item name="profile_my_info_email" type="id" />
-    <item name="profile_my_info_phone_number" type="id" />
-    <item name="profile_my_info_contact_details_container" type="id" />
-    <item name="profile_payment_row" type="id" />
+    <item name="sphereContainer" type="id" />
+    <item name="emailInput" type="id" />
+    <item name="phoneNumberInput" type="id" />
+    <item name="contactDetailsContainer" type="id" />
     <item name="profile_menu_row_description" type="id" />
     <item name="profile_payment_screen_content" type="id" />
     <item name="profile_payment_loading_spinner" type="id" />
     <item name="profile_payment_amount_container" type="id" />
     <item name="profile_payment_header" type="id" />
-    <item name="profile_my_info_sphere" type="id" />
+    <item name="sphere" type="id" />
     <item name="profile_payment_price_sphere" type="id" />
     <item name="profile_payment_details_container" type="id" />
     <item name="profile_payment_bank_container" type="id" />
@@ -45,4 +44,9 @@
     <item name="profile_menu_row_name" type="id" />
     <item name="profile_menu_item_description" type="id" />
     <item name="profileInfoRow" type="id" />
+    <item name="profilePaymentRow" type="id" />
+    <item name="name" type="id" />
+    <item name="app_bar" type="id" />
+    <item name="collapsingToolbar" type="id" />
+    <item name="save" type="id" />
 </resources>

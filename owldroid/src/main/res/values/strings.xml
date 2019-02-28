@@ -18,4 +18,5 @@
     <string name="profile_payment_change_bank_account">Ändra bankkonto</string>
     <string name="profile_payment_deductible">Självrisk  1 500 kr</string>
     <string name="profile_title">Profil</string>
+    <string name="save">Spara</string>
 </resources>

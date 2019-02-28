@@ -65,7 +65,7 @@ class PaymentFragment : Fragment() {
             profile_payment_change_bank_account.background.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
 
             profile_payment_price_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.green))
-            val monthlyCost = profileData!!.insurance().monthlyCost().get().toString()
+            val monthlyCost = profileData!!.insurance().monthlyCost()?.toString()
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = "kr/mån"
             val amountPartTwo = SpannableString(perMonthLabel)
@@ -73,8 +73,11 @@ class PaymentFragment : Fragment() {
             amountPartTwo.setSpan(AbsoluteSizeSpan(20, true), 0, perMonthLabel.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
             profile_payment_amount.text = TextUtils.concat(amountPartOne, amountPartTwo)
 
-            profile_payment_bank.text = profileData.bankAccount().get().bankName()
-            profile_payment_account.text = profileData.bankAccount().get().descriptor()
+            val bankAccount = profileData.bankAccount()
+            if (bankAccount != null) {
+                profile_payment_bank.text = bankAccount.bankName()
+                profile_payment_account.text = bankAccount.descriptor()
+            }
 
             profile_payment_change_bank_account.setOnClickListener {
                 val intent = Intent("profileNavigation")

@@ -3,20 +3,21 @@ package com.hedvig.android.owldroid.ui.profile.myinfo
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.app.AppCompatActivity
+import android.view.*
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.compatSetTint
-import com.hedvig.android.owldroid.util.remove
-import com.hedvig.android.owldroid.util.show
+import com.hedvig.android.owldroid.util.*
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_my_info.*
+import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.fragment_my_info.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MyInfoFragment : Fragment() {
@@ -33,34 +34,74 @@ class MyInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         profileViewModel = activity?.run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         } ?: throw Exception("No Activity")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(
-                R.layout.activity_my_info,
-                container,
-                false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(
+            R.layout.fragment_my_info,
+            container,
+            false
+    )
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
+        collapsingToolbar.title = resources.getString(R.string.my_info_title)
+        collapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
+        collapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
+        toolbar.setNavigationIcon(R.drawable.ic_back)
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent("profileNavigation")
+            intent.putExtra("action", "back")
+            localBroadcastManager.sendBroadcast(intent)
+
+        }
         loadData()
+    }
 
-        return view
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.my_info_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val dirty = profileViewModel.dirty.value
+        if (dirty == null || !dirty) {
+            menu.removeItem(R.id.save)
+        }
+        super.onPrepareOptionsMenu(menu)
     }
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            profile_my_info_loading_spinner.remove()
-            profile_my_info_name_container.show()
+            loadingSpinner.remove()
+            sphereContainer.show()
 
-            profile_my_info_sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
-            profile_my_info_contact_details_container.show()
+            sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
+            contactDetailsContainer.show()
 
-            profile_my_info_name.text = "${profileData!!.member().firstName().get()}\n${profileData.member().lastName().get()}"
-            profile_my_info_email.text = profileData.member().email().or("")
-            profile_my_info_phone_number.text = profileData.member().phoneNumber().or("")
+            name.text = "${profileData!!.member().firstName()}\n${profileData.member().lastName()}"
+            emailInput.setText(profileData.member().email() ?: "")
+            phoneNumberInput.setText(profileData.member().phoneNumber() ?: "")
+
+            emailInput.onChange { value ->
+                profileViewModel.emailChanged(value)
+            }
+
+            phoneNumberInput.onChange { value ->
+                profileViewModel.phoneNumberChanged(value)
+            }
+
+            profileViewModel.dirty.observe(this, Observer { dirty ->
+                Timber.i("Dirty changed value")
+                if (dirty != null && dirty) {
+                    activity?.invalidateOptionsMenu()
+                }
+            })
         })
     }
 }

@@ -1,6 +1,7 @@
 package com.hedvig.android.owldroid.di
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.Logger
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
@@ -10,7 +11,6 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class OwldroidModule {
     @Provides
     @Singleton
-    fun okHttpClient(asyncStorageNativeReader: AsyncStorageNativeReader): OkHttpClient {
+    fun okHttpClient(asyncStorageNativeReader: AsyncStorageNativeReader, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor {
                     val original = it.request()
@@ -34,9 +34,7 @@ class OwldroidModule {
                     }
                     it.proceed(builder.build())
                 }
-                .addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-                    Timber.tag("OkHttp").i(it)
-                }).setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(httpLoggingInterceptor)
                 .build()
     }
 
@@ -48,12 +46,19 @@ class OwldroidModule {
 
     @Provides
     @Singleton
-    fun apolloClient(okHttpClient: OkHttpClient, normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>, @Named("GRAPHQL_URL") graphqlUrl: String): ApolloClient {
+    fun apolloClient(
+            okHttpClient: OkHttpClient,
+            normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,
+            @Named("GRAPHQL_URL") graphqlUrl: String,
+            logger: Logger
+    ): ApolloClient {
         return ApolloClient
                 .builder()
                 .serverUrl(graphqlUrl)
                 .okHttpClient(okHttpClient)
                 .normalizedCache(normalizedCacheFactory)
+                .logger(logger)
                 .build()
     }
+
 }
