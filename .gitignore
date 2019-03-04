@@ -10,3 +10,7 @@
 .externalNativeBuild
 
 .idea
+**/.settings/*
+.classpath
+.project
+*.swp
