@@ -18,10 +18,13 @@ import javax.inject.Singleton
 class OwldroidModule {
     @Provides
     @Singleton
-    fun okHttpClient(asyncStorageNativeReader: AsyncStorageNativeReader, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun okHttpClient(
+            asyncStorageNativeReader: AsyncStorageNativeReader,
+            httpLoggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor {
-                    val original = it.request()
+                .addInterceptor { interceptorChain ->
+                    val original = interceptorChain.request()
                     val builder = original.newBuilder().method(original.method(), original.body())
                     var token: String? = null
                     try {
@@ -29,10 +32,8 @@ class OwldroidModule {
                     } catch (exception: Exception) {
 
                     }
-                    if (token != null) {
-                        builder.header("Authorization", token)
-                    }
-                    it.proceed(builder.build())
+                    token?.let { builder.header("Authorization", it) }
+                    interceptorChain.proceed(builder.build())
                 }
                 .addInterceptor(httpLoggingInterceptor)
                 .build()
