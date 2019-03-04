@@ -41,6 +41,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/profileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_coinsuredFragment"
+            app:destination="@+id/coinsuredFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -69,4 +77,8 @@
         android:id="@+id/myHomeFragment"
         android:name="com.hedvig.android.owldroid.ui.profile.myhome.MyHomeFragment"
         android:label="MyHomeFragment" />
+    <fragment
+        android:id="@+id/coinsuredFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.coinsured.CoinsuredFragment"
+        android:label="CoinsuredFragment" />
 </navigation>

@@ -32,6 +32,7 @@ class DebugActivity : DaggerAppCompatActivity() {
             when (intent?.getStringExtra("action")) {
                 "my_info" -> navigationController.navigate(R.id.action_profileFragment_to_myInfoFragment)
                 "my_home" -> navigationController.navigate(R.id.action_profileFragment_to_myHomeFragment)
+                "coinsured" -> navigationController.navigate(R.id.action_profileFragment_to_coinsuredFragment)
                 "payment" -> navigationController.navigate(R.id.action_profileFragment_to_paymentFragment)
                 "back" -> navigationController.popBackStack()
             }
