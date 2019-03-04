@@ -11,7 +11,9 @@ import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
 import io.reactivex.Observable
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ProfileRepository @Inject constructor(private val apolloClient: ApolloClient) {
     lateinit var profileQuery: ProfileQuery
     fun fetchProfile(): Observable<ProfileQuery.Data?> {
@@ -58,12 +60,14 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                                 newMember,
                                 cachedData.insurance(),
                                 cachedData.bankAccount(),
-                                cachedData.cashback()
+                                cachedData.cashback(),
+                                cachedData.cashbackOptions()
                         )
 
                         apolloClient
                                 .apolloStore()
                                 .writeAndPublish(profileQuery, newData)
+                                .execute()
                     }
 
                 })
@@ -106,12 +110,19 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                                 newMember,
                                 cachedData.insurance(),
                                 cachedData.bankAccount(),
-                                cachedData.cashback()
+                                cachedData.cashback(),
+                                cachedData.cashbackOptions()
                         )
 
                         apolloClient
                                 .apolloStore()
                                 .writeAndPublish(profileQuery, newData)
+                                .execute()
+
+                    }
+
+                })
+    }
 
                     }
 

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.util.extensions.default
+import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -12,10 +13,12 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
 
+    private var dataDisposable: Disposable? = null
+
     init {
-        Timber.e("Initiated a ProfileViewModel")
         loadProfile()
     }
+
 
     fun saveInputs(emailInput: String, phoneNumberInput: String) {
         val email = data.value?.member()?.email()
@@ -28,11 +31,13 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
         if (phoneNumber != phoneNumberInput) {
             profileRepository.updatePhoneNumber(phoneNumberInput)
         }
+
+        dirty.value = false
     }
 
 
     private fun loadProfile() {
-        profileRepository.fetchProfile()
+        dataDisposable = profileRepository.fetchProfile()
                 .subscribe({ response ->
                     if (response == null) {
                         throw RuntimeException("Something went wrong while loading profile data (was null)")
@@ -41,6 +46,13 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
                 }, { error ->
                     Timber.e(error)
                 })
+    }
+
+    override fun onCleared() {
+        dataDisposable?.let { dataDisposable ->
+            dataDisposable.dispose()
+        }
+        super.onCleared()
     }
 
     fun emailChanged(newEmail: String) {

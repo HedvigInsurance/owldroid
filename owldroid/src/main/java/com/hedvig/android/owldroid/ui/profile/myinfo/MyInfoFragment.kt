@@ -6,18 +6,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.validateEmail
+import com.hedvig.android.owldroid.util.validatePhoneNumber
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_my_info.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class MyInfoFragment : Fragment() {
@@ -35,9 +34,9 @@ class MyInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        profileViewModel = activity?.run {
+        profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        } ?: throw Exception("No Activity")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(
@@ -51,8 +50,8 @@ class MyInfoFragment : Fragment() {
 
         (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
         collapsingToolbar.title = resources.getString(R.string.my_info_title)
-        collapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
+        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
+        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
             val intent = Intent("profileNavigation")
@@ -76,12 +75,17 @@ class MyInfoFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        profileViewModel.saveInputs(emailInput.text.toString(), phoneNumberInput.text.toString())
+        return true
+    }
+
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
             sphereContainer.show()
 
-            sphere.drawable.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
+            sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))
             contactDetailsContainer.show()
 
             name.text = "${profileData!!.member().firstName()}\n${profileData.member().lastName()}"
@@ -90,18 +94,49 @@ class MyInfoFragment : Fragment() {
 
             emailInput.onChange { value ->
                 profileViewModel.emailChanged(value)
+                if (emailInput.error != null) {
+                    val validationResult = validateEmail(value)
+                    if (validationResult.isSuccessful) {
+                        emailInput.error = null
+                    }
+                }
+            }
+
+            emailInput.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    return@setOnFocusChangeListener
+                }
+
+                val validationResult = validateEmail(emailInput.text.toString())
+                if (!validationResult.isSuccessful) {
+                    emailInput.error = requireContext().getString(validationResult.errorTextKey!!)
+                }
             }
 
             phoneNumberInput.onChange { value ->
                 profileViewModel.phoneNumberChanged(value)
+                if (phoneNumberInput.error != null) {
+                    val validationResult = validatePhoneNumber(value)
+                    if (validationResult.isSuccessful) {
+                        phoneNumberInput.error = null
+                    }
+                }
             }
 
-            profileViewModel.dirty.observe(this, Observer { dirty ->
-                Timber.i("Dirty changed value")
-                if (dirty != null && dirty) {
-                    activity?.invalidateOptionsMenu()
+            phoneNumberInput.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    return@setOnFocusChangeListener
                 }
+                val validationResult = validatePhoneNumber(phoneNumberInput.text.toString())
+                if (!validationResult.isSuccessful) {
+                    phoneNumberInput.error = requireContext().getString(validationResult.errorTextKey!!)
+                }
+            }
+
+            profileViewModel.dirty.observe(this, Observer {
+                activity?.invalidateOptionsMenu()
             })
         })
     }
 }
+
