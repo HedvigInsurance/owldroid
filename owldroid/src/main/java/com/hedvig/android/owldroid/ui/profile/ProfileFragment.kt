@@ -63,6 +63,7 @@ class ProfileFragment : Fragment() {
             setupCoinsured(profileData)
             setupCharity(profileData)
             setupPayment(profileData)
+            attachNavigationOnClick(profile_feedback, "feedback")
         })
     }
 

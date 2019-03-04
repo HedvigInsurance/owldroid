@@ -35,6 +35,7 @@ class DebugActivity : DaggerAppCompatActivity() {
                 "coinsured" -> navigationController.navigate(R.id.action_profileFragment_to_coinsuredFragment)
                 "charity" -> navigationController.navigate(R.id.action_profileFragment_to_charityFragment)
                 "payment" -> navigationController.navigate(R.id.action_profileFragment_to_paymentFragment)
+                "feedback" -> navigationController.navigate(R.id.action_profileFragment_to_feedbackFragment)
                 "back" -> navigationController.popBackStack()
             }
         }
