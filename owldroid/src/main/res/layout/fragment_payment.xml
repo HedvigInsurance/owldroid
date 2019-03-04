@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/app_bar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/off_white"
+            android:divider="?android:dividerHorizontal"
+            android:showDividers="middle">
+
+            <ProgressBar
+                android:id="@id/loadingSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@id/sphereContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@id/priceSphere"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@null"
+                    android:src="@drawable/sphere" />
+
+                <!--        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@id/profile_payment_deductible_sphere"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:src="@icon/sphere" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:fontFamily="@font/circular_book"
+                                android:gravity="center_horizontal"
+                                android:lines="2"
+                                android:text="@string/profile_payment_deductible"
+                                android:textColor="@color/white"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>-->
+
+                <TextView
+                    android:id="@+id/profile_payment_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/soray_extrabold"
+                    android:gravity="center_horizontal"
+                    android:lines="2"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="48sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@id/paymentDetailsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/circular_bold"
+                    android:text="@string/profile_payment_payment"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/profile_payment_direct_debit"
+                    android:textColor="@color/off_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/payment_27th"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@id/bankContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/paymentDetailsContainer"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/circular_bold"
+                    android:text="@string/profile_payment_bank"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@id/bankName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/circular_book"
+                    android:textColor="@color/off_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@id/accountNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/circular_book"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/light_gray"
+                app:layout_constraintTop_toBottomOf="@id/bankContainer"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@id/changeBankAccount"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/profile_payment_change_bank_account"
+                android:textColor="@color/purple"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator"
+                tools:visibility="visible" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
+

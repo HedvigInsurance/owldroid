@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.util.Util
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.extensions.show
 import com.squareup.picasso.Picasso
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -43,9 +44,9 @@ class StoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        marketingStoriesViewModel = activity?.run {
+        marketingStoriesViewModel = requireActivity().run {
             ViewModelProviders.of(this).get(MarketingStoriesViewModel::class.java)
-        } ?: throw RuntimeException("Invalid activity")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -95,7 +96,7 @@ class StoryFragment : Fragment() {
         player?.prepare(mediaSource)
         player?.playWhenReady = false
         player?.volume = 0f
-        playerView.visibility = PlayerView.VISIBLE
+        playerView.show()
         setupTouchListeners(playerView)
 
         marketingStoriesViewModel.page.observe(this, Observer {
@@ -126,7 +127,7 @@ class StoryFragment : Fragment() {
                 .fit()
                 .centerCrop()
                 .into(imageView)
-        imageView.visibility = ImageView.VISIBLE
+        imageView.show()
         setupTouchListeners(imageView)
 
         return imageView

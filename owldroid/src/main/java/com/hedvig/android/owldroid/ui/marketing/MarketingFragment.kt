@@ -7,29 +7,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.view.ViewPager
 import android.support.v4.view.animation.FastOutSlowInInterpolator
-import android.support.v7.widget.AppCompatButton
 import android.view.*
 import android.view.animation.OvershootInterpolator
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
-import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
-import com.hedvig.android.owldroid.util.extensions.compatSetTint
-import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.extensions.*
 import com.hedvig.android.owldroid.util.percentageFade
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_marketing.*
+import kotlinx.android.synthetic.main.fragment_marketing.*
 import javax.inject.Inject
 
 class MarketingFragment : Fragment() {
@@ -54,26 +45,23 @@ class MarketingFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideStatusBar()
-        marketingStoriesViewModel = activity?.run {
+        marketingStoriesViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
-        } ?: throw Exception("No Activity")
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(
-                R.layout.activity_marketing,
-                container,
-                false
-        )
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(
+            R.layout.fragment_marketing,
+            container,
+            false
+    )
 
     override fun onResume() {
         observeMarketingStories()
@@ -84,7 +72,7 @@ class MarketingFragment : Fragment() {
         marketingStoriesViewModel
                 .marketingStories
                 .observe(this, Observer {
-                    loading_spinner.visibility = ProgressBar.GONE
+                    loading_spinner.remove()
                     setupButtons()
                     setupPager(it)
                     setupBlurOverlay()
@@ -98,8 +86,8 @@ class MarketingFragment : Fragment() {
                 activity?.supportFragmentManager ?: throw Error("Could not find fragment manager"),
                 nStories
         )
-        pager.visibility = ViewPager.VISIBLE
-        story_progress_indicator_container.visibility = LinearLayout.VISIBLE
+        pager.show()
+        story_progress_indicator_container.show()
         val width = activity_marketing.width
         for (n in 0 until nStories) {
             val progressBar = layoutInflater.inflate(
@@ -152,11 +140,11 @@ class MarketingFragment : Fragment() {
     private fun setupBlurOverlay() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
             if (blurred == null || !blurred) {
-                blur_overlay.visibility = View.GONE
+                blur_overlay.remove()
                 return@Observer
             }
 
-            blur_overlay.visibility = View.VISIBLE
+            blur_overlay.show()
             ValueAnimator.ofFloat(1f, 0f).apply {
                 duration = 300
                 addUpdateListener { opacity ->
@@ -164,8 +152,8 @@ class MarketingFragment : Fragment() {
                     story_progress_indicator_container.alpha = opacity.animatedValue as Float
                 }
                 doOnEnd {
-                    marketing_hedvig_logo.visibility = ImageView.GONE
-                    story_progress_indicator_container.visibility = LinearLayout.GONE
+                    marketing_hedvig_logo.remove()
+                    story_progress_indicator_container.remove()
                 }
                 start()
             }
@@ -174,8 +162,8 @@ class MarketingFragment : Fragment() {
                 duration = 300
                 addUpdateListener { opacity ->
                     val backgroundColor = percentageFade(
-                            ContextCompat.getColor(context!!, R.color.transparent_white),
-                            ContextCompat.getColor(context!!, R.color.blur_white),
+                            requireContext().compatColor(R.color.transparent_white),
+                            requireContext().compatColor(R.color.blur_white),
                             opacity.animatedFraction
                     )
                     blur_overlay.setBackgroundColor(backgroundColor)
@@ -188,10 +176,10 @@ class MarketingFragment : Fragment() {
                     OnSwipeListener.Direction.DOWN -> {
                         trackDismissBlurOverlay()
                         blur_overlay.setOnTouchListener(null)
-                        hedvig_face_animation.visibility = LottieAnimationView.GONE
-                        marketing_say_hello.visibility = TextView.GONE
-                        marketing_hedvig_logo.visibility = ImageView.VISIBLE
-                        story_progress_indicator_container.visibility = LinearLayout.VISIBLE
+                        hedvig_face_animation.remove()
+                        marketing_say_hello.remove()
+                        marketing_hedvig_logo.show()
+                        story_progress_indicator_container.show()
 
                         ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
                             duration = 200
@@ -200,14 +188,14 @@ class MarketingFragment : Fragment() {
                                 marketing_proceed.translationY = translation.animatedValue as Float
                                 val elapsed = translation.animatedFraction
                                 val backgroundColor = percentageFade(
-                                        ContextCompat.getColor(context!!, R.color.purple),
-                                        ContextCompat.getColor(context!!, R.color.white),
+                                        requireContext().compatColor(R.color.purple),
+                                        requireContext().compatColor(R.color.white),
                                         elapsed
                                 )
                                 marketing_proceed.background.compatSetTint(backgroundColor)
                                 val textColor = percentageFade(
-                                        ContextCompat.getColor(context!!, R.color.white),
-                                        ContextCompat.getColor(context!!, R.color.black),
+                                        requireContext().compatColor(R.color.white),
+                                        requireContext().compatColor(R.color.black),
                                         elapsed
                                 )
                                 marketing_proceed.setTextColor(textColor)
@@ -224,8 +212,8 @@ class MarketingFragment : Fragment() {
                                 story_progress_indicator_container.alpha = opacity.animatedFraction
 
                                 val backgroundColor = percentageFade(
-                                        ContextCompat.getColor(context!!, R.color.blur_white),
-                                        ContextCompat.getColor(context!!, R.color.transparent_white),
+                                        requireContext().compatColor(R.color.blur_white),
+                                        requireContext().compatColor(R.color.transparent_white),
                                         opacity.animatedFraction
                                 )
                                 blur_overlay.setBackgroundColor(backgroundColor)
@@ -256,23 +244,23 @@ class MarketingFragment : Fragment() {
                     marketing_proceed.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
                     val backgroundColor = percentageFade(
-                            ContextCompat.getColor(context!!, R.color.white),
-                            ContextCompat.getColor(context!!, R.color.purple),
+                            requireContext().compatColor(R.color.white),
+                            requireContext().compatColor(R.color.purple),
                             elapsed
                     )
                     marketing_proceed.background.compatSetTint(backgroundColor)
                     val textColor = percentageFade(
-                            ContextCompat.getColor(context!!, R.color.black),
-                            ContextCompat.getColor(context!!, R.color.white),
+                            requireContext().compatColor(R.color.black),
+                            requireContext().compatColor(R.color.white),
                             elapsed
                     )
                     marketing_proceed.setTextColor(textColor)
                 }
                 doOnEnd {
                     marketing_say_hello.translationY = translation
-                    marketing_say_hello.visibility = TextView.VISIBLE
+                    marketing_say_hello.show()
                     hedvig_face_animation.useHardwareAcceleration(true)
-                    hedvig_face_animation.visibility = LottieAnimationView.VISIBLE
+                    hedvig_face_animation.show()
                     hedvig_face_animation.translationY = translation
                     hedvig_face_animation.playAnimation()
                 }
@@ -282,9 +270,8 @@ class MarketingFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        val localBroadcastManager = LocalBroadcastManager.getInstance(context!!)
-        marketing_login.visibility = AppCompatButton.VISIBLE
-        marketing_proceed.visibility = AppCompatButton.VISIBLE
+        marketing_login.show()
+        marketing_proceed.show()
 
         marketing_login.setOnClickListener {
             trackClickLogin()
