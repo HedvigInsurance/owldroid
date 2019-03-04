@@ -31,4 +31,7 @@ abstract class FragmentContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCoinsuredFragment(): CoinsuredFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCharityFragment(): CharityFragment
 }

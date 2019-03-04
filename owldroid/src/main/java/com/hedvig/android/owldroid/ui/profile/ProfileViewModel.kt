@@ -72,4 +72,8 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
             }
         }
     }
+
+    fun selectCashback(id: String) {
+        profileRepository.selectCashback(id)
+    }
 }

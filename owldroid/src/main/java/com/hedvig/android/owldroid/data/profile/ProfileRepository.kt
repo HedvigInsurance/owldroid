@@ -6,6 +6,7 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
 import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
 import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
 import io.reactivex.Observable
@@ -124,6 +125,47 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                 })
     }
 
+    fun selectCashback(id: String) {
+        val selectCashbackMutation = SelectCashbackMutation
+                .builder()
+                .id(id)
+                .build()
+
+        apolloClient
+                .mutate(selectCashbackMutation)
+                .enqueue(object : ApolloCall.Callback<SelectCashbackMutation.Data>() {
+                    override fun onFailure(e: ApolloException) {
+                        Timber.e(e, "Failed to select cashback")
+                    }
+
+                    override fun onResponse(response: Response<SelectCashbackMutation.Data>) {
+                        response.data()?.selectCashbackOption()?.let { selectedCashback ->
+                            val cachedData = apolloClient
+                                    .apolloStore()
+                                    .read(profileQuery)
+                                    .execute()
+
+                            val newCashback = ProfileQuery.Cashback
+                                    .builder()
+                                    .__typename(selectedCashback.__typename())
+                                    .name(selectedCashback.name())
+                                    .imageUrl(selectedCashback.imageUrl())
+                                    .paragraph(selectedCashback.paragraph())
+                                    .build()
+
+                            val newData = ProfileQuery.Data(
+                                    cachedData.member(),
+                                    cachedData.insurance(),
+                                    cachedData.bankAccount(),
+                                    newCashback,
+                                    cachedData.cashbackOptions()
+                            )
+
+                            apolloClient
+                                    .apolloStore()
+                                    .writeAndPublish(profileQuery, newData)
+                                    .execute()
+                        }
                     }
 
                 })

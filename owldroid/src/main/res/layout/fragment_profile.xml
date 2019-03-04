@@ -28,15 +28,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="gone" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@id/profile_charity_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <LinearLayout
                 android:id="@id/profile_rows_container"
                 android:layout_width="match_parent"
@@ -45,7 +36,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_charity_image"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible">
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
@@ -99,16 +90,38 @@
                     app:iconImage="@drawable/icon_feedback"
                     app:name="@string/profile_feedback_row_name" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@id/profile_log_out_button"
+                <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                    android:id="@id/profile_about_app"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:padding="8dp"
-                    android:text="@string/profile_log_out"
-                    android:textAlignment="center"
-                    android:textColor="@color/pink" />
+                    app:iconImage="@drawable/icon_feedback"
+                    app:name="@string/profile_about_app_row_name" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/light_gray" />
+
             </LinearLayout>
+
+            <Button
+                android:id="@id/profile_log_out_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circular_book"
+                android:padding="8dp"
+                android:text="@string/profile_log_out"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/pink"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_rows_container"
+                tools:visibility="visible" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
