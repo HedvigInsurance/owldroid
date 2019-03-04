@@ -6,7 +6,4 @@
     <string name="button_open_profile">Open profile screen</string>
     <string name="hint_edit_token">Enter your Hedvig Token here</string>
     <string name="button_save_inputs">Save inputs</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
