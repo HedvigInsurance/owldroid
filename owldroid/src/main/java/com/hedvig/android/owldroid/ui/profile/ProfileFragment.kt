@@ -63,6 +63,8 @@ class ProfileFragment : Fragment() {
             setupCoinsured(profileData)
             setupCharity(profileData)
             setupPayment(profileData)
+            setupPolicyRow(profileData)
+
             attachNavigationOnClick(profile_feedback, "feedback")
         })
     }
@@ -100,6 +102,15 @@ class ProfileFragment : Fragment() {
             val intent = Intent("profileNavigation")
             intent.putExtra("action", subscreen)
             localBroadcastManager.sendBroadcast(intent)
+        }
+    }
+
+    private fun setupPolicyRow(profileData: ProfileQuery.Data) {
+        profileData.insurance().policyUrl()?.let { policyUrl ->
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyUrl))
+            profile_insurance_certificate_row.setOnClickListener {
+                startActivity(intent)
+            }
         }
     }
 }

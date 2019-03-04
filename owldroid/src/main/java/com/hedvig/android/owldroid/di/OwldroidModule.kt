@@ -20,7 +20,7 @@ class OwldroidModule {
     @Singleton
     fun okHttpClient(
             asyncStorageNativeReader: AsyncStorageNativeReader,
-            httpLoggingInterceptor: HttpLoggingInterceptor,
+            httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor { interceptorChain ->
