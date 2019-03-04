@@ -3,12 +3,12 @@ package com.hedvig.android.app
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import kotlinx.android.synthetic.main.fragment_debug.*
 
@@ -20,15 +20,15 @@ class DebugFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val sharedPreferences = context!!.getSharedPreferences("debug", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("debug", Context.MODE_PRIVATE)
         debug_token_input.setText(sharedPreferences.getString("@hedvig:token", ""))
 
-        debug_open_marketing.background.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
-        debug_open_logo.background.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
-        debug_open_profile.background.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
-        debug_save_inputs.background.compatSetTint(ContextCompat.getColor(context!!, R.color.dark_purple))
+        debug_open_marketing.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+        debug_open_logo.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+        debug_open_profile.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+        debug_save_inputs.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
 
-        val navigationController = activity!!.findNavController(R.id.navigationHostFragment)
+        val navigationController = requireActivity().findNavController(R.id.navigationHostFragment)
 
         debug_open_marketing.setOnClickListener {
             navigationController.navigate(R.id.action_debugFragment_to_marketingFragment)

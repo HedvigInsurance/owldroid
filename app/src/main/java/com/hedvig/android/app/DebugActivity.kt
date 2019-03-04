@@ -31,6 +31,7 @@ class DebugActivity : DaggerAppCompatActivity() {
         profileBroadcastReceiver = newBroadcastReceiver { _, intent ->
             when (intent?.getStringExtra("action")) {
                 "my_info" -> navigationController.navigate(R.id.action_profileFragment_to_myInfoFragment)
+                "my_home" -> navigationController.navigate(R.id.action_profileFragment_to_myHomeFragment)
                 "payment" -> navigationController.navigate(R.id.action_profileFragment_to_paymentFragment)
                 "back" -> navigationController.popBackStack()
             }

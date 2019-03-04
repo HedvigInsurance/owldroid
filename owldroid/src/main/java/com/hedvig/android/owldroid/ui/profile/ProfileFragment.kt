@@ -6,16 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.res.ResourcesCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -34,27 +34,29 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        profileViewModel = activity?.run {
+        profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-        } ?: throw Exception("No Activity")
+    }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_profile, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         collapsingToolbar.title = resources.getString(R.string.profile_title)
-        collapsingToolbar.setExpandedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(ResourcesCompat.getFont(context!!, R.font.circular_bold))
+        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
+        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
 
         populateData()
     }
 
     private fun populateData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            profile_loading_spinner.visibility = ProgressBar.GONE
-            profile_rows_container.visibility = LinearLayout.VISIBLE
+            profile_loading_spinner.remove()
+            profile_rows_container.show()
+            profile_log_out_button.show()
 
             setupMyInfoRow(profileData!!)
             setupMyHomeRow(profileData)

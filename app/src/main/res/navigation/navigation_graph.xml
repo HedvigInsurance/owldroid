@@ -20,14 +20,27 @@
         <action
             android:id="@+id/action_profileFragment_to_myInfoFragment"
             app:destination="@+id/myInfoFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/profileFragment" />
         <action
             android:id="@+id/action_profileFragment_to_paymentFragment"
-            app:destination="@id/paymentFragment" />
+            app:destination="@id/paymentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/profileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_myHomeFragment"
+            app:destination="@id/myHomeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -52,4 +65,8 @@
             android:id="@+id/action_debugFragment_to_logoFragment"
             app:destination="@id/logoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myHomeFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.myhome.MyHomeFragment"
+        android:label="MyHomeFragment" />
 </navigation>

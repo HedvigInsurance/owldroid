@@ -29,16 +29,14 @@
     <item name="profile_payment_row" type="id" />
     <item name="profile_menu_row_description" type="id" />
     <item name="profile_payment_screen_content" type="id" />
-    <item name="profile_payment_loading_spinner" type="id" />
-    <item name="profile_payment_amount_container" type="id" />
     <item name="profile_payment_header" type="id" />
     <item name="sphere" type="id" />
-    <item name="profile_payment_price_sphere" type="id" />
-    <item name="profile_payment_details_container" type="id" />
-    <item name="profile_payment_bank_container" type="id" />
-    <item name="profile_payment_bank" type="id" />
-    <item name="profile_payment_account" type="id" />
-    <item name="profile_payment_change_bank_account" type="id" />
+    <item name="priceSphere" type="id" />
+    <item name="paymentDetailsContainer" type="id" />
+    <item name="bankContainer" type="id" />
+    <item name="bankName" type="id" />
+    <item name="accountNumber" type="id" />
+    <item name="changeBankAccount" type="id" />
     <item name="profile_payment_deductible_sphere" type="id" />
     <item name="toolbar" type="id" />
     <item name="profile_menu_row" type="id" />
@@ -56,4 +54,31 @@
     <item name="profile_insurance_certificate_row" type="id" />
     <item name="profile_feedback" type="id" />
     <item name="profile_log_out_button" type="id" />
+    <item name="address" type="id" />
+    <item name="postalNumber" type="id" />
+    <item name="insuranceType" type="id" />
+    <item name="infoContainer" type="id" />
+    <item name="pdf" type="id" />
+    <item name="bugReportEmail" type="id" />
+    <item name="playLink" type="id" />
+    <item name="coinsuredSphere" type="id" />
+    <item name="textContainer" type="id" />
+    <item name="sphereText" type="id" />
+    <item name="selectedCharityContainer" type="id" />
+    <item name="selectCharityContainer" type="id" />
+    <item name="selectedCharityBanner" type="id" />
+    <item name="selectedCharityCardTitle" type="id" />
+    <item name="selectedCharityCardParagraph" type="id" />
+    <item name="charityIcon" type="id" />
+    <item name="selectCharityExplainer" type="id" />
+    <item name="cashbackOptionTitle" type="id" />
+    <item name="cashbackOptionParagraph" type="id" />
+    <item name="cashbackOptions" type="id" />
+    <item name="cashbackSelect" type="id" />
+    <item name="separator" type="id" />
+    <item name="loadingAnimation" type="id" />
+    <item name="profile_about_app" type="id" />
+    <item name="licenseAttributions" type="id" />
+    <item name="versionNumber" type="id" />
+    <item name="memberId" type="id" />
 </resources>
