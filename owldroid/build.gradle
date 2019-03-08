@@ -10,6 +10,9 @@ apply plugin: 'com.apollographql.android'
 
 apollo {
     generateModelBuilder = true
+    customTypeMapping = [
+            "URL": "java.lang.String"
+    ]
 }
 
 android {

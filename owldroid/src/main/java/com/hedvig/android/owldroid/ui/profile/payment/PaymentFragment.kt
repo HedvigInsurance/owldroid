@@ -61,6 +61,12 @@ class PaymentFragment : Fragment() {
 
         priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
 
+        changeBankAccount.setOnClickListener {
+            val intent = Intent("profileNavigation")
+            intent.putExtra("action", "trustly")
+            localBroadcastManager.sendBroadcast(intent)
+        }
+
         loadData()
     }
 
@@ -83,12 +89,6 @@ class PaymentFragment : Fragment() {
             profileData?.bankAccount()?.let { bankAccount ->
                 bankName.text = bankAccount.bankName()
                 accountNumber.text = bankAccount.descriptor()
-            }
-
-            changeBankAccount.setOnClickListener {
-                val intent = Intent("profileNavigation")
-                intent.putExtra("action", "trustly")
-                localBroadcastManager.sendBroadcast(intent)
             }
         })
     }

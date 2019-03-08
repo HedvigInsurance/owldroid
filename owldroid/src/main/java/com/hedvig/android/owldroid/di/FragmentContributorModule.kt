@@ -30,6 +30,9 @@ abstract class FragmentContributorModule {
     abstract fun contributePaymentFragment(): PaymentFragment
 
     @ContributesAndroidInjector
+    abstract fun contributeTrustlyFragment(): TrustlyFragment
+
+    @ContributesAndroidInjector
     abstract fun contributeMyHomeFragment(): MyHomeFragment
 
     @ContributesAndroidInjector

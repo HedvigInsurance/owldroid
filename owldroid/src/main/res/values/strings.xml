@@ -55,4 +55,9 @@
     <string name="dialogParagraph">Skriv till Hedvig i chatten så får du hjälp direkt!</string>
     <string name="cancel">Avbryt</string>
     <string name="write_to_hedvig">Skriv till Hedvig</string>
+    <string name="trustly_success_title">Kontobyte klart!</string>
+    <string name="trustly_success_paragraph">Ditt bankkonto är uppdaterat och kommer synas på din profilsida inom kort. Nästa betalning kommer dras från ditt nya bankkonto.</string>
+    <string name="trustly_close_label">Avsluta</string>
+    <string name="trustly_fail_title">Något gick snett!</string>
+    <string name="trustly_fail_paragraph">På grund av ett tekniskt fel kunde inte ditt bankkonto uppdateras. Testa att starta om din app och prova igen eller skriv till Hedvig i chatten.</string>
 </resources>

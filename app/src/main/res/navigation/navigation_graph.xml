@@ -69,7 +69,16 @@
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.hedvig.android.owldroid.ui.profile.payment.PaymentFragment"
-        android:label="PaymentFragment" />
+        android:label="PaymentFragment">
+        <action
+            android:id="@+id/action_paymentFragment_to_trustlyFragment"
+            app:destination="@id/trustlyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myInfoFragment"
         android:name="com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment"
@@ -105,4 +114,8 @@
         android:id="@+id/charityFragment"
         android:name="com.hedvig.android.owldroid.ui.profile.charity.CharityFragment"
         android:label="CharityFragment" />
+    <fragment
+        android:id="@+id/trustlyFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment"
+        android:label="TrustlyFragment" />
 </navigation>

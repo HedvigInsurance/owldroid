@@ -12,13 +12,24 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(private val profileRepository: ProfileRepository) : ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
+    val trustlyUrl: MutableLiveData<String> = MutableLiveData()
 
     private var dataDisposable: Disposable? = null
+    private var trustlyDisposable: Disposable? = null
 
     init {
         loadProfile()
     }
 
+    fun startTrustlySession() {
+        trustlyDisposable = profileRepository
+                .startTrustlySession()
+                .subscribe({ url ->
+                    trustlyUrl.postValue(url.startDirectDebitRegistration())
+                }, { error ->
+                    Timber.e(error)
+                })
+    }
 
     fun saveInputs(emailInput: String, phoneNumberInput: String) {
         val email = data.value?.member()?.email()
@@ -35,7 +46,6 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
         dirty.value = false
     }
 
-
     private fun loadProfile() {
         dataDisposable = profileRepository.fetchProfile()
                 .subscribe({ response ->
@@ -49,9 +59,8 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     }
 
     override fun onCleared() {
-        dataDisposable?.let { dataDisposable ->
-            dataDisposable.dispose()
-        }
+        dataDisposable?.let { it.dispose() }
+        trustlyDisposable?.let { it.dispose() }
         super.onCleared()
     }
 
@@ -75,5 +84,9 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
 
     fun selectCashback(id: String) {
         profileRepository.selectCashback(id)
+    }
+
+    fun refreshBankAccountInfo() {
+        profileRepository.refreshBankAccountInfo()
     }
 }

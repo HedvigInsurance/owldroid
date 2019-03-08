@@ -1,0 +1,6 @@
+query BankAccount {
+    bankAccount {
+        bankName
+        descriptor
+    }
+}

@@ -86,4 +86,15 @@
     <item name="dialogConfirm" type="id" />
     <item name="dialogCancel" type="id" />
     <item name="dialogParagraph" type="id" />
+    <item name="trustlyContainer" type="id" />
+    <item name="successScreen" type="id" />
+    <item name="failScreen" type="id" />
+    <item name="successIcon" type="id" />
+    <item name="successTitle" type="id" />
+    <item name="successParagraph" type="id" />
+    <item name="failureIcon" type="id" />
+    <item name="failureTitle" type="id" />
+    <item name="failureParagraph" type="id" />
+    <item name="trustlyFailClose" type="id" />
+    <item name="trustlySuccessClose" type="id" />
 </resources>
