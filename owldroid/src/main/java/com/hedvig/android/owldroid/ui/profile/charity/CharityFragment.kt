@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
@@ -20,7 +22,6 @@ import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
-import com.squareup.picasso.Picasso
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.cashback_option.view.*
@@ -88,9 +89,11 @@ class CharityFragment : Fragment() {
     private fun showSelectedCharity(cashback: ProfileQuery.Cashback) {
         selectedCharityContainer.show()
         selectCharityContainer.remove()
-        Picasso
-                .get()
+
+        Glide
+                .with(requireContext())
                 .load(cashback.imageUrl())
+                .override(Target.SIZE_ORIGINAL)
                 .into(selectedCharityBanner)
 
         selectedCharityCardTitle.text = cashback.name()
