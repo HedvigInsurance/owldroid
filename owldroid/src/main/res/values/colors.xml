@@ -11,6 +11,7 @@
     <color name="gray">#9b9baa</color>
     <color name="light_gray">#e9ecef</color>
     <color name="off_white">#f9fafc</color>
+    <color name="off_white_light">#fafafa</color>
     <color name="off_black">#414150</color>
     <color name="off_black_dark">#141033</color>
     <color name="dark_purple">#0F007A</color>

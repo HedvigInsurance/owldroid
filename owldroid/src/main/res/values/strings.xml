@@ -51,4 +51,8 @@
     <string name="profile_about_app_row_name">Om appen</string>
     <string name="about_app_title">Om appen</string>
     <string name="copyright_label">© Hedvig AB - 2019</string>
+    <string name="dialogTitle">Vill du ändra din försäkring?</string>
+    <string name="dialogParagraph">Skriv till Hedvig i chatten så får du hjälp direkt!</string>
+    <string name="cancel">Avbryt</string>
+    <string name="write_to_hedvig">Skriv till Hedvig</string>
 </resources>

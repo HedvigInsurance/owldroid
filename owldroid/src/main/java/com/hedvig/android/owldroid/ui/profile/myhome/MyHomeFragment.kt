@@ -58,6 +58,16 @@ class MyHomeFragment : Fragment() {
             localBroadcastManager.sendBroadcast(intent)
         }
 
+        changeHomeInformation.setOnClickListener {
+            fragmentManager?.let { fm ->
+                val changeHomeInformationDialog = ChangeHomeInfoDialog()
+                val transaction = fm.beginTransaction()
+                val prev = fm.findFragmentByTag("dialog")
+                prev?.let { transaction.remove(it) }
+                transaction.addToBackStack(null)
+                changeHomeInformationDialog.show(transaction, "dialog")
+            }
+        }
 
         loadData()
     }
