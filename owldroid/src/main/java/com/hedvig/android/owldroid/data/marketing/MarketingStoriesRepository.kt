@@ -22,9 +22,9 @@ import java.util.concurrent.FutureTask
 import javax.inject.Inject
 
 class MarketingStoriesRepository @Inject constructor(
-        private val apolloClient: ApolloClient,
-        private val context: Context,
-        private val cache: SimpleCache
+    private val apolloClient: ApolloClient,
+    private val context: Context,
+    private val cache: SimpleCache
 ) {
 
     fun fetchMarketingStories(completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit) {

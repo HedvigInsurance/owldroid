@@ -49,9 +49,6 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     private fun loadProfile() {
         dataDisposable = profileRepository.fetchProfile()
                 .subscribe({ response ->
-                    if (response == null) {
-                        throw RuntimeException("Something went wrong while loading profile data (was null)")
-                    }
                     data.postValue(response)
                 }, { error ->
                     Timber.e(error)
@@ -59,8 +56,8 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     }
 
     override fun onCleared() {
-        dataDisposable?.let { it.dispose() }
-        trustlyDisposable?.let { it.dispose() }
+        dataDisposable?.dispose()
+        trustlyDisposable?.dispose()
         super.onCleared()
     }
 

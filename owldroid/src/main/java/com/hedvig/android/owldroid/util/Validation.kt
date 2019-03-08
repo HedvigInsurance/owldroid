@@ -25,5 +25,3 @@ fun validatePhoneNumber(phoneNumber: CharSequence): ValidationResult {
 }
 
 data class ValidationResult(val isSuccessful: Boolean, @StringRes val errorTextKey: Int?)
-
-

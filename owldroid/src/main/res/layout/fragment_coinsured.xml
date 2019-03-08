@@ -108,8 +108,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
                     android:text="@string/coinsured_explainer"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="14sp" />
+                    android:theme="@style/DefaultParagraph" />
 
             </LinearLayout>
 

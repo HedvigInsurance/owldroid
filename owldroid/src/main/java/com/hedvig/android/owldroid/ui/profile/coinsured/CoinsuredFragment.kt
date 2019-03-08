@@ -28,7 +28,7 @@ class CoinsuredFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var profileViewModel: ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)

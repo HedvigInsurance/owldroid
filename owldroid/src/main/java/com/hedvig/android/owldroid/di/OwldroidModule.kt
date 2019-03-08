@@ -19,8 +19,8 @@ class OwldroidModule {
     @Provides
     @Singleton
     fun okHttpClient(
-            asyncStorageNativeReader: AsyncStorageNativeReader,
-            httpLoggingInterceptor: HttpLoggingInterceptor
+        asyncStorageNativeReader: AsyncStorageNativeReader,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor { interceptorChain ->
@@ -30,7 +30,6 @@ class OwldroidModule {
                     try {
                         token = asyncStorageNativeReader.getKey("@hedvig:token")
                     } catch (exception: Exception) {
-
                     }
                     token?.let { builder.header("Authorization", it) }
                     interceptorChain.proceed(builder.build())
@@ -48,10 +47,10 @@ class OwldroidModule {
     @Provides
     @Singleton
     fun apolloClient(
-            okHttpClient: OkHttpClient,
-            normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,
-            @Named("GRAPHQL_URL") graphqlUrl: String,
-            logger: Logger
+        okHttpClient: OkHttpClient,
+        normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,
+        @Named("GRAPHQL_URL") graphqlUrl: String,
+        logger: Logger
     ): ApolloClient {
         return ApolloClient
                 .builder()
@@ -61,5 +60,4 @@ class OwldroidModule {
                 .logger(logger)
                 .build()
     }
-
 }

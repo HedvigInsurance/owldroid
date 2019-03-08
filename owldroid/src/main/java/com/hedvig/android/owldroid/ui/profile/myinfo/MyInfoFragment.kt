@@ -57,7 +57,6 @@ class MyInfoFragment : Fragment() {
             val intent = Intent("profileNavigation")
             intent.putExtra("action", "back")
             localBroadcastManager.sendBroadcast(intent)
-
         }
         loadData()
     }
@@ -139,4 +138,3 @@ class MyInfoFragment : Fragment() {
         })
     }
 }
-

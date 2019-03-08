@@ -12,9 +12,9 @@ class ProfileMenuRow : ConstraintLayout {
     private var defStyle: Int = 0
 
     constructor(
-            context: Context,
-            attributeSet: AttributeSet?,
-            defStyle: Int
+        context: Context,
+        attributeSet: AttributeSet?,
+        defStyle: Int
     ) : super(context, attributeSet, defStyle) {
         this.attributeSet = attributeSet
         this.defStyle = defStyle
@@ -23,8 +23,8 @@ class ProfileMenuRow : ConstraintLayout {
     }
 
     constructor(
-            context: Context,
-            attributeSet: AttributeSet?
+        context: Context,
+        attributeSet: AttributeSet?
     ) : super(context, attributeSet) {
         this.attributeSet = attributeSet
         inflate(context, R.layout.profile_menu_row, this)
@@ -61,5 +61,4 @@ class ProfileMenuRow : ConstraintLayout {
 
         attributes.recycle()
     }
-
 }

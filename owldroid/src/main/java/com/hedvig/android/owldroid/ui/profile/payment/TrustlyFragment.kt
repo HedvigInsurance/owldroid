@@ -1,5 +1,6 @@
 package com.hedvig.android.owldroid.ui.profile.payment
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -25,7 +26,7 @@ class TrustlyFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var profileViewModel: ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -42,6 +43,7 @@ class TrustlyFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_trustly, container, false)
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,7 +63,6 @@ class TrustlyFragment : Fragment() {
             loadWithOverviewMode = true
             useWideViewPort = true
         }
-
 
         profileViewModel.trustlyUrl.observe(this, Observer { url ->
             trustlyContainer.webViewClient = object : WebViewClient() {

@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.R
@@ -34,7 +36,7 @@ class CharityFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var profileViewModel: ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -75,14 +77,11 @@ class CharityFragment : Fragment() {
 
             profileData?.let { data ->
                 if (data.cashback() == null) {
-                    data.cashbackOptions().let { cashbackOptions ->
-                        showCharityPicker(cashbackOptions)
-                    }
+                    showCharityPicker(data.cashbackOptions())
                 } else {
                     showSelectedCharity(data.cashback()!!)
                 }
             }
-
         })
     }
 
@@ -107,9 +106,7 @@ class CharityFragment : Fragment() {
             profileViewModel.selectCashback(id)
         }
     }
-
 }
-
 
 class CharityAdapter(
         val items: List<ProfileQuery.CashbackOption>,
@@ -118,7 +115,8 @@ class CharityAdapter(
 ) : RecyclerView.Adapter<CashbackOptionViewHolder>() {
     override fun getItemCount(): Int = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbackOptionViewHolder = CashbackOptionViewHolder(LayoutInflater.from(context).inflate(R.layout.cashback_option, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbackOptionViewHolder =
+            CashbackOptionViewHolder(LayoutInflater.from(context).inflate(R.layout.cashback_option, parent, false))
 
     override fun onBindViewHolder(holder: CashbackOptionViewHolder, position: Int) {
         val item = items[position]
@@ -134,7 +132,7 @@ class CharityAdapter(
 }
 
 class CashbackOptionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val title = view.cashbackOptionTitle
-    val paragraph = view.cashbackOptionParagraph
-    val button = view.cashbackSelect
+    val title: TextView = view.cashbackOptionTitle
+    val paragraph: TextView = view.cashbackOptionParagraph
+    val button: Button = view.cashbackSelect
 }

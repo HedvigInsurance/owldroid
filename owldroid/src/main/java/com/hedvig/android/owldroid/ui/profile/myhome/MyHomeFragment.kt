@@ -76,7 +76,6 @@ class MyHomeFragment : Fragment() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
 
-
             profileData?.insurance()?.let { insuranceData ->
                 address.text = insuranceData.address()
                 postalNumber.text = insuranceData.postalNumber()

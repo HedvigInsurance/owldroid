@@ -24,4 +24,3 @@ fun View.remove(): View {
 
     return this
 }
-

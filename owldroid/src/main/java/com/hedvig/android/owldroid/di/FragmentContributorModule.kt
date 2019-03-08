@@ -9,6 +9,7 @@ import com.hedvig.android.owldroid.ui.profile.feedback.FeedbackFragment
 import com.hedvig.android.owldroid.ui.profile.myhome.MyHomeFragment
 import com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment
 import com.hedvig.android.owldroid.ui.profile.payment.PaymentFragment
+import com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

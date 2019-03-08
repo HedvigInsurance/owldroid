@@ -127,7 +127,6 @@ class MarketingFragment : Fragment() {
                 }
             })
 
-
             marketingStoriesViewModel.paused.observe(this, Observer { shouldPause ->
                 shouldPause?.let {
                     if (shouldPause) {

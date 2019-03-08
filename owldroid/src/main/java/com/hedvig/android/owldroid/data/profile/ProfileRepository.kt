@@ -68,9 +68,7 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                                 .writeAndPublish(profileQuery, newData)
                                 .execute()
                     }
-
                 })
-
     }
 
     fun updatePhoneNumber(input: String) {
@@ -117,9 +115,7 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                                 .apolloStore()
                                 .writeAndPublish(profileQuery, newData)
                                 .execute()
-
                     }
-
                 })
     }
 
@@ -165,7 +161,6 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                                     .execute()
                         }
                     }
-
                 })
     }
 
@@ -224,7 +219,6 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
                                     .execute()
                         }
                     }
-
                 })
     }
 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Hedvig</string>
     <string name="marketing_cta">Skaffa Hedvig</string>
     <string name="marketing_login">Redan medlem? Logga in</string>
@@ -29,7 +29,7 @@
     <string name="profile_feedback_row_name">Feedback</string>
     <string name="profile_log_out">Logga ut</string>
     <string name="payment_title">Betalning</string>
-    <string name="address_label">Adress</string>
+    <string name="address_label" tools:ignore="Typos">Adress</string>
     <string name="postal_number_label">Postnummer</string>
     <string name="insurance_type_label">Typ</string>
     <string name="change_insurance_information">Ändra bostadsinfo</string>
