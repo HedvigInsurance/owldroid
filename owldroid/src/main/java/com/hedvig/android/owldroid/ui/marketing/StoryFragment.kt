@@ -99,8 +99,8 @@ class StoryFragment : Fragment() {
         playerView.show()
         setupTouchListeners(playerView)
 
-        marketingStoriesViewModel.page.observe(this, Observer {
-            if (it == position) {
+        marketingStoriesViewModel.page.observe(this, Observer { page ->
+            if (page == position) {
                 player?.seekTo(0)
                 player?.playWhenReady = true
             } else {
@@ -108,12 +108,14 @@ class StoryFragment : Fragment() {
             }
         })
 
-        marketingStoriesViewModel.paused.observe(this, Observer {
+        marketingStoriesViewModel.paused.observe(this, Observer { paused ->
             if (marketingStoriesViewModel.page.value != position) {
                 return@Observer
             }
 
-            player?.playWhenReady = !it!!
+            paused?.let {
+                player?.playWhenReady = !paused
+            }
         })
 
         return playerView

@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -19,6 +20,7 @@ import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.*
 import com.hedvig.android.owldroid.util.percentageFade
+import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import javax.inject.Inject
@@ -57,11 +59,15 @@ class MarketingFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(
-            R.layout.fragment_marketing,
-            container,
-            false
-    )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_marketing, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
+            marketing_proceed.elevation = 2f
+            marketing_login.elevation = 2f
+        }
+    }
 
     override fun onResume() {
         observeMarketingStories()
@@ -107,24 +113,28 @@ class MarketingFragment : Fragment() {
             marketingStoriesViewModel.page.observe(this, Observer { newPage ->
                 animator.removeAllListeners()
                 animator.cancel()
-                when {
-                    newPage == n -> {
-                        animator.doOnEnd {
-                            marketingStoriesViewModel.nextScreen()
+                newPage?.let {
+                    when {
+                        newPage == n -> {
+                            animator.doOnEnd {
+                                marketingStoriesViewModel.nextScreen()
+                            }
+                            animator.start()
                         }
-                        animator.start()
+                        newPage < n -> progressBar.progress = 0
+                        newPage > n -> progressBar.progress = 100
                     }
-                    newPage!! < n -> progressBar.progress = 0
-                    newPage > n -> progressBar.progress = 100
                 }
             })
 
 
             marketingStoriesViewModel.paused.observe(this, Observer { shouldPause ->
-                if (shouldPause!!) {
-                    animator.pause()
-                } else {
-                    animator.resume()
+                shouldPause?.let {
+                    if (shouldPause) {
+                        animator.pause()
+                    } else {
+                        animator.resume()
+                    }
                 }
             })
         }
