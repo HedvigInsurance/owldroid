@@ -6,7 +6,12 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.cache.normalized.CacheKey
 import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.rx2.Rx2Apollo
-import com.hedvig.android.owldroid.graphql.*
+import com.hedvig.android.owldroid.graphql.BankAccountQuery
+import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
+import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
+import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
+import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
 import io.reactivex.Observable
 import timber.log.Timber
 import javax.inject.Inject

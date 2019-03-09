@@ -109,9 +109,9 @@ class CharityFragment : Fragment() {
 }
 
 class CharityAdapter(
-        val items: List<ProfileQuery.CashbackOption>,
-        val context: Context,
-        val clickListener: (String) -> Unit
+    val items: List<ProfileQuery.CashbackOption>,
+    val context: Context,
+    val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<CashbackOptionViewHolder>() {
     override fun getItemCount(): Int = items.size
 

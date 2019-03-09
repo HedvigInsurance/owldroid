@@ -67,6 +67,7 @@ class ProfileFragment : Fragment() {
             setupPolicyRow(profileData)
 
             attachNavigationOnClick(profile_feedback, "feedback")
+            attachNavigationOnClick(profile_log_out_button, "logout")
         })
     }
 

@@ -27,6 +27,7 @@ detekt {
     toolVersion = "1.0.0-RC14"
     input = files "owldroid/src/main/java"
     filters = ".*/resources/.*,.*/build/.*"
+    config = files "$project.rootDir/detekt.yml"
 }
 
 dependencies {

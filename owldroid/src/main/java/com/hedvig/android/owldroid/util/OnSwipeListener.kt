@@ -4,6 +4,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 
 // This class hugely inspired by https://stackoverflow.com/a/26387629
+@Suppress("MagicNumber")
 abstract class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
         val x1 = e1!!.x

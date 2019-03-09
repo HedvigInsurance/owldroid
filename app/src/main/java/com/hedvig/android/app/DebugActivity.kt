@@ -15,7 +15,6 @@ class DebugActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debug)
-
     }
 
     override fun onPause() {
@@ -38,6 +37,7 @@ class DebugActivity : DaggerAppCompatActivity() {
                 "trustly" -> navigationController.navigate(R.id.action_paymentFragment_to_trustlyFragment)
                 "feedback" -> navigationController.navigate(R.id.action_profileFragment_to_feedbackFragment)
                 "back" -> navigationController.popBackStack()
+                "logout" -> navigationController.popBackStack()
             }
         }
 
