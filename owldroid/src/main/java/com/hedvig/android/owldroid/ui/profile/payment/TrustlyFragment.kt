@@ -16,7 +16,11 @@ import android.webkit.WebViewClient
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_trustly.*
 import javax.inject.Inject
@@ -41,7 +45,7 @@ class TrustlyFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_trustly, container, false)
+        inflater.inflate(R.layout.fragment_trustly, container, false)
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +70,16 @@ class TrustlyFragment : Fragment() {
 
         profileViewModel.trustlyUrl.observe(this, Observer { url ->
             trustlyContainer.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, loadedUrl: String?) {
+                    super.onPageFinished(view, url)
+                    if (loadedUrl != url) {
+                        return
+                    }
+
+                    loadingSpinner.remove()
+                    trustlyContainer.show()
+                }
+
                 override fun onPageStarted(view: WebView?, requestedUrl: String?, favicon: Bitmap?) {
                     if (requestedUrl == url) {
                         return
