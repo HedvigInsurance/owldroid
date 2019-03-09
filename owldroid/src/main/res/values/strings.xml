@@ -16,7 +16,7 @@
     <string name="payment_27th">Den 27:e varje månad</string>
     <string name="profile_payment_bank">Bank</string>
     <string name="profile_payment_change_bank_account">Ändra bankkonto</string>
-    <string name="profile_payment_deductible">Självrisk  1 500 kr</string>
+    <string name="profile_payment_deductible">Självrisk\n1 500 kr</string>
     <string name="profile_title">Profil</string>
     <string name="save">Spara</string>
     <string name="my_info_row_description">Howdy</string>

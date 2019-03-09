@@ -49,7 +49,7 @@ class PaymentFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_payment, container, false)
+        inflater.inflate(R.layout.fragment_payment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,6 +66,7 @@ class PaymentFragment : Fragment() {
         }
 
         priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
+        deductibleSphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_green))
 
         changeBankAccount.setOnClickListener {
             val intent = Intent("profileNavigation")
@@ -88,7 +89,12 @@ class PaymentFragment : Fragment() {
             val amountPartOne = SpannableString("$monthlyCost\n")
             val perMonthLabel = "kr/mån"
             val amountPartTwo = SpannableString(perMonthLabel)
-            amountPartTwo.setSpan(CustomTypefaceSpan(requireContext().compatFont(R.font.circular_book)), 0, perMonthLabel.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+            amountPartTwo.setSpan(
+                CustomTypefaceSpan(requireContext().compatFont(R.font.circular_book)),
+                0,
+                perMonthLabel.length,
+                Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+            )
             amountPartTwo.setSpan(AbsoluteSizeSpan(20, true), 0, perMonthLabel.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
 

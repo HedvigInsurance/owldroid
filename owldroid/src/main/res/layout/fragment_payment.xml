@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="gone" />
 
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
                 android:id="@id/sphereContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,47 +47,65 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@null"
-                    android:src="@drawable/sphere" />
+                    android:src="@drawable/sphere"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <!--        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true">
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="180dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@id/profile_payment_deductible_sphere"
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentEnd="true"
-                                android:src="@icon/sphere" />
+                    <ImageView
+                        android:id="@id/deductibleSphere"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:contentDescription="@null"
+                        android:src="@drawable/sphere"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                            <android.support.v7.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="@font/circular_book"
-                                android:gravity="center_horizontal"
-                                android:lines="2"
-                                android:text="@string/profile_payment_deductible"
-                                android:textColor="@color/white"
-                                android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/circular_book"
+                        android:gravity="center_horizontal"
+                        android:lines="2"
+                        android:text="@string/profile_payment_deductible"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        </RelativeLayout>-->
+                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/profile_payment_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:fontFamily="@font/soray_extrabold"
                     android:gravity="center_horizontal"
                     android:lines="2"
                     android:textColor="@color/off_black_dark"
-                    android:textSize="48sp" />
+                    android:textSize="48sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:id="@id/paymentDetailsContainer"

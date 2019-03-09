@@ -97,4 +97,5 @@
     <item name="failureParagraph" type="id" />
     <item name="trustlyFailClose" type="id" />
     <item name="trustlySuccessClose" type="id" />
+    <item name="deductibleSphere" type="id" />
 </resources>
