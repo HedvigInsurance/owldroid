@@ -13,7 +13,6 @@
     <string name="profile_payment_header">Min betalning</string>
     <string name="profile_payment_payment">Betalning</string>
     <string name="profile_payment_direct_debit">Autogiro</string>
-    <string name="payment_27th">Den 27:e varje månad</string>
     <string name="profile_payment_bank">Bank</string>
     <string name="profile_payment_change_bank_account">Ändra bankkonto</string>
     <string name="profile_payment_deductible">Självrisk\n1 500 kr</string>
@@ -60,4 +59,6 @@
     <string name="trustly_close_label">Avsluta</string>
     <string name="trustly_fail_title">Något gick snett!</string>
     <string name="trustly_fail_paragraph">På grund av ett tekniskt fel kunde inte ditt bankkonto uppdateras. Testa att starta om din app och prova igen eller skriv till Hedvig i chatten.</string>
+    <string name="connect_direct_debit">Koppla autogiro</string>
+    <string name="connect_direct_debit_paragraph">För att din försäkring ska gälla framöver behöver du koppla autogiro från ditt bankkonto. Vi sköter det via Trustly.</string>
 </resources>

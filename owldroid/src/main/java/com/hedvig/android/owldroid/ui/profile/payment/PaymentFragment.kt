@@ -27,7 +27,10 @@ import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_payment.*
+import java.util.Calendar
 import javax.inject.Inject
+
+const val BILLING_DAY = 27
 
 class PaymentFragment : Fragment() {
 
@@ -68,22 +71,41 @@ class PaymentFragment : Fragment() {
         priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
         deductibleSphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_green))
 
+        val today = Calendar.getInstance()
+        val year = today.get(Calendar.YEAR)
+        val day = today.get(Calendar.DAY_OF_MONTH)
+        val month = (today.get(Calendar.MONTH) + 1).let { month ->
+            if (day > BILLING_DAY) {
+                month + 1
+            } else {
+                month
+            }
+        }.let { String.format("%02d", it) }
+
+        autogiroDate.text = "Nästa dras $year-$month-$BILLING_DAY"
+
         changeBankAccount.setOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "trustly")
-            localBroadcastManager.sendBroadcast(intent)
+            openTrustly()
+        }
+
+        connectBankAccount.setOnClickListener {
+            openTrustly()
         }
 
         loadData()
+    }
+
+    private fun openTrustly() {
+        val intent = Intent("profileNavigation")
+        intent.putExtra("action", "trustly")
+        localBroadcastManager.sendBroadcast(intent)
+
     }
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
             sphereContainer.show()
-            paymentDetailsContainer.show()
-            bankContainer.show()
-            changeBankAccount.show()
 
             val monthlyCost = profileData?.insurance()?.monthlyCost()?.toString()
             val amountPartOne = SpannableString("$monthlyCost\n")
@@ -95,12 +117,23 @@ class PaymentFragment : Fragment() {
                 perMonthLabel.length,
                 Spanned.SPAN_EXCLUSIVE_INCLUSIVE
             )
-            amountPartTwo.setSpan(AbsoluteSizeSpan(20, true), 0, perMonthLabel.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+            amountPartTwo.setSpan(
+                AbsoluteSizeSpan(20, true),
+                0,
+                perMonthLabel.length,
+                Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+            )
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
 
-            profileData?.bankAccount()?.let { bankAccount ->
+            val bankAccount = profileData?.bankAccount()
+            if (bankAccount != null) {
+                paymentDetailsContainer.show()
+                separator.show()
+                changeBankAccount.show()
                 bankName.text = bankAccount.bankName()
                 accountNumber.text = bankAccount.descriptor()
+            } else {
+                connectBankAccountContainer.show()
             }
         })
     }

@@ -98,4 +98,10 @@
     <item name="trustlyFailClose" type="id" />
     <item name="trustlySuccessClose" type="id" />
     <item name="deductibleSphere" type="id" />
+    <item name="autogiroDate" type="id" />
+    <item name="cardTitle" type="id" />
+    <item name="cardParagraph" type="id" />
+    <item name="cardSeparator" type="id" />
+    <item name="connectBankAccount" type="id" />
+    <item name="connectBankAccountContainer" type="id" />
 </resources>

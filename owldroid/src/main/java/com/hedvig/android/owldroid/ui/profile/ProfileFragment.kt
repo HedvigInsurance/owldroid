@@ -85,7 +85,7 @@ class ProfileFragment : Fragment() {
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
         val personsInHousehold = profileData.insurance().personsInHousehold() ?: 1
-        profile_coinsured_row.description = "${personsInHousehold - 1} medförsäkrade"
+        profile_coinsured_row.description = "$personsInHousehold medförsäkrade"
         attachNavigationOnClick(profile_coinsured_row, "coinsured")
     }
 
@@ -95,7 +95,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupPayment(profileData: ProfileQuery.Data) {
-        profile_payment_row.description = "${profileData.insurance().monthlyCost()?.toString()} kr/månad - Betalas via autogiro"
+        profile_payment_row.description =
+            "${profileData.insurance().monthlyCost()} kr/månad - Betalas via autogiro"
         attachNavigationOnClick(profile_payment_row, "payment")
     }
 

@@ -51,7 +51,23 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:tint="@color/green" />
+
+                <TextView
+                    android:id="@+id/profile_payment_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/soray_extrabold"
+                    android:gravity="center_horizontal"
+                    android:lines="2"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="48sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="129" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="wrap_content"
@@ -72,7 +88,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:tint="@color/dark_green" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -91,20 +108,6 @@
 
                 </android.support.constraint.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/profile_payment_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/soray_extrabold"
-                    android:gravity="center_horizontal"
-                    android:lines="2"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="48sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
             </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
@@ -116,7 +119,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer"
-                tools:visibility="visible">
+                tools:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -139,26 +142,14 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@id/autogiroDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/circular_book"
-                    android:text="@string/payment_27th"
                     android:textColor="@color/off_black_dark"
                     android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@id/bankContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/paymentDetailsContainer"
-                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -189,8 +180,69 @@
                     android:fontFamily="@font/circular_book"
                     android:textColor="@color/off_black_dark"
                     android:textSize="16sp" />
-
             </LinearLayout>
+
+            <android.support.design.card.MaterialCardView
+                android:id="@id/connectBankAccountContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
+                tools:visibility="visible">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@id/cardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/connect_direct_debit"
+                        android:theme="@style/DialogTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@id/cardParagraph"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/connect_direct_debit_paragraph"
+                        android:theme="@style/DialogParagraph"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle" />
+
+                    <View
+                        android:id="@id/cardSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@color/light_gray"
+                        app:layout_constraintTop_toBottomOf="@id/cardParagraph" />
+
+                    <Button
+                        android:id="@id/connectBankAccount"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/connect_direct_debit"
+                        android:theme="@style/DialogButton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardSeparator" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.design.card.MaterialCardView>
 
             <View
                 android:id="@id/separator"
@@ -198,8 +250,8 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="24dp"
                 android:background="@color/light_gray"
-                app:layout_constraintTop_toBottomOf="@id/bankContainer"
-                tools:visibility="visible" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/paymentDetailsContainer" />
 
             <Button
                 android:id="@id/changeBankAccount"
@@ -212,8 +264,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/separator"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@id/separator" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
