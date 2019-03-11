@@ -13,7 +13,6 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
 
     init {
-        Timber.e("Initiated a ProfileViewModel")
         loadProfile()
     }
 
@@ -30,34 +29,29 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
         }
     }
 
-
     private fun loadProfile() {
         profileRepository.fetchProfile()
-                .subscribe({ response ->
-                    if (response == null) {
-                        throw RuntimeException("Something went wrong while loading profile data (was null)")
-                    }
-                    data.postValue(response)
-                }, { error ->
-                    Timber.e(error)
-                })
+            .subscribe({ response ->
+                if (response == null) {
+                    throw RuntimeException("Something went wrong while loading profile data (was null)")
+                }
+                data.postValue(response)
+            }, { error ->
+                Timber.e(error)
+            })
     }
 
     fun emailChanged(newEmail: String) {
         val currentEmail = data.value?.member()?.email()
-        if (currentEmail != newEmail) {
-            if (dirty.value != true) {
-                dirty.value = true
-            }
+        if (currentEmail != newEmail && dirty.value != true) {
+            dirty.value = true
         }
     }
 
     fun phoneNumberChanged(newPhoneNumber: String) {
         val currentPhoneNumber = data.value?.member()?.phoneNumber()
-        if (currentPhoneNumber != newPhoneNumber) {
-            if (dirty.value != true) {
-                dirty.value = true
-            }
+        if (currentPhoneNumber != newPhoneNumber && dirty.value != true) {
+            dirty.value = true
         }
     }
 }
