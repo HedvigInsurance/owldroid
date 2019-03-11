@@ -106,10 +106,8 @@ class MyInfoFragment : Fragment() {
                 profileViewModel.phoneNumberChanged(value)
             }
 
-            profileViewModel.dirty.observe(this, Observer { dirty ->
-                if (dirty != null && dirty) {
-                    activity?.invalidateOptionsMenu()
-                }
+            profileViewModel.dirty.observe(this, Observer {
+                activity?.invalidateOptionsMenu()
             })
         })
     }
