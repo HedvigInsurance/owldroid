@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.util.extensions.default
-import io.reactivex.disposables.Disposable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.zipWith
@@ -34,6 +33,7 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
                 })
         )
     }
+
     override fun onCleared() {
         super.onCleared()
         disposables.dispose()
@@ -93,10 +93,28 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     }
 
     fun selectCashback(id: String) {
-        profileRepository.selectCashback(id)
+        disposables.add(
+            profileRepository.selectCashback(id)
+                .subscribe({ response ->
+                    response.data()?.selectCashbackOption()?.let { cashback ->
+                        profileRepository.writeCashbackToCache(cashback)
+                    }
+                }, { error ->
+                    Timber.e(error, "Failed to select cashback")
+                })
+        )
     }
 
     fun refreshBankAccountInfo() {
-        profileRepository.refreshBankAccountInfo()
+        disposables.add(
+            profileRepository.refreshBankAccountInfo()
+                .subscribe({ response ->
+                    response.data()?.bankAccount()?.let { bankAccount ->
+                        profileRepository.writeBankAccountInfoToCache(bankAccount)
+                    }
+                }, { error ->
+                    Timber.e(error, "Failed to refresh bank account info")
+                })
+        )
     }
 }
