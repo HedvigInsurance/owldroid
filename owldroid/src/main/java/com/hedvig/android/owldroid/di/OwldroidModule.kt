@@ -23,19 +23,20 @@ class OwldroidModule {
         httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor { interceptorChain ->
-                    val original = interceptorChain.request()
-                    val builder = original.newBuilder().method(original.method(), original.body())
-                    var token: String? = null
-                    try {
-                        token = asyncStorageNativeReader.getKey("@hedvig:token")
-                    } catch (exception: Exception) {
-                    }
-                    token?.let { builder.header("Authorization", it) }
-                    interceptorChain.proceed(builder.build())
+            .addInterceptor {
+                val original = it.request()
+                val builder = original.newBuilder().method(original.method(), original.body())
+                try {
+                    asyncStorageNativeReader.getKey("@hedvig:token")
+                } catch (exception: Exception) {
+                    null
+                }?.let { token ->
+                    builder.header("Authorization", token)
                 }
-                .addInterceptor(httpLoggingInterceptor)
-                .build()
+                it.proceed(builder.build())
+            }
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
     }
 
     @Provides
@@ -53,11 +54,11 @@ class OwldroidModule {
         logger: Logger
     ): ApolloClient {
         return ApolloClient
-                .builder()
-                .serverUrl(graphqlUrl)
-                .okHttpClient(okHttpClient)
-                .normalizedCache(normalizedCacheFactory)
-                .logger(logger)
-                .build()
+            .builder()
+            .serverUrl(graphqlUrl)
+            .okHttpClient(okHttpClient)
+            .normalizedCache(normalizedCacheFactory)
+            .logger(logger)
+            .build()
     }
 }

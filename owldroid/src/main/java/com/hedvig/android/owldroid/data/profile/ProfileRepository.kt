@@ -22,106 +22,56 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
     lateinit var profileQuery: ProfileQuery
     fun fetchProfile(): Observable<ProfileQuery.Data?> {
         profileQuery = ProfileQuery
-                .builder()
-                .build()
+            .builder()
+            .build()
 
-        return Rx2Apollo.from(apolloClient.query(profileQuery).watcher())
-                .map { it.data() }
+        return Rx2Apollo
+            .from(apolloClient.query(profileQuery).watcher())
+            .map { it.data() }
     }
 
-    fun updateEmail(input: String) {
+    fun updateEmail(input: String): Observable<Response<UpdateEmailMutation.Data>> {
         val updateEmailMutation = UpdateEmailMutation
-                .builder()
-                .input(input)
-                .build()
+            .builder()
+            .input(input)
+            .build()
 
-        apolloClient
-                .mutate(updateEmailMutation)
-                .enqueue(object : ApolloCall.Callback<UpdateEmailMutation.Data>() {
-                    override fun onFailure(e: ApolloException) {
-                        Timber.e(e, "Failed to update email")
-                    }
-
-                    override fun onResponse(response: Response<UpdateEmailMutation.Data>) {
-                        val email = response.data()?.updateEmail()?.email()
-
-                        val cachedData = apolloClient
-                                .apolloStore()
-                                .read(profileQuery)
-                                .execute()
-
-                        val oldMember = cachedData.member()
-                        val newMember = ProfileQuery.Member
-                                .builder()
-                                .__typename(oldMember.__typename())
-                                .id(oldMember.id())
-                                .firstName(oldMember.firstName())
-                                .lastName(oldMember.lastName())
-                                .phoneNumber(oldMember.phoneNumber())
-                                .email(email)
-                                .build()
-                        val newData = ProfileQuery.Data(
-                                newMember,
-                                cachedData.insurance(),
-                                cachedData.bankAccount(),
-                                cachedData.cashback(),
-                                cachedData.cashbackOptions()
-                        )
-
-                        apolloClient
-                                .apolloStore()
-                                .writeAndPublish(profileQuery, newData)
-                                .execute()
-                    }
-                })
+        return Rx2Apollo
+            .from(apolloClient.mutate(updateEmailMutation))
     }
 
-    fun updatePhoneNumber(input: String) {
+    fun updatePhoneNumber(input: String): Observable<Response<UpdatePhoneNumberMutation.Data>> {
         val updatePhoneNumberMutation = UpdatePhoneNumberMutation
-                .builder()
-                .input(input)
-                .build()
+            .builder()
+            .input(input)
+            .build()
+
+        return Rx2Apollo
+            .from(apolloClient.mutate(updatePhoneNumberMutation))
+    }
+
+    fun writeEmailAndPhoneNumberInCache(email: String?, phoneNumber: String?) {
+
+        val cachedData = apolloClient
+            .apolloStore()
+            .read(profileQuery)
+            .execute()
+        val newMemberBuilder = cachedData
+            .member()
+            .toBuilder()
+
+        email?.let { newMemberBuilder.email(it) }
+        phoneNumber?.let { newMemberBuilder.phoneNumber(it) }
+
+        val newData = cachedData
+            .toBuilder()
+            .member(newMemberBuilder.build())
+            .build()
 
         apolloClient
-                .mutate(updatePhoneNumberMutation)
-                .enqueue(object : ApolloCall.Callback<UpdatePhoneNumberMutation.Data>() {
-                    override fun onFailure(e: ApolloException) {
-                        Timber.e(e, "Failed to update phone number")
-                    }
-
-                    override fun onResponse(response: Response<UpdatePhoneNumberMutation.Data>) {
-                        val phoneNumber = response.data()?.updatePhoneNumber()?.phoneNumber()
-
-                        val cachedData = apolloClient
-                                .apolloStore()
-                                .read(profileQuery)
-                                .execute()
-
-                        val oldMember = cachedData.member()
-                        val newMember = ProfileQuery.Member
-                                .builder()
-                                .__typename(oldMember.__typename())
-                                .id(oldMember.id())
-                                .firstName(oldMember.firstName())
-                                .lastName(oldMember.lastName())
-                                .email(oldMember.email())
-                                .phoneNumber(phoneNumber)
-                                .build()
-
-                        val newData = ProfileQuery.Data(
-                                newMember,
-                                cachedData.insurance(),
-                                cachedData.bankAccount(),
-                                cachedData.cashback(),
-                                cachedData.cashbackOptions()
-                        )
-
-                        apolloClient
-                                .apolloStore()
-                                .writeAndPublish(profileQuery, newData)
-                                .execute()
-                    }
-                })
+            .apolloStore()
+            .writeAndPublish(profileQuery, newData)
+            .execute()
     }
 
     fun selectCashback(id: String) {

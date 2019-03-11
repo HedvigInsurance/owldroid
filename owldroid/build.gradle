@@ -62,7 +62,7 @@ dependencies {
 
     api "com.shopify:livedata-ktx:1.0.1"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 
     testImplementation 'junit:junit:4.12'
 
@@ -96,6 +96,14 @@ dependencies {
     implementation "com.google.firebase:firebase-core:16.0.1"
 
     implementation "com.github.bumptech.glide:glide:4.9.0"
+    api 'com.ice.restring:restring:1.0.0'
+}
+
+apply plugin: 'com.hedvig.textkeys'
+
+textkeys {
+    graphqlEndpoint = 'https://api-euwest.graphcms.com/v1/cjmawd9hw036a01cuzmjhplka/master'
+    defaultLanguageCode = 'sv_SE'
 }
 
 tasks.register("updateSchema", Exec) {

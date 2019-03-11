@@ -1,8 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Hedvig</string>
-    <string name="marketing_cta">Skaffa Hedvig</string>
-    <string name="marketing_login">Redan medlem? Logga in</string>
-    <string name="marketing_say_hello">Säg hej till Hedvig!</string>
     <string name="my_info_row_title">Min info</string>
     <string name="my_info_title">Min info</string>
     <string name="my_home_row_title">Mitt hem</string>
