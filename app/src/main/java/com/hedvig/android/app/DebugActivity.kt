@@ -36,6 +36,8 @@ class DebugActivity : DaggerAppCompatActivity() {
                 "payment" -> navigationController.navigate(R.id.action_profileFragment_to_paymentFragment)
                 "trustly" -> navigationController.navigate(R.id.action_paymentFragment_to_trustlyFragment)
                 "feedback" -> navigationController.navigate(R.id.action_profileFragment_to_feedbackFragment)
+                "about_app" -> navigationController.navigate(R.id.action_profileFragment_to_aboutAppFragment)
+                "licenses" -> navigationController.navigate(R.id.action_aboutAppFragment_to_licensesFragment)
                 "back" -> navigationController.popBackStack()
                 "logout" -> navigationController.popBackStack()
             }

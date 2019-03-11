@@ -8,11 +8,18 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.apollographql.android'
 
+
 apollo {
     generateModelBuilder = true
     customTypeMapping = [
             "URL": "java.lang.String"
     ]
+}
+
+apply plugin: 'com.jaredsburrows.license'
+
+licenseReport {
+    copyHtmlReportToAssets = true
 }
 
 android {

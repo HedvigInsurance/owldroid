@@ -37,11 +37,11 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
-    }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_profile, container, false)
+        inflater.inflate(R.layout.fragment_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +67,7 @@ class ProfileFragment : Fragment() {
             setupPolicyRow(profileData)
 
             attachNavigationOnClick(profile_feedback, "feedback")
+            attachNavigationOnClick((profile_about_app), "about_app")
             attachNavigationOnClick(profile_log_out_button, "logout")
         })
     }

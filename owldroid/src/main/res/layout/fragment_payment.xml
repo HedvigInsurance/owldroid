@@ -234,6 +234,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/connect_direct_debit"
                         android:theme="@style/DialogButton"
                         app:layout_constraintBottom_toBottomOf="parent"

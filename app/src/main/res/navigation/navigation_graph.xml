@@ -65,6 +65,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/profileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_aboutAppFragment"
+            app:destination="@id/aboutAppFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -115,7 +123,24 @@
         android:name="com.hedvig.android.owldroid.ui.profile.charity.CharityFragment"
         android:label="CharityFragment" />
     <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.aboutapp.AboutAppFragment"
+        android:label="AboutAppFragment">
+        <action
+            android:id="@+id/action_aboutAppFragment_to_licensesFragment"
+            app:destination="@id/licensesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/aboutAppFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/trustlyFragment"
         android:name="com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment"
         android:label="TrustlyFragment" />
+    <fragment
+        android:id="@+id/licensesFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.aboutapp.LicensesFragment"
+        android:label="LicensesFragment" />
 </navigation>

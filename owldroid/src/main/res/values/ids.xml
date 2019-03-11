@@ -104,4 +104,5 @@
     <item name="cardSeparator" type="id" />
     <item name="connectBankAccount" type="id" />
     <item name="connectBankAccountContainer" type="id" />
+    <item name="licenseList" type="id" />
 </resources>
