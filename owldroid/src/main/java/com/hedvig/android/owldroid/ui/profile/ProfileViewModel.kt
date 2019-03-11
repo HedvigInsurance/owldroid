@@ -65,14 +65,14 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     }
 
     fun emailChanged(newEmail: String) {
-        val currentEmail = data.value?.member()?.email()
+        val currentEmail = data.value?.member()?.email() ?: ""
         if (currentEmail != newEmail && dirty.value != true) {
             dirty.value = true
         }
     }
 
     fun phoneNumberChanged(newPhoneNumber: String) {
-        val currentPhoneNumber = data.value?.member()?.phoneNumber()
+        val currentPhoneNumber = data.value?.member()?.phoneNumber() ?: ""
         if (currentPhoneNumber != newPhoneNumber && dirty.value != true) {
             dirty.value = true
         }
