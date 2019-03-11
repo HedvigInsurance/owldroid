@@ -84,6 +84,15 @@ dependencies {
     implementation "com.airbnb.android:lottie:2.5.5"
 
     implementation "com.google.firebase:firebase-core:16.0.1"
+
+    api 'com.ice.restring:restring:1.0.0'
+}
+
+apply plugin: 'com.hedvig.textkeys'
+
+textkeys {
+    graphqlEndpoint = 'https://api-euwest.graphcms.com/v1/cjmawd9hw036a01cuzmjhplka/master'
+    defaultLanguageCode = 'sv_SE'
 }
 
 tasks.register("updateSchema", Exec) {
