@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.util.Optional
 import com.hedvig.android.owldroid.util.extensions.default
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -43,24 +44,24 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
         val email = data.value?.member()?.email()
         val phoneNumber = data.value?.member()?.phoneNumber()
 
-        val emailObservable: Observable<String?> = if (email != emailInput) {
+        val emailObservable = if (email != emailInput) {
             profileRepository
                 .updateEmail(emailInput)
-                .map { it.data()?.updateEmail()?.email() }
-        } else Observable.just(null)
+                .map { Optional.Some(it.data()?.updateEmail()?.email()) }
+        } else Observable.just(Optional.None)
 
-        val phoneNumberObservable: Observable<String?> = if (phoneNumber != phoneNumberInput) {
+        val phoneNumberObservable = if (phoneNumber != phoneNumberInput) {
             profileRepository
                 .updatePhoneNumber(phoneNumberInput)
-                .map { it.data()?.updatePhoneNumber()?.phoneNumber() }
-        } else Observable.just(null)
+                .map { Optional.Some(it.data()?.updatePhoneNumber()?.phoneNumber()) }
+        } else Observable.just(Optional.None)
 
         disposables.add(
             emailObservable
                 .zipWith(phoneNumberObservable) { t1, t2 -> Pair(t1, t2) }
                 .subscribe({ (email, phoneNumber) ->
-                    profileRepository.writeEmailAndPhoneNumberInCache(email, phoneNumber)
-                    dirty.value = false
+                    profileRepository.writeEmailAndPhoneNumberInCache(email.getOrNull(), phoneNumber.getOrNull())
+                    dirty.postValue(false)
                 }, { error ->
                     Timber.e(error, "Failed to update email and/or phone number")
                 })

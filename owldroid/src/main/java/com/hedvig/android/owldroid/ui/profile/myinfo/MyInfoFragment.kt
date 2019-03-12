@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.view.menu.ActionMenuItemView
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -66,6 +68,8 @@ class MyInfoFragment : Fragment() {
             intent.putExtra("action", "back")
             localBroadcastManager.sendBroadcast(intent)
         }
+        sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+
         loadData()
     }
 
@@ -83,66 +87,116 @@ class MyInfoFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val prevEmail = profileViewModel.data.value?.member()?.email()
+        val prevPhoneNumber = profileViewModel.data.value?.member()?.phoneNumber()
+
+        val newEmail = emailInput.text.toString()
+        val newPhoneNumber = phoneNumberInput.text.toString()
+
+        if (prevEmail != newEmail && !validateEmail(newEmail).isSuccessful) {
+            provideValidationNegativeHapticFeedback()
+            fragmentManager?.let { fm ->
+                val dialog =
+                    ValidationDialog.newInstance("Hoppsan", "Det där verkar inte vara en giltig e-postadress!", "Okej")
+                val transaction = fm.beginTransaction()
+                val prev = fm.findFragmentByTag("validation")
+                prev?.let { transaction.remove(it) }
+                transaction.addToBackStack(null)
+                dialog.show(transaction, "validation")
+            }
+            return true
+        }
+
+        if (prevPhoneNumber != newPhoneNumber && !validatePhoneNumber(newPhoneNumber).isSuccessful) {
+            provideValidationNegativeHapticFeedback()
+            fragmentManager?.let { fm ->
+                val dialog = ValidationDialog.newInstance(
+                    "Hoppsan",
+                    "Det där verkar inte vara ett giltigt telefonnummer!",
+                    "Okej"
+                )
+                val transaction = fm.beginTransaction()
+                val prev = fm.findFragmentByTag("validation")
+                prev?.let { transaction.remove(it) }
+                transaction.addToBackStack(null)
+                dialog.show(transaction, "validation")
+            }
+            return true
+        }
+
         profileViewModel.saveInputs(emailInput.text.toString(), phoneNumberInput.text.toString())
         return true
     }
+
+    private fun provideValidationNegativeHapticFeedback() =
+        view?.findViewById<ActionMenuItemView>(R.id.save)?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
             sphereContainer.show()
 
-            sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))
             contactDetailsContainer.show()
 
             name.text = "${profileData!!.member().firstName()}\n${profileData.member().lastName()}"
-            emailInput.setText(profileData.member().email() ?: "")
-            phoneNumberInput.setText(profileData.member().phoneNumber() ?: "")
 
-            emailInput.onChange { value ->
-                profileViewModel.emailChanged(value)
-                if (emailInput.error != null) {
-                    val validationResult = validateEmail(value)
-                    if (validationResult.isSuccessful) {
-                        emailInput.error = null
-                    }
-                }
-            }
+            setupEmailInput(profileData.member().email() ?: "")
+            setupPhoneNumberInput(profileData.member().phoneNumber() ?: "")
 
-            emailInput.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    return@setOnFocusChangeListener
-                }
-
-                val validationResult = validateEmail(emailInput.text.toString())
-                if (!validationResult.isSuccessful) {
-                    emailInput.error = requireContext().getString(validationResult.errorTextKey!!)
-                }
-            }
-
-            phoneNumberInput.onChange { value ->
-                profileViewModel.phoneNumberChanged(value)
-                if (phoneNumberInput.error != null) {
-                    val validationResult = validatePhoneNumber(value)
-                    if (validationResult.isSuccessful) {
-                        phoneNumberInput.error = null
-                    }
-                }
-            }
-
-            phoneNumberInput.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    return@setOnFocusChangeListener
-                }
-                val validationResult = validatePhoneNumber(phoneNumberInput.text.toString())
-                if (!validationResult.isSuccessful) {
-                    phoneNumberInput.error = requireContext().getString(validationResult.errorTextKey!!)
-                }
-            }
 
             profileViewModel.dirty.observe(this, Observer {
                 activity?.invalidateOptionsMenu()
             })
         })
+    }
+
+    private fun setupEmailInput(prefilledEmail: String) {
+        emailInput.setText(prefilledEmail)
+
+        emailInput.onChange { value ->
+            profileViewModel.emailChanged(value)
+            if (emailInputContainer.isErrorEnabled) {
+                val validationResult = validateEmail(value)
+                if (validationResult.isSuccessful) {
+                    emailInputContainer.isErrorEnabled = false
+                }
+            }
+        }
+
+        emailInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                return@setOnFocusChangeListener
+            }
+
+            val validationResult = validateEmail(emailInput.text.toString())
+            if (!validationResult.isSuccessful) {
+                emailInputContainer.error = requireContext().getString(validationResult.errorTextKey!!)
+            }
+        }
+    }
+
+    private fun setupPhoneNumberInput(prefilledPhoneNumber: String) {
+        phoneNumberInput.setText(prefilledPhoneNumber)
+
+        phoneNumberInput.onChange { value ->
+            profileViewModel.phoneNumberChanged(value)
+            if (phoneNumberInputContainer.isErrorEnabled) {
+                val validationResult = validatePhoneNumber(value)
+                if (validationResult.isSuccessful) {
+                    phoneNumberInputContainer.isErrorEnabled = false
+                }
+            }
+        }
+
+        phoneNumberInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                return@setOnFocusChangeListener
+            }
+            val validationResult = validatePhoneNumber(phoneNumberInput.text.toString())
+            if (!validationResult.isSuccessful) {
+
+                phoneNumberInputContainer.error = requireContext().getString(validationResult.errorTextKey!!)
+            }
+        }
     }
 }
