@@ -9,7 +9,12 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
-import android.view.*
+import android.view.GestureDetector
+import android.view.HapticFeedbackConstants
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -18,7 +23,12 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
@@ -60,7 +70,7 @@ class MarketingFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_marketing, container, false)
+        inflater.inflate(R.layout.fragment_marketing, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
@@ -76,30 +86,30 @@ class MarketingFragment : Fragment() {
 
     private fun observeMarketingStories() {
         marketingStoriesViewModel
-                .marketingStories
-                .observe(this, Observer {
-                    loading_spinner.remove()
-                    setupButtons()
-                    setupPager(it)
-                    setupBlurOverlay()
-                })
+            .marketingStories
+            .observe(this, Observer {
+                loading_spinner.remove()
+                setupButtons()
+                setupPager(it)
+                setupBlurOverlay()
+            })
         marketingStoriesViewModel.loadAndStart()
     }
 
     private fun setupPager(stories: List<MarketingStoriesQuery.MarketingStory>?) {
         val nStories = stories?.size ?: throw Exception("Got no stories")
-        pager.adapter = StoryPageAdapter(
-                activity?.supportFragmentManager ?: throw Error("Could not find fragment manager"),
-                nStories
+        pager.adapter = StoryPagerAdapter(
+            activity?.supportFragmentManager ?: throw Error("Could not find fragment manager"),
+            nStories
         )
         pager.show()
         story_progress_indicator_container.show()
         val width = activity_marketing.width
         for (n in 0 until nStories) {
             val progressBar = layoutInflater.inflate(
-                    R.layout.marketing_progress_bar,
-                    story_progress_indicator_container,
-                    false
+                R.layout.marketing_progress_bar,
+                story_progress_indicator_container,
+                false
             ) as ProgressBar
             progressBar.layoutParams = ViewGroup.LayoutParams(width / nStories, 10)
             story_progress_indicator_container.addView(progressBar)
@@ -171,9 +181,9 @@ class MarketingFragment : Fragment() {
                 duration = 300
                 addUpdateListener { opacity ->
                     val backgroundColor = percentageFade(
-                            requireContext().compatColor(R.color.transparent_white),
-                            requireContext().compatColor(R.color.blur_white),
-                            opacity.animatedFraction
+                        requireContext().compatColor(R.color.transparent_white),
+                        requireContext().compatColor(R.color.blur_white),
+                        opacity.animatedFraction
                     )
                     blur_overlay.setBackgroundColor(backgroundColor)
                 }
@@ -197,15 +207,15 @@ class MarketingFragment : Fragment() {
                                 marketing_proceed.translationY = translation.animatedValue as Float
                                 val elapsed = translation.animatedFraction
                                 val backgroundColor = percentageFade(
-                                        requireContext().compatColor(R.color.purple),
-                                        requireContext().compatColor(R.color.white),
-                                        elapsed
+                                    requireContext().compatColor(R.color.purple),
+                                    requireContext().compatColor(R.color.white),
+                                    elapsed
                                 )
                                 marketing_proceed.background.compatSetTint(backgroundColor)
                                 val textColor = percentageFade(
-                                        requireContext().compatColor(R.color.white),
-                                        requireContext().compatColor(R.color.black),
-                                        elapsed
+                                    requireContext().compatColor(R.color.white),
+                                    requireContext().compatColor(R.color.black),
+                                    elapsed
                                 )
                                 marketing_proceed.setTextColor(textColor)
                             }
@@ -221,9 +231,9 @@ class MarketingFragment : Fragment() {
                                 story_progress_indicator_container.alpha = opacity.animatedFraction
 
                                 val backgroundColor = percentageFade(
-                                        requireContext().compatColor(R.color.blur_white),
-                                        requireContext().compatColor(R.color.transparent_white),
-                                        opacity.animatedFraction
+                                    requireContext().compatColor(R.color.blur_white),
+                                    requireContext().compatColor(R.color.transparent_white),
+                                    opacity.animatedFraction
                                 )
                                 blur_overlay.setBackgroundColor(backgroundColor)
                             }
@@ -253,15 +263,15 @@ class MarketingFragment : Fragment() {
                     marketing_proceed.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
                     val backgroundColor = percentageFade(
-                            requireContext().compatColor(R.color.white),
-                            requireContext().compatColor(R.color.purple),
-                            elapsed
+                        requireContext().compatColor(R.color.white),
+                        requireContext().compatColor(R.color.purple),
+                        elapsed
                     )
                     marketing_proceed.background.compatSetTint(backgroundColor)
                     val textColor = percentageFade(
-                            requireContext().compatColor(R.color.black),
-                            requireContext().compatColor(R.color.white),
-                            elapsed
+                        requireContext().compatColor(R.color.black),
+                        requireContext().compatColor(R.color.white),
+                        elapsed
                     )
                     marketing_proceed.setTextColor(textColor)
                 }

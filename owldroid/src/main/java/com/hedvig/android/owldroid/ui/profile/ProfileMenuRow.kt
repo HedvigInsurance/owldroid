@@ -4,7 +4,10 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
+import android.view.Gravity
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.show
 import kotlinx.android.synthetic.main.profile_menu_row.view.*
 
 class ProfileMenuRow : ConstraintLayout {
@@ -50,6 +53,8 @@ class ProfileMenuRow : ConstraintLayout {
         set(value) {
             field = value
             profile_menu_row_description.text = field
+            profile_menu_row_description.show()
+            profile_menu_row_name.gravity = Gravity.NO_GRAVITY
         }
 
     private fun setupDynamicContent() {
@@ -57,7 +62,14 @@ class ProfileMenuRow : ConstraintLayout {
 
         icon = attributes.getDrawable(R.styleable.ProfileMenuRow_iconImage)
         name = attributes.getText(R.styleable.ProfileMenuRow_name)
-        description = attributes.getText(R.styleable.ProfileMenuRow_description)
+
+        val description = attributes.getText(R.styleable.ProfileMenuRow_description)
+        if (description == null) {
+            profile_menu_row_description.remove()
+            profile_menu_row_name.gravity = Gravity.CENTER_VERTICAL
+        } else {
+            profile_menu_row_description.text = description
+        }
 
         attributes.recycle()
     }

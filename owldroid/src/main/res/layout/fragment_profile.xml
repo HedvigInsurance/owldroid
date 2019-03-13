@@ -94,13 +94,13 @@
                     android:id="@id/profile_about_app"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:iconImage="@drawable/icon_feedback"
+                    android:layout_marginTop="32dp"
                     app:name="@string/profile_about_app_row_name" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="24dp"
                     android:background="@color/light_gray" />
 
             </LinearLayout>
@@ -110,6 +110,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
                 android:fontFamily="@font/circular_book"
                 android:padding="8dp"
                 android:text="@string/profile_log_out"
