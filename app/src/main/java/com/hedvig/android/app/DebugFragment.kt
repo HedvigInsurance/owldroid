@@ -8,12 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.apollographql.apollo.ApolloClient
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_debug.*
-
+import javax.inject.Inject
 
 class DebugFragment : Fragment() {
+    @Inject
+    lateinit var apolloClient: ApolloClient
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_debug, container, false)
@@ -47,6 +56,11 @@ class DebugFragment : Fragment() {
             val editor = sharedPreferences.edit()
             editor.putString("@hedvig:token", token)
             editor.apply()
+            apolloClient
+                .apolloStore()
+                .clearAll()
+                .execute()
+
             Toast.makeText(context, "Input saved!", Toast.LENGTH_SHORT).show()
         }
     }

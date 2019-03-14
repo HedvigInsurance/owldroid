@@ -27,8 +27,8 @@ class AppModule {
     @Singleton
     fun simpleCache(context: Context): SimpleCache {
         return SimpleCache(
-                File(context.cacheDir, "hedvig_story_video_cache"),
-                LeastRecentlyUsedCacheEvictor(10 * 1024 * 1024)
+            File(context.cacheDir, "hedvig_story_video_cache"),
+            LeastRecentlyUsedCacheEvictor(10 * 1024 * 1024)
         )
     }
 
