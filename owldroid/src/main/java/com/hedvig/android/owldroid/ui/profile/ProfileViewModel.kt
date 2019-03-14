@@ -110,9 +110,11 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
         disposables.add(
             profileRepository.refreshBankAccountInfo()
                 .subscribe({ response ->
-                    response.data()?.bankAccount()?.let { bankAccount ->
-                        profileRepository.writeBankAccountInfoToCache(bankAccount)
-                    }
+                    response.data()?.let { data ->
+                        data.bankAccount()?.let { bankAccount ->
+                            profileRepository.writeBankAccountInfoToCache(bankAccount, data.directDebitStatus())
+                        } ?: Timber.e("Failed to refresh bank account info")
+                    } ?: Timber.e("Failed to refresh bank account info")
                 }, { error ->
                     Timber.e(error, "Failed to refresh bank account info")
                 })

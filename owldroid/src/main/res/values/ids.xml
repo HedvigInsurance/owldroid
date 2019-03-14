@@ -107,4 +107,5 @@
     <item name="licenseList" type="id" />
     <item name="emailInputContainer" type="id" />
     <item name="phoneNumberInputContainer" type="id" />
+    <item name="bankAccountUnderChangeParagraph" type="id" />
 </resources>

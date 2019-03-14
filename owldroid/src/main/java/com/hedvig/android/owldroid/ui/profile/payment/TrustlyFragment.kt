@@ -69,6 +69,9 @@ class TrustlyFragment : Fragment() {
         }
 
         profileViewModel.trustlyUrl.observe(this, Observer { url ->
+            successScreen.remove()
+            failScreen.remove()
+
             trustlyContainer.webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, loadedUrl: String?) {
                     super.onPageFinished(view, url)
@@ -104,6 +107,8 @@ class TrustlyFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        (trustlyContainer.parent as ViewGroup).removeView(trustlyContainer)
 
         trustlyContainer.removeAllViews()
         trustlyContainer.destroy()

@@ -3,4 +3,5 @@ query BankAccount {
         bankName
         descriptor
     }
+    directDebitStatus
 }

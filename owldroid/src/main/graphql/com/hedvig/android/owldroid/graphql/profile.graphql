@@ -18,6 +18,7 @@ query Profile {
         bankName
         descriptor
     }
+    directDebitStatus
     cashback {
         name
         imageUrl

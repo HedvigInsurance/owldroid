@@ -15,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.CustomTypefaceSpan
 import com.hedvig.android.owldroid.util.extensions.compatColor
@@ -99,7 +101,6 @@ class PaymentFragment : Fragment() {
         val intent = Intent("profileNavigation")
         intent.putExtra("action", "trustly")
         localBroadcastManager.sendBroadcast(intent)
-
     }
 
     private fun loadData() {
@@ -125,16 +126,31 @@ class PaymentFragment : Fragment() {
             )
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
 
-            val bankAccount = profileData?.bankAccount()
-            if (bankAccount != null) {
-                paymentDetailsContainer.show()
-                separator.show()
-                changeBankAccount.show()
-                bankName.text = bankAccount.bankName()
-                accountNumber.text = bankAccount.descriptor()
-            } else {
-                connectBankAccountContainer.show()
-            }
+            setupBankAccountInformation(profileData?.bankAccount(), profileData?.directDebitStatus())
         })
+    }
+
+    private fun setupBankAccountInformation(
+        bankAccount: ProfileQuery.BankAccount?,
+        directDebitStatus: DirectDebitStatus?
+    ) {
+        if (bankAccount == null) {
+            connectBankAccountContainer.show()
+            return
+        }
+
+        paymentDetailsContainer.show()
+        bankName.text = bankAccount.bankName()
+
+        if (directDebitStatus == DirectDebitStatus.PENDING) {
+            accountNumber.text = "Under ändring..."
+            bankAccountUnderChangeParagraph.show()
+            changeBankAccount.remove()
+            return
+        }
+
+        separator.show()
+        accountNumber.text = bankAccount.descriptor()
+        changeBankAccount.show()
     }
 }

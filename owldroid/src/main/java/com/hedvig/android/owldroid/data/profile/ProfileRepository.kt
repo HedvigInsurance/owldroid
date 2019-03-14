@@ -2,7 +2,7 @@ package com.hedvig.android.owldroid.data.profile
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.cache.normalized.CacheKey
+import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.BankAccountQuery
 import com.hedvig.android.owldroid.graphql.ProfileQuery
@@ -10,6 +10,7 @@ import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
 import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
 import com.hedvig.android.owldroid.graphql.UpdateEmailMutation
 import com.hedvig.android.owldroid.graphql.UpdatePhoneNumberMutation
+import com.hedvig.android.owldroid.type.DirectDebitStatus
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,7 +49,6 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
     }
 
     fun writeEmailAndPhoneNumberInCache(email: String?, phoneNumber: String?) {
-
         val cachedData = apolloClient
             .apolloStore()
             .read(profileQuery)
@@ -117,20 +117,19 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
     }
 
     fun refreshBankAccountInfo(): Observable<Response<BankAccountQuery.Data>> {
-        apolloClient
-            .apolloStore()
-            .remove(CacheKey.from("bankAccount"))
-            .execute()
-
         val bankAccountQuery = BankAccountQuery
             .builder()
             .build()
 
         return Rx2Apollo
-            .from(apolloClient.query(bankAccountQuery))
+            .from(
+                apolloClient
+                    .query(bankAccountQuery)
+                    .responseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+            )
     }
 
-    fun writeBankAccountInfoToCache(bankAccount: BankAccountQuery.BankAccount) {
+    fun writeBankAccountInfoToCache(bankAccount: BankAccountQuery.BankAccount, directDebitStatus: DirectDebitStatus) {
         val cachedData = apolloClient
             .apolloStore()
             .read(profileQuery)
@@ -146,6 +145,7 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
         val newData = cachedData
             .toBuilder()
             .bankAccount(newBankAccount)
+            .directDebitStatus(directDebitStatus)
             .build()
 
         apolloClient
