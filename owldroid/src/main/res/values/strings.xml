@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Hedvig</string>
-    <string name="my_info_row_title">Min info</string>
+    <string name="app_name" translatable="false">Hedvig</string>
     <string name="my_info_title">Min info</string>
     <string name="my_home_row_title">Mitt hem</string>
     <string name="profile_my_info_contact_details">Kontaktuppgifter</string>
@@ -58,4 +57,5 @@
     <string name="trustly_fail_paragraph">På grund av ett tekniskt fel kunde inte ditt bankkonto uppdateras. Testa att starta om din app och prova igen eller skriv till Hedvig i chatten.</string>
     <string name="connect_direct_debit">Koppla autogiro</string>
     <string name="connect_direct_debit_paragraph">För att din försäkring ska gälla framöver behöver du koppla autogiro från ditt bankkonto. Vi sköter det via Trustly.</string>
+    <string name="bank_account_under_change_paragraph">Du har precis lagt till eller ändrat ditt bankkonto. Ditt nya bankkonto kommer synas här efter din bank accepterat autogirot inom 2 arbetsdagar.</string>
 </resources>

@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_info"
-                    app:name="@string/my_info_row_title" />
+                    app:name="@string/PROFILE_ROW_MY_INFO_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
                     android:id="@id/profile_my_home_row"
