@@ -48,7 +48,7 @@ class AboutAppFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.about_app_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_ABOUT_APP_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)

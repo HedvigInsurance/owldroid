@@ -21,7 +21,7 @@ class LicensesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = "Licensrättigheter"
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_LICENSE_ATTRIBUTIONS_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)

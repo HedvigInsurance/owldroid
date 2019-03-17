@@ -78,7 +78,7 @@
 
                     <TextView
                         style="@style/ProfileSectionHeader"
-                        android:text="@string/profile_my_info_contact_details" />
+                        android:text="@string/PROFILE_MY_INFO_SECTION_TITLE_CONTACT_DETAILS" />
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@id/emailInputContainer"
@@ -94,7 +94,7 @@
                             android:id="@id/emailInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/profile_my_info_email_label"
+                            android:hint="@string/PROFILE_MY_INFO_EMAIL_LABEL"
                             android:inputType="textEmailAddress" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -114,7 +114,7 @@
                             android:id="@id/phoneNumberInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/profile_my_info_phone_number_label"
+                            android:hint="@string/PROFILE_MY_INFO_PHONE_NUMBER_LABEL"
                             android:inputType="phone" />
 
                     </android.support.design.widget.TextInputLayout>

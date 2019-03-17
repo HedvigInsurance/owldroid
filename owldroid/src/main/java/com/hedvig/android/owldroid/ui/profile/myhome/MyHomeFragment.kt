@@ -42,13 +42,13 @@ class MyHomeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_my_home, container, false)
+        inflater.inflate(R.layout.fragment_my_home, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.my_home_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_MY_HOME_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
@@ -79,13 +79,14 @@ class MyHomeFragment : Fragment() {
             profileData?.insurance()?.let { insuranceData ->
                 address.text = insuranceData.address()
                 postalNumber.text = insuranceData.postalNumber()
-                insuranceType.text = when (insuranceData.type()) {
-                    InsuranceType.BRF -> "Bostadsrätt"
-                    InsuranceType.STUDENT_BRF -> "Bostadsrätt"
-                    InsuranceType.RENT -> "Hyresrätt"
-                    InsuranceType.STUDENT_RENT -> "Hyresrätt"
-                    else -> ""
-                }
+                insuranceType.text =
+                    when (insuranceData.type()) {
+                        InsuranceType.BRF -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_BRF)
+                        InsuranceType.STUDENT_BRF -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_BRF)
+                        InsuranceType.RENT -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_RENT)
+                        InsuranceType.STUDENT_RENT -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_RENT)
+                        else -> ""
+                    }
                 infoContainer.show()
             }
         })

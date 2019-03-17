@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collapsingToolbar.title = resources.getString(R.string.profile_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
 
@@ -59,14 +59,17 @@ class ProfileFragment : Fragment() {
             profile_rows_container.show()
             profile_log_out_button.show()
 
-            setupMyInfoRow(profileData!!)
-            setupMyHomeRow(profileData)
-            setupCoinsured(profileData)
-            setupCharity(profileData)
-            setupPayment(profileData)
-            setupPolicyRow(profileData)
+            profileData?.let { data ->
+                setupMyInfoRow(data)
+                setupMyHomeRow(data)
+                setupCoinsured(data)
+                setupCharity(data)
+                setupPayment(data)
+                setupPolicyRow(data)
+            }
 
             attachNavigationOnClick(profile_feedback, "feedback")
+            attachNavigationOnClick(profileReferralRow, "referrals")
             attachNavigationOnClick((profile_about_app), "about_app")
             attachNavigationOnClick(profile_log_out_button, "logout")
         })

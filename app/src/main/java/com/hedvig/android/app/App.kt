@@ -18,8 +18,12 @@ class App : DaggerApplication() {
 
         LeakCanary.install(this)
         Timber.plant(Timber.DebugTree())
-        Restring.init(this)
-        textKeys.refreshTextKeys()
+        try {
+            Restring.init(this)
+            textKeys.refreshTextKeys()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

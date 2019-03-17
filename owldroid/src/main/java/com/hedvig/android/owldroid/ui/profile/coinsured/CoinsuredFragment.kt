@@ -17,7 +17,13 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.CustomTypefaceSpan
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatFont
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.concat
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_coinsured.*
@@ -43,14 +49,14 @@ class CoinsuredFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_coinsured, container, false)
+        inflater.inflate(R.layout.fragment_coinsured, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.coinsured_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_COINSURED_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
@@ -79,7 +85,12 @@ class CoinsuredFragment : Fragment() {
                 val label = "medförsäkrade"
                 val partOne = SpannableString("$personsInHousehold\n")
                 val partTwo = SpannableString(label)
-                partOne.setSpan(CustomTypefaceSpan(requireContext().compatFont(R.font.soray_extrabold)), 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+                partOne.setSpan(
+                    CustomTypefaceSpan(requireContext().compatFont(R.font.soray_extrabold)),
+                    0,
+                    1,
+                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
+                )
                 partTwo.setSpan(AbsoluteSizeSpan(16, true), 0, label.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
 
                 sphereText.text = partOne.concat(partTwo)

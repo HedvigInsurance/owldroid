@@ -7,7 +7,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
-import android.view.*
+import android.view.HapticFeedbackConstants
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -50,11 +54,12 @@ class StoryFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val position = arguments?.getInt(POSITION_KEY) ?: throw Exception("No position provided")
+        val position = arguments?.getInt(POSITION_KEY) ?: throw Error("No position provided")
 
         val view = inflater.inflate(R.layout.page_marketing_story, container, false) as LinearLayout
-        val story = marketingStoriesViewModel.marketingStories.value?.get(position)
-                ?: throw Exception("No data")
+
+        val story = marketingStoriesViewModel.marketingStories.value?.get(position) ?: return View(context)
+
         val asset = story.asset()
         val mimeType = asset?.mimeType()
         val url = asset?.url() ?: ""
@@ -85,12 +90,12 @@ class StoryFragment : Fragment() {
         playerView.player = player
 
         val dataSourceFactory =
-                DefaultHttpDataSourceFactory(
-                        Util.getUserAgent(
-                                context,
-                                BuildConfig.APPLICATION_ID
-                        )
+            DefaultHttpDataSourceFactory(
+                Util.getUserAgent(
+                    context,
+                    BuildConfig.APPLICATION_ID
                 )
+            )
         val cacheDataSourceFactory = CacheDataSourceFactory(cache, dataSourceFactory)
         val mediaSource = ExtractorMediaSource.Factory(cacheDataSourceFactory).createMediaSource(Uri.parse(url))
         player?.prepare(mediaSource)
@@ -125,10 +130,10 @@ class StoryFragment : Fragment() {
         val imageView = parentView.findViewById<ImageView>(R.id.story_image)
 
         Picasso.get()
-                .load(url)
-                .fit()
-                .centerCrop()
-                .into(imageView)
+            .load(url)
+            .fit()
+            .centerCrop()
+            .into(imageView)
         imageView.show()
         setupTouchListeners(imageView)
 
@@ -180,19 +185,19 @@ class StoryFragment : Fragment() {
 
     private fun trackClickPausedStory() {
         val bundle = Bundle()
-        bundle.putInt("story", arguments!!.getInt(POSITION_KEY) + 1)
+        arguments?.getInt(POSITION_KEY)?.let { bundle.putInt("story", it + 1) }
         firebaseAnalytics.logEvent("click_pause_story", bundle)
     }
 
     private fun trackClickNextScreen() {
         val bundle = Bundle()
-        bundle.putInt("story", arguments!!.getInt(POSITION_KEY) + 1)
+        arguments?.getInt(POSITION_KEY)?.let { bundle.putInt("story", it + 1) }
         firebaseAnalytics.logEvent("click_next_screen", bundle)
     }
 
     private fun trackClickPreviousScreen() {
         val bundle = Bundle()
-        bundle.putInt("story", arguments!!.getInt(POSITION_KEY) + 1)
+        arguments?.getInt(POSITION_KEY)?.let { bundle.putInt("story", it + 1) }
         firebaseAnalytics.logEvent("click_prev_screen", bundle)
     }
 

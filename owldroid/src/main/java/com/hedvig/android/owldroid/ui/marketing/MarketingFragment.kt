@@ -55,6 +55,12 @@ class MarketingFragment : Fragment() {
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    private var buttonsAnimator: ValueAnimator? = null
+    private var blurDismissAnimator: ValueAnimator? = null
+    private var blurShowAnimator: ValueAnimator? = null
+    private var topHideAnimation: ValueAnimator? = null
+    private var topShowAnimation: ValueAnimator? = null
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
@@ -77,18 +83,28 @@ class MarketingFragment : Fragment() {
             marketing_proceed.elevation = 2f
             marketing_login.elevation = 2f
         }
+        observeMarketingStories()
     }
 
-    override fun onResume() {
-        observeMarketingStories()
-        super.onResume()
+    override fun onStop() {
+        super.onStop()
+        buttonsAnimator?.removeAllListeners()
+        buttonsAnimator?.cancel()
+        blurDismissAnimator?.removeAllListeners()
+        blurDismissAnimator?.cancel()
+        blurShowAnimator?.removeAllListeners()
+        blurShowAnimator?.cancel()
+        topHideAnimation?.removeAllListeners()
+        topHideAnimation?.cancel()
+        topShowAnimation?.removeAllListeners()
+        topShowAnimation?.cancel()
     }
 
     private fun observeMarketingStories() {
         marketingStoriesViewModel
             .marketingStories
             .observe(this, Observer {
-                loading_spinner.remove()
+                loadingSpinner.remove()
                 setupButtons()
                 setupPager(it)
                 setupBlurOverlay()
@@ -96,6 +112,8 @@ class MarketingFragment : Fragment() {
         marketingStoriesViewModel.loadAndStart()
     }
 
+    // TODO: Refactor this function to be smaller, to be more safe (do not throw exceptions), and to
+    // cancel its animations when this fragment is completed, or else it will do bad stuff
     private fun setupPager(stories: List<MarketingStoriesQuery.MarketingStory>?) {
         val nStories = stories?.size ?: throw Exception("Got no stories")
         pager.adapter = StoryPagerAdapter(
@@ -156,6 +174,7 @@ class MarketingFragment : Fragment() {
         })
     }
 
+
     private fun setupBlurOverlay() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
             if (blurred == null || !blurred) {
@@ -164,7 +183,7 @@ class MarketingFragment : Fragment() {
             }
 
             blur_overlay.show()
-            ValueAnimator.ofFloat(1f, 0f).apply {
+            topHideAnimation = ValueAnimator.ofFloat(1f, 0f).apply {
                 duration = 300
                 addUpdateListener { opacity ->
                     marketing_hedvig_logo.alpha = opacity.animatedValue as Float
@@ -177,7 +196,7 @@ class MarketingFragment : Fragment() {
                 start()
             }
 
-            ValueAnimator.ofInt(0, 100).apply {
+            blurShowAnimator = ValueAnimator.ofInt(0, 100).apply {
                 duration = 300
                 addUpdateListener { opacity ->
                     val backgroundColor = percentageFade(
@@ -200,7 +219,7 @@ class MarketingFragment : Fragment() {
                         marketing_hedvig_logo.show()
                         story_progress_indicator_container.show()
 
-                        ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
+                        blurDismissAnimator = ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
                             duration = 200
                             interpolator = FastOutSlowInInterpolator()
                             addUpdateListener { translation ->
@@ -224,7 +243,7 @@ class MarketingFragment : Fragment() {
                             }
                             start()
                         }
-                        ValueAnimator.ofInt(0, 100).apply {
+                        topShowAnimation = ValueAnimator.ofInt(0, 100).apply {
                             duration = 200
                             addUpdateListener { opacity ->
                                 marketing_hedvig_logo.alpha = opacity.animatedFraction
@@ -247,16 +266,12 @@ class MarketingFragment : Fragment() {
                 }
             })
 
-            blur_overlay.setOnTouchListener { _, motionEvent ->
-                swipeListener.onTouchEvent(motionEvent)
-                true
-            }
 
             val currentTop = marketing_proceed.top
             val newTop = activity_marketing.height / 2 + marketing_proceed.height / 2
             val translation = (newTop - currentTop).toFloat()
 
-            ValueAnimator.ofFloat(0f, translation).apply {
+            buttonsAnimator = ValueAnimator.ofFloat(0f, translation).apply {
                 duration = 500
                 interpolator = OvershootInterpolator()
                 addUpdateListener { translation ->
@@ -282,6 +297,10 @@ class MarketingFragment : Fragment() {
                     hedvig_face_animation.show()
                     hedvig_face_animation.translationY = translation
                     hedvig_face_animation.playAnimation()
+                    blur_overlay.setOnTouchListener { _, motionEvent ->
+                        swipeListener.onTouchEvent(motionEvent)
+                        true
+                    }
                 }
                 start()
             }
@@ -327,14 +346,14 @@ class MarketingFragment : Fragment() {
 
     private fun trackClickGetHedvig() {
         val bundle = Bundle()
-        bundle.putInt("story_number", marketingStoriesViewModel.page.value!! + 1)
+        marketingStoriesViewModel.page.value?.let { bundle.putInt("story_number", it + 1) }
         bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
         firebaseAnalytics.logEvent("click_get_hedvig", bundle)
     }
 
     private fun trackClickLogin() {
         val bundle = Bundle()
-        bundle.putInt("story_number", marketingStoriesViewModel.page.value!! + 1)
+        marketingStoriesViewModel.page.value?.let { bundle.putInt("story_number", it + 1) }
         bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
         firebaseAnalytics.logEvent("click_login", bundle)
     }

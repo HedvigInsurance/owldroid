@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ProfileRepository @Inject constructor(private val apolloClient: ApolloClient) {
-    lateinit var profileQuery: ProfileQuery
+    private lateinit var profileQuery: ProfileQuery
     fun fetchProfile(): Observable<ProfileQuery.Data?> {
         profileQuery = ProfileQuery
             .builder()

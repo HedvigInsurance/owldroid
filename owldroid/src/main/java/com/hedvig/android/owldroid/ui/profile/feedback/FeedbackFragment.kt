@@ -17,14 +17,15 @@ import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_feedback.*
 
 class FeedbackFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_feedback, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_feedback, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.feedback_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_FEEDBACK_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)

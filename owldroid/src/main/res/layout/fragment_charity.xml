@@ -115,7 +115,7 @@
                     android:fontFamily="@font/circular_book"
                     android:gravity="center"
                     android:lineSpacingExtra="6dp"
-                    android:text="@string/select_charity_explainer"
+                    android:text="@string/PROFILE_CHARITY_PRE_SELECT_DESCRIPTION"
                     android:textColor="@color/off_black"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -25,7 +25,7 @@
             android:id="@id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialogTitle"
+            android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_TITLE"
             android:theme="@style/DialogTitle" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/dialogParagraph"
+            android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_DESCRIPTION"
             android:theme="@style/DialogParagraph" />
 
     </LinearLayout>
@@ -43,7 +43,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cancel"
+        android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_CANCEL"
         android:theme="@style/DialogButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/dialogConfirm" />
@@ -53,7 +53,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/write_to_hedvig"
+        android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_CONFIRM"
         android:theme="@style/DialogButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

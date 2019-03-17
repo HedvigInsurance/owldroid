@@ -59,7 +59,7 @@ class MyInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
-        collapsingToolbar.title = resources.getString(R.string.my_info_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_MY_INFO_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
@@ -97,7 +97,11 @@ class MyInfoFragment : Fragment() {
             provideValidationNegativeHapticFeedback()
             fragmentManager?.let { fm ->
                 val dialog =
-                    ValidationDialog.newInstance("Hoppsan", "Det där verkar inte vara en giltig e-postadress!", "Okej")
+                    ValidationDialog.newInstance(
+                        R.string.PROFILE_MY_INFO_VALIDATION_DIALOG_TITLE,
+                        R.string.PROFILE_MY_INFO_VALIDATION_DIALOG_DESCRIPTION_EMAIL,
+                        R.string.PROFILE_MY_INFO_VALIDATION_DIALOG_DISMISS
+                    )
                 val transaction = fm.beginTransaction()
                 val prev = fm.findFragmentByTag("validation")
                 prev?.let { transaction.remove(it) }
@@ -111,9 +115,9 @@ class MyInfoFragment : Fragment() {
             provideValidationNegativeHapticFeedback()
             fragmentManager?.let { fm ->
                 val dialog = ValidationDialog.newInstance(
-                    "Hoppsan",
-                    "Det där verkar inte vara ett giltigt telefonnummer!",
-                    "Okej"
+                    R.string.PROFILE_MY_INFO_VALIDATION_DIALOG_TITLE,
+                    R.string.PROFILE_MY_INFO_VALIDATION_DIALOG_DESCRIPTION_PHONE_NUMBER,
+                    R.string.PROFILE_MY_INFO_VALIDATION_DIALOG_DISMISS
                 )
                 val transaction = fm.beginTransaction()
                 val prev = fm.findFragmentByTag("validation")
@@ -138,10 +142,12 @@ class MyInfoFragment : Fragment() {
 
             contactDetailsContainer.show()
 
-            name.text = "${profileData!!.member().firstName()}\n${profileData.member().lastName()}"
+            profileData?.let { data ->
+                name.text = "${data.member().firstName()}\n${data.member().lastName()}"
+                setupEmailInput(data.member().email() ?: "")
+                setupPhoneNumberInput(data.member().phoneNumber() ?: "")
+            }
 
-            setupEmailInput(profileData.member().email() ?: "")
-            setupPhoneNumberInput(profileData.member().phoneNumber() ?: "")
 
 
             profileViewModel.dirty.observe(this, Observer {

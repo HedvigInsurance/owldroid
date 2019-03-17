@@ -10,7 +10,7 @@ object Regexes {
 
 fun validateEmail(email: CharSequence): ValidationResult {
     if (!Regexes.emailRegex.matches(email)) {
-        return ValidationResult(false, R.string.invalid_email)
+        return ValidationResult(false, R.string.PROFILE_MY_INFO_INVALID_EMAIL)
     }
 
     return ValidationResult(true, null)
@@ -19,7 +19,7 @@ fun validateEmail(email: CharSequence): ValidationResult {
 fun validatePhoneNumber(phoneNumber: CharSequence): ValidationResult {
 
     if (!Regexes.phoneNumberRegex.matches(phoneNumber)) {
-        return ValidationResult(false, R.string.invalid_phone_number)
+        return ValidationResult(false, R.string.PROFILE_MY_INFO_INVALID_PHONE_NUMBER)
     }
     return ValidationResult(true, null)
 }

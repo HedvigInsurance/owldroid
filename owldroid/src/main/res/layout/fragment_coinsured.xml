@@ -100,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_bold"
-                    android:text="@string/coinsured_more_to_come"
+                    android:text="@string/PROFILE_COINSURED_MORE_TO_COME_TITLE"
                     android:textColor="@color/off_black_dark"
                     android:textSize="16sp" />
 
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/circular_book"
-                    android:text="@string/coinsured_explainer"
+                    android:text="@string/PROFILE_COINSURED_MORE_TO_COME_DESCRIPTION"
                     android:theme="@style/DefaultParagraph" />
 
             </LinearLayout>

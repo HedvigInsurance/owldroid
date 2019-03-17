@@ -47,14 +47,14 @@ class CharityFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_charity, container, false)
+        inflater.inflate(R.layout.fragment_charity, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.charity_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_CHARITY_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
@@ -75,7 +75,9 @@ class CharityFragment : Fragment() {
                 if (data.cashback() == null) {
                     showCharityPicker(data.cashbackOptions())
                 } else {
-                    showSelectedCharity(data.cashback()!!)
+                    data.cashback()?.let { cashback ->
+                        showSelectedCharity(cashback)
+                    }
                 }
             }
         })
@@ -86,10 +88,10 @@ class CharityFragment : Fragment() {
         selectCharityContainer.remove()
 
         Glide
-                .with(requireContext())
-                .load(cashback.imageUrl())
-                .override(Target.SIZE_ORIGINAL)
-                .into(selectedCharityBanner)
+            .with(requireContext())
+            .load(cashback.imageUrl())
+            .override(Target.SIZE_ORIGINAL)
+            .into(selectedCharityBanner)
 
         selectedCharityCardTitle.text = cashback.name()
         selectedCharityCardParagraph.text = cashback.paragraph()

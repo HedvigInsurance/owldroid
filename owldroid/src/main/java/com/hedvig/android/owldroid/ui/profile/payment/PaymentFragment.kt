@@ -60,7 +60,7 @@ class PaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.payment_title)
+        collapsingToolbar.title = resources.getString(R.string.PROFILE_PAYMENT_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
@@ -143,7 +143,7 @@ class PaymentFragment : Fragment() {
         bankName.text = bankAccount.bankName()
 
         if (directDebitStatus == DirectDebitStatus.PENDING) {
-            accountNumber.text = "Under ändring..."
+            accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
             bankAccountUnderChangeParagraph.show()
             changeBankAccount.remove()
             return

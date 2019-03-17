@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/DialogParagraph"
-                app:name="Licensrättigheter" />
+                app:name="@string/PROFILE_ABOUT_APP_LICENSE_ATTRIBUTIONS" />
 
             <TextView
                 android:id="@id/versionNumber"
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/copyright_label"
+                android:text="@string/PROFILE_ABOUT_APP_COPYRIGHT"
                 android:theme="@style/DialogParagraph" />
 
         </LinearLayout>
