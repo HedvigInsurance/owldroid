@@ -1,24 +1,47 @@
 package com.hedvig.android.app
 
-import android.content.Intent
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
+import androidx.navigation.findNavController
+import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_debug.*
 
 class DebugActivity : DaggerAppCompatActivity() {
+    private lateinit var profileBroadcastReceiver: BroadcastReceiver
+    private lateinit var marketingBroadcastReceiver: BroadcastReceiver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debug)
 
-        debug_open_marketing.setOnClickListener {
-            val intent = Intent(this, MarketingActivity::class.java)
-            startActivity(intent)
-        }
-
-        debug_open_logo.setOnClickListener {
-            val intent = Intent(this, LogoActivity::class.java)
-            startActivity(intent)
-        }
     }
 
+    override fun onPause() {
+        val localBroadcastManager = LocalBroadcastManager.getInstance(this)
+        localBroadcastManager.unregisterReceiver(profileBroadcastReceiver)
+        localBroadcastManager.unregisterReceiver(marketingBroadcastReceiver)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        val navigationController = findNavController(R.id.navigationHostFragment)
+
+        profileBroadcastReceiver = newBroadcastReceiver { _, intent ->
+            when (intent?.getStringExtra("action")) {
+                "my_info" -> navigationController.navigate(R.id.action_profileFragment_to_myInfoFragment)
+                "payment" -> navigationController.navigate(R.id.action_profileFragment_to_paymentFragment)
+                "back" -> navigationController.popBackStack()
+            }
+        }
+
+        marketingBroadcastReceiver = newBroadcastReceiver { _, _ ->
+            navigationController.popBackStack()
+        }
+        val localBroadcastManager = LocalBroadcastManager.getInstance(this)
+        localBroadcastManager.registerReceiver(profileBroadcastReceiver, IntentFilter("profileNavigation"))
+        localBroadcastManager.registerReceiver(marketingBroadcastReceiver, IntentFilter("marketingResult"))
+        super.onResume()
+    }
 }

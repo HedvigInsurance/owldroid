@@ -1,0 +1,22 @@
+query Profile {
+    member {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+    }
+    insurance {
+        address
+        monthlyCost
+        personsInHousehold
+    }
+    bankAccount {
+        bankName
+        descriptor
+    }
+    cashback {
+        name
+        imageUrl
+    }
+}

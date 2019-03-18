@@ -2,21 +2,19 @@ package com.hedvig.android.owldroid.ui.marketing
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.os.Handler
-import android.os.Looper
 import com.hedvig.android.owldroid.data.marketing.MarketingStoriesRepository
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import javax.inject.Inject
 
 class MarketingStoriesViewModel @Inject constructor(private val marketingStoriesRepository: MarketingStoriesRepository) :
-    ViewModel() {
+        ViewModel() {
 
     val marketingStories = MutableLiveData<List<MarketingStoriesQuery.MarketingStory>>()
     val page = MutableLiveData<Int>()
     val paused = MutableLiveData<Boolean>()
     val blurred = MutableLiveData<Boolean>()
 
-    init {
+    fun loadAndStart() {
         loadMarketingStories()
         startFirstStory()
     }
@@ -26,11 +24,8 @@ class MarketingStoriesViewModel @Inject constructor(private val marketingStories
     }
 
     private fun loadMarketingStories() {
-        marketingStoriesRepository.fetchMarketingStories {
-            val handler = Handler(Looper.getMainLooper())
-            handler.post {
-                marketingStories.value = it
-            }
+        marketingStoriesRepository.fetchMarketingStories { stories ->
+            marketingStories.postValue(stories)
         }
     }
 

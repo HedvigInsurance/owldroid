@@ -1,6 +1,0 @@
-mutation CreateSession {
-  createSessionV2 {
-    token
-    memberId
-  }
-}

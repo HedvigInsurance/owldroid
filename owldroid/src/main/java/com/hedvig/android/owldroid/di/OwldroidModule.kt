@@ -1,15 +1,16 @@
 package com.hedvig.android.owldroid.di
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.Logger
 import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
+import com.hedvig.android.owldroid.util.react.AsyncStorageNativeReader
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -17,12 +18,25 @@ import javax.inject.Singleton
 class OwldroidModule {
     @Provides
     @Singleton
-    fun okHttpClient(): OkHttpClient {
+    fun okHttpClient(
+        asyncStorageNativeReader: AsyncStorageNativeReader,
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-                    Timber.tag("OkHttp").i(it)
-                }).setLevel(HttpLoggingInterceptor.Level.BODY))
-                .build()
+            .addInterceptor {
+                val original = it.request()
+                val builder = original.newBuilder().method(original.method(), original.body())
+                try {
+                    asyncStorageNativeReader.getKey("@hedvig:token")
+                } catch (exception: Exception) {
+                    null
+                }?.let { token ->
+                    builder.header("Authorization", token)
+                }
+                it.proceed(builder.build())
+            }
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
     }
 
     @Provides
@@ -33,12 +47,18 @@ class OwldroidModule {
 
     @Provides
     @Singleton
-    fun apolloClient(okHttpClient: OkHttpClient, normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>, @Named("GRAPHQL_URL") graphqlUrl: String): ApolloClient {
+    fun apolloClient(
+        okHttpClient: OkHttpClient,
+        normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,
+        @Named("GRAPHQL_URL") graphqlUrl: String,
+        logger: Logger
+    ): ApolloClient {
         return ApolloClient
-                .builder()
-                .serverUrl(graphqlUrl)
-                .okHttpClient(okHttpClient)
-                .normalizedCache(normalizedCacheFactory)
-                .build()
+            .builder()
+            .serverUrl(graphqlUrl)
+            .okHttpClient(okHttpClient)
+            .normalizedCache(normalizedCacheFactory)
+            .logger(logger)
+            .build()
     }
 }

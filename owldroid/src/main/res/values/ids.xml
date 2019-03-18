@@ -2,6 +2,8 @@
 <resources>
     <item name="marketing_screen_content" type="id" />
     <item name="logo_content" type="id" />
+    <item name="profile_screen_content" type="id" />
+    <item name="profile_member_info_screen_content" type="id" />
     <item name="marketing_proceed" type="id" />
     <item name="marketing_say_hello" type="id" />
     <item name="pager" type="id" />
@@ -12,4 +14,46 @@
     <item name="hedvig_face_animation" type="id" />
     <item name="marketing_login" type="id" />
     <item name="activity_marketing" type="id" />
+    <item name="profile_loading_spinner" type="id" />
+    <item name="profile_charity_image" type="id" />
+    <item name="profile_my_info_row" type="id" />
+    <item name="profile_my_home_row" type="id" />
+    <item name="profile_rows_container" type="id" />
+    <item name="profile_my_info_icon" type="id" />
+    <item name="loadingSpinner" type="id" />
+    <item name="profile_my_info_header" type="id" />
+    <item name="sphereContainer" type="id" />
+    <item name="emailInput" type="id" />
+    <item name="phoneNumberInput" type="id" />
+    <item name="contactDetailsContainer" type="id" />
+    <item name="profile_payment_row" type="id" />
+    <item name="profile_menu_row_description" type="id" />
+    <item name="profile_payment_screen_content" type="id" />
+    <item name="profile_payment_loading_spinner" type="id" />
+    <item name="profile_payment_amount_container" type="id" />
+    <item name="profile_payment_header" type="id" />
+    <item name="sphere" type="id" />
+    <item name="profile_payment_price_sphere" type="id" />
+    <item name="profile_payment_details_container" type="id" />
+    <item name="profile_payment_bank_container" type="id" />
+    <item name="profile_payment_bank" type="id" />
+    <item name="profile_payment_account" type="id" />
+    <item name="profile_payment_change_bank_account" type="id" />
+    <item name="profile_payment_deductible_sphere" type="id" />
+    <item name="toolbar" type="id" />
+    <item name="profile_menu_row" type="id" />
+    <item name="profile_menu_row_icon" type="id" />
+    <item name="profile_menu_row_name" type="id" />
+    <item name="profile_menu_item_description" type="id" />
+    <item name="profileInfoRow" type="id" />
+    <item name="profilePaymentRow" type="id" />
+    <item name="name" type="id" />
+    <item name="app_bar" type="id" />
+    <item name="collapsingToolbar" type="id" />
+    <item name="save" type="id" />
+    <item name="profile_coinsured_row" type="id" />
+    <item name="profile_charity_row" type="id" />
+    <item name="profile_insurance_certificate_row" type="id" />
+    <item name="profile_feedback" type="id" />
+    <item name="profile_log_out_button" type="id" />
 </resources>
