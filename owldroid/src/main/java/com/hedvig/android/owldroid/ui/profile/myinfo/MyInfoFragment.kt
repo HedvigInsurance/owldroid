@@ -143,12 +143,14 @@ class MyInfoFragment : Fragment() {
             contactDetailsContainer.show()
 
             profileData?.let { data ->
-                name.text = "${data.member().firstName()}\n${data.member().lastName()}"
+                name.text = resources.getString(
+                    R.string.first_last_name,
+                    data.member().firstName(),
+                    data.member().lastName()
+                )
                 setupEmailInput(data.member().email() ?: "")
                 setupPhoneNumberInput(data.member().phoneNumber() ?: "")
             }
-
-
 
             profileViewModel.dirty.observe(this, Observer {
                 activity?.invalidateOptionsMenu()

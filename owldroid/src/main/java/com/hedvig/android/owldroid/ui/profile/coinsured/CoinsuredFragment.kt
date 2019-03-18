@@ -82,7 +82,7 @@ class CoinsuredFragment : Fragment() {
             loadingAnimation.playAnimation()
 
             profileData?.insurance()?.personsInHousehold()?.let { personsInHousehold ->
-                val label = "medförsäkrade"
+                val label = resources.getString(R.string.PROFILE_COINSURED_QUANTITY_LABEL)
                 val partOne = SpannableString("$personsInHousehold\n")
                 val partTwo = SpannableString(label)
                 partOne.setSpan(

@@ -16,6 +16,7 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_about_app.*
@@ -64,11 +65,17 @@ class AboutAppFragment : Fragment() {
             localBroadcastManager.sendBroadcast(intent)
         }
 
-        versionNumber.text = "Version: ${BuildConfig.VERSION_NAME}"
+        versionNumber.text = interpolateTextKey(
+            resources.getString(R.string.PROFILE_ABOUT_APP_VERSION),
+            hashMapOf("VERSION_NUMBER" to BuildConfig.VERSION_NAME)
+        )
 
         profileViewModel.data.observe(this, Observer { data ->
             data?.member()?.id()?.let { id ->
-                memberId.text = "Medlemsnummer: $id"
+                memberId.text = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_ABOUT_APP_MEMBER_ID),
+                    hashMapOf("MEMBER_ID" to id)
+                )
             }
         })
     }

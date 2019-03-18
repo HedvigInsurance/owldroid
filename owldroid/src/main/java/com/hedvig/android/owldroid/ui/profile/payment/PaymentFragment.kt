@@ -26,6 +26,7 @@ import com.hedvig.android.owldroid.util.extensions.concat
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_payment.*
@@ -74,7 +75,7 @@ class PaymentFragment : Fragment() {
         deductibleSphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_green))
 
         val today = Calendar.getInstance()
-        val year = today.get(Calendar.YEAR)
+        val year = today.get(Calendar.YEAR).toString()
         val day = today.get(Calendar.DAY_OF_MONTH)
         val month = (today.get(Calendar.MONTH) + 1).let { month ->
             if (day > BILLING_DAY) {
@@ -84,7 +85,10 @@ class PaymentFragment : Fragment() {
             }
         }.let { String.format("%02d", it) }
 
-        autogiroDate.text = "Nästa dras $year-$month-$BILLING_DAY"
+        autogiroDate.text = interpolateTextKey(
+            resources.getString(R.string.PROFILE_PAYMENT_NEXT_CHARGE_DATE),
+            hashMapOf("YEAR" to year, "MONTH" to month, "DAY" to BILLING_DAY.toString())
+        )
 
         changeBankAccount.setOnClickListener {
             openTrustly()

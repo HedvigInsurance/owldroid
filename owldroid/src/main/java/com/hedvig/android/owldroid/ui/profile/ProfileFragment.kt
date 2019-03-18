@@ -17,6 +17,7 @@ import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -89,7 +90,10 @@ class ProfileFragment : Fragment() {
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
         val personsInHousehold = profileData.insurance().personsInHousehold() ?: 1
-        profile_coinsured_row.description = "$personsInHousehold medförsäkrade"
+        profile_coinsured_row.description = interpolateTextKey(
+            resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
+            hashMapOf("NUMBER" to "$personsInHousehold")
+        )
         attachNavigationOnClick(profile_coinsured_row, "coinsured")
     }
 
@@ -99,8 +103,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupPayment(profileData: ProfileQuery.Data) {
-        profile_payment_row.description =
-            "${profileData.insurance().monthlyCost()} kr/månad - Betalas via autogiro"
+        profile_payment_row.description = interpolateTextKey(
+            resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
+            hashMapOf("COST" to profileData.insurance().monthlyCost()?.toString())
+        )
         attachNavigationOnClick(profile_payment_row, "payment")
     }
 

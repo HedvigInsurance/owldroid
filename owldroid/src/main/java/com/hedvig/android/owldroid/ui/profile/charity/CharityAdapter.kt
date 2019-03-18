@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.util.interpolateTextKey
 
 class CharityAdapter(
     val items: List<ProfileQuery.CashbackOption>,
@@ -27,7 +28,11 @@ class CharityAdapter(
         val item = items[position]
         holder.title.text = item.name()
         holder.paragraph.text = item.paragraph()
-        holder.button.text = "Välj ${item.name()}"
+
+        holder.button.text = interpolateTextKey(
+            holder.itemView.resources.getString(R.string.PROFILE_CHARITY_SELECT_BUTTON),
+            hashMapOf("CHARITY" to item.name())
+        )
         holder.button.setOnClickListener {
             item.id()?.let { id ->
                 clickListener(id)
