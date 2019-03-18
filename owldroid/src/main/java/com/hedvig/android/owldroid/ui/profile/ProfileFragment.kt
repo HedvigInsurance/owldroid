@@ -70,7 +70,6 @@ class ProfileFragment : Fragment() {
             }
 
             attachNavigationOnClick(profile_feedback, "feedback")
-            attachNavigationOnClick(profileReferralRow, "referrals")
             attachNavigationOnClick((profile_about_app), "about_app")
             attachNavigationOnClick(profile_log_out_button, "logout")
         })

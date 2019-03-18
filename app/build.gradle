@@ -44,7 +44,7 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
-    def navigation_version = '1.0.0-rc02'
+    def navigation_version = '1.0.0'
     implementation "android.arch.navigation:navigation-fragment:$navigation_version"
     implementation "android.arch.navigation:navigation-ui:$navigation_version"
     implementation "android.arch.navigation:navigation-runtime-ktx:$navigation_version"

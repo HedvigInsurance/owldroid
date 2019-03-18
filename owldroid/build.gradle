@@ -105,6 +105,7 @@ apply plugin: 'com.hedvig.textkeys'
 textkeys {
     graphqlEndpoint = 'https://api-euwest.graphcms.com/v1/cjmawd9hw036a01cuzmjhplka/master'
     defaultLanguageCode = 'sv_SE'
+    excludedLanguages = ['en_SE']
 }
 
 tasks.register("updateSchema", Exec) {
