@@ -14,7 +14,10 @@ import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(private val profileRepository: ProfileRepository, val referrals: Referrals) :
+class ProfileViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val referrals: Referrals
+) :
     ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)

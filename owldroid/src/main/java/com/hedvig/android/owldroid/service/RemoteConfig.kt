@@ -8,13 +8,15 @@ const val DEFAULT_INCENTIVE = 100L
 
 @Singleton
 class RemoteConfig @Inject constructor() {
-    val firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+    private val firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 
     init {
         firebaseRemoteConfig.setDefaults(
             hashMapOf(
                 "Referrals_Enabled" to false,
-                "Referrals_Incentive" to DEFAULT_INCENTIVE
+                "Referrals_Incentive" to DEFAULT_INCENTIVE,
+                "DynamicLink_iOS_BundleId" to "",
+                "DynamicLink_Domain_Prefix" to ""
             )
         )
         firebaseRemoteConfig
@@ -30,10 +32,10 @@ class RemoteConfig @Inject constructor() {
     val referralsIncentiveAmount
         get() = firebaseRemoteConfig.getLong("Referrals_Incentive")
 
-    val referralsIosBundleId
+    val referralsIosBundleId: String
         get() = firebaseRemoteConfig.getString("DynamicLink_iOS_BundleId")
 
-    val referralsDomain
+    val referralsDomain: String
         get() = firebaseRemoteConfig.getString("DynamicLink_Domain_Prefix")
 
     //val linkDomain
