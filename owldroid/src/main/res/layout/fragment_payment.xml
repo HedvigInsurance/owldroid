@@ -207,6 +207,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:visibility="gone"
+                app:cardCornerRadius="8dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer">
 
@@ -276,6 +277,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/circular_medium"
                 android:text="@string/PROFILE_PAYMENT_CHANGE_BANK_ACCOUNT"
                 android:textAllCaps="false"
                 android:textColor="@color/purple"

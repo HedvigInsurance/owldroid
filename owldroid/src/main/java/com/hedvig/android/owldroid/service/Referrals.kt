@@ -1,0 +1,38 @@
+package com.hedvig.android.owldroid.service
+
+import android.content.Context
+import android.net.Uri
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.hedvig.android.owldroid.R
+import io.reactivex.Single
+import javax.inject.Inject
+
+class Referrals @Inject constructor(val remoteConfig: RemoteConfig, val context: Context) {
+    fun generateFirebaseLink(memberId: String): Single<Uri> {
+        return Single.create { subscriber ->
+            FirebaseDynamicLinks
+                .getInstance()
+                .createDynamicLink()
+                .setDomainUriPrefix(remoteConfig.referralsDomain)
+                .setLink(Uri.parse("https://www.hedvig.com/referrals?memberId=$memberId&incentive=${remoteConfig.referralsIncentiveAmount}"))
+                .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
+                .setIosParameters(DynamicLink.IosParameters.Builder(remoteConfig.referralsIosBundleId).build())
+                .setSocialMetaTagParameters(
+                    DynamicLink.SocialMetaTagParameters.Builder()
+                        .setTitle(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_TITLE))
+                        .setDescription(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_DESCRIPTION))
+                        .setImageUrl(Uri.parse(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_IMAGE_URL)))
+                        .build()
+                )
+                .buildShortDynamicLink()
+                .addOnFailureListener { error ->
+                    subscriber.onError(error)
+                }
+                .addOnSuccessListener { link ->
+                    subscriber.onSuccess(link.shortLink)
+                }
+        }
+    }
+}
+

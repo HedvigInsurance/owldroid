@@ -2,8 +2,10 @@ package com.hedvig.android.owldroid.ui.profile
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.net.Uri
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.service.Referrals
 import com.hedvig.android.owldroid.util.Optional
 import com.hedvig.android.owldroid.util.extensions.default
 import io.reactivex.Observable
@@ -12,10 +14,12 @@ import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(private val profileRepository: ProfileRepository) : ViewModel() {
+class ProfileViewModel @Inject constructor(private val profileRepository: ProfileRepository, val referrals: Referrals) :
+    ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
     val trustlyUrl: MutableLiveData<String> = MutableLiveData()
+    val firebaseLink: MutableLiveData<Uri> = MutableLiveData()
 
     private val disposables = CompositeDisposable()
 
@@ -117,6 +121,17 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
                     } ?: Timber.e("Failed to refresh bank account info")
                 }, { error ->
                     Timber.e(error, "Failed to refresh bank account info")
+                })
+        )
+    }
+
+    fun generateReferralLink(memberId: String) {
+        disposables.add(
+            referrals.generateFirebaseLink(memberId)
+                .subscribe({ uri ->
+                    firebaseLink.postValue(uri)
+                }, { error ->
+                    Timber.e(error)
                 })
         )
     }

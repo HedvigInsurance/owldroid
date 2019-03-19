@@ -103,7 +103,7 @@
     <style name="DialogButton">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/purple</item>
-        <item name="android:fontFamily">@font/circular_bold</item>
+        <item name="android:fontFamily">@font/circular_medium</item>
         <item name="android:textSize">14sp</item>
     </style>
 

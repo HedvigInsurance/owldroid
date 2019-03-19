@@ -10,8 +10,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.dynamiclinks.DynamicLink
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.service.RemoteConfig
@@ -19,13 +17,14 @@ import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.increaseTouchableArea
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_referral.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class ReferralFragment : Fragment() {
@@ -78,47 +77,34 @@ class ReferralFragment : Fragment() {
         )
 
         referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
+
+        termsLink.increaseTouchableArea(100)
         termsLink.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms")))
         }
 
         profileViewModel.data.observe(this, Observer { data ->
             data?.member()?.id()?.let { memberId ->
-                FirebaseDynamicLinks
-                    .getInstance()
-                    .createDynamicLink()
-                    .setDomainUriPrefix(remoteConfig.referralsDomain)
-                    .setLink(Uri.parse("https://www.hedvig.com/referrals?memberId=$memberId&incentive=$incentive"))
-                    .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
-                    .setIosParameters(DynamicLink.IosParameters.Builder(remoteConfig.referralsIosBundleId).build())
-                    .setSocialMetaTagParameters(
-                        DynamicLink.SocialMetaTagParameters.Builder()
-                            .setTitle(resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_TITLE))
-                            .setDescription(resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_DESCRIPTION))
-                            .setImageUrl(Uri.parse(resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_IMAGE_URL)))
-                            .build()
-                    )
-                    .buildShortDynamicLink()
-                    .addOnSuccessListener { link ->
-                        referralButton.show()
-                        referralButton.setOnClickListener {
-                            val shareIntent = Intent().apply {
-                                action = Intent.ACTION_SEND
-                                putExtra(
-                                    Intent.EXTRA_TEXT,
-                                    interpolateTextKey(
-                                        resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
-                                        hashMapOf("INCENTIVE" to incentive, "LINK" to link.shortLink.toString())
-                                    )
+                profileViewModel.generateReferralLink(memberId)
+                profileViewModel.firebaseLink.observe(this, Observer { link ->
+                    loadingSpinner.remove()
+                    referralButton.show()
+                    referralButton.setOnClickListener {
+                        val shareIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                interpolateTextKey(
+                                    resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
+                                    hashMapOf("INCENTIVE" to incentive, "LINK" to link.toString())
                                 )
-                                type = "text/plain"
-                            }
-                            val chooser = Intent.createChooser(shareIntent, "Dela Hedvig")
-                            startActivity(chooser)
+                            )
+                            type = "text/plain"
                         }
-                    }.addOnFailureListener { error ->
-                        Timber.e(error, "Failed to create short link")
+                        val chooser = Intent.createChooser(shareIntent, "Dela Hedvig")
+                        startActivity(chooser)
                     }
+                })
             }
         })
     }

@@ -2,16 +2,14 @@ package com.hedvig.android.owldroid.ui.profile
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.Gravity
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
-import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.profile_menu_row.view.*
 
 class ProfileMenuRow : ConstraintLayout {
@@ -62,18 +60,13 @@ class ProfileMenuRow : ConstraintLayout {
         }
 
     fun setHighlighted() {
-        whenApiVersion(Build.VERSION_CODES.M) {
-            val outValue = TypedValue()
-            context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
-            profile_menu_row.foreground = resources.getDrawable(outValue.resourceId, null)
-            profile_menu_row.setBackgroundColor(context.compatColor(R.color.purple))
+        profile_menu_row.background = context.compatDrawable(R.drawable.purple_selectable)
 
-            val resolvedColor = context.compatColor(R.color.white)
-            profile_menu_row_name.setTextColor(resolvedColor)
-            profile_menu_row_description.setTextColor(resolvedColor)
+        val resolvedColor = context.compatColor(R.color.white)
+        profile_menu_row_name.setTextColor(resolvedColor)
+        profile_menu_row_description.setTextColor(resolvedColor)
 
-            iconNavigateNext.setColorFilter(resolvedColor)
-        }
+        iconNavigateNext.setColorFilter(resolvedColor)
     }
 
     private fun setupDynamicContent() {
