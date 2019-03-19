@@ -23,8 +23,11 @@ class DebugFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_debug, container, false)
     }
 
@@ -35,6 +38,7 @@ class DebugFragment : Fragment() {
         debug_open_marketing.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
         debug_open_logo.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
         debug_open_profile.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+        debugOpenReferralAcceptance.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
         debug_save_inputs.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
 
         val navigationController = requireActivity().findNavController(R.id.navigationHostFragment)
@@ -49,6 +53,10 @@ class DebugFragment : Fragment() {
 
         debug_open_profile.setOnClickListener {
             navigationController.navigate(R.id.action_debugFragment_to_profileFragment)
+        }
+
+        debugOpenReferralAcceptance.setOnClickListener {
+            navigationController.navigate(R.id.action_debugFragment_to_referralAcceptanceFragment)
         }
 
         debug_save_inputs.setOnClickListener {

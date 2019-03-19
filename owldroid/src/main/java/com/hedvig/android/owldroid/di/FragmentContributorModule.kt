@@ -10,6 +10,7 @@ import com.hedvig.android.owldroid.ui.profile.myhome.MyHomeFragment
 import com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment
 import com.hedvig.android.owldroid.ui.profile.payment.PaymentFragment
 import com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment
+import com.hedvig.android.owldroid.ui.profile.referral.ReferralFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -41,6 +42,9 @@ abstract class FragmentContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCharityFragment(): CharityFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeReferralFragment(): ReferralFragment
 
     @ContributesAndroidInjector
     abstract fun contributeAboutAppFragment(): AboutAppFragment

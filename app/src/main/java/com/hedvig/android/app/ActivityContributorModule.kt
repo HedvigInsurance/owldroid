@@ -10,4 +10,7 @@ abstract class ActivityContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDebugFragment(): DebugFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeReferralAcceptanceFragment(): ReferralAcceptanceFragment
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
@@ -26,6 +27,9 @@ import javax.inject.Inject
 class ProfileFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var remoteConfig: RemoteConfig
 
     private lateinit var profileViewModel: ProfileViewModel
 
@@ -50,6 +54,16 @@ class ProfileFragment : Fragment() {
         collapsingToolbar.title = resources.getString(R.string.PROFILE_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
+
+        if (remoteConfig.referralsEnabled) {
+            profileReferralRow.setHighlighted()
+            profileReferralRow.name = interpolateTextKey(
+                resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
+                hashMapOf("INCENTIVE" to "${remoteConfig.referralsIncentiveAmount}")
+            )
+            attachNavigationOnClick(profileReferralRow, "referrals")
+            profileReferralRow.show()
+        }
 
         populateData()
     }

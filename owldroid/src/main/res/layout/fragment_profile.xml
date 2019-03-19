@@ -22,6 +22,7 @@
                 android:id="@id/profile_loading_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +39,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible">
+
+                <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                    android:id="@id/profileReferralRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:description="@string/PROFILE_ROW_REFERRAL_DESCRIPTION"
+                    app:iconImage="@drawable/icon_share"
+                    tools:visibility="visible" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
                     android:id="@id/profile_my_info_row"
@@ -120,6 +130,7 @@
                 android:textColor="@color/pink"
                 android:textSize="16sp"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_rows_container"

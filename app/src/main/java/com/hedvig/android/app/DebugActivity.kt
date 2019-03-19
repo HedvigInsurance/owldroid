@@ -1,10 +1,12 @@
 package com.hedvig.android.app
 
 import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
 import androidx.navigation.findNavController
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.DaggerAppCompatActivity
 
@@ -15,6 +17,23 @@ class DebugActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debug)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        FirebaseDynamicLinks
+            .getInstance()
+            .getDynamicLink(intent)
+            .addOnSuccessListener { pendingDynamicLinkData ->
+                pendingDynamicLinkData?.link?.let { link ->
+                    link.getQueryParameter("memberId")?.let { referee ->
+                        getSharedPreferences("debug", Context.MODE_PRIVATE)
+                            .edit()
+                            .putString("referee", referee)
+                            .apply()
+                    }
+                }
+            }
     }
 
     override fun onPause() {
@@ -38,6 +57,7 @@ class DebugActivity : DaggerAppCompatActivity() {
                 "feedback" -> navigationController.navigate(R.id.action_profileFragment_to_feedbackFragment)
                 "about_app" -> navigationController.navigate(R.id.action_profileFragment_to_aboutAppFragment)
                 "licenses" -> navigationController.navigate(R.id.action_aboutAppFragment_to_licensesFragment)
+                "referrals" -> navigationController.navigate(R.id.action_profileFragment_to_referralFragment)
                 "back" -> navigationController.popBackStack()
                 "logout" -> navigationController.popBackStack()
             }

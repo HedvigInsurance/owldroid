@@ -73,6 +73,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/profileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_referralFragment"
+            app:destination="@id/referralFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -105,6 +113,9 @@
         <action
             android:id="@+id/action_debugFragment_to_logoFragment"
             app:destination="@id/logoFragment" />
+        <action
+            android:id="@+id/action_debugFragment_to_referralAcceptanceFragment"
+            app:destination="@id/referralAcceptanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/myHomeFragment"
@@ -143,4 +154,12 @@
         android:id="@+id/licensesFragment"
         android:name="com.hedvig.android.owldroid.ui.profile.aboutapp.LicensesFragment"
         android:label="LicensesFragment" />
+    <fragment
+        android:id="@+id/referralFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.referral.ReferralFragment"
+        android:label="ReferralFragment" />
+    <fragment
+        android:id="@+id/referralAcceptanceFragment"
+        android:name="com.hedvig.android.app.ReferralAcceptanceFragment"
+        android:label="ReferralAcceptanceFragment" />
 </navigation>

@@ -61,9 +61,9 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
 
     api "com.shopify:livedata-ktx:1.0.1"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
-    implementation 'nl.littlerobots.rxlint:rxlint:1.7.3'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    api 'nl.littlerobots.rxlint:rxlint:1.7.3'
 
     testImplementation 'junit:junit:4.12'
 
@@ -94,7 +94,10 @@ dependencies {
 
     implementation "com.airbnb.android:lottie:2.5.5"
 
-    implementation "com.google.firebase:firebase-core:16.0.1"
+    implementation "com.google.firebase:firebase-core:16.0.7"
+    api "com.google.firebase:firebase-dynamic-links:16.1.7"
+    api "com.google.firebase:firebase-firestore:18.1.0"
+    implementation 'com.google.firebase:firebase-config:16.4.0'
 
     implementation "com.github.bumptech.glide:glide:4.9.0"
     api 'com.ice.restring:restring:1.0.0'
