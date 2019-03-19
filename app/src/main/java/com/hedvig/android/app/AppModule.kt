@@ -1,6 +1,7 @@
 package com.hedvig.android.app
 
 import android.content.Context
+import android.support.annotation.Nullable
 import com.apollographql.apollo.Logger
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
@@ -45,12 +46,14 @@ class AppModule {
     }
 
     @Provides
-    fun provideApolloLogger(): Logger {
+    @Nullable
+    fun provideApolloLogger(): Logger? {
         return ApolloTimberLogger()
     }
 
     @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+    @Nullable
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor? {
         return HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
             Timber.tag("OkHttp").i(message)
         }).setLevel(HttpLoggingInterceptor.Level.BODY)

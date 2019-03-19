@@ -20,12 +20,14 @@ class OwldroidModule {
     @Singleton
     fun okHttpClient(
         asyncStorageNativeReader: AsyncStorageNativeReader,
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor?
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor {
-                val original = it.request()
-                val builder = original.newBuilder().method(original.method(), original.body())
+        val builder = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original
+                    .newBuilder()
+                    .method(original.method(), original.body())
                 try {
                     asyncStorageNativeReader.getKey("@hedvig:token")
                 } catch (exception: Exception) {
@@ -33,10 +35,10 @@ class OwldroidModule {
                 }?.let { token ->
                     builder.header("Authorization", token)
                 }
-                it.proceed(builder.build())
+                chain.proceed(builder.build())
             }
-            .addInterceptor(httpLoggingInterceptor)
-            .build()
+        httpLoggingInterceptor?.let { builder.addInterceptor(it) }
+        return builder.build()
     }
 
     @Provides
@@ -51,14 +53,16 @@ class OwldroidModule {
         okHttpClient: OkHttpClient,
         normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,
         @Named("GRAPHQL_URL") graphqlUrl: String,
-        logger: Logger
+        logger: Logger?
     ): ApolloClient {
-        return ApolloClient
+        val builder = ApolloClient
             .builder()
             .serverUrl(graphqlUrl)
             .okHttpClient(okHttpClient)
             .normalizedCache(normalizedCacheFactory)
-            .logger(logger)
-            .build()
+
+        logger?.let { builder.logger(it) }
+
+        return builder.build()
     }
 }
