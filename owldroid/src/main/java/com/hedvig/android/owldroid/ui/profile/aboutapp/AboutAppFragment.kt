@@ -41,7 +41,6 @@ class AboutAppFragment : Fragment() {
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
-        navController = requireActivity().findNavController(R.id.profileNavigationHost)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -49,6 +48,8 @@ class AboutAppFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        navController = requireActivity().findNavController(R.id.profileNavigationHost)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 

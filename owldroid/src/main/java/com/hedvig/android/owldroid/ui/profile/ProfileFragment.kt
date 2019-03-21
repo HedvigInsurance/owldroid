@@ -46,7 +46,6 @@ class ProfileFragment : Fragment() {
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
-        navController = requireActivity().findNavController(R.id.profileNavigationHost)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -54,6 +53,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navController = requireActivity().findNavController(R.id.profileNavigationHost)
 
         collapsingToolbar.title = resources.getString(R.string.PROFILE_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
