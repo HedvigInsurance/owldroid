@@ -1,18 +1,13 @@
 package com.hedvig.android.app
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
-import androidx.navigation.findNavController
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.DaggerAppCompatActivity
 
 class DebugActivity : DaggerAppCompatActivity() {
-    private lateinit var profileBroadcastReceiver: BroadcastReceiver
-    private lateinit var marketingBroadcastReceiver: BroadcastReceiver
+/*    private lateinit var profileBroadcastReceiver: BroadcastReceiver
+    private lateinit var marketingBroadcastReceiver: BroadcastReceiver*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +31,14 @@ class DebugActivity : DaggerAppCompatActivity() {
             }
     }
 
-    override fun onPause() {
+/*    override fun onPause() {
         val localBroadcastManager = LocalBroadcastManager.getInstance(this)
         localBroadcastManager.unregisterReceiver(profileBroadcastReceiver)
         localBroadcastManager.unregisterReceiver(marketingBroadcastReceiver)
         super.onPause()
-    }
+    }*/
 
-    override fun onResume() {
+/*    override fun onResume() {
         val navigationController = findNavController(R.id.navigationHostFragment)
 
         profileBroadcastReceiver = newBroadcastReceiver { _, intent ->
@@ -70,5 +65,5 @@ class DebugActivity : DaggerAppCompatActivity() {
         localBroadcastManager.registerReceiver(profileBroadcastReceiver, IntentFilter("profileNavigation"))
         localBroadcastManager.registerReceiver(marketingBroadcastReceiver, IntentFilter("marketingResult"))
         super.onResume()
-    }
+    }*/
 }

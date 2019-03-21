@@ -1,13 +1,13 @@
 package com.hedvig.android.app
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.findNavController
 import com.apollographql.apollo.ApolloClient
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
@@ -41,22 +41,20 @@ class DebugFragment : Fragment() {
         debugOpenReferralAcceptance.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
         debug_save_inputs.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
 
-        val navigationController = requireActivity().findNavController(R.id.navigationHostFragment)
-
         debug_open_marketing.setOnClickListener {
-            navigationController.navigate(R.id.action_debugFragment_to_marketingFragment)
+            startActivity(Intent(requireContext(), MarketingActivity::class.java))
         }
 
         debug_open_logo.setOnClickListener {
-            navigationController.navigate(R.id.action_debugFragment_to_logoFragment)
+            startActivity(Intent(requireContext(), LogoActivity::class.java))
         }
 
         debug_open_profile.setOnClickListener {
-            navigationController.navigate(R.id.action_debugFragment_to_profileFragment)
+            startActivity(Intent(requireContext(), ProfileActivity::class.java))
         }
 
         debugOpenReferralAcceptance.setOnClickListener {
-            navigationController.navigate(R.id.action_debugFragment_to_referralAcceptanceFragment)
+            startActivity(Intent(requireContext(), ReferralAcceptanceActivity::class.java))
         }
 
         debug_save_inputs.setOnClickListener {

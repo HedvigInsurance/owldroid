@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
@@ -93,7 +94,10 @@ class ProfileFragment : Fragment() {
         val firstName = profileData.member().firstName() ?: ""
         val lastName = profileData.member().lastName() ?: ""
         profile_my_info_row.description = "$firstName $lastName"
-        attachNavigationOnClick(profile_my_info_row, "my_info")
+        profile_my_info_row.setOnClickListener {
+            requireActivity().findNavController(R.id.profileNavigationHost)
+                .navigate(R.id.action_profileFragment_to_myInfoFragment)
+        }
     }
 
     private fun setupMyHomeRow(profileData: ProfileQuery.Data) {
