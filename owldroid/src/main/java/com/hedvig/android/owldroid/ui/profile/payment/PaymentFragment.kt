@@ -13,6 +13,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
@@ -66,9 +67,7 @@ class PaymentFragment : Fragment() {
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "back")
-            localBroadcastManager.sendBroadcast(intent)
+            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
 
         priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
@@ -102,9 +101,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun openTrustly() {
-        val intent = Intent("profileNavigation")
-        intent.putExtra("action", "trustly")
-        localBroadcastManager.sendBroadcast(intent)
+        // TODO Set up native navigation
     }
 
     private fun loadData() {

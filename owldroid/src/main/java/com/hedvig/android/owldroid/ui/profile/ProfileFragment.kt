@@ -10,13 +10,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.util.extensions.compatFont
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
@@ -34,6 +34,8 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
+    private lateinit var navController: NavController
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -44,6 +46,7 @@ class ProfileFragment : Fragment() {
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
+        navController = requireActivity().findNavController(R.id.profileNavigationHost)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -62,7 +65,9 @@ class ProfileFragment : Fragment() {
                 resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
                 hashMapOf("INCENTIVE" to "${remoteConfig.referralsIncentiveAmount}")
             )
-            attachNavigationOnClick(profileReferralRow, "referrals")
+            profileReferralRow.setOnClickListener {
+                navController.navigate(R.id.action_profileFragment_to_referralFragment)
+            }
             profileReferralRow.show()
         }
 
@@ -84,9 +89,15 @@ class ProfileFragment : Fragment() {
                 setupPolicyRow(data)
             }
 
-            attachNavigationOnClick(profile_feedback, "feedback")
-            attachNavigationOnClick((profile_about_app), "about_app")
-            attachNavigationOnClick(profile_log_out_button, "logout")
+            profile_feedback.setOnClickListener {
+                navController.navigate(R.id.action_profileFragment_to_feedbackFragment)
+            }
+            profile_about_app.setOnClickListener {
+                navController.navigate(R.id.action_profileFragment_to_aboutAppFragment)
+            }
+            profile_log_out_button.setOnClickListener {
+                // TODO Make some native navigation module and do stuff here
+            }
         })
     }
 
@@ -95,14 +106,15 @@ class ProfileFragment : Fragment() {
         val lastName = profileData.member().lastName() ?: ""
         profile_my_info_row.description = "$firstName $lastName"
         profile_my_info_row.setOnClickListener {
-            requireActivity().findNavController(R.id.profileNavigationHost)
-                .navigate(R.id.action_profileFragment_to_myInfoFragment)
+            navController.navigate(R.id.action_profileFragment_to_myInfoFragment)
         }
     }
 
     private fun setupMyHomeRow(profileData: ProfileQuery.Data) {
         profile_my_home_row.description = profileData.insurance().address()
-        attachNavigationOnClick(profile_my_home_row, "my_home")
+        profile_my_home_row.setOnClickListener {
+            navController.navigate(R.id.action_profileFragment_to_myHomeFragment)
+        }
     }
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
@@ -111,12 +123,16 @@ class ProfileFragment : Fragment() {
             resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
             hashMapOf("NUMBER" to "$personsInHousehold")
         )
-        attachNavigationOnClick(profile_coinsured_row, "coinsured")
+        profile_coinsured_row.setOnClickListener {
+            navController.navigate(R.id.action_profileFragment_to_coinsuredFragment)
+        }
     }
 
     private fun setupCharity(profileData: ProfileQuery.Data) {
         profile_charity_row.description = profileData.cashback()?.name()
-        attachNavigationOnClick(profile_charity_row, "charity")
+        profile_charity_row.setOnClickListener {
+            navController.navigate(R.id.action_profileFragment_to_charityFragment)
+        }
     }
 
     private fun setupPayment(profileData: ProfileQuery.Data) {
@@ -124,14 +140,8 @@ class ProfileFragment : Fragment() {
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
             hashMapOf("COST" to profileData.insurance().monthlyCost()?.toString())
         )
-        attachNavigationOnClick(profile_payment_row, "payment")
-    }
-
-    private fun attachNavigationOnClick(view: View, subscreen: String) {
-        view.setOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", subscreen)
-            localBroadcastManager.sendBroadcast(intent)
+        profile_payment_row.setOnClickListener {
+            navController.navigate(R.id.action_profileFragment_to_paymentFragment)
         }
     }
 

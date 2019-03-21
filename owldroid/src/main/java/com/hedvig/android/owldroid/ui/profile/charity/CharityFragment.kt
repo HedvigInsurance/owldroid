@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.R
@@ -59,9 +60,7 @@ class CharityFragment : Fragment() {
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "back")
-            localBroadcastManager.sendBroadcast(intent)
+            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
 
         loadData()

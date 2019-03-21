@@ -3,19 +3,19 @@ package com.hedvig.android.owldroid.ui.profile.aboutapp
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatFont
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
@@ -33,12 +33,15 @@ class AboutAppFragment : Fragment() {
         super.onAttach(context)
     }
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
+        navController = requireActivity().findNavController(R.id.profileNavigationHost)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -54,15 +57,11 @@ class AboutAppFragment : Fragment() {
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "back")
-            localBroadcastManager.sendBroadcast(intent)
+            navController.popBackStack()
         }
 
         licenseAttributions.setOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "licenses")
-            localBroadcastManager.sendBroadcast(intent)
+            navController.navigate(R.id.action_aboutAppFragment_to_licensesFragment)
         }
 
         versionNumber.text = interpolateTextKey(
