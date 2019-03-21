@@ -34,7 +34,9 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.profileNavigationHost)
+    }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -53,8 +55,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        navController = requireActivity().findNavController(R.id.profileNavigationHost)
 
         collapsingToolbar.title = resources.getString(R.string.PROFILE_TITLE)
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))

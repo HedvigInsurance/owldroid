@@ -33,7 +33,9 @@ class AboutAppFragment : Fragment() {
         super.onAttach(context)
     }
 
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.profileNavigationHost)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +50,7 @@ class AboutAppFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        navController = requireActivity().findNavController(R.id.profileNavigationHost)
+
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
