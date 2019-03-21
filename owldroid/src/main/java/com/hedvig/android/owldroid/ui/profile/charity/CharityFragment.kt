@@ -3,7 +3,7 @@ package com.hedvig.android.owldroid.ui.profile.charity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -13,13 +13,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatFont
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
@@ -89,7 +89,7 @@ class CharityFragment : Fragment() {
         Glide
             .with(requireContext())
             .load(cashback.imageUrl())
-            .override(Target.SIZE_ORIGINAL)
+            .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
             .into(selectedCharityBanner)
 
         selectedCharityCardTitle.text = cashback.name()
