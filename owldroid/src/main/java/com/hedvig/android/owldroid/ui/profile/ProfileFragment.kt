@@ -18,6 +18,7 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.util.extensions.compatFont
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
@@ -100,7 +101,11 @@ class ProfileFragment : Fragment() {
                 navController.navigate(R.id.action_profileFragment_to_aboutAppFragment)
             }
             profile_log_out_button.setOnClickListener {
-                // TODO Make some native navigation module and do stuff here
+                profileViewModel.logout {
+                    localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
+                        putExtra("action", "logout")
+                    })
+                }
             }
         })
     }

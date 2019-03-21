@@ -138,4 +138,16 @@ class ProfileViewModel @Inject constructor(
                 })
         )
     }
+
+    fun logout(callback: () -> Unit) {
+        disposables.add(
+            profileRepository
+                .logout()
+                .subscribe({
+                    callback()
+                }, { error ->
+                    Timber.e(error, "Failed to log out")
+                })
+        )
+    }
 }

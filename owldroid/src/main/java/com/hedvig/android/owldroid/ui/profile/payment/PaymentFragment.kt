@@ -13,6 +13,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
@@ -43,6 +44,10 @@ class PaymentFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.profileNavigationHost)
+    }
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -67,7 +72,7 @@ class PaymentFragment : Fragment() {
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
-            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
+            navController.popBackStack()
         }
 
         priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
@@ -90,19 +95,16 @@ class PaymentFragment : Fragment() {
         )
 
         changeBankAccount.setOnClickListener {
-            openTrustly()
+            navController.navigate(R.id.action_paymentFragment_to_trustlyFragment)
         }
 
         connectBankAccount.setOnClickListener {
-            openTrustly()
+            navController.navigate(R.id.action_paymentFragment_to_trustlyFragment)
         }
 
         loadData()
     }
 
-    private fun openTrustly() {
-        // TODO Set up native navigation
-    }
 
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->

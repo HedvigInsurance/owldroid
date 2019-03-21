@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,6 +19,7 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
@@ -50,16 +52,7 @@ class TrustlyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        trustlySuccessClose.background.compatSetTint(requireContext().compatColor(R.color.green))
-        trustlySuccessClose.setOnClickListener {
-            profileViewModel.refreshBankAccountInfo()
-            goBack()
-        }
-
-        trustlyFailClose.background.compatSetTint(requireContext().compatColor(R.color.pink))
-        trustlyFailClose.setOnClickListener {
-            goBack()
-        }
+        setupCloseButtons()
 
         trustlyContainer.settings.apply {
             javaScriptEnabled = true
@@ -111,6 +104,22 @@ class TrustlyFragment : Fragment() {
 
         trustlyContainer.removeAllViews()
         trustlyContainer.destroy()
+    }
+
+    fun setupCloseButtons() {
+        trustlySuccessClose.background.compatSetTint(requireContext().compatColor(R.color.green))
+        trustlySuccessClose.setOnClickListener {
+            profileViewModel.refreshBankAccountInfo()
+            localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
+                putExtra("action", "clearDirectDebitStatus")
+            })
+            goBack()
+        }
+
+        trustlyFailClose.background.compatSetTint(requireContext().compatColor(R.color.pink))
+        trustlyFailClose.setOnClickListener {
+            goBack()
+        }
     }
 
     private fun goBack() {
