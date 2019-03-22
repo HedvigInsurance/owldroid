@@ -3,7 +3,6 @@ package com.hedvig.android.owldroid.ui.profile.payment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -25,7 +24,6 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.concat
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
@@ -105,10 +103,10 @@ class PaymentFragment : Fragment() {
         loadData()
     }
 
-
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
+            resetViews()
             sphereContainer.show()
 
             val monthlyCost = profileData?.insurance()?.monthlyCost()?.toString()
@@ -133,6 +131,13 @@ class PaymentFragment : Fragment() {
         })
     }
 
+    private fun resetViews() {
+        connectBankAccountContainer.remove()
+        changeBankAccount.remove()
+        separator.remove()
+        bankAccountUnderChangeParagraph.remove()
+    }
+
     private fun setupBankAccountInformation(
         bankAccount: ProfileQuery.BankAccount?,
         directDebitStatus: DirectDebitStatus?
@@ -148,7 +153,6 @@ class PaymentFragment : Fragment() {
         if (directDebitStatus == DirectDebitStatus.PENDING) {
             accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
             bankAccountUnderChangeParagraph.show()
-            changeBankAccount.remove()
             return
         }
 
