@@ -4,14 +4,14 @@
     <item name="logo_content" type="id" />
     <item name="profile_screen_content" type="id" />
     <item name="profile_member_info_screen_content" type="id" />
-    <item name="marketing_proceed" type="id" />
-    <item name="marketing_say_hello" type="id" />
+    <item name="getHedvig" type="id" />
+    <item name="sayHello" type="id" />
     <item name="pager" type="id" />
-    <item name="blur_overlay" type="id" />
+    <item name="blurOverlay" type="id" />
     <item name="marketing_hedvig_logo" type="id" />
-    <item name="story_progress_indicator_container" type="id" />
-    <item name="hedvig_face_animation" type="id" />
-    <item name="marketing_login" type="id" />
+    <item name="storyProgressIndicatorContainer" type="id" />
+    <item name="hedvigFaceAnimation" type="id" />
+    <item name="login" type="id" />
     <item name="activity_marketing" type="id" />
     <item name="loadingSpinner" type="id" />
     <item name="profile_charity_image" type="id" />

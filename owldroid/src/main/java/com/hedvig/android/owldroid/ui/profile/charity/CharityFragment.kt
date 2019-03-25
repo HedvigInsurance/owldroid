@@ -3,7 +3,6 @@ package com.hedvig.android.owldroid.ui.profile.charity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
