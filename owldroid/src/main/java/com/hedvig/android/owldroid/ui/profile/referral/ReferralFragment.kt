@@ -89,13 +89,15 @@ class ReferralFragment : Fragment() {
                 profileViewModel.generateReferralLink(memberId)
                 profileViewModel.firebaseLink.observe(this, Observer { link ->
                     referralButton.show()
-                    buttonAnimator = ValueAnimator.ofFloat(75f, 0f).apply {
-                        duration = 300
-                        addUpdateListener { translation ->
-                            referralButton.translationY = translation.animatedValue as Float
+                    if (referralButton.translationY != 0f) {
+                        buttonAnimator = ValueAnimator.ofFloat(75f, 0f).apply {
+                            duration = 300
+                            addUpdateListener { translation ->
+                                referralButton.translationY = translation.animatedValue as Float
+                            }
+                            interpolator = OvershootInterpolator()
+                            start()
                         }
-                        interpolator = OvershootInterpolator()
-                        start()
                     }
                     referralButton.setOnClickListener {
                         val shareIntent = Intent().apply {
