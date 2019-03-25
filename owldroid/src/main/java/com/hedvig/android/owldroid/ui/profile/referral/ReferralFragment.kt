@@ -1,5 +1,6 @@
 package com.hedvig.android.owldroid.ui.profile.referral
 
+import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
@@ -19,7 +21,6 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.increaseTouchableArea
-import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
@@ -36,6 +37,8 @@ class ReferralFragment : Fragment() {
     lateinit var remoteConfig: RemoteConfig
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    private var buttonAnimator: ValueAnimator? = null
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -85,8 +88,15 @@ class ReferralFragment : Fragment() {
             data?.member()?.id()?.let { memberId ->
                 profileViewModel.generateReferralLink(memberId)
                 profileViewModel.firebaseLink.observe(this, Observer { link ->
-                    loadingSpinner.remove()
                     referralButton.show()
+                    buttonAnimator = ValueAnimator.ofFloat(75f, 0f).apply {
+                        duration = 300
+                        addUpdateListener { translation ->
+                            referralButton.translationY = translation.animatedValue as Float
+                        }
+                        interpolator = OvershootInterpolator()
+                        start()
+                    }
                     referralButton.setOnClickListener {
                         val shareIntent = Intent().apply {
                             action = Intent.ACTION_SEND
@@ -105,5 +115,11 @@ class ReferralFragment : Fragment() {
                 })
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        buttonAnimator?.removeAllListeners()
+        buttonAnimator?.cancel()
     }
 }

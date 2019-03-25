@@ -134,33 +134,6 @@
                     tools:text="@string/PROFILE_REFERRAL_THEY_GET_DESCRIPTION" />
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@id/loadingSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/termsContainer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer"
-                tools:visibility="gone" />
-
-            <Button
-                android:id="@+id/referralButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/button_primary"
-                android:text="@string/PROFILE_REFERRAL_SHARE"
-                android:theme="@style/HedvigButton"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/termsContainer"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer"
-                tools:backgroundTint="@color/purple"
-                tools:visibility="visible" />
-
             <LinearLayout
                 android:id="@+id/termsContainer"
                 android:layout_width="wrap_content"
@@ -169,7 +142,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/referralButton">
+                app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -193,6 +166,29 @@
 
         </android.support.constraint.ConstraintLayout>
 
+
     </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/referralButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_primary"
+        android:text="@string/PROFILE_REFERRAL_SHARE"
+        android:theme="@style/HedvigButton"
+        android:visibility="gone"
+        android:translationY="75dp"
+        android:drawableEnd="@drawable/icon_share_white"
+        android:drawablePadding="8dp"
+        android:layout_gravity="bottom|center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/termsContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theyGetDescriptionContainer"
+        tools:backgroundTint="@color/purple"
+        tools:translationY="0dp"
+        tools:visibility="visible" />
 
 </android.support.design.widget.CoordinatorLayout>
