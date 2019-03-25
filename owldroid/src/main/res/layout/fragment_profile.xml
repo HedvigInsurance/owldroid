@@ -20,7 +20,7 @@
             android:layout_marginBottom="?attr/actionBarSize">
 
             <ProgressBar
-                android:id="@id/profile_loading_spinner"
+                android:id="@id/loadingSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="48dp"
@@ -31,7 +31,7 @@
                 tools:visibility="gone" />
 
             <LinearLayout
-                android:id="@id/profile_rows_container"
+                android:id="@id/rowContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -52,50 +52,52 @@
                     tools:visibility="visible" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_my_info_row"
+                    android:id="@id/myInfoRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_info"
                     app:name="@string/PROFILE_ROW_MY_INFO_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_my_home_row"
+                    android:id="@id/myHomeRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_home"
                     app:name="@string/PROFILE_ROW_MY_HOME_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_coinsured_row"
+                    android:id="@id/coinsuredRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_coinsured"
                     app:name="@string/PROFILE_ROW_COINSURED_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_charity_row"
+                    android:id="@id/charityRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_charity"
                     app:name="@string/PROFILE_ROW_CHARITY_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_payment_row"
+                    android:id="@id/paymentRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_payment"
                     app:name="@string/PROFILE_ROW_PAYMENT_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_insurance_certificate_row"
+                    android:id="@id/insuranceCertificateRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:description="@string/PROFILE_ROW_INSURANCE_LETTER_DESCRIPTION"
                     app:iconImage="@drawable/icon_insurance_certificate"
-                    app:name="@string/PROFILE_ROW_INSURANCE_LETTER_TITLE" />
+                    app:name="@string/PROFILE_ROW_INSURANCE_LETTER_TITLE"
+                    tools:visibility="visible" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_feedback"
+                    android:id="@id/feedbackRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:description="@string/PROFILE_ROW_FEEDBACK_DESCRIPTION"
@@ -103,7 +105,7 @@
                     app:name="@string/PROFILE_ROW_FEEDBACK_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_about_app"
+                    android:id="@id/aboutAppRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
@@ -118,7 +120,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@id/profile_log_out_button"
+                android:id="@id/logout"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +136,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_rows_container"
+                app:layout_constraintTop_toBottomOf="@id/rowContainer"
                 tools:visibility="visible" />
 
         </android.support.constraint.ConstraintLayout>

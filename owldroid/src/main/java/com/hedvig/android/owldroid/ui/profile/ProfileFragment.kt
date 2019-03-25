@@ -81,9 +81,9 @@ class ProfileFragment : Fragment() {
 
     private fun populateData() {
         profileViewModel.data.observe(this, Observer { profileData ->
-            profile_loading_spinner.remove()
-            profile_rows_container.show()
-            profile_log_out_button.show()
+            loadingSpinner.remove()
+            rowContainer.show()
+            logout.show()
 
             profileData?.let { data ->
                 setupMyInfoRow(data)
@@ -94,13 +94,13 @@ class ProfileFragment : Fragment() {
                 setupPolicyRow(data)
             }
 
-            profile_feedback.setOnClickListener {
+            feedbackRow.setOnClickListener {
                 navController.navigate(R.id.action_profileFragment_to_feedbackFragment)
             }
-            profile_about_app.setOnClickListener {
+            aboutAppRow.setOnClickListener {
                 navController.navigate(R.id.action_profileFragment_to_aboutAppFragment)
             }
-            profile_log_out_button.setOnClickListener {
+            logout.setOnClickListener {
                 profileViewModel.logout {
                     localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
                         putExtra("action", "logout")
@@ -113,51 +113,52 @@ class ProfileFragment : Fragment() {
     private fun setupMyInfoRow(profileData: ProfileQuery.Data) {
         val firstName = profileData.member().firstName() ?: ""
         val lastName = profileData.member().lastName() ?: ""
-        profile_my_info_row.description = "$firstName $lastName"
-        profile_my_info_row.setOnClickListener {
+        myInfoRow.description = "$firstName $lastName"
+        myInfoRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_myInfoFragment)
         }
     }
 
     private fun setupMyHomeRow(profileData: ProfileQuery.Data) {
-        profile_my_home_row.description = profileData.insurance().address()
-        profile_my_home_row.setOnClickListener {
+        myHomeRow.description = profileData.insurance().address()
+        myHomeRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_myHomeFragment)
         }
     }
 
     private fun setupCoinsured(profileData: ProfileQuery.Data) {
         val personsInHousehold = profileData.insurance().personsInHousehold() ?: 1
-        profile_coinsured_row.description = interpolateTextKey(
+        coinsuredRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
             hashMapOf("NUMBER" to "$personsInHousehold")
         )
-        profile_coinsured_row.setOnClickListener {
+        coinsuredRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_coinsuredFragment)
         }
     }
 
     private fun setupCharity(profileData: ProfileQuery.Data) {
-        profile_charity_row.description = profileData.cashback()?.name()
-        profile_charity_row.setOnClickListener {
+        charityRow.description = profileData.cashback()?.name()
+        charityRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_charityFragment)
         }
     }
 
     private fun setupPayment(profileData: ProfileQuery.Data) {
-        profile_payment_row.description = interpolateTextKey(
+        paymentRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
             hashMapOf("COST" to profileData.insurance().monthlyCost()?.toString())
         )
-        profile_payment_row.setOnClickListener {
+        paymentRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_paymentFragment)
         }
     }
 
     private fun setupPolicyRow(profileData: ProfileQuery.Data) {
         profileData.insurance().policyUrl()?.let { policyUrl ->
+            insuranceCertificateRow.show()
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyUrl))
-            profile_insurance_certificate_row.setOnClickListener {
+            insuranceCertificateRow.setOnClickListener {
                 startActivity(intent)
             }
         }
