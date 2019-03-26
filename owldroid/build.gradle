@@ -117,7 +117,7 @@ textkeys {
     excludedLanguages = ['en_SE']
 }
 
-tasks.register("updateSchema", Exec) {
+task updateSchema(type: Exec) {
     group = 'GraphQL'
     description = 'Fetches the latest schema from our dev GraphQL-server'
 
