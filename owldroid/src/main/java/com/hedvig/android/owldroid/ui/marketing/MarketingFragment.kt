@@ -172,7 +172,6 @@ class MarketingFragment : Fragment() {
         })
     }
 
-
     private fun setupBlurOverlay() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
             if (blurred == null || !blurred) {
@@ -253,7 +252,6 @@ class MarketingFragment : Fragment() {
                 }
             })
 
-
             val currentTop = getHedvig.top
             val newTop = activity_marketing.height / 2 + getHedvig.height / 2
             val translation = (newTop - currentTop).toFloat()
@@ -307,7 +305,7 @@ class MarketingFragment : Fragment() {
             localBroadcastManager.sendBroadcast(intent)
         }
 
-        login.setOnClickListener { view ->
+        getHedvig.setOnClickListener { view ->
             trackClickGetHedvig()
             view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
