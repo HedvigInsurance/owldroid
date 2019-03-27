@@ -63,7 +63,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController.addOnDestinationChangedListener(navigationAnalytics)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
@@ -84,6 +83,11 @@ class ProfileFragment : Fragment() {
         }
 
         populateData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        navController.addOnDestinationChangedListener(navigationAnalytics)
     }
 
     override fun onDestroyView() {
