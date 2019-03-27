@@ -84,8 +84,8 @@ class MyInfoFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val prevEmail = profileViewModel.data.value?.member()?.email()
-        val prevPhoneNumber = profileViewModel.data.value?.member()?.phoneNumber()
+        val prevEmail = profileViewModel.data.value?.member()?.email() ?: ""
+        val prevPhoneNumber = profileViewModel.data.value?.member()?.phoneNumber() ?: ""
 
         val newEmail = emailInput.text.toString()
         val newPhoneNumber = phoneNumberInput.text.toString()
