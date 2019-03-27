@@ -17,6 +17,7 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.service.RemoteConfig
+import com.hedvig.android.owldroid.util.NavigationAnalytics
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
@@ -35,6 +36,10 @@ class ProfileFragment : Fragment() {
     lateinit var remoteConfig: RemoteConfig
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    private val navigationAnalytics: NavigationAnalytics by lazy {
+        NavigationAnalytics(requireActivity())
+    }
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.profileNavigationHost)
@@ -58,6 +63,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navController.addOnDestinationChangedListener(navigationAnalytics)
+
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
         collapsingToolbar.title = resources.getString(R.string.PROFILE_TITLE)
@@ -77,6 +84,11 @@ class ProfileFragment : Fragment() {
         }
 
         populateData()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        navController.removeOnDestinationChangedListener(navigationAnalytics)
     }
 
     private fun populateData() {
