@@ -16,7 +16,6 @@ import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
-import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.util.NavigationAnalytics
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
@@ -31,9 +30,6 @@ import javax.inject.Inject
 class ProfileFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var remoteConfig: RemoteConfig
 
     private lateinit var profileViewModel: ProfileViewModel
 
@@ -70,19 +66,27 @@ class ProfileFragment : Fragment() {
         collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
 
-        if (remoteConfig.referralsEnabled) {
-            profileReferralRow.setHighlighted()
-            profileReferralRow.name = interpolateTextKey(
-                resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
-                hashMapOf("INCENTIVE" to "${remoteConfig.referralsIncentiveAmount}")
-            )
-            profileReferralRow.setOnClickListener {
-                navController.navigate(R.id.action_profileFragment_to_referralFragment)
-            }
-            profileReferralRow.show()
-        }
-
         populateData()
+        loadReferralFeature()
+    }
+
+    private fun loadReferralFeature() {
+        profileViewModel.remoteConfigData.observe(this, Observer { remoteConfigData ->
+            remoteConfigData?.let { rcd ->
+                if (!rcd.referralsEnabled) {
+                    return@Observer
+                }
+                profileReferralRow.setHighlighted()
+                profileReferralRow.name = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
+                    hashMapOf("INCENTIVE" to "${rcd.referralsIncentiveAmount}")
+                )
+                profileReferralRow.setOnClickListener {
+                    navController.navigate(R.id.action_profileFragment_to_referralFragment)
+                }
+                profileReferralRow.show()
+            }
+        })
     }
 
     override fun onStart() {

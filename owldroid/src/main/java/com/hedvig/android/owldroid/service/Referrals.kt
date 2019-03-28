@@ -8,16 +8,16 @@ import com.hedvig.android.owldroid.R
 import io.reactivex.Single
 import javax.inject.Inject
 
-class Referrals @Inject constructor(private val remoteConfig: RemoteConfig, val context: Context) {
-    fun generateFirebaseLink(memberId: String): Single<Uri> {
+class Referrals @Inject constructor(val context: Context) {
+    fun generateFirebaseLink(memberId: String, remoteConfigData: RemoteConfigData): Single<Uri> {
         return Single.create { subscriber ->
             FirebaseDynamicLinks
                 .getInstance()
                 .createDynamicLink()
-                .setDomainUriPrefix(remoteConfig.referralsDomain)
-                .setLink(Uri.parse("https://www.hedvig.com/referrals?memberId=$memberId&incentive=${remoteConfig.referralsIncentiveAmount}"))
+                .setDomainUriPrefix(remoteConfigData.referralsDomain)
+                .setLink(Uri.parse("https://www.hedvig.com/referrals?memberId=$memberId&incentive=${remoteConfigData.referralsIncentiveAmount}"))
                 .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
-                .setIosParameters(DynamicLink.IosParameters.Builder(remoteConfig.referralsIosBundleId).build())
+                .setIosParameters(DynamicLink.IosParameters.Builder(remoteConfigData.referralsIosBundleId).build())
                 .setSocialMetaTagParameters(
                     DynamicLink.SocialMetaTagParameters.Builder()
                         .setTitle(context.resources.getString(R.string.PROFILE_REFERRAL_LINK_SOCIAL_TITLE))

@@ -1,6 +1,7 @@
 package com.hedvig.android.owldroid.service
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,7 +9,7 @@ const val DEFAULT_INCENTIVE = 100L
 
 @Singleton
 class RemoteConfig @Inject constructor() {
-    private val firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+    private val firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 
     init {
         firebaseRemoteConfig.setDefaults(
@@ -19,24 +20,38 @@ class RemoteConfig @Inject constructor() {
                 "DynamicLink_Domain_Prefix" to ""
             )
         )
-        firebaseRemoteConfig
-            .fetch()
-            .addOnSuccessListener {
-                firebaseRemoteConfig.activateFetched()
-            }
     }
 
-    val referralsEnabled
-        get() = firebaseRemoteConfig.getBoolean("Referrals_Enabled")
+    fun fetch(): Observable<RemoteConfigData> {
+        return Observable.create<RemoteConfigData> { emitter ->
+            emitter.onNext(RemoteConfigData.from(firebaseRemoteConfig))
 
-    val referralsIncentiveAmount
-        get() = firebaseRemoteConfig.getLong("Referrals_Incentive")
+            firebaseRemoteConfig
+                .fetch()
+                .addOnSuccessListener {
+                    firebaseRemoteConfig
+                        .activateFetched()
+                    emitter.onNext(RemoteConfigData.from(firebaseRemoteConfig))
+                }
+                .addOnFailureListener { error ->
+                    emitter.onError(error)
+                }
+        }
+    }
+}
 
-    val referralsIosBundleId: String
-        get() = firebaseRemoteConfig.getString("DynamicLink_iOS_BundleId")
-
+data class RemoteConfigData(
+    val referralsEnabled: Boolean,
+    val referralsIncentiveAmount: Int,
+    val referralsIosBundleId: String,
     val referralsDomain: String
-        get() = firebaseRemoteConfig.getString("DynamicLink_Domain_Prefix")
-
-    //val linkDomain
+) {
+    companion object {
+        fun from(firebaseRemoteConfig: FirebaseRemoteConfig): RemoteConfigData = RemoteConfigData(
+            firebaseRemoteConfig.getBoolean("Referrals_Enabled"),
+            firebaseRemoteConfig.getLong("Referrals_Incentive").toInt(),
+            firebaseRemoteConfig.getString("DynamicLink_iOS_BundleId"),
+            firebaseRemoteConfig.getString("DynamicLink_Domain_Prefix")
+        )
+    }
 }

@@ -21,6 +21,7 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.increaseTouchableArea
+import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
@@ -66,57 +67,64 @@ class ReferralFragment : Fragment() {
             requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
 
-        val incentive = remoteConfig.referralsIncentiveAmount.toString()
+        profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
+            remoteConfigData?.let { rcd ->
+                val incentive = rcd.referralsIncentiveAmount.toString()
 
-        youGetDescription.text = interpolateTextKey(
-            resources.getString(R.string.PROFILE_REFERRAL_YOU_GET_DESCRIPTION),
-            hashMapOf("INCENTIVE" to incentive)
-        )
-        theyGetDescription.text = interpolateTextKey(
-            resources.getString(R.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
-            hashMapOf("INCENTIVE" to incentive)
-        )
+                youGetDescription.text = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_REFERRAL_YOU_GET_DESCRIPTION),
+                    hashMapOf("INCENTIVE" to incentive)
+                )
+                theyGetDescription.text = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
+                    hashMapOf("INCENTIVE" to incentive)
+                )
 
-        referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
+                referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
 
-        termsLink.increaseTouchableArea(100)
-        termsLink.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms")))
-        }
+                termsLink.increaseTouchableArea(100)
+                termsLink.setOnClickListener {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hedvig.com/invite/terms")))
+                }
 
-        profileViewModel.data.observe(this, Observer { data ->
-            data?.member()?.id()?.let { memberId ->
-                profileViewModel.generateReferralLink(memberId)
-                profileViewModel.firebaseLink.observe(this, Observer { link ->
-                    referralButton.show()
-                    if (referralButton.translationY != 0f) {
-                        buttonAnimator = ValueAnimator.ofFloat(75f, 0f).apply {
-                            duration = 300
-                            addUpdateListener { translation ->
-                                referralButton.translationY = translation.animatedValue as Float
+                profileViewModel.data.observe(this, Observer { data ->
+                    data?.member()?.id()?.let { memberId ->
+                        profileViewModel.generateReferralLink(memberId)
+                        profileViewModel.firebaseLink.observe(this, Observer { link ->
+                            referralButton.show()
+                            if (referralButton.translationY != 0f) {
+                                buttonAnimator = ValueAnimator.ofFloat(75f, 0f).apply {
+                                    duration = 500
+                                    addUpdateListener { translation ->
+                                        referralButton.translationY = translation.animatedValue as Float
+                                    }
+                                    interpolator = OvershootInterpolator()
+                                    start()
+                                }
                             }
-                            interpolator = OvershootInterpolator()
-                            start()
-                        }
-                    }
-                    referralButton.setOnClickListener {
-                        val shareIntent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(
-                                Intent.EXTRA_TEXT,
-                                interpolateTextKey(
-                                    resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
-                                    hashMapOf("INCENTIVE" to incentive, "LINK" to link.toString())
+                            referralButton.setOnClickListener {
+                                val shareIntent = Intent().apply {
+                                    action = Intent.ACTION_SEND
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        interpolateTextKey(
+                                            resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
+                                            hashMapOf("INCENTIVE" to incentive, "LINK" to link.toString())
+                                        )
+                                    )
+                                    type = "text/plain"
+                                }
+                                val chooser = Intent.createChooser(
+                                    shareIntent,
+                                    resources.getString(R.string.PROFILE_REFERRAL_SHARE_TITLE)
                                 )
-                            )
-                            type = "text/plain"
-                        }
-                        val chooser = Intent.createChooser(shareIntent, "Dela Hedvig")
-                        startActivity(chooser)
+                                startActivity(chooser)
+                            }
+                        })
                     }
                 })
             }
-        })
+        }
     }
 
     override fun onStop() {

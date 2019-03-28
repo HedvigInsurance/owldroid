@@ -6,6 +6,8 @@ import android.net.Uri
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.service.Referrals
+import com.hedvig.android.owldroid.service.RemoteConfig
+import com.hedvig.android.owldroid.service.RemoteConfigData
 import com.hedvig.android.owldroid.util.Optional
 import com.hedvig.android.owldroid.util.extensions.default
 import io.reactivex.Observable
@@ -16,18 +18,33 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
-    private val referrals: Referrals
+    private val referrals: Referrals,
+    private val remoteConfig: RemoteConfig
 ) :
     ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
     val trustlyUrl: MutableLiveData<String> = MutableLiveData()
     val firebaseLink: MutableLiveData<Uri> = MutableLiveData()
+    val remoteConfigData: MutableLiveData<RemoteConfigData> = MutableLiveData()
 
     private val disposables = CompositeDisposable()
 
     init {
         loadProfile()
+        loadRemoteConfig()
+    }
+
+    private fun loadRemoteConfig() {
+        disposables.add(
+            remoteConfig
+                .fetch()
+                .subscribe(
+                    { remoteConfigData.postValue(it) },
+                    { error ->
+                        Timber.e(error, "Failed to fetch RemoteConfig data")
+                    })
+        )
     }
 
     fun startTrustlySession() {
@@ -129,14 +146,16 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun generateReferralLink(memberId: String) {
-        disposables.add(
-            referrals.generateFirebaseLink(memberId)
-                .subscribe({ uri ->
-                    firebaseLink.postValue(uri)
-                }, { error ->
-                    Timber.e(error)
-                })
-        )
+        remoteConfigData.value?.let { data ->
+            disposables.add(
+                referrals.generateFirebaseLink(memberId, data)
+                    .subscribe({ uri ->
+                        firebaseLink.postValue(uri)
+                    }, { error ->
+                        Timber.e(error)
+                    })
+            )
+        }
     }
 
     fun logout(callback: () -> Unit) {
