@@ -2,8 +2,10 @@ package com.hedvig.android.owldroid.ui.profile
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -22,6 +24,7 @@ import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
+import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -33,9 +36,9 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
-    private val navigationAnalytics: NavigationAnalytics by lazy {
-        NavigationAnalytics(requireActivity())
-    }
+    private var broadcastReceiver: BroadcastReceiver? = null
+
+    private var navigationAnalytics: NavigationAnalytics? = null
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.profileNavigationHost)
@@ -59,6 +62,18 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (navigationAnalytics != null) {
+            navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
+        } else {
+            broadcastReceiver = newBroadcastReceiver { _, _ ->
+                if (navigationAnalytics == null) {
+                    navigationAnalytics = NavigationAnalytics(requireActivity())
+                }
+
+                navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
+            }
+            broadcastReceiver?.let { localBroadcastManager.registerReceiver(it, IntentFilter("profileScreenDidAppear")) }
+        }
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
@@ -89,14 +104,10 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        navController.addOnDestinationChangedListener(navigationAnalytics)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        navController.removeOnDestinationChangedListener(navigationAnalytics)
+        navigationAnalytics?.let { navController.removeOnDestinationChangedListener(it) }
+        broadcastReceiver?.let { localBroadcastManager.unregisterReceiver(it) }
     }
 
     private fun populateData() {
