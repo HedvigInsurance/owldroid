@@ -4,22 +4,23 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.hedvig.android.owldroid.data.marketing.MarketingStoriesRepository
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import com.hedvig.android.owldroid.util.LiveEvent
 import javax.inject.Inject
 
-class MarketingStoriesViewModel @Inject constructor(private val marketingStoriesRepository: MarketingStoriesRepository) :
-        ViewModel() {
+class MarketingStoriesViewModel @Inject constructor(
+    private val marketingStoriesRepository: MarketingStoriesRepository
+) : ViewModel() {
 
     val marketingStories = MutableLiveData<List<MarketingStoriesQuery.MarketingStory>>()
-    val page = MutableLiveData<Int>()
-    val paused = MutableLiveData<Boolean>()
-    val blurred = MutableLiveData<Boolean>()
+    val page = LiveEvent<Int>()
+    val paused = LiveEvent<Boolean>()
+    val blurred = LiveEvent<Boolean>()
 
-    fun loadAndStart() {
+    init {
         loadMarketingStories()
-        startFirstStory()
     }
 
-    private fun startFirstStory() {
+    fun startFirstStory() {
         page.value = 0
     }
 

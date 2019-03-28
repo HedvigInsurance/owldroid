@@ -3,6 +3,7 @@ package com.hedvig.android.owldroid.util.extensions
 import android.graphics.Rect
 import android.view.TouchDelegate
 import android.view.View
+import android.view.ViewTreeObserver
 
 fun View.show(): View {
     if (visibility != View.VISIBLE) {
@@ -41,3 +42,12 @@ fun View.increaseTouchableArea(additionalArea: Int): View {
 
     return this
 }
+
+inline fun View.doOnLayout(crossinline action: () -> Unit) =
+    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            viewTreeObserver.removeOnGlobalLayoutListener(this)
+            action()
+        }
+    })
+

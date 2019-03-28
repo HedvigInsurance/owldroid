@@ -26,6 +26,7 @@ import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.extensions.doOnLayout
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
@@ -107,7 +108,6 @@ class MarketingFragment : Fragment() {
                 setupPager(it)
                 setupBlurOverlay()
             })
-        marketingStoriesViewModel.loadAndStart()
     }
 
     // TODO: Refactor this function to be smaller, to be more safe (do not throw exceptions), and to
@@ -119,6 +119,9 @@ class MarketingFragment : Fragment() {
             nStories
         )
         pager.show()
+        pager.doOnLayout {
+            marketingStoriesViewModel.startFirstStory()
+        }
         storyProgressIndicatorContainer.show()
         val width = activity_marketing.width
         for (n in 0 until nStories) {
