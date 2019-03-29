@@ -7,6 +7,6 @@ class SharedPreferencesAsyncStorageNativeReader @Inject constructor(val context:
 
     override fun getKey(key: String): String {
         val sharedPreferences = context.getSharedPreferences("debug", Context.MODE_PRIVATE)
-        return sharedPreferences.getString(key, null) ?: throw Error("Key is not set")
+        return sharedPreferences.getString(key, null) ?: throw Exception("Key is not set")
     }
 }
