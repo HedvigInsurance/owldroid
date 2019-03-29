@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
+import android.text.TextWatcher
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.Menu
@@ -38,6 +39,9 @@ class MyInfoFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    private var emailTextWatcher: TextWatcher? = null
+    private var phoneNumberTextWatcher: TextWatcher? = null
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -160,10 +164,11 @@ class MyInfoFragment : Fragment() {
     }
 
     private fun setupEmailInput(prefilledEmail: String) {
+        emailTextWatcher?.let { emailInput.removeTextChangedListener(it) }
         emailInput.setText(prefilledEmail)
         emailInput.clearFocus()
 
-        emailInput.onChange { value ->
+        emailTextWatcher = emailInput.onChange { value ->
             profileViewModel.emailChanged(value)
             if (emailInputContainer.isErrorEnabled) {
                 val validationResult = validateEmail(value)
@@ -186,10 +191,11 @@ class MyInfoFragment : Fragment() {
     }
 
     private fun setupPhoneNumberInput(prefilledPhoneNumber: String) {
+        phoneNumberTextWatcher?.let { phoneNumberInput.removeTextChangedListener(it) }
         phoneNumberInput.setText(prefilledPhoneNumber)
         phoneNumberInput.clearFocus()
 
-        phoneNumberInput.onChange { value ->
+        phoneNumberTextWatcher = phoneNumberInput.onChange { value ->
             profileViewModel.phoneNumberChanged(value)
             if (phoneNumberInputContainer.isErrorEnabled) {
                 val validationResult = validatePhoneNumber(value)
