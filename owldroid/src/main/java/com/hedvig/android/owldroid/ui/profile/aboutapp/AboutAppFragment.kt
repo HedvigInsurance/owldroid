@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
@@ -21,8 +20,14 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_about_app.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class AboutAppFragment : Fragment() {
+
+    @Inject
+    @field:Named("VERSION_NUMBER")
+    lateinit var appVersion: String
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -68,7 +73,7 @@ class AboutAppFragment : Fragment() {
 
         versionNumber.text = interpolateTextKey(
             resources.getString(R.string.PROFILE_ABOUT_APP_VERSION),
-            hashMapOf("VERSION_NUMBER" to BuildConfig.VERSION_NAME)
+            hashMapOf("VERSION_NUMBER" to appVersion)
         )
 
         profileViewModel.data.observe(this, Observer { data ->

@@ -46,6 +46,12 @@ class AppModule {
     }
 
     @Provides
+    @Named("VERSION_NUMBER")
+    fun provideVersionNumber(): String {
+        return BuildConfig.VERSION_NAME
+    }
+
+    @Provides
     @Nullable
     fun provideApolloLogger(): Logger? {
         return ApolloTimberLogger()
