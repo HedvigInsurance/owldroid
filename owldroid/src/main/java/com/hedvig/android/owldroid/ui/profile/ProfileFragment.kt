@@ -72,7 +72,12 @@ class ProfileFragment : Fragment() {
 
                 navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
             }
-            broadcastReceiver?.let { localBroadcastManager.registerReceiver(it, IntentFilter("profileScreenDidAppear")) }
+            broadcastReceiver?.let {
+                localBroadcastManager.registerReceiver(
+                    it,
+                    IntentFilter("profileScreenDidAppear")
+                )
+            }
         }
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
@@ -122,7 +127,7 @@ class ProfileFragment : Fragment() {
                 setupCoinsured(data)
                 setupCharity(data)
                 setupPayment(data)
-                setupPolicyRow(data)
+                setupCertificateUrl(data)
             }
 
             feedbackRow.setOnClickListener {
@@ -185,8 +190,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun setupPolicyRow(profileData: ProfileQuery.Data) {
-        profileData.insurance().policyUrl()?.let { policyUrl ->
+    private fun setupCertificateUrl(profileData: ProfileQuery.Data) {
+        profileData.insurance().certificateUrl()?.let { policyUrl ->
             insuranceCertificateRow.show()
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyUrl))
             insuranceCertificateRow.setOnClickListener {
