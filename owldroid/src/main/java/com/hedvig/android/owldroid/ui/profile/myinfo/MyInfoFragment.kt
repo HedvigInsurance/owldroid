@@ -131,8 +131,12 @@ class MyInfoFragment : Fragment() {
         }
 
         profileViewModel.saveInputs(emailInput.text.toString(), phoneNumberInput.text.toString())
-        emailInput.clearFocus()
-        phoneNumberInput.clearFocus()
+        if (emailInput.isFocused) {
+            emailInput.clearFocus()
+        }
+        if (phoneNumberInput.isFocused) {
+            phoneNumberInput.clearFocus()
+        }
         view?.let { requireContext().hideKeyboard(it) }
         return true
     }
@@ -166,7 +170,6 @@ class MyInfoFragment : Fragment() {
     private fun setupEmailInput(prefilledEmail: String) {
         emailTextWatcher?.let { emailInput.removeTextChangedListener(it) }
         emailInput.setText(prefilledEmail)
-        emailInput.clearFocus()
 
         emailTextWatcher = emailInput.onChange { value ->
             profileViewModel.emailChanged(value)
@@ -193,7 +196,6 @@ class MyInfoFragment : Fragment() {
     private fun setupPhoneNumberInput(prefilledPhoneNumber: String) {
         phoneNumberTextWatcher?.let { phoneNumberInput.removeTextChangedListener(it) }
         phoneNumberInput.setText(prefilledPhoneNumber)
-        phoneNumberInput.clearFocus()
 
         phoneNumberTextWatcher = phoneNumberInput.onChange { value ->
             profileViewModel.phoneNumberChanged(value)
