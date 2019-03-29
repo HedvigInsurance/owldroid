@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import androidx.navigation.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.service.RemoteConfig
@@ -39,6 +40,8 @@ class ReferralFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     private var buttonAnimator: ValueAnimator? = null
 
     override fun onAttach(context: Context?) {
@@ -48,6 +51,7 @@ class ReferralFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
@@ -103,6 +107,7 @@ class ReferralFragment : Fragment() {
                                 }
                             }
                             referralButton.setOnClickListener {
+                                trackReferralSend()
                                 val shareIntent = Intent().apply {
                                     action = Intent.ACTION_SEND
                                     putExtra(
@@ -131,5 +136,13 @@ class ReferralFragment : Fragment() {
         super.onStop()
         buttonAnimator?.removeAllListeners()
         buttonAnimator?.cancel()
+    }
+
+    private fun trackReferralSend() {
+        val bundle = Bundle()
+        profileViewModel.remoteConfigData.value?.let { rcd ->
+            bundle.putInt("incentive", rcd.referralsIncentiveAmount)
+        }
+        firebaseAnalytics.logEvent("click_referral", bundle)
     }
 }
