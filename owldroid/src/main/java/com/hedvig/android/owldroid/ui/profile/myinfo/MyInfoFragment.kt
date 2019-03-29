@@ -127,6 +127,12 @@ class MyInfoFragment : Fragment() {
         }
 
         profileViewModel.saveInputs(emailInput.text.toString(), phoneNumberInput.text.toString())
+        if (emailInput.isFocused) {
+            emailInput.clearFocus()
+        }
+        if (phoneNumberInput.isFocused) {
+            phoneNumberInput.clearFocus()
+        }
         view?.let { requireContext().hideKeyboard(it) }
         return true
     }
