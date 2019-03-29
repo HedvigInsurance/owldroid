@@ -21,6 +21,7 @@ import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.hideKeyboard
 import com.hedvig.android.owldroid.util.extensions.onChange
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
@@ -126,6 +127,7 @@ class MyInfoFragment : Fragment() {
         }
 
         profileViewModel.saveInputs(emailInput.text.toString(), phoneNumberInput.text.toString())
+        view?.let { requireContext().hideKeyboard(it) }
         return true
     }
 
