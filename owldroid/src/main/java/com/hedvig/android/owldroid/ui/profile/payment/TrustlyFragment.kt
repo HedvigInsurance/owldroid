@@ -87,16 +87,13 @@ class TrustlyFragment : Fragment() {
                         return
                     }
 
-                    if (requestedUrl == url) {
-                        return
-                    }
-
-                    view?.stopLoading()
                     if (requestedUrl.contains("success")) {
+                        view?.stopLoading()
                         showSuccess()
                         return
                     }
                     if (requestedUrl.contains("fail")) {
+                        view?.stopLoading()
                         showFailure()
                         return
                     }
