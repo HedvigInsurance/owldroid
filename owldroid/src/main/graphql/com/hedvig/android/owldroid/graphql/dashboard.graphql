@@ -1,0 +1,24 @@
+query DashboardQuery {
+    insurance {
+        status
+        type
+        activeFrom
+
+        perilCategories {
+            title
+            description
+            iconUrl
+
+            perils {
+                id
+                title
+                imageUrl
+                description
+            }
+        }
+    }
+
+    member {
+        firstName
+    }
+}

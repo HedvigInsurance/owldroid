@@ -1,5 +1,6 @@
 package com.hedvig.android.owldroid.di
 
+import com.hedvig.android.owldroid.ui.dashboard.DashboardFragment
 import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
 import com.hedvig.android.owldroid.ui.marketing.StoryFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileFragment
@@ -48,4 +49,7 @@ abstract class FragmentContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAboutAppFragment(): AboutAppFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDashboardFragment(): DashboardFragment
 }

@@ -41,7 +41,7 @@ class ProfileFragment : Fragment() {
     private var navigationAnalytics: NavigationAnalytics? = null
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.profileNavigationHost)
+        requireActivity().findNavController(R.id.loggedInNavigationHost)
     }
 
     override fun onAttach(context: Context?) {

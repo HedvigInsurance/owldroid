@@ -60,7 +60,7 @@ class CoinsuredFragment : Fragment() {
         collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener {
-            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
         }
 
         coinsuredSphere.drawable.compatSetTint(requireContext().compatColor(R.color.purple))
