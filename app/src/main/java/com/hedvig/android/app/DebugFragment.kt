@@ -40,6 +40,7 @@ class DebugFragment : Fragment() {
         debug_open_profile.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
         debugOpenReferralAcceptance.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
         debug_save_inputs.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+        openClaimsScreen.background.compatSetTint(requireContext().compatColor(R.color.dark_purple))
 
         debug_open_marketing.setOnClickListener {
             startActivity(Intent(requireContext(), MarketingActivity::class.java))
@@ -51,6 +52,10 @@ class DebugFragment : Fragment() {
 
         debug_open_profile.setOnClickListener {
             startActivity(Intent(requireContext(), ProfileActivity::class.java))
+        }
+
+        openClaimsScreen.setOnClickListener {
+            startActivity(Intent(requireContext(), ClaimsActivity::class.java))
         }
 
         debugOpenReferralAcceptance.setOnClickListener {
