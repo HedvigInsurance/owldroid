@@ -8,6 +8,7 @@ import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.service.Referrals
 import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.service.RemoteConfigData
+import com.hedvig.android.owldroid.util.LiveEvent
 import com.hedvig.android.owldroid.util.Optional
 import com.hedvig.android.owldroid.util.extensions.default
 import io.reactivex.Observable
@@ -24,7 +25,7 @@ class ProfileViewModel @Inject constructor(
     ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
-    val trustlyUrl: MutableLiveData<String> = MutableLiveData()
+    val trustlyUrl: LiveEvent<String> = LiveEvent()
     val firebaseLink: MutableLiveData<Uri> = MutableLiveData()
     val remoteConfigData: MutableLiveData<RemoteConfigData> = MutableLiveData()
 

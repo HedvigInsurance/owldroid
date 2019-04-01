@@ -1,11 +1,11 @@
 package com.hedvig.android.owldroid.ui.profile.payment
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +20,7 @@ import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
@@ -60,10 +61,11 @@ class TrustlyFragment : Fragment() {
             useWideViewPort = true
         }
 
-        profileViewModel.trustlyUrl.observe(this, Observer { url ->
-            successScreen.remove()
-            failScreen.remove()
+        loadUrl()
+    }
 
+    private fun loadUrl() {
+        profileViewModel.trustlyUrl.observe(this) { url ->
             trustlyContainer.webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, loadedUrl: String?) {
                     super.onPageFinished(view, url)
@@ -75,25 +77,33 @@ class TrustlyFragment : Fragment() {
                     trustlyContainer.show()
                 }
 
-                override fun onPageStarted(view: WebView?, requestedUrl: String?, favicon: Bitmap?) {
+                override fun onPageStarted(view: WebView?, requestedUrl: String, favicon: Bitmap?) {
+
+                    if (requestedUrl.startsWith("bankid")) {
+                        view?.stopLoading()
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(requestedUrl)
+                        startActivity(intent)
+                        return
+                    }
+
                     if (requestedUrl == url) {
                         return
                     }
+
                     view?.stopLoading()
-                    requestedUrl?.let { rUrl ->
-                        if (rUrl.contains("success")) {
-                            showSuccess()
-                            return
-                        }
-                        if (rUrl.contains("fail")) {
-                            showFailure()
-                            return
-                        }
+                    if (requestedUrl.contains("success")) {
+                        showSuccess()
+                        return
+                    }
+                    if (requestedUrl.contains("fail")) {
+                        showFailure()
+                        return
                     }
                 }
             }
             trustlyContainer.loadUrl(url)
-        })
+        }
         profileViewModel.startTrustlySession()
     }
 
