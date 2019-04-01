@@ -78,7 +78,6 @@ class TrustlyFragment : Fragment() {
                 }
 
                 override fun onPageStarted(view: WebView?, requestedUrl: String, favicon: Bitmap?) {
-
                     if (requestedUrl.startsWith("bankid")) {
                         view?.stopLoading()
                         val intent = Intent(Intent.ACTION_VIEW)

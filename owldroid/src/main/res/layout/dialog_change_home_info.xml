@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_TITLE"
-                android:theme="@style/DialogTitle" />
+                android:theme="@style/SmallTitle" />
 
             <TextView
                 android:id="@id/dialogParagraph"

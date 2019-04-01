@@ -19,7 +19,7 @@
             android:id="@id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/DialogTitle"
+            android:theme="@style/SmallTitle"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -222,7 +222,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="24dp"
                         android:text="@string/PROFILE_PAYMENT_CONNECT_DIRECT_DEBIT_TITLE"
-                        android:theme="@style/DialogTitle"
+                        android:theme="@style/SmallTitle"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

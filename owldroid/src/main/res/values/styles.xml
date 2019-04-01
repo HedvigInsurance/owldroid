@@ -87,7 +87,7 @@
         <item name="android:actionMenuTextAppearance">@style/AppTheme.MenuItem</item>
     </style>
 
-    <style name="DialogTitle">
+    <style name="SmallTitle">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/circular_bold</item>
         <item name="android:textColor">@color/off_black_dark</item>
