@@ -14,120 +14,61 @@
         android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@id/successScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="gone">
-
-        <ImageView
-            android:id="@id/successIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:contentDescription="@null"
-            android:src="@drawable/icon_success"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@id/successTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE"
-            android:theme="@style/TrustlyTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/successIcon" />
-
-        <TextView
-            android:id="@id/successParagraph"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION"
-            android:theme="@style/TrustlyParagraph"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/successTitle" />
-
-        <Button
-            android:id="@id/trustlySuccessClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/button_primary"
-            android:text="@string/PROFILE_TRUSTLY_CLOSE"
-            android:theme="@style/HedvigButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/successParagraph"
-            tools:backgroundTint="@color/green" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@id/failScreen"
+        android:id="@+id/resultScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         tools:visibility="visible">
 
         <ImageView
-            android:id="@id/failureIcon"
+            android:id="@+id/resultIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:contentDescription="@null"
-            android:src="@drawable/icon_failure"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/icon_success" />
 
         <TextView
-            android:id="@id/failureTitle"
+            android:id="@+id/resultTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="@string/PROFILE_TRUSTLY_FAILURE_TITLE"
             android:theme="@style/TrustlyTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/failureIcon" />
+            app:layout_constraintTop_toBottomOf="@id/resultIcon"
+            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE" />
 
         <TextView
-            android:id="@id/failureParagraph"
+            android:id="@+id/resultParagraph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
-            android:text="@string/PROFILE_TRUSTLY_FAILURE_DESCRIPTION"
             android:theme="@style/TrustlyParagraph"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/failureTitle" />
+            app:layout_constraintTop_toBottomOf="@id/resultTitle"
+            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION" />
 
         <Button
-            android:id="@id/trustlyFailClose"
+            android:id="@+id/resultClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@drawable/button_primary"
-            android:text="@string/PROFILE_TRUSTLY_CLOSE"
             android:theme="@style/HedvigButton"
+            android:text="@string/PROFILE_TRUSTLY_CLOSE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/failureParagraph"
-            tools:backgroundTint="@color/pink" />
+            app:layout_constraintTop_toBottomOf="@id/resultParagraph"
+            tools:backgroundTint="@color/green" />
 
     </android.support.constraint.ConstraintLayout>
 
