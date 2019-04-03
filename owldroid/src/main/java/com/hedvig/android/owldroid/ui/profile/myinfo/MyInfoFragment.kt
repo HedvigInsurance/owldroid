@@ -31,6 +31,7 @@ import com.hedvig.android.owldroid.util.validatePhoneNumber
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_my_info.*
+import kotlinx.android.synthetic.main.sphere_container.*
 import javax.inject.Inject
 
 class MyInfoFragment : Fragment() {
@@ -152,7 +153,7 @@ class MyInfoFragment : Fragment() {
             contactDetailsContainer.show()
 
             profileData?.let { data ->
-                name.text = resources.getString(
+                sphereText.text = resources.getString(
                     R.string.first_last_name,
                     data.member().firstName(),
                     data.member().lastName()
