@@ -16,6 +16,7 @@ import android.webkit.WebViewClient
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
@@ -117,7 +118,7 @@ class TrustlyFragment : Fragment() {
         trustlySuccessClose.background.compatSetTint(requireContext().compatColor(R.color.green))
         trustlySuccessClose.setOnClickListener {
             profileViewModel.refreshBankAccountInfo()
-            localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
+            localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
                 putExtra("action", "clearDirectDebitStatus")
             })
             goBack()

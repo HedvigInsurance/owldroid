@@ -58,6 +58,7 @@ class StoryFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.page_marketing_story, container, false) as LinearLayout
 
+        // FIXME Show something prettier. Zak will deliver a design for this
         val story = marketingStoriesViewModel.marketingStories.value?.get(position) ?: return View(context)
 
         val asset = story.asset()

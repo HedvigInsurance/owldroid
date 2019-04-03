@@ -139,7 +139,7 @@ class ProfileFragment : Fragment() {
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
-                    localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
+                    localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
                         putExtra("action", "logout")
                     })
                 }
@@ -199,5 +199,9 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
             }
         }
+    }
+
+    companion object {
+        const val PROFILE_NAVIGATION_BROADCAST = "profileNavigation"
     }
 }
