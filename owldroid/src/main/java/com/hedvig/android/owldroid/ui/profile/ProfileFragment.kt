@@ -28,6 +28,7 @@ import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {

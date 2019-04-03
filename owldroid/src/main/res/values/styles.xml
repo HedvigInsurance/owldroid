@@ -93,11 +93,8 @@
         <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
-    <style name="DialogParagraph">
-        <item name="android:fontFamily">@font/circular_book</item>
-        <item name="android:textSize">14sp</item>
+    <style name="DialogParagraph" parent="DefaultParagraph">
         <item name="android:textColor">@color/off_black</item>
-        <item name="android:lineSpacingExtra">6sp</item>
     </style>
 
     <style name="DialogButton">
