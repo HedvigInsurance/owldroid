@@ -38,10 +38,6 @@ import timber.log.Timber
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
-const val BUTTON_ANIMATION_DURATION = 500L
-const val BLUR_ANIMATION_SHOW_DURATION = 300L
-const val BLUR_ANIMATION_DISMISS_DURATION = 200L
-
 class MarketingFragment : Fragment() {
 
     enum class MarketingResult {
@@ -115,6 +111,7 @@ class MarketingFragment : Fragment() {
     // TODO: Refactor this function to be smaller, to be more safe (do not throw exceptions), and to
     // cancel its animations when this fragment is completed, or else it will do bad stuff
     private fun setupPager(stories: List<MarketingStoriesQuery.MarketingStory>?) {
+        // FIXME Handle the zero stories case (wat do?)
         val nStories = stories?.size ?: return
         pager.adapter = StoryPagerAdapter(
             childFragmentManager,
@@ -354,5 +351,11 @@ class MarketingFragment : Fragment() {
 
     private fun trackDismissBlurOverlay() {
         firebaseAnalytics.logEvent("dismiss_blur_overlay", null)
+    }
+
+    companion object {
+        const val BUTTON_ANIMATION_DURATION = 500L
+        const val BLUR_ANIMATION_SHOW_DURATION = 300L
+        const val BLUR_ANIMATION_DISMISS_DURATION = 200L
     }
 }

@@ -136,8 +136,13 @@ class ReferralFragment : Fragment() {
     private fun trackReferralSend() {
         val bundle = Bundle()
         profileViewModel.remoteConfigData.value?.let { rcd ->
-            bundle.putInt("incentive", rcd.referralsIncentiveAmount)
+            bundle.putInt(INCENTIVE, rcd.referralsIncentiveAmount)
         }
-        firebaseAnalytics.logEvent("click_referral", bundle)
+        firebaseAnalytics.logEvent(CLICK_REFERRAL, bundle)
+    }
+
+    companion object {
+        const val INCENTIVE = "incentive"
+        const val CLICK_REFERRAL = "click_referral"
     }
 }
