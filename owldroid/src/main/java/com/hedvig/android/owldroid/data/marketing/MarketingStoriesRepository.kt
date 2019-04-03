@@ -11,11 +11,13 @@ import com.hedvig.android.owldroid.util.extensions.head
 import com.hedvig.android.owldroid.util.extensions.tail
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 class MarketingStoriesRepository @Inject constructor(
     private val apolloClient: ApolloClient,
     private val context: Context,
-    private val cache: SimpleCache
+    private val cache: SimpleCache,
+    @Named("APPLICATION_ID") private val applicationId: String
 ) {
 
     fun fetchMarketingStories(completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit) {
@@ -53,5 +55,5 @@ class MarketingStoriesRepository @Inject constructor(
     }
 
     private fun cacheAsset(asset: MarketingStoriesQuery.Asset, onEnd: (() -> Unit)? = null) =
-        CacheAssetTask(context, cache, asset, onEnd)
+        CacheAssetTask(context, cache, asset, applicationId, onEnd)
 }

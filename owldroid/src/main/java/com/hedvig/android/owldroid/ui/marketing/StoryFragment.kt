@@ -14,6 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -27,7 +29,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.util.extensions.show
-import com.squareup.picasso.Picasso
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -130,11 +131,12 @@ class StoryFragment : Fragment() {
     private fun setupImageView(parentView: LinearLayout, url: String): ImageView {
         val imageView = parentView.findViewById<ImageView>(R.id.story_image)
 
-        Picasso.get()
-            .load(url)
-            .fit()
-            .centerCrop()
+        Glide
+            .with(requireContext())
+            .load(Uri.parse(url))
+            .fitCenter()
             .into(imageView)
+
         imageView.show()
         setupTouchListeners(imageView)
 

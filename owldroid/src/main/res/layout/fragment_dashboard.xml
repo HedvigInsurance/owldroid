@@ -61,210 +61,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/insuranceActiveLabel" />
 
-            <android.support.design.card.MaterialCardView
-                android:id="@+id/personalCoverageCard"
-                android:layout_marginTop="8dp"
+            <LinearLayout
+                android:id="@+id/perilCategoryContainer"
+                android:orientation="vertical"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintTop_toBottomOf="@id/perilsTitle">
+                app:layout_constraintTop_toBottomOf="@id/perilsTitle" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_margin="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <!--
+                        <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
+                            android:id="@+id/personalCoverageCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            app:categoryIcon="@drawable/ic_family"
+                            app:layout_constraintTop_toBottomOf="@id/perilsTitle"
+                            app:subtitle="försäkras för"
+                            app:title="Jag och min familj" />
 
-                    <ImageView
-                        android:id="@+id/personalCoverageIcon"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_family"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/personalCoveragePerilContainer"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
+                            android:id="@+id/homeCoverageCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:clipChildren="false"
+                            app:categoryIcon="@drawable/ic_home"
+                            app:layout_constraintTop_toBottomOf="@id/personalCoverageCard"
+                            app:subtitle="försäkras för"
+                            app:title="Lomvägen 641" />
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        app:layout_constraintBottom_toTopOf="@id/personalCoveragePerilContainer"
-                        app:layout_constraintStart_toEndOf="@id/personalCoverageIcon"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:textSize="16sp"
-                            android:textColor="@color/off_black_dark"
-                            android:fontFamily="@font/circular_book"
-                            android:text="Jag och min familj"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:fontFamily="@font/circular_book"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray"
-                            android:text="försäkras för"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_expand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/personalCoveragePerilContainer"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:id="@+id/personalCoveragePerilContainer"
-                        android:animateLayoutChanges="true"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                </android.support.constraint.ConstraintLayout>
-
-            </android.support.design.card.MaterialCardView>
-
-            <android.support.design.card.MaterialCardView
-                android:id="@+id/homeCoverageCard"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintTop_toBottomOf="@id/personalCoverageCard">
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_margin="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/homeCoverageIcon"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_home"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/homeCoverageIcon"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:textSize="16sp"
-                            android:textColor="@color/off_black_dark"
-                            android:fontFamily="@font/circular_book"
-                            android:text="Lomvägen 641"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:fontFamily="@font/circular_book"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray"
-                            android:text="försäkras för"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_expand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </android.support.constraint.ConstraintLayout>
-
-            </android.support.design.card.MaterialCardView>
-
-            <android.support.design.card.MaterialCardView
-                android:id="@+id/thingsCoverageCard"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintTop_toBottomOf="@id/homeCoverageCard">
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_margin="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/thingsCoverageIcon"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_things"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/thingsCoverageIcon"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:textSize="16sp"
-                            android:textColor="@color/off_black_dark"
-                            android:fontFamily="@font/circular_book"
-                            android:text="Våra prylar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:fontFamily="@font/circular_book"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray"
-                            android:text="försäkras för"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_expand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </android.support.constraint.ConstraintLayout>
-
-            </android.support.design.card.MaterialCardView>
+                        <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
+                            android:id="@+id/thingsCoverageCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:clipChildren="false"
+                            app:categoryIcon="@drawable/ic_things"
+                            app:layout_constraintTop_toBottomOf="@id/homeCoverageCard"
+                            app:subtitle="försäkras för"
+                            app:title="Våra prylar" />
+            -->
 
             <LinearLayout
                 android:id="@+id/deductibleFootnote"
@@ -273,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                app:layout_constraintTop_toBottomOf="@id/thingsCoverageCard"
+                app:layout_constraintTop_toBottomOf="@id/perilCategoryContainer"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -317,7 +161,6 @@
                     android:text="Prylarna försäkras till totalt 1 000 000 kr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
 
             </LinearLayout>
 
