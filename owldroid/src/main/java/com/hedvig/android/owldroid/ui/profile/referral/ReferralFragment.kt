@@ -19,14 +19,13 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
-import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.increaseTouchableArea
 import com.hedvig.android.owldroid.util.extensions.observe
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_referral.*
 import javax.inject.Inject
 
@@ -63,11 +62,7 @@ class ReferralFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_REFERRAL_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
+        setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
         }
 

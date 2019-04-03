@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -25,15 +24,13 @@ import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.concat
 import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_payment.*
 import java.util.Calendar
 import javax.inject.Inject
-
-const val BILLING_DAY = 27
 
 class PaymentFragment : Fragment() {
 
@@ -63,13 +60,8 @@ class PaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_PAYMENT_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
+        setupLargeTitle(R.string.PROFILE_PAYMENT_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             navController.popBackStack()
         }
 
@@ -111,7 +103,7 @@ class PaymentFragment : Fragment() {
 
             val monthlyCost = profileData?.insurance()?.monthlyCost()?.toString()
             val amountPartOne = SpannableString("$monthlyCost\n")
-            val perMonthLabel = "kr/mån"
+            val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
             amountPartTwo.setSpan(
                 CustomTypefaceSpan(requireContext().compatFont(R.font.circular_book)),
@@ -159,5 +151,9 @@ class PaymentFragment : Fragment() {
         separator.show()
         accountNumber.text = bankAccount.descriptor()
         changeBankAccount.show()
+    }
+
+    companion object {
+        const val BILLING_DAY = 27
     }
 }

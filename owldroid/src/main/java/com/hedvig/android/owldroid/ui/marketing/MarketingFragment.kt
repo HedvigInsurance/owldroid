@@ -34,6 +34,8 @@ import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
+import timber.log.Timber
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 const val BUTTON_ANIMATION_DURATION = 500L
@@ -115,7 +117,7 @@ class MarketingFragment : Fragment() {
     private fun setupPager(stories: List<MarketingStoriesQuery.MarketingStory>?) {
         val nStories = stories?.size ?: return
         pager.adapter = StoryPagerAdapter(
-            requireActivity().supportFragmentManager,
+            childFragmentManager,
             nStories
         )
         pager.show()
@@ -171,7 +173,11 @@ class MarketingFragment : Fragment() {
                 return@Observer
             }
             trackViewedStory(newPage)
-            pager.currentItem = newPage
+            try {
+                pager.currentItem = newPage
+            } catch (e: IllegalStateException) {
+                Timber.e(e)
+            }
         })
     }
 

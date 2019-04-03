@@ -25,12 +25,14 @@ import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.hideKeyboard
 import com.hedvig.android.owldroid.util.extensions.onChange
 import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.validateEmail
 import com.hedvig.android.owldroid.util.validatePhoneNumber
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_my_info.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
 class MyInfoFragment : Fragment() {
@@ -62,14 +64,10 @@ class MyInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_MY_INFO_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
+        setupLargeTitle(R.string.PROFILE_MY_INFO_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
         }
+
         sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))
 
         loadData()
