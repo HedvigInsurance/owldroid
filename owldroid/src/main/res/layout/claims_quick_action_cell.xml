@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_rounded_corners"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/claimsQuickActionIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        tools:src="@drawable/icon_failure"/>
+
+    <TextView
+        android:id="@+id/claimsQuickActionTitle"
+        style="@style/SmallTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_start_margin"
+        android:layout_marginStart="8dp"
+        tools:text="Drulle"/>
+
+    <TextView
+        android:id="@+id/claimsQuickActionParagraph"
+        style="@style/Paragraph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CLAIMS_QUICK_ACTIONS"
+        android:layout_marginStart="8dp"
+        tools:text="Subtitle"/>
+
+</LinearLayout>
