@@ -3,26 +3,29 @@ package com.hedvig.android.owldroid.ui.profile.aboutapp
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hedvig.android.owldroid.BuildConfig
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.compatFont
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_about_app.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class AboutAppFragment : Fragment() {
+
+    @Inject
+    @field:Named("VERSION_NUMBER")
+    lateinit var appVersion: String
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -31,6 +34,10 @@ class AboutAppFragment : Fragment() {
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.profileNavigationHost)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,27 +54,17 @@ class AboutAppFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_ABOUT_APP_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "back")
-            localBroadcastManager.sendBroadcast(intent)
+        setupLargeTitle(R.string.PROFILE_ABOUT_APP_TITLE, R.font.circular_bold, R.drawable.ic_back) {
+            navController.popBackStack()
         }
 
         licenseAttributions.setOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "licenses")
-            localBroadcastManager.sendBroadcast(intent)
+            navController.navigate(R.id.action_aboutAppFragment_to_licensesFragment)
         }
 
         versionNumber.text = interpolateTextKey(
             resources.getString(R.string.PROFILE_ABOUT_APP_VERSION),
-            hashMapOf("VERSION_NUMBER" to BuildConfig.VERSION_NAME)
+            hashMapOf("VERSION_NUMBER" to appVersion)
         )
 
         profileViewModel.data.observe(this, Observer { data ->

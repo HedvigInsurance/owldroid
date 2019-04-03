@@ -2,8 +2,13 @@ package com.hedvig.android.owldroid.ui.profile
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.net.Uri
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.service.Referrals
+import com.hedvig.android.owldroid.service.RemoteConfig
+import com.hedvig.android.owldroid.service.RemoteConfigData
+import com.hedvig.android.owldroid.util.LiveEvent
 import com.hedvig.android.owldroid.util.Optional
 import com.hedvig.android.owldroid.util.extensions.default
 import io.reactivex.Observable
@@ -12,15 +17,35 @@ import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(private val profileRepository: ProfileRepository) : ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val referrals: Referrals,
+    private val remoteConfig: RemoteConfig
+) :
+    ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
     val dirty: MutableLiveData<Boolean> = MutableLiveData<Boolean>().default(false)
-    val trustlyUrl: MutableLiveData<String> = MutableLiveData()
+    val trustlyUrl: LiveEvent<String> = LiveEvent()
+    val firebaseLink: MutableLiveData<Uri> = MutableLiveData()
+    val remoteConfigData: MutableLiveData<RemoteConfigData> = MutableLiveData()
 
     private val disposables = CompositeDisposable()
 
     init {
         loadProfile()
+        loadRemoteConfig()
+    }
+
+    private fun loadRemoteConfig() {
+        disposables.add(
+            remoteConfig
+                .fetch()
+                .subscribe(
+                    { remoteConfigData.postValue(it) },
+                    { error ->
+                        Timber.e(error, "Failed to fetch RemoteConfig data")
+                    })
+        )
     }
 
     fun startTrustlySession() {
@@ -117,6 +142,31 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
                     } ?: Timber.e("Failed to refresh bank account info")
                 }, { error ->
                     Timber.e(error, "Failed to refresh bank account info")
+                })
+        )
+    }
+
+    fun generateReferralLink(memberId: String) {
+        remoteConfigData.value?.let { data ->
+            disposables.add(
+                referrals.generateFirebaseLink(memberId, data)
+                    .subscribe({ uri ->
+                        firebaseLink.postValue(uri)
+                    }, { error ->
+                        Timber.e(error)
+                    })
+            )
+        }
+    }
+
+    fun logout(callback: () -> Unit) {
+        disposables.add(
+            profileRepository
+                .logout()
+                .subscribe({
+                    callback()
+                }, { error ->
+                    Timber.e(error, "Failed to log out")
                 })
         )
     }

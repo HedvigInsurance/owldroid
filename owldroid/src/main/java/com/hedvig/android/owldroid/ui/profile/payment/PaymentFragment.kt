@@ -3,16 +3,16 @@ package com.hedvig.android.owldroid.ui.profile.payment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
@@ -23,17 +23,14 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.concat
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_payment.*
 import java.util.Calendar
 import javax.inject.Inject
-
-const val BILLING_DAY = 27
 
 class PaymentFragment : Fragment() {
 
@@ -41,6 +38,10 @@ class PaymentFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.profileNavigationHost)
+    }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -59,16 +60,9 @@ class PaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_PAYMENT_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "back")
-            localBroadcastManager.sendBroadcast(intent)
+        setupLargeTitle(R.string.PROFILE_PAYMENT_TITLE, R.font.circular_bold, R.drawable.ic_back) {
+            navController.popBackStack()
         }
 
         priceSphere.drawable.compatSetTint(requireContext().compatColor(R.color.green))
@@ -91,30 +85,25 @@ class PaymentFragment : Fragment() {
         )
 
         changeBankAccount.setOnClickListener {
-            openTrustly()
+            navController.navigate(R.id.action_paymentFragment_to_trustlyFragment)
         }
 
         connectBankAccount.setOnClickListener {
-            openTrustly()
+            navController.navigate(R.id.action_paymentFragment_to_trustlyFragment)
         }
 
         loadData()
     }
 
-    private fun openTrustly() {
-        val intent = Intent("profileNavigation")
-        intent.putExtra("action", "trustly")
-        localBroadcastManager.sendBroadcast(intent)
-    }
-
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
+            resetViews()
             sphereContainer.show()
 
             val monthlyCost = profileData?.insurance()?.monthlyCost()?.toString()
             val amountPartOne = SpannableString("$monthlyCost\n")
-            val perMonthLabel = "kr/mån"
+            val perMonthLabel = resources.getString(R.string.PROFILE_PAYMENT_PER_MONTH_LABEL)
             val amountPartTwo = SpannableString(perMonthLabel)
             amountPartTwo.setSpan(
                 CustomTypefaceSpan(requireContext().compatFont(R.font.circular_book)),
@@ -134,6 +123,13 @@ class PaymentFragment : Fragment() {
         })
     }
 
+    private fun resetViews() {
+        connectBankAccountContainer.remove()
+        changeBankAccount.remove()
+        separator.remove()
+        bankAccountUnderChangeParagraph.remove()
+    }
+
     private fun setupBankAccountInformation(
         bankAccount: ProfileQuery.BankAccount?,
         directDebitStatus: DirectDebitStatus?
@@ -149,12 +145,15 @@ class PaymentFragment : Fragment() {
         if (directDebitStatus == DirectDebitStatus.PENDING) {
             accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
             bankAccountUnderChangeParagraph.show()
-            changeBankAccount.remove()
             return
         }
 
         separator.show()
         accountNumber.text = bankAccount.descriptor()
         changeBankAccount.show()
+    }
+
+    companion object {
+        const val BILLING_DAY = 27
     }
 }

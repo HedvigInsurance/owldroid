@@ -6,6 +6,8 @@ import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.Gravity
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.show
 import kotlinx.android.synthetic.main.profile_menu_row.view.*
@@ -57,6 +59,16 @@ class ProfileMenuRow : ConstraintLayout {
             profile_menu_row_name.gravity = Gravity.NO_GRAVITY
         }
 
+    fun setHighlighted() {
+        profile_menu_row.background = context.compatDrawable(R.drawable.purple_selectable)
+
+        val resolvedColor = context.compatColor(R.color.white)
+        profile_menu_row_name.setTextColor(resolvedColor)
+        profile_menu_row_description.setTextColor(resolvedColor)
+
+        iconNavigateNext.setColorFilter(resolvedColor)
+    }
+
     private fun setupDynamicContent() {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.ProfileMenuRow, defStyle, 0)
 
@@ -64,13 +76,15 @@ class ProfileMenuRow : ConstraintLayout {
         name = attributes.getText(R.styleable.ProfileMenuRow_name)
 
         val description = attributes.getText(R.styleable.ProfileMenuRow_description)
-        if (description == null) {
-            profile_menu_row_description.remove()
-            profile_menu_row_name.gravity = Gravity.CENTER_VERTICAL
-        } else {
-            profile_menu_row_description.text = description
-        }
+        description?.let { d ->
+            profile_menu_row_description.text = d
+        } ?: makeSingleLine()
 
         attributes.recycle()
+    }
+
+    private fun makeSingleLine() {
+        profile_menu_row_description.remove()
+        profile_menu_row_name.gravity = Gravity.CENTER_VERTICAL
     }
 }

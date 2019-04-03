@@ -3,11 +3,11 @@ package com.hedvig.android.owldroid.ui.profile.myinfo
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
+import android.text.TextWatcher
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.Menu
@@ -15,21 +15,24 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.hideKeyboard
 import com.hedvig.android.owldroid.util.extensions.onChange
 import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.validateEmail
 import com.hedvig.android.owldroid.util.validatePhoneNumber
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_my_info.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
 class MyInfoFragment : Fragment() {
@@ -38,6 +41,9 @@ class MyInfoFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+
+    private var emailTextWatcher: TextWatcher? = null
+    private var phoneNumberTextWatcher: TextWatcher? = null
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -58,16 +64,10 @@ class MyInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity?)?.setSupportActionBar(toolbar)
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_MY_INFO_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
-            val intent = Intent("profileNavigation")
-            intent.putExtra("action", "back")
-            localBroadcastManager.sendBroadcast(intent)
+        setupLargeTitle(R.string.PROFILE_MY_INFO_TITLE, R.font.circular_bold, R.drawable.ic_back) {
+            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
+
         sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))
 
         loadData()
@@ -87,8 +87,8 @@ class MyInfoFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val prevEmail = profileViewModel.data.value?.member()?.email()
-        val prevPhoneNumber = profileViewModel.data.value?.member()?.phoneNumber()
+        val prevEmail = profileViewModel.data.value?.member()?.email() ?: ""
+        val prevPhoneNumber = profileViewModel.data.value?.member()?.phoneNumber() ?: ""
 
         val newEmail = emailInput.text.toString()
         val newPhoneNumber = phoneNumberInput.text.toString()
@@ -129,6 +129,13 @@ class MyInfoFragment : Fragment() {
         }
 
         profileViewModel.saveInputs(emailInput.text.toString(), phoneNumberInput.text.toString())
+        if (emailInput.isFocused) {
+            emailInput.clearFocus()
+        }
+        if (phoneNumberInput.isFocused) {
+            phoneNumberInput.clearFocus()
+        }
+        view?.let { requireContext().hideKeyboard(it) }
         return true
     }
 
@@ -159,9 +166,10 @@ class MyInfoFragment : Fragment() {
     }
 
     private fun setupEmailInput(prefilledEmail: String) {
+        emailTextWatcher?.let { emailInput.removeTextChangedListener(it) }
         emailInput.setText(prefilledEmail)
 
-        emailInput.onChange { value ->
+        emailTextWatcher = emailInput.onChange { value ->
             profileViewModel.emailChanged(value)
             if (emailInputContainer.isErrorEnabled) {
                 val validationResult = validateEmail(value)
@@ -184,9 +192,10 @@ class MyInfoFragment : Fragment() {
     }
 
     private fun setupPhoneNumberInput(prefilledPhoneNumber: String) {
+        phoneNumberTextWatcher?.let { phoneNumberInput.removeTextChangedListener(it) }
         phoneNumberInput.setText(prefilledPhoneNumber)
 
-        phoneNumberInput.onChange { value ->
+        phoneNumberTextWatcher = phoneNumberInput.onChange { value ->
             profileViewModel.phoneNumberChanged(value)
             if (phoneNumberInputContainer.isErrorEnabled) {
                 val validationResult = validatePhoneNumber(value)

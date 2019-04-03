@@ -10,7 +10,7 @@ query Profile {
         address
         postalNumber
         type
-        policyUrl
+        certificateUrl
         monthlyCost
         personsInHousehold
     }

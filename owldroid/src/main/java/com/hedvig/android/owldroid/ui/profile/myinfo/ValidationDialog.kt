@@ -17,9 +17,9 @@ class ValidationDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let { args ->
-            dialogTitle.text = resources.getString(args.getInt("title"))
-            dialogParagraph.text = resources.getString(args.getInt("paragraph"))
-            dialogConfirm.text = resources.getString(args.getInt("dismiss"))
+            dialogTitle.text = resources.getString(args.getInt(TITLE))
+            dialogParagraph.text = resources.getString(args.getInt(PARAGRAPH))
+            dialogConfirm.text = resources.getString(args.getInt(DISMISS))
 
             dialogConfirm.setOnClickListener {
                 dialog.dismiss()
@@ -28,13 +28,16 @@ class ValidationDialog : DialogFragment() {
     }
 
     companion object {
+        const val TITLE = "title"
+        const val PARAGRAPH = "paragraph"
+        const val DISMISS = "dismiss"
         fun newInstance(@StringRes title: Int, @StringRes paragraph: Int, @StringRes dismiss: Int): ValidationDialog {
             val dialog = ValidationDialog()
             val arguments = Bundle()
             arguments.apply {
-                putInt("title", title)
-                putInt("paragraph", paragraph)
-                putInt("dismiss", dismiss)
+                putInt(TITLE, title)
+                putInt(PARAGRAPH, paragraph)
+                putInt(DISMISS, dismiss)
             }
             dialog.arguments = arguments
             return dialog

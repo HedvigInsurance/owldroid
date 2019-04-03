@@ -5,6 +5,7 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.hedvig.android.owldroid.graphql.BankAccountQuery
+import com.hedvig.android.owldroid.graphql.LogoutMutation
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.graphql.SelectCashbackMutation
 import com.hedvig.android.owldroid.graphql.StartDirectDebitRegistrationMutation
@@ -153,4 +154,6 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
             .writeAndPublish(profileQuery, newData)
             .execute()
     }
+
+    fun logout() = Rx2Apollo.from(apolloClient.mutate(LogoutMutation()))
 }

@@ -10,14 +10,13 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/off_white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/off_white"
-            android:divider="?android:dividerHorizontal"
-            android:showDividers="middle">
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:layout_height="match_parent">
 
             <ProgressBar
                 android:id="@id/loadingSpinner"
@@ -42,8 +41,8 @@
 
                 <ImageView
                     android:id="@id/priceSphere"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="@dimen/profile_sphere_side_length"
+                    android:layout_height="@dimen/profile_sphere_side_length"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@null"
@@ -207,6 +206,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:visibility="gone"
+                app:cardCornerRadius="8dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintTop_toBottomOf="@id/sphereContainer">
 
@@ -276,6 +276,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/circular_medium"
                 android:text="@string/PROFILE_PAYMENT_CHANGE_BANK_ACCOUNT"
                 android:textAllCaps="false"
                 android:textColor="@color/purple"

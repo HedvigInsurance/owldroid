@@ -4,28 +4,27 @@
     <item name="logo_content" type="id" />
     <item name="profile_screen_content" type="id" />
     <item name="profile_member_info_screen_content" type="id" />
-    <item name="marketing_proceed" type="id" />
-    <item name="marketing_say_hello" type="id" />
+    <item name="getHedvig" type="id" />
+    <item name="sayHello" type="id" />
     <item name="pager" type="id" />
-    <item name="blur_overlay" type="id" />
+    <item name="blurOverlay" type="id" />
     <item name="marketing_hedvig_logo" type="id" />
-    <item name="story_progress_indicator_container" type="id" />
-    <item name="hedvig_face_animation" type="id" />
-    <item name="marketing_login" type="id" />
+    <item name="storyProgressIndicatorContainer" type="id" />
+    <item name="hedvigFaceAnimation" type="id" />
+    <item name="login" type="id" />
     <item name="activity_marketing" type="id" />
-    <item name="profile_loading_spinner" type="id" />
-    <item name="profile_charity_image" type="id" />
-    <item name="profile_my_info_row" type="id" />
-    <item name="profile_my_home_row" type="id" />
-    <item name="profile_rows_container" type="id" />
-    <item name="profile_my_info_icon" type="id" />
     <item name="loadingSpinner" type="id" />
+    <item name="profile_charity_image" type="id" />
+    <item name="myInfoRow" type="id" />
+    <item name="myHomeRow" type="id" />
+    <item name="rowContainer" type="id" />
+    <item name="profile_my_info_icon" type="id" />
     <item name="profile_my_info_header" type="id" />
     <item name="sphereContainer" type="id" />
     <item name="emailInput" type="id" />
     <item name="phoneNumberInput" type="id" />
     <item name="contactDetailsContainer" type="id" />
-    <item name="profile_payment_row" type="id" />
+    <item name="paymentRow" type="id" />
     <item name="profile_menu_row_description" type="id" />
     <item name="profile_payment_screen_content" type="id" />
     <item name="profile_payment_header" type="id" />
@@ -48,11 +47,11 @@
     <item name="app_bar" type="id" />
     <item name="collapsingToolbar" type="id" />
     <item name="save" type="id" />
-    <item name="profile_coinsured_row" type="id" />
-    <item name="profile_charity_row" type="id" />
-    <item name="profile_insurance_certificate_row" type="id" />
-    <item name="profile_feedback" type="id" />
-    <item name="profile_log_out_button" type="id" />
+    <item name="coinsuredRow" type="id" />
+    <item name="charityRow" type="id" />
+    <item name="insuranceCertificateRow" type="id" />
+    <item name="feedbackRow" type="id" />
+    <item name="logout" type="id" />
     <item name="address" type="id" />
     <item name="postalNumber" type="id" />
     <item name="insuranceType" type="id" />
@@ -76,7 +75,7 @@
     <item name="cashbackSelect" type="id" />
     <item name="separator" type="id" />
     <item name="loadingAnimation" type="id" />
-    <item name="profile_about_app" type="id" />
+    <item name="aboutAppRow" type="id" />
     <item name="licenseAttributions" type="id" />
     <item name="versionNumber" type="id" />
     <item name="memberId" type="id" />
@@ -107,4 +106,6 @@
     <item name="emailInputContainer" type="id" />
     <item name="phoneNumberInputContainer" type="id" />
     <item name="bankAccountUnderChangeParagraph" type="id" />
+    <item name="profileReferralRow" type="id" />
+    <item name="iconNavigateNext" type="id" />
 </resources>

@@ -15,14 +15,14 @@
         android:visibility="gone" />
 
     <View
-        android:id="@id/blur_overlay"
+        android:id="@id/blurOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_white"
         android:visibility="gone" />
 
     <LinearLayout
-        android:id="@id/story_progress_indicator_container"
+        android:id="@id/storyProgressIndicatorContainer"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_marginTop="10dp"
@@ -50,19 +50,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@id/hedvig_face_animation"
+        android:id="@id/hedvigFaceAnimation"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:scaleType="matrix"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/marketing_say_hello"
+        app:layout_constraintBottom_toTopOf="@id/sayHello"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_rawRes="@raw/hedvig_happy_avatar" />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@id/marketing_say_hello"
+        android:id="@id/sayHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -71,12 +71,12 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/marketing_proceed"
+        app:layout_constraintBottom_toTopOf="@id/getHedvig"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@id/marketing_proceed"
+        android:id="@id/getHedvig"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -90,12 +90,12 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/marketing_login"
+        app:layout_constraintBottom_toTopOf="@id/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@id/marketing_login"
+        android:id="@id/login"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
