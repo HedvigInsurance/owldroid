@@ -88,7 +88,7 @@ class CharityFragment : Fragment() {
         Glide
             .with(requireContext())
             .load(cashback.imageUrl())
-            .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+            .apply(RequestOptions().override(Target.SIZE_ORIGINAL, CASH_BACK_IMAGE_HEIGHT))
             .into(selectedCharityBanner)
 
         selectedCharityCardTitle.text = cashback.name()
@@ -101,6 +101,10 @@ class CharityFragment : Fragment() {
         cashbackOptions.adapter = CharityAdapter(options, requireContext()) { id ->
             profileViewModel.selectCashback(id)
         }
+    }
+
+    companion object {
+        private const val CASH_BACK_IMAGE_HEIGHT = 200
     }
 }
 
