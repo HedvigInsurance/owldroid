@@ -37,8 +37,6 @@ class CharityFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
-    private lateinit var bottomSheetBehaviour: BottomSheetBehavior<*>
-
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
