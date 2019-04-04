@@ -9,7 +9,6 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +18,13 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.util.NavigationAnalytics
-import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
@@ -63,32 +61,28 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (navigationAnalytics != null) {
-            navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
-        } else {
-            broadcastReceiver = newBroadcastReceiver { _, _ ->
-                if (navigationAnalytics == null) {
-                    navigationAnalytics = NavigationAnalytics(requireActivity())
-                }
+        navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) } ?: setupNavigationAnalyticsListener()
 
-                navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
-            }
-            broadcastReceiver?.let {
-                localBroadcastManager.registerReceiver(
-                    it,
-                    IntentFilter("profileScreenDidAppear")
-                )
-            }
-        }
-
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
+        setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
         populateData()
         loadReferralFeature()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        navigationAnalytics?.let { navController.removeOnDestinationChangedListener(it) }
+        broadcastReceiver?.let { localBroadcastManager.unregisterReceiver(it) }
+    }
+
+    private fun setupNavigationAnalyticsListener() {
+        broadcastReceiver = newBroadcastReceiver { _, _ ->
+            if (navigationAnalytics == null) {
+                navigationAnalytics = NavigationAnalytics(requireActivity())
+            }
+
+            navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
+        }.also { localBroadcastManager.registerReceiver(it, IntentFilter(PROFILE_SCREEN_DID_APPEAR)) }
     }
 
     private fun loadReferralFeature() {
@@ -110,11 +104,6 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        navigationAnalytics?.let { navController.removeOnDestinationChangedListener(it) }
-        broadcastReceiver?.let { localBroadcastManager.unregisterReceiver(it) }
-    }
 
     private fun populateData() {
         profileViewModel.data.observe(this, Observer { profileData ->
@@ -203,5 +192,6 @@ class ProfileFragment : Fragment() {
 
     companion object {
         const val PROFILE_NAVIGATION_BROADCAST = "profileNavigation"
+        const val PROFILE_SCREEN_DID_APPEAR = "profileScreenDidAppear"
     }
 }

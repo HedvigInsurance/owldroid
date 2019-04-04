@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
+import timber.log.Timber
 import java.lang.ref.WeakReference
 
 class CacheAssetTask(
@@ -22,6 +23,7 @@ class CacheAssetTask(
     private val contextRef: WeakReference<Context> = WeakReference(context)
 
     override fun doInBackground(vararg params: Unit?) {
+        try {
         val mimeType = asset.mimeType()
         val url = asset.url()
         if (mimeType == "image/jpeg") {
@@ -40,13 +42,16 @@ class CacheAssetTask(
                             applicationId
                         )
                     )
-                CacheUtil.cache(
-                    DataSpec(Uri.parse(url)),
-                    cache,
-                    dataSourceFactory.createDataSource(),
-                    null
-                )
+                    CacheUtil.cache(
+                        DataSpec(Uri.parse(url)),
+                        cache,
+                        dataSourceFactory.createDataSource(),
+                        null
+                    )
+                }
             }
+        } catch (e: Exception) {
+            Timber.e(e)
         }
     }
 
