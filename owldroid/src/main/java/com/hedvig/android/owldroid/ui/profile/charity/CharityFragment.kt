@@ -18,13 +18,13 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_charity.*
-import kotlinx.android.synthetic.main.fragment_coinsured.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
 class CharityFragment : Fragment() {
@@ -52,13 +52,7 @@ class CharityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-
-        collapsingToolbar.title = resources.getString(R.string.PROFILE_CHARITY_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        toolbar.setNavigationIcon(R.drawable.ic_back)
-        toolbar.setNavigationOnClickListener {
+        setupLargeTitle(R.string.PROFILE_CHARITY_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
 
@@ -70,13 +64,7 @@ class CharityFragment : Fragment() {
             loadingSpinner.remove()
 
             profileData?.let { data ->
-                if (data.cashback() == null) {
-                    showCharityPicker(data.cashbackOptions())
-                } else {
-                    data.cashback()?.let { cashback ->
-                        showSelectedCharity(cashback)
-                    }
-                }
+                data.cashback()?.let { showSelectedCharity(it) } ?: showCharityPicker(data.cashbackOptions())
             }
         })
     }

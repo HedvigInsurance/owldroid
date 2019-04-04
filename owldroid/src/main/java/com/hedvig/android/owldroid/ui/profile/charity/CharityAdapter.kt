@@ -3,16 +3,20 @@ package com.hedvig.android.owldroid.ui.profile.charity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.util.interpolateTextKey
+import kotlinx.android.synthetic.main.cashback_option.view.*
 
 class CharityAdapter(
     val items: List<ProfileQuery.CashbackOption>,
     val context: Context,
     val clickListener: (String) -> Unit
-) : RecyclerView.Adapter<CashbackOptionViewHolder>() {
+) : RecyclerView.Adapter<CharityAdapter.CashbackOptionViewHolder>() {
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashbackOptionViewHolder =
@@ -38,5 +42,11 @@ class CharityAdapter(
                 clickListener(id)
             }
         }
+    }
+
+    class CashbackOptionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.cashbackOptionTitle
+        val paragraph: TextView = view.cashbackOptionParagraph
+        val button: Button = view.cashbackSelect
     }
 }

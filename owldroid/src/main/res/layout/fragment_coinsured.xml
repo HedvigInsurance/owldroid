@@ -19,15 +19,7 @@
             android:layout_marginBottom="?attr/actionBarSize"
             android:layout_height="match_parent">
 
-            <ProgressBar
-                android:id="@id/loadingSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone" />
+            <include layout="@layout/loading_spinner" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@id/sphereContainer"
@@ -48,7 +40,8 @@
                     android:src="@drawable/sphere"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:tint="@color/purple" />
 
                 <TextView
                     android:id="@id/sphereText"
@@ -111,7 +104,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/circular_book"
                     android:text="@string/PROFILE_COINSURED_MORE_TO_COME_DESCRIPTION"
-                    android:theme="@style/DefaultParagraph" />
+                    android:theme="@style/Paragraph" />
 
             </LinearLayout>
 
