@@ -86,8 +86,7 @@ class CharityFragment : Fragment() {
 
         selectedCharityCardTitle.text = cashback.name()
         selectedCharityCardParagraph.text = cashback.paragraph()
-
-        bottomSheetTest.setOnClickListener {
+        charitySelectedHowDoseItWorkButton.setOnClickListener {
             requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }
@@ -97,6 +96,9 @@ class CharityFragment : Fragment() {
         cashbackOptions.layoutManager = LinearLayoutManager(requireContext())
         cashbackOptions.adapter = CharityAdapter(options, requireContext()) { id ->
             profileViewModel.selectCashback(id)
+        }
+        selectCharityHowDoseItWorkButton.setOnClickListener {
+            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }
 

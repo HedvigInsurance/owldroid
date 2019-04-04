@@ -1,38 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/base_margin_triple"
+    android:paddingEnd="@dimen/base_margin_triple"
+    android:paddingBottom="@dimen/base_margin_triple"
     android:orientation="vertical">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test" />
+        android:theme="@style/DialogTitle"
+        android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/base_margin"
+        android:text="@string/CHARITY_INFO_DIALOG_TITLE"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/DialogParagraph"
+        android:layout_marginTop="@dimen/base_margin_triple"
+        android:text="@string/CHARITY_INFO_DIALOG_DESCRIPTION"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/DialogParagraph"
+        android:fontFamily="@font/circular_bold"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:text="@string/CHARITY_INFO_DIALOG_HOW_IT_WORKS_TITLE"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test" />
+        android:theme="@style/DialogParagraph"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:text="@string/CHARITY_INFO_DIALOG_HOW_IT_WORKS_POINT_ONE"/>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test" />
+        android:theme="@style/DialogParagraph"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:text="@string/CHARITY_INFO_DIALOG_HOW_IT_WORKS_POINT_TWO"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test" />
+        android:theme="@style/DialogParagraph"
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:text="@string/CHARITY_INFO_DIALOG_HOW_IT_WORKS_POINT_THREE"/>
 
 </LinearLayout>

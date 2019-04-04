@@ -11,16 +11,13 @@ import com.hedvig.android.owldroid.util.extensions.show
 import timber.log.Timber
 
 
-open class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 
     override fun setupDialog(dialog: Dialog, style: Int) {
-        super.setupDialog(dialog, style)
-
-        //Set the custom view
         arguments?.getInt(ARGS_LAYOUT_KEY)?.let { layout ->
             val view = LayoutInflater.from(context).inflate(layout, null)
             view.show()

@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.app_bar.*
 
 val Fragment.localBroadcastManager get() = LocalBroadcastManager.getInstance(requireContext())
 
-
 fun FragmentManager.showBottomSheetDialog(@LayoutRes layout: Int) =
     RoundedBottomSheetDialogFragment.newInstance(layout).show(this, "BottomSheetDialogFragment")
 
