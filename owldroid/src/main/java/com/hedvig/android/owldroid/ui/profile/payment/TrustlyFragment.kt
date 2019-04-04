@@ -16,6 +16,7 @@ import android.webkit.WebViewClient
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
@@ -53,8 +54,6 @@ class TrustlyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupCloseButtons()
-
         trustlyContainer.settings.apply {
             javaScriptEnabled = true
             loadWithOverviewMode = true
@@ -78,14 +77,14 @@ class TrustlyFragment : Fragment() {
                 }
 
                 override fun onPageStarted(view: WebView?, requestedUrl: String, favicon: Bitmap?) {
-                    // TODO Investigate if this is necessary
-                    if (requestedUrl.startsWith("bankid")) {
-                        view?.stopLoading()
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(requestedUrl)
-                        startActivity(intent)
-                        return
-                    }
+                    // TODO Try this with Trustly prod
+                    // if (requestedUrl.startsWith("bankid")) {
+                    //     view?.stopLoading()
+                    //     val intent = Intent(Intent.ACTION_VIEW)
+                    //     intent.data = Uri.parse(requestedUrl)
+                    //     startActivity(intent)
+                    //     return
+                    // }
 
                     if (requestedUrl.contains("success")) {
                         view?.stopLoading()
@@ -113,33 +112,35 @@ class TrustlyFragment : Fragment() {
         trustlyContainer.destroy()
     }
 
-    fun setupCloseButtons() {
-        trustlySuccessClose.background.compatSetTint(requireContext().compatColor(R.color.green))
-        trustlySuccessClose.setOnClickListener {
-            profileViewModel.refreshBankAccountInfo()
-            localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
-                putExtra("action", "clearDirectDebitStatus")
-            })
-            goBack()
-        }
-
-        trustlyFailClose.background.compatSetTint(requireContext().compatColor(R.color.pink))
-        trustlyFailClose.setOnClickListener {
-            goBack()
-        }
-    }
-
     private fun goBack() {
         requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
     }
 
     fun showSuccess() {
         trustlyContainer.remove()
-        successScreen.show()
+        resultIcon.setImageResource(R.drawable.icon_success)
+        resultTitle.text = resources.getString(R.string.PROFILE_TRUSTLY_SUCCESS_TITLE)
+        resultParagraph.text = resources.getString(R.string.PROFILE_TRUSTLY_SUCCESS_DESCRIPTION)
+        resultClose.background.compatSetTint(requireContext().compatColor(R.color.green))
+        resultClose.setOnClickListener {
+            profileViewModel.refreshBankAccountInfo()
+            localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
+                putExtra("action", "clearDirectDebitStatus")
+            })
+            goBack()
+        }
+        resultScreen.show()
     }
 
     fun showFailure() {
         trustlyContainer.remove()
-        failScreen.show()
+        resultIcon.setImageResource(R.drawable.icon_failure)
+        resultTitle.text = resources.getString(R.string.PROFILE_TRUSTLY_FAILURE_TITLE)
+        resultParagraph.text = resources.getString(R.string.PROFILE_TRUSTLY_FAILURE_DESCRIPTION)
+        resultClose.background.compatSetTint(requireContext().compatColor(R.color.pink))
+        resultClose.setOnClickListener {
+            goBack()
+        }
+        resultScreen.show()
     }
 }

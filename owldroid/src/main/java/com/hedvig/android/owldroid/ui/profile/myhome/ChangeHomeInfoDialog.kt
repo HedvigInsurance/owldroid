@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.dialog_change_home_info.*
@@ -27,7 +28,7 @@ class ChangeHomeInfoDialog : DialogFragment() {
         }
 
         dialogConfirm.setOnClickListener {
-            localBroadcastManager.sendBroadcast(Intent("profileNavigation").apply {
+            localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
                 putExtra("action", "chat")
             })
             this.dismiss()

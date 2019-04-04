@@ -3,4 +3,7 @@
     <dimen name="app_bar_height">128dp</dimen>
     <dimen name="bottom_sheet_corner_radius">20dp</dimen>
     <dimen name="bottom_sheet_top_padding">20dp</dimen>
+    <dimen name="profile_sphere_side_length">160dp</dimen>
+    <dimen name="dialog_width">280dp</dimen>
+    <dimen name="dialog_height">188dp</dimen>
 </resources>

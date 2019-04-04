@@ -2,9 +2,8 @@
 <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_width="@dimen/profile_sphere_side_length"
+    android:layout_height="@dimen/profile_sphere_side_length"
     android:visibility="gone"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -34,5 +33,5 @@
         app:autoSizeStepGranularity="2sp"
         app:autoSizeMinTextSize="16sp"
         app:autoSizeMaxTextSize="20sp"
-        tools:text="Strandvägen 47"/>
+        tools:text="Testina Testsdotteri"/>
 </FrameLayout>

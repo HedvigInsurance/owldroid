@@ -8,20 +8,18 @@ object Regexes {
     val phoneNumberRegex = Regex("([+]*[0-9]+[+. -]*)")
 }
 
-fun validateEmail(email: CharSequence): ValidationResult {
+fun validateEmail(email: CharSequence): ValidationResult =
     if (!Regexes.emailRegex.matches(email)) {
-        return ValidationResult(false, R.string.PROFILE_MY_INFO_INVALID_EMAIL)
+        ValidationResult(false, R.string.PROFILE_MY_INFO_INVALID_EMAIL)
+    } else {
+        ValidationResult(true, null)
     }
 
-    return ValidationResult(true, null)
-}
-
-fun validatePhoneNumber(phoneNumber: CharSequence): ValidationResult {
-
+fun validatePhoneNumber(phoneNumber: CharSequence): ValidationResult =
     if (!Regexes.phoneNumberRegex.matches(phoneNumber)) {
-        return ValidationResult(false, R.string.PROFILE_MY_INFO_INVALID_PHONE_NUMBER)
+        ValidationResult(false, R.string.PROFILE_MY_INFO_INVALID_PHONE_NUMBER)
+    } else {
+        ValidationResult(true, null)
     }
-    return ValidationResult(true, null)
-}
 
 data class ValidationResult(val isSuccessful: Boolean, @StringRes val errorTextKey: Int?)

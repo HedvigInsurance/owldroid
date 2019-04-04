@@ -76,13 +76,15 @@ class ProfileMenuRow : ConstraintLayout {
         name = attributes.getText(R.styleable.ProfileMenuRow_name)
 
         val description = attributes.getText(R.styleable.ProfileMenuRow_description)
-        if (description == null) {
-            profile_menu_row_description.remove()
-            profile_menu_row_name.gravity = Gravity.CENTER_VERTICAL
-        } else {
-            profile_menu_row_description.text = description
-        }
+        description?.let { d ->
+            profile_menu_row_description.text = d
+        } ?: makeSingleLine()
 
         attributes.recycle()
+    }
+
+    private fun makeSingleLine() {
+        profile_menu_row_description.remove()
+        profile_menu_row_name.gravity = Gravity.CENTER_VERTICAL
     }
 }
