@@ -3,7 +3,8 @@ package com.hedvig.android.owldroid.util
 import android.graphics.Color
 import android.support.annotation.ColorInt
 
-@ColorInt fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): Int {
+@ColorInt
+fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): Int {
     val fromAlpha = Color.alpha(from)
     val fromRed = Color.red(from)
     val fromGreen = Color.green(from)
@@ -29,27 +30,27 @@ import android.support.annotation.ColorInt
     var resGreen = if (fromGreen > toGreen) fromGreen - factorGreen else fromGreen + factorGreen
     var resBlue = if (fromBlue > toBlue) fromBlue - factorBlue else fromBlue + factorBlue
 
-    resAlpha = when {
-        fromAlpha > toAlpha && resAlpha <= toAlpha -> toAlpha
-        fromAlpha < toAlpha && resAlpha >= toAlpha -> toAlpha
+    resAlpha = when (toAlpha) {
+        in resAlpha..(fromAlpha - 1) -> toAlpha
+        in (fromAlpha + 1)..resAlpha -> toAlpha
         else -> resAlpha
     }
 
-    resRed = when {
-        fromRed > toRed && resRed <= toRed -> toRed
-        fromRed < toRed && resRed >= toRed -> toRed
+    resRed = when (toRed) {
+        in resRed..(fromRed - 1) -> toRed
+        in (fromRed + 1)..resRed -> toRed
         else -> resRed
     }
 
-    resGreen = when {
-        fromGreen > toGreen && resGreen <= toGreen -> toGreen
-        fromGreen < toGreen && resGreen >= toGreen -> toGreen
+    resGreen = when (toGreen) {
+        in resGreen..(fromGreen - 1) -> toGreen
+        in (fromGreen + 1)..resGreen -> toGreen
         else -> resGreen
     }
 
-    resBlue = when {
-        fromBlue > toBlue && resBlue <= toBlue -> toBlue
-        fromBlue < toBlue && resBlue >= toBlue -> toBlue
+    resBlue = when (toBlue) {
+        in resBlue..(fromBlue - 1) -> toBlue
+        in (fromBlue + 1)..resBlue -> toBlue
         else -> resBlue
     }
 

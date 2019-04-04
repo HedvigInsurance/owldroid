@@ -11,104 +11,125 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/off_white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/off_white">
+            android:layout_marginBottom="?attr/actionBarSize">
 
-            <ProgressBar
-                android:id="@id/profile_loading_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@id/profile_charity_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <include layout="@layout/loading_spinner" />
 
             <LinearLayout
-                android:id="@id/profile_rows_container"
+                android:id="@id/rowContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_charity_image"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible">
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_my_info_row"
+                    android:id="@id/profileReferralRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginBottom="24dp"
+                    app:description="@string/PROFILE_ROW_REFERRAL_DESCRIPTION"
+                    app:iconImage="@drawable/icon_share"
+                    tools:visibility="visible" />
+
+                <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                    android:id="@id/myInfoRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_info"
-                    app:name="@string/my_info_row_title" />
+                    app:name="@string/PROFILE_ROW_MY_INFO_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_my_home_row"
+                    android:id="@id/myHomeRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_my_home"
-                    app:name="@string/my_home_row_title" />
+                    app:name="@string/PROFILE_ROW_MY_HOME_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_coinsured_row"
+                    android:id="@id/coinsuredRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_coinsured"
-                    app:name="@string/profile_coinsured_row_name" />
+                    app:name="@string/PROFILE_ROW_COINSURED_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_charity_row"
+                    android:id="@id/charityRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_charity"
-                    app:name="@string/profile_charity_row_name" />
+                    app:name="@string/PROFILE_ROW_CHARITY_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_payment_row"
+                    android:id="@id/paymentRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:iconImage="@drawable/icon_payment"
-                    app:name="@string/profile_payment_row_name" />
+                    app:name="@string/PROFILE_ROW_PAYMENT_TITLE" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_insurance_certificate_row"
+                    android:id="@id/insuranceCertificateRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:description="@string/profile_insurance_certificate_description"
+                    android:visibility="gone"
+                    app:description="@string/PROFILE_ROW_INSURANCE_LETTER_DESCRIPTION"
                     app:iconImage="@drawable/icon_insurance_certificate"
-                    app:name="@string/profile_insurance_certificate_row_name" />
+                    app:name="@string/PROFILE_ROW_INSURANCE_LETTER_TITLE"
+                    tools:visibility="visible" />
 
                 <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
-                    android:id="@id/profile_feedback"
+                    android:id="@id/feedbackRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:description="@string/profile_feedback_description"
+                    app:description="@string/PROFILE_ROW_FEEDBACK_DESCRIPTION"
                     app:iconImage="@drawable/icon_feedback"
-                    app:name="@string/profile_feedback_row_name" />
+                    app:name="@string/PROFILE_ROW_FEEDBACK_TITLE" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@id/profile_log_out_button"
+                <com.hedvig.android.owldroid.ui.profile.ProfileMenuRow
+                    android:id="@id/aboutAppRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    app:name="@string/PROFILE_ROW_ABOUT_APP_TITLE" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_marginTop="24dp"
-                    android:padding="8dp"
-                    android:text="@string/profile_log_out"
-                    android:textAlignment="center"
-                    android:textColor="@color/pink" />
+                    android:background="@color/light_gray" />
+
             </LinearLayout>
+
+            <Button
+                android:id="@id/logout"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/circular_book"
+                android:padding="8dp"
+                android:text="@string/PROFILE_LOGOUT_BUTTON"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/pink"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rowContainer"
+                tools:visibility="visible" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 

@@ -1,5 +1,6 @@
 package com.hedvig.android.app
 
+import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.service.TextKeys
 import com.ice.restring.Restring
 import com.squareup.leakcanary.LeakCanary
@@ -13,13 +14,20 @@ class App : DaggerApplication() {
     @Inject
     lateinit var textKeys: TextKeys
 
+    @Inject
+    lateinit var remoteConfig: RemoteConfig
+
     override fun onCreate() {
         super.onCreate()
 
         LeakCanary.install(this)
         Timber.plant(Timber.DebugTree())
-        Restring.init(this)
-        textKeys.refreshTextKeys()
+        try {
+            Restring.init(this)
+            textKeys.refreshTextKeys()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

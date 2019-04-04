@@ -10,3 +10,10 @@
 .externalNativeBuild
 
 .idea
+**/.settings/*
+.classpath
+.project
+*.swp
+.vscode
+open_source_licenses.html
+schema.json

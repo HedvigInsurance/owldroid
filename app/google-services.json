@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "900925422377",
+    "firebase_url": "https://owlapp-f3f8d.firebaseio.com",
+    "project_id": "owlapp-f3f8d",
+    "storage_bucket": "owlapp-f3f8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900925422377:android:4ba53d75471f7852",
+        "android_client_info": {
+          "package_name": "com.hedvig.android.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900925422377-ht0ubg8d41au0fua32kk97uskv4v3s6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1oGPgrPbkNdu8KbewCJ45l9jhbviOLBc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

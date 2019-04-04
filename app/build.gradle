@@ -44,14 +44,15 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
-    def navigation_version = '1.0.0-rc02'
-    implementation "android.arch.navigation:navigation-fragment:$navigation_version"
-    implementation "android.arch.navigation:navigation-ui:$navigation_version"
-    implementation "android.arch.navigation:navigation-runtime-ktx:$navigation_version"
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'

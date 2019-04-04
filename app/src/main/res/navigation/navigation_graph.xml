@@ -14,42 +14,22 @@
         android:name="com.hedvig.android.owldroid.ui.logo.LogoFragment"
         android:label="LogoFragment" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.hedvig.android.owldroid.ui.profile.ProfileFragment"
-        android:label="ProfileFragment">
-        <action
-            android:id="@+id/action_profileFragment_to_myInfoFragment"
-            app:destination="@+id/myInfoFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/profileFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_paymentFragment"
-            app:destination="@id/paymentFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/paymentFragment"
-        android:name="com.hedvig.android.owldroid.ui.profile.payment.PaymentFragment"
-        android:label="PaymentFragment" />
-    <fragment
-        android:id="@+id/myInfoFragment"
-        android:name="com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment"
-        android:label="MyInfoFragment" />
-    <fragment
         android:id="@+id/debugFragment"
         android:name="com.hedvig.android.app.DebugFragment"
         android:label="fragment_debug"
         tools:layout="@layout/fragment_debug">
-        <action
-            android:id="@+id/action_debugFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_debugFragment_to_marketingFragment"
             app:destination="@id/marketingFragment" />
         <action
             android:id="@+id/action_debugFragment_to_logoFragment"
             app:destination="@id/logoFragment" />
+        <action
+            android:id="@+id/action_debugFragment_to_referralAcceptanceFragment"
+            app:destination="@id/referralAcceptanceFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/referralAcceptanceFragment"
+        android:name="com.hedvig.android.app.ReferralAcceptanceFragment"
+        android:label="ReferralAcceptanceFragment" />
 </navigation>

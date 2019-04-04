@@ -5,31 +5,37 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.view.ViewPager
 import android.support.v4.view.animation.FastOutSlowInInterpolator
-import android.support.v7.widget.AppCompatButton
-import android.view.*
+import android.view.GestureDetector
+import android.view.HapticFeedbackConstants
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
-import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
+import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.extensions.doOnLayout
+import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.show
 import com.hedvig.android.owldroid.util.percentageFade
+import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_marketing.*
+import kotlinx.android.synthetic.main.fragment_marketing.*
+import timber.log.Timber
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class MarketingFragment : Fragment() {
@@ -52,63 +58,79 @@ class MarketingFragment : Fragment() {
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    private var buttonsAnimator: ValueAnimator? = null
+    private var blurDismissAnimator: ValueAnimator? = null
+    private var topHideAnimation: ValueAnimator? = null
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context!!)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hideStatusBar()
-        marketingStoriesViewModel = activity?.run {
+        marketingStoriesViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
-        } ?: throw Exception("No Activity")
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(
-                R.layout.activity_marketing,
-                container,
-                false
-        )
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_marketing, container, false)
 
-    override fun onResume() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
+            getHedvig.elevation = 2f
+            login.elevation = 2f
+        }
         observeMarketingStories()
-        super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        buttonsAnimator?.removeAllListeners()
+        buttonsAnimator?.cancel()
+        blurDismissAnimator?.removeAllListeners()
+        blurDismissAnimator?.cancel()
+        topHideAnimation?.removeAllListeners()
+        topHideAnimation?.cancel()
     }
 
     private fun observeMarketingStories() {
         marketingStoriesViewModel
-                .marketingStories
-                .observe(this, Observer {
-                    loading_spinner.visibility = ProgressBar.GONE
-                    setupButtons()
-                    setupPager(it)
-                    setupBlurOverlay()
-                })
-        marketingStoriesViewModel.loadAndStart()
+            .marketingStories
+            .observe(this, Observer {
+                loadingSpinner.remove()
+                setupButtons()
+                setupPager(it)
+                setupBlurOverlay()
+            })
     }
 
+    // TODO: Refactor this function to be smaller, to be more safe (do not throw exceptions), and to
+    // cancel its animations when this fragment is completed, or else it will do bad stuff
     private fun setupPager(stories: List<MarketingStoriesQuery.MarketingStory>?) {
-        val nStories = stories?.size ?: throw Exception("Got no stories")
-        pager.adapter = StoryPageAdapter(
-                activity?.supportFragmentManager ?: throw Error("Could not find fragment manager"),
-                nStories
+        // FIXME Handle the zero stories case (wat do?)
+        val nStories = stories?.size ?: return
+        pager.adapter = StoryPagerAdapter(
+            childFragmentManager,
+            nStories
         )
-        pager.visibility = ViewPager.VISIBLE
-        story_progress_indicator_container.visibility = LinearLayout.VISIBLE
+        pager.show()
+        pager.doOnLayout {
+            marketingStoriesViewModel.startFirstStory()
+        }
+        storyProgressIndicatorContainer.show()
         val width = activity_marketing.width
         for (n in 0 until nStories) {
             val progressBar = layoutInflater.inflate(
-                    R.layout.marketing_progress_bar,
-                    story_progress_indicator_container,
-                    false
+                R.layout.marketing_progress_bar,
+                storyProgressIndicatorContainer,
+                false
             ) as ProgressBar
             progressBar.layoutParams = ViewGroup.LayoutParams(width / nStories, 10)
-            story_progress_indicator_container.addView(progressBar)
+            storyProgressIndicatorContainer.addView(progressBar)
             val animator = ValueAnimator.ofFloat(0f, 100f).apply {
                 duration = (stories[n].duration()?.toLong() ?: 3) * 1000
                 addUpdateListener { va ->
@@ -119,24 +141,27 @@ class MarketingFragment : Fragment() {
             marketingStoriesViewModel.page.observe(this, Observer { newPage ->
                 animator.removeAllListeners()
                 animator.cancel()
-                when {
-                    newPage == n -> {
-                        animator.doOnEnd {
-                            marketingStoriesViewModel.nextScreen()
+                newPage?.let {
+                    when {
+                        newPage == n -> {
+                            animator.doOnEnd {
+                                marketingStoriesViewModel.nextScreen()
+                            }
+                            animator.start()
                         }
-                        animator.start()
+                        newPage < n -> progressBar.progress = 0
+                        newPage > n -> progressBar.progress = 100
                     }
-                    newPage!! < n -> progressBar.progress = 0
-                    newPage > n -> progressBar.progress = 100
                 }
             })
 
-
             marketingStoriesViewModel.paused.observe(this, Observer { shouldPause ->
-                if (shouldPause!!) {
-                    animator.pause()
-                } else {
-                    animator.resume()
+                shouldPause?.let {
+                    if (shouldPause) {
+                        animator.pause()
+                    } else {
+                        animator.resume()
+                    }
                 }
             })
         }
@@ -145,90 +170,83 @@ class MarketingFragment : Fragment() {
                 return@Observer
             }
             trackViewedStory(newPage)
-            pager.currentItem = newPage
+            try {
+                pager.currentItem = newPage
+            } catch (e: IllegalStateException) {
+                Timber.e(e)
+            }
         })
     }
 
     private fun setupBlurOverlay() {
         marketingStoriesViewModel.blurred.observe(this, Observer { blurred ->
             if (blurred == null || !blurred) {
-                blur_overlay.visibility = View.GONE
+                blurOverlay.remove()
                 return@Observer
             }
 
-            blur_overlay.visibility = View.VISIBLE
-            ValueAnimator.ofFloat(1f, 0f).apply {
-                duration = 300
+            blurOverlay.show()
+            topHideAnimation = ValueAnimator.ofFloat(1f, 0f).apply {
+                duration = BLUR_ANIMATION_SHOW_DURATION
                 addUpdateListener { opacity ->
                     marketing_hedvig_logo.alpha = opacity.animatedValue as Float
-                    story_progress_indicator_container.alpha = opacity.animatedValue as Float
+                    storyProgressIndicatorContainer.alpha = opacity.animatedValue as Float
+
+                    val backgroundColor = percentageFade(
+                        requireContext().compatColor(R.color.transparent_white),
+                        requireContext().compatColor(R.color.blur_white),
+                        opacity.animatedFraction
+                    )
+                    blurOverlay.setBackgroundColor(backgroundColor)
                 }
                 doOnEnd {
-                    marketing_hedvig_logo.visibility = ImageView.GONE
-                    story_progress_indicator_container.visibility = LinearLayout.GONE
+                    marketing_hedvig_logo.remove()
+                    storyProgressIndicatorContainer.remove()
                 }
                 start()
             }
 
-            ValueAnimator.ofInt(0, 100).apply {
-                duration = 300
-                addUpdateListener { opacity ->
-                    val backgroundColor = percentageFade(
-                            ContextCompat.getColor(context!!, R.color.transparent_white),
-                            ContextCompat.getColor(context!!, R.color.blur_white),
-                            opacity.animatedFraction
-                    )
-                    blur_overlay.setBackgroundColor(backgroundColor)
-                }
-                start()
-            }
-
-            val swipeListener = GestureDetector(context, SimpleOnSwipeListener {
-                when (it) {
+            val swipeListener = GestureDetector(context, SimpleOnSwipeListener { direction ->
+                when (direction) {
                     OnSwipeListener.Direction.DOWN -> {
                         trackDismissBlurOverlay()
-                        blur_overlay.setOnTouchListener(null)
-                        hedvig_face_animation.visibility = LottieAnimationView.GONE
-                        marketing_say_hello.visibility = TextView.GONE
-                        marketing_hedvig_logo.visibility = ImageView.VISIBLE
-                        story_progress_indicator_container.visibility = LinearLayout.VISIBLE
+                        blurOverlay.setOnTouchListener(null)
+                        hedvigFaceAnimation.remove()
+                        sayHello.remove()
+                        marketing_hedvig_logo.show()
+                        storyProgressIndicatorContainer.show()
 
-                        ValueAnimator.ofFloat(marketing_proceed.translationY, 0f).apply {
-                            duration = 200
+                        blurDismissAnimator = ValueAnimator.ofFloat(getHedvig.translationY, 0f).apply {
+                            duration = BLUR_ANIMATION_DISMISS_DURATION
                             interpolator = FastOutSlowInInterpolator()
                             addUpdateListener { translation ->
-                                marketing_proceed.translationY = translation.animatedValue as Float
+                                getHedvig.translationY = translation.animatedValue as Float
                                 val elapsed = translation.animatedFraction
                                 val backgroundColor = percentageFade(
-                                        ContextCompat.getColor(context!!, R.color.purple),
-                                        ContextCompat.getColor(context!!, R.color.white),
-                                        elapsed
+                                    requireContext().compatColor(R.color.purple),
+                                    requireContext().compatColor(R.color.white),
+                                    elapsed
                                 )
-                                marketing_proceed.background.compatSetTint(backgroundColor)
+                                getHedvig.background.compatSetTint(backgroundColor)
                                 val textColor = percentageFade(
-                                        ContextCompat.getColor(context!!, R.color.white),
-                                        ContextCompat.getColor(context!!, R.color.black),
-                                        elapsed
+                                    requireContext().compatColor(R.color.white),
+                                    requireContext().compatColor(R.color.black),
+                                    elapsed
                                 )
-                                marketing_proceed.setTextColor(textColor)
+                                getHedvig.setTextColor(textColor)
+
+                                marketing_hedvig_logo.alpha = translation.animatedFraction
+                                storyProgressIndicatorContainer.alpha = translation.animatedFraction
+
+                                val blurBackgroundColor = percentageFade(
+                                    requireContext().compatColor(R.color.blur_white),
+                                    requireContext().compatColor(R.color.transparent_white),
+                                    translation.animatedFraction
+                                )
+                                blurOverlay.setBackgroundColor(blurBackgroundColor)
                             }
                             doOnEnd {
                                 marketingStoriesViewModel.unblur()
-                            }
-                            start()
-                        }
-                        ValueAnimator.ofInt(0, 100).apply {
-                            duration = 200
-                            addUpdateListener { opacity ->
-                                marketing_hedvig_logo.alpha = opacity.animatedFraction
-                                story_progress_indicator_container.alpha = opacity.animatedFraction
-
-                                val backgroundColor = percentageFade(
-                                        ContextCompat.getColor(context!!, R.color.blur_white),
-                                        ContextCompat.getColor(context!!, R.color.transparent_white),
-                                        opacity.animatedFraction
-                                )
-                                blur_overlay.setBackgroundColor(backgroundColor)
                             }
                             start()
                         }
@@ -240,41 +258,40 @@ class MarketingFragment : Fragment() {
                 }
             })
 
-            blur_overlay.setOnTouchListener { _, motionEvent ->
-                swipeListener.onTouchEvent(motionEvent)
-                true
-            }
-
-            val currentTop = marketing_proceed.top
-            val newTop = activity_marketing.height / 2 + marketing_proceed.height / 2
+            val currentTop = getHedvig.top
+            val newTop = activity_marketing.height / 2 + getHedvig.height / 2
             val translation = (newTop - currentTop).toFloat()
 
-            ValueAnimator.ofFloat(0f, translation).apply {
-                duration = 500
+            buttonsAnimator = ValueAnimator.ofFloat(0f, translation).apply {
+                duration = BUTTON_ANIMATION_DURATION
                 interpolator = OvershootInterpolator()
                 addUpdateListener { translation ->
-                    marketing_proceed.translationY = translation.animatedValue as Float
+                    getHedvig.translationY = translation.animatedValue as Float
                     val elapsed = translation.animatedFraction
                     val backgroundColor = percentageFade(
-                            ContextCompat.getColor(context!!, R.color.white),
-                            ContextCompat.getColor(context!!, R.color.purple),
-                            elapsed
+                        requireContext().compatColor(R.color.white),
+                        requireContext().compatColor(R.color.purple),
+                        elapsed
                     )
-                    marketing_proceed.background.compatSetTint(backgroundColor)
+                    getHedvig.background.compatSetTint(backgroundColor)
                     val textColor = percentageFade(
-                            ContextCompat.getColor(context!!, R.color.black),
-                            ContextCompat.getColor(context!!, R.color.white),
-                            elapsed
+                        requireContext().compatColor(R.color.black),
+                        requireContext().compatColor(R.color.white),
+                        elapsed
                     )
-                    marketing_proceed.setTextColor(textColor)
+                    getHedvig.setTextColor(textColor)
                 }
                 doOnEnd {
-                    marketing_say_hello.translationY = translation
-                    marketing_say_hello.visibility = TextView.VISIBLE
-                    hedvig_face_animation.useHardwareAcceleration(true)
-                    hedvig_face_animation.visibility = LottieAnimationView.VISIBLE
-                    hedvig_face_animation.translationY = translation
-                    hedvig_face_animation.playAnimation()
+                    sayHello.translationY = translation
+                    sayHello.show()
+                    hedvigFaceAnimation.useHardwareAcceleration(true)
+                    hedvigFaceAnimation.show()
+                    hedvigFaceAnimation.translationY = translation
+                    hedvigFaceAnimation.playAnimation()
+                    blurOverlay.setOnTouchListener { _, motionEvent ->
+                        swipeListener.onTouchEvent(motionEvent)
+                        true
+                    }
                 }
                 start()
             }
@@ -282,22 +299,21 @@ class MarketingFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        val localBroadcastManager = LocalBroadcastManager.getInstance(context!!)
-        marketing_login.visibility = AppCompatButton.VISIBLE
-        marketing_proceed.visibility = AppCompatButton.VISIBLE
+        login.show()
+        getHedvig.show()
 
-        marketing_login.setOnClickListener {
+        login.setOnClickListener { view ->
             trackClickLogin()
-            it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
             val intent = Intent("marketingResult")
             intent.putExtra("type", MarketingResult.LOGIN)
             localBroadcastManager.sendBroadcast(intent)
         }
 
-        marketing_proceed.setOnClickListener {
+        getHedvig.setOnClickListener { view ->
             trackClickGetHedvig()
-            it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
             val intent = Intent("marketingResult")
             intent.putExtra("type", MarketingResult.ONBOARD)
@@ -321,19 +337,25 @@ class MarketingFragment : Fragment() {
 
     private fun trackClickGetHedvig() {
         val bundle = Bundle()
-        bundle.putInt("story_number", marketingStoriesViewModel.page.value!! + 1)
+        marketingStoriesViewModel.page.value?.let { bundle.putInt("story_number", it + 1) }
         bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
         firebaseAnalytics.logEvent("click_get_hedvig", bundle)
     }
 
     private fun trackClickLogin() {
         val bundle = Bundle()
-        bundle.putInt("story_number", marketingStoriesViewModel.page.value!! + 1)
+        marketingStoriesViewModel.page.value?.let { bundle.putInt("story_number", it + 1) }
         bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
         firebaseAnalytics.logEvent("click_login", bundle)
     }
 
     private fun trackDismissBlurOverlay() {
         firebaseAnalytics.logEvent("dismiss_blur_overlay", null)
+    }
+
+    companion object {
+        const val BUTTON_ANIMATION_DURATION = 500L
+        const val BLUR_ANIMATION_SHOW_DURATION = 300L
+        const val BLUR_ANIMATION_DISMISS_DURATION = 200L
     }
 }

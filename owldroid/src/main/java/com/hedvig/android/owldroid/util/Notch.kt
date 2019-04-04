@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.res.Resources
 import android.os.Build
 
+@Suppress("unused", "MagicNumber")
 fun hasNotch(activity: Activity): Boolean {
     whenApiVersion(Build.VERSION_CODES.P) {
         val displayCutout = activity.window.decorView.rootWindowInsets.displayCutout
@@ -12,12 +13,10 @@ fun hasNotch(activity: Activity): Boolean {
         }
     }
 
-    val statusBarHeight = activity.resources.getDimensionPixelSize(activity.resources.getIdentifier("status_bar_height", "dimen", "android"))
-    if (statusBarHeight > convertDpToPixel(24f)) {
-        return true
-    }
-
-    return false
+    val statusBarHeight = activity.resources.getDimensionPixelSize(
+        activity.resources.getIdentifier("status_bar_height", "dimen", "android")
+    )
+    return (statusBarHeight > convertDpToPixel(24f))
 }
 
 fun convertDpToPixel(dp: Float): Int {

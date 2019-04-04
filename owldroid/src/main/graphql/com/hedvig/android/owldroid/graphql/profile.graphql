@@ -8,6 +8,9 @@ query Profile {
     }
     insurance {
         address
+        postalNumber
+        type
+        certificateUrl
         monthlyCost
         personsInHousehold
     }
@@ -15,8 +18,15 @@ query Profile {
         bankName
         descriptor
     }
+    directDebitStatus
     cashback {
         name
         imageUrl
+        paragraph
+    }
+    cashbackOptions {
+        id
+        name
+        paragraph
     }
 }

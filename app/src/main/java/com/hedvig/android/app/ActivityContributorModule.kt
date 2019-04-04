@@ -7,4 +7,10 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityContributorModule {
     @ContributesAndroidInjector
     abstract fun contributeDebugActivity(): DebugActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeDebugFragment(): DebugFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeReferralAcceptanceFragment(): ReferralAcceptanceFragment
 }

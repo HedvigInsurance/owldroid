@@ -1,6 +1,7 @@
 package com.hedvig.android.app
 
 import android.content.Context
+import android.support.annotation.Nullable
 import com.apollographql.apollo.Logger
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
@@ -27,8 +28,8 @@ class AppModule {
     @Singleton
     fun simpleCache(context: Context): SimpleCache {
         return SimpleCache(
-                File(context.cacheDir, "hedvig_story_video_cache"),
-                LeastRecentlyUsedCacheEvictor(10 * 1024 * 1024)
+            File(context.cacheDir, "hedvig_story_video_cache"),
+            LeastRecentlyUsedCacheEvictor(10 * 1024 * 1024)
         )
     }
 
@@ -45,12 +46,20 @@ class AppModule {
     }
 
     @Provides
-    fun provideApolloLogger(): Logger {
+    @Named("VERSION_NUMBER")
+    fun provideVersionNumber(): String {
+        return BuildConfig.VERSION_NAME
+    }
+
+    @Provides
+    @Nullable
+    fun provideApolloLogger(): Logger? {
         return ApolloTimberLogger()
     }
 
     @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+    @Nullable
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor? {
         return HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
             Timber.tag("OkHttp").i(message)
         }).setLevel(HttpLoggingInterceptor.Level.BODY)
