@@ -95,7 +95,7 @@ class CharityFragment : Fragment() {
         cashbackOptions.adapter = CharityAdapter(options, requireContext()) { id ->
             profileViewModel.selectCashback(id)
         }
-        selectCharityHowDoseItWorkButton.setOnClickListener {
+        selectCharityHowDoesItWorkButton.setOnClickListener {
             requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }

@@ -86,8 +86,8 @@
                 </android.support.design.card.MaterialCardView>
 
                 <include
-                    android:id="@+id/charitySelectedHowDoseItWorkButton"
-                    layout="@layout/charity_how_dose_it_work_button"
+                    android:id="@+id/charitySelectedHowDoesItWorkButton"
+                    layout="@layout/charity_how_does_it_work_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"/>
