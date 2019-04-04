@@ -8,17 +8,11 @@ import com.hedvig.android.owldroid.ui.claims.ClaimsFragment
 class ClaimsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val content = object : FrameLayout(this) {
-            override fun onAttachedToWindow() {
-                super.onAttachedToWindow()
-                supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.claimsScreen, ClaimsFragment())
-                    .commitAllowingStateLoss()
-            }
-        }
+        val view = FrameLayout(this)
 
-        content.id = R.id.claimsScreen
-        setContentView(content)
+        view.addView(layoutInflater.inflate(R.layout.claims_navigation_host, view, false))
+
+        view.id = R.id.claimsNavigation
+        setContentView(view)
     }
 }

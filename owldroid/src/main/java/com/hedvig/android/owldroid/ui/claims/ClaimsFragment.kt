@@ -10,10 +10,16 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.Navigator
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.data.claims.ClaimsQuickAction
 import com.hedvig.android.owldroid.di.ViewModelFactory
-import com.hedvig.android.owldroid.ui.claims.quickactions.QuickActionsAdapter
+import com.hedvig.android.owldroid.ui.claims.quickaction.QuickActionsAdapter
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
@@ -27,6 +33,10 @@ class ClaimsFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var claimsViewModel: ClaimsViewModel
+
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.claimsNavigationHost)
+    }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -61,7 +71,9 @@ class ClaimsFragment : Fragment() {
 
     private fun setupQuickActions(quickActions: List<ClaimsQuickAction>) {
         quickChoicesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        quickChoicesRecyclerView.adapter = QuickActionsAdapter(quickActions)
+        quickChoicesRecyclerView.adapter = QuickActionsAdapter(quickActions) {
+            navController.navigate(R.id.action_claimsFragment_to_quickActionClaimsFragment)
+        }
     }
 
     private fun handleNoQuickActions() {
