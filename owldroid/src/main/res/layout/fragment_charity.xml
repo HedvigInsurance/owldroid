@@ -90,7 +90,7 @@
                     layout="@layout/charity_how_does_it_work_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal" />
 
             </LinearLayout>
 
@@ -143,10 +143,10 @@
 
                 <include
                     android:id="@+id/selectCharityHowDoseItWorkButton"
-                    layout="@layout/charity_how_dose_it_work_button"
-                    android:layout_marginTop="@dimen/base_margin_triple"
+                    layout="@layout/charity_how_does_it_work_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_triple"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/selectCharityExplainer" />
