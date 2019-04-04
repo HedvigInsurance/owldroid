@@ -77,7 +77,7 @@ class MyHomeFragment : Fragment() {
             sphereContainer.show()
 
             profileData?.insurance()?.let { insuranceData ->
-                sphereText.text = insuranceData.address()
+                sphereText.text = insuranceData.address() + "test string that chould be a bit to logn!"
                 postalNumber.text = insuranceData.postalNumber()
                 insuranceType.text =
                     when (insuranceData.type()) {
