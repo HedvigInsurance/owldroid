@@ -48,7 +48,7 @@ class MyHomeFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_MY_HOME_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
-        sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))
+        sphere.drawable.compatSetTint(requireContext().compatColor(R.color.maroon))
 
         changeHomeInformation.setOnClickListener {
             fragmentManager?.let { fm ->
