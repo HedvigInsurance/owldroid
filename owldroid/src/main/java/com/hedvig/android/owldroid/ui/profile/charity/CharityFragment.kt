@@ -84,7 +84,7 @@ class CharityFragment : Fragment() {
 
         selectedCharityCardTitle.text = cashback.name()
         selectedCharityCardParagraph.text = cashback.paragraph()
-        charitySelectedHowDoseItWorkButton.setOnClickListener {
+        charitySelectedHowDoesItWorkButton.setOnClickListener {
             requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }
