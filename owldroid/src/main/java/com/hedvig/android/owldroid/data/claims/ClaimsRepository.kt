@@ -10,7 +10,7 @@ class ClaimsRepository @Inject constructor(private val apolloClient: ApolloClien
 
     //Todo: don't mock!
     fun fetchQuickActions(): Observable<List<ClaimsQuickAction>>
-        = Observable.just(listOf(ClaimsQuickAction("icon", "title", "subtitle")))
+        = Observable.just(listOf(ClaimsQuickAction("icon", "title", "subtitle"), ClaimsQuickAction("icon", "title", "subtitle"), ClaimsQuickAction("icon", "title", "subtitle")))
 }
 
 data class ClaimsQuickAction(val icon: String, val title: String, val subtitle: String)

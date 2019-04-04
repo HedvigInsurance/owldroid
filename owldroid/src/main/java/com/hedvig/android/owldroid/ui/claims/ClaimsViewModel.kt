@@ -16,7 +16,7 @@ class ClaimsViewModel @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
-    fun loadQuickActions(){
+    fun fetchQuickActions(){
         disposables.add(
             claimsRepository.fetchQuickActions()
                 .subscribe({ response ->
@@ -26,5 +26,4 @@ class ClaimsViewModel @Inject constructor(
                 })
         )
     }
-
 }
