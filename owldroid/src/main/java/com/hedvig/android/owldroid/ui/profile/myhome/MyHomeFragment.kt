@@ -13,11 +13,11 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.remove
-import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_my_home.*
+import kotlinx.android.synthetic.main.sphere_container.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
@@ -48,6 +48,7 @@ class MyHomeFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_MY_HOME_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
         }
+        sphere.drawable.compatSetTint(requireContext().compatColor(R.color.maroon))
 
         changeHomeInformation.setOnClickListener {
             fragmentManager?.let { fm ->
@@ -66,9 +67,10 @@ class MyHomeFragment : Fragment() {
     private fun loadData() {
         profileViewModel.data.observe(this, Observer { profileData ->
             loadingSpinner.remove()
+            sphereContainer.show()
 
             profileData?.insurance()?.let { insuranceData ->
-                address.text = insuranceData.address()
+                sphereText.text = insuranceData.address()
                 postalNumber.text = insuranceData.postalNumber()
                 insuranceType.text =
                     when (insuranceData.type()) {
@@ -78,6 +80,10 @@ class MyHomeFragment : Fragment() {
                         InsuranceType.STUDENT_RENT -> resources.getString(R.string.PROFILE_MY_HOME_INSURANCE_TYPE_RENT)
                         else -> ""
                     }
+                livingSpace.text = interpolateTextKey(
+                    resources.getString(R.string.PROFILE_MY_HOME_SQUARE_METER_POSTFIX),
+                    hashMapOf("SQUARE_METER" to insuranceData.livingSpace().toString())
+                )
                 infoContainer.show()
             }
         })

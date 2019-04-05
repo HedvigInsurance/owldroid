@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -17,10 +18,12 @@ import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.showBottomSheetDialog
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_charity.*
@@ -76,11 +79,14 @@ class CharityFragment : Fragment() {
         Glide
             .with(requireContext())
             .load(cashback.imageUrl())
-            .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+            .apply(RequestOptions().override(Target.SIZE_ORIGINAL, CASH_BACK_IMAGE_HEIGHT))
             .into(selectedCharityBanner)
 
         selectedCharityCardTitle.text = cashback.name()
         selectedCharityCardParagraph.text = cashback.paragraph()
+        charitySelectedHowDoesItWorkButton.setOnClickListener {
+            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
+        }
     }
 
     private fun showCharityPicker(options: List<ProfileQuery.CashbackOption>) {
@@ -89,6 +95,12 @@ class CharityFragment : Fragment() {
         cashbackOptions.adapter = CharityAdapter(options, requireContext()) { id ->
             profileViewModel.selectCashback(id)
         }
+        selectCharityHowDoesItWorkButton.setOnClickListener {
+            requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
+        }
+    }
+
+    companion object {
+        private const val CASH_BACK_IMAGE_HEIGHT = 200
     }
 }
-
