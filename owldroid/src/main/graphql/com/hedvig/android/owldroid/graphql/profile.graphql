@@ -13,6 +13,7 @@ query Profile {
         certificateUrl
         monthlyCost
         personsInHousehold
+        livingSpace
     }
     bankAccount {
         bankName
