@@ -2,13 +2,15 @@ package com.hedvig.android.owldroid.ui.dashboard
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
+import android.support.design.card.MaterialCardView
 import android.util.AttributeSet
-import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.peril_category_view.view.*
 
-class PerilCategoryView : FrameLayout {
+class PerilCategoryView : MaterialCardView {
     private var attributeSet: AttributeSet? = null
     private var defStyle: Int = 0
 
@@ -57,6 +59,15 @@ class PerilCategoryView : FrameLayout {
         }
 
     private fun setupAttributes() {
+        resources.getDimension(R.dimen.base_margin).let { bm ->
+            radius = bm
+            whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
+                elevation = bm
+            }
+        }
+        resources.getDimensionPixelSize(R.dimen.base_margin).let { setPadding(it, it, it, it) }
+        clipToPadding = true
+
         val attributes = context.obtainStyledAttributes(
             attributeSet,
             R.styleable.PerilCategoryView,
@@ -70,4 +81,16 @@ class PerilCategoryView : FrameLayout {
 
         attributes.recycle()
     }
+
+/*    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    inner class OutlineProvider(
+        private val rect: Rect = Rect(),
+        var scaleX: Float,
+        var scaleY: Float,
+        var yShift: Int
+    ) : ViewOutlineProvider() {
+        override fun getOutline(view: View?, outline: Outline?) {
+            view?.background?.copyBounds()
+        }
+    }*/
 }

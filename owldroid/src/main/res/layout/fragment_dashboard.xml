@@ -64,11 +64,47 @@
             <LinearLayout
                 android:id="@+id/perilCategoryContainer"
                 android:orientation="vertical"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/perilsTitle" />
+                app:layout_constraintTop_toBottomOf="@id/perilsTitle">
+
+                <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
+                    android:id="@+id/personalCoverageCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="@dimen/base_margin_half"
+                    android:layout_marginBottom="@dimen/base_margin_half"
+                    app:categoryUrl="https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/du_och_din_familj%402x.png"
+                    app:subtitle="försäkras för"
+                    app:title="Jag och min familj" />
+
+                <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
+                    android:id="@+id/homeCoverageCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="@dimen/base_margin_half"
+                    android:layout_marginBottom="@dimen/base_margin_half"
+                    app:categoryUrl="https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/lagenhet%402x.png"
+                    app:subtitle="försäkras för"
+                    app:title="Lomvägen 641" />
+
+                <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
+                    android:id="@+id/thingsCoverageCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="@dimen/base_margin_half"
+                    android:layout_marginBottom="@dimen/base_margin"
+                    app:categoryUrl="https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/prylar%402x.png"
+                    app:subtitle="försäkras för"
+                    app:title="Våra prylar" />
+
+            </LinearLayout>
 
             <!--
                         <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
