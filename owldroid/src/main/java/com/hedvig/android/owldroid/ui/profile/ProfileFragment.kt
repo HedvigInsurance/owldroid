@@ -94,7 +94,7 @@ class ProfileFragment : Fragment() {
                 profileReferralRow.setHighlighted()
                 profileReferralRow.name = interpolateTextKey(
                     resources.getString(R.string.PROFILE_ROW_REFERRAL_TITLE),
-                    hashMapOf("INCENTIVE" to "${rcd.referralsIncentiveAmount}")
+                    "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
                 )
                 profileReferralRow.setOnClickListener {
                     navController.navigate(R.id.action_profileFragment_to_referralFragment)
@@ -156,7 +156,7 @@ class ProfileFragment : Fragment() {
         val personsInHousehold = profileData.insurance().personsInHousehold() ?: 1
         coinsuredRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_COINSURED_DESCRIPTION),
-            hashMapOf("NUMBER" to "$personsInHousehold")
+            "NUMBER" to "$personsInHousehold"
         )
         coinsuredRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_coinsuredFragment)
@@ -173,7 +173,7 @@ class ProfileFragment : Fragment() {
     private fun setupPayment(profileData: ProfileQuery.Data) {
         paymentRow.description = interpolateTextKey(
             resources.getString(R.string.PROFILE_ROW_PAYMENT_DESCRIPTION),
-            hashMapOf("COST" to profileData.insurance().monthlyCost()?.toString())
+            "COST" to profileData.insurance().monthlyCost()?.toString()
         )
         paymentRow.setOnClickListener {
             navController.navigate(R.id.action_profileFragment_to_paymentFragment)

@@ -82,7 +82,7 @@ class MyHomeFragment : Fragment() {
                     }
                 livingSpace.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_MY_HOME_SQUARE_METER_POSTFIX),
-                    hashMapOf("SQUARE_METER" to insuranceData.livingSpace().toString())
+                    "SQUARE_METER" to insuranceData.livingSpace().toString()
                 )
                 infoContainer.show()
             }

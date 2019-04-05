@@ -64,14 +64,14 @@ class AboutAppFragment : Fragment() {
 
         versionNumber.text = interpolateTextKey(
             resources.getString(R.string.PROFILE_ABOUT_APP_VERSION),
-            hashMapOf("VERSION_NUMBER" to appVersion)
+            "VERSION_NUMBER" to appVersion
         )
 
         profileViewModel.data.observe(this, Observer { data ->
             data?.member()?.id()?.let { id ->
                 memberId.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_ABOUT_APP_MEMBER_ID),
-                    hashMapOf("MEMBER_ID" to id)
+                    "MEMBER_ID" to id
                 )
             }
         })
