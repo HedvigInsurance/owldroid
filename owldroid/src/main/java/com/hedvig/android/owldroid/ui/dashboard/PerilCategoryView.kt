@@ -1,6 +1,7 @@
 package com.hedvig.android.owldroid.ui.dashboard
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.support.design.card.MaterialCardView
@@ -36,14 +37,20 @@ class PerilCategoryView : MaterialCardView {
         setupAttributes()
     }
 
-    var categoryIcon: CharSequence? = null
+    var categoryIconUrl: Uri? = null
         set(value) {
             field = value
 
             Glide
                 .with(context)
-                .load(Uri.parse(value.toString()))
+                .load(value)
                 .into(catIcon)
+        }
+
+    var categoryIcon: Drawable? = null
+        set(value) {
+            field = value
+            catIcon.setImageDrawable(value)
         }
 
     var title: CharSequence? = null
@@ -75,22 +82,23 @@ class PerilCategoryView : MaterialCardView {
             0
         )
 
-        categoryIcon = attributes.getText(R.styleable.PerilCategoryView_categoryUrl)
+        attributes.getText(R.styleable.PerilCategoryView_categoryUrl)?.let { url ->
+            categoryIconUrl = Uri.parse(url.toString())
+        }
         title = attributes.getText(R.styleable.PerilCategoryView_title)
         subtitle = attributes.getText(R.styleable.PerilCategoryView_subtitle)
 
         attributes.recycle()
     }
 
-/*    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    inner class OutlineProvider(
-        private val rect: Rect = Rect(),
-        var scaleX: Float,
-        var scaleY: Float,
-        var yShift: Int
-    ) : ViewOutlineProvider() {
-        override fun getOutline(view: View?, outline: Outline?) {
-            view?.background?.copyBounds()
-        }
-    }*/
+    fun setLast() {
+        val baseMargin = resources.getDimensionPixelSize(R.dimen.base_margin)
+        val doubleMargin = resources.getDimensionPixelSize(R.dimen.base_margin_double)
+
+        setPadding(baseMargin, baseMargin, baseMargin, doubleMargin)
+    }
+
+    fun setExpandedContent() {
+        // TODO Add function to insert expanded content
+    }
 }

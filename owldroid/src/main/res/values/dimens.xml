@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="app_bar_height">128dp</dimen>
-    <dimen name="dialog_width">280dp</dimen>
-    <dimen name="dialog_height">188dp</dimen>
 
     <dimen name="base_margin_half">4dp</dimen>
     <dimen name="base_margin">8dp</dimen>

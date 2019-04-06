@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/off_white"
-    android:animateLayoutChanges="true"
     android:layout_height="match_parent">
 
     <include layout="@layout/app_bar" />
@@ -12,222 +11,51 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:animateLayoutChanges="true"
             android:layout_height="match_parent">
 
             <include
                 layout="@layout/loading_spinner"
                 tools:visibility="gone" />
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/insuranceActive"
-                android:layout_marginTop="24dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_filled_checkmark"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/base_margin_quadruple"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
 
-            <TextView
-                android:id="@+id/insuranceActiveLabel"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/off_black_dark"
-                android:fontFamily="@font/circular_book"
-                android:textSize="14sp"
-                android:text="Din försäkring är aktiv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/insuranceActive" />
+                <TextView
+                    android:fontFamily="@font/circular_book"
+                    android:textSize="14sp"
+                    android:textColor="@color/off_black_dark"
+                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/perilsTitle"
-                android:fontFamily="@font/circular_bold"
-                android:textSize="16sp"
-                android:textColor="@color/off_black_dark"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="48dp"
-                android:text="Ditt skydd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/insuranceActiveLabel" />
+                <ImageView
+                    android:src="@drawable/ic_filled_checkmark"
+                    android:contentDescription="@null"
+                    android:layout_marginStart="@dimen/base_margin_half"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/perilCategoryContainer"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/perilsTitle">
-
-                <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
-                    android:id="@+id/personalCoverageCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="@dimen/base_margin_half"
-                    android:layout_marginBottom="@dimen/base_margin_half"
-                    app:categoryUrl="https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/du_och_din_familj%402x.png"
-                    app:subtitle="försäkras för"
-                    app:title="Jag och min familj" />
-
-                <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
-                    android:id="@+id/homeCoverageCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="@dimen/base_margin_half"
-                    android:layout_marginBottom="@dimen/base_margin_half"
-                    app:categoryUrl="https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/lagenhet%402x.png"
-                    app:subtitle="försäkras för"
-                    app:title="Lomvägen 641" />
-
-                <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
-                    android:id="@+id/thingsCoverageCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="@dimen/base_margin_half"
-                    android:layout_marginBottom="@dimen/base_margin"
-                    app:categoryUrl="https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/prylar%402x.png"
-                    app:subtitle="försäkras för"
-                    app:title="Våra prylar" />
-
-            </LinearLayout>
-
-            <!--
-                        <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
-                            android:id="@+id/personalCoverageCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginEnd="24dp"
-                            app:categoryIcon="@drawable/ic_family"
-                            app:layout_constraintTop_toBottomOf="@id/perilsTitle"
-                            app:subtitle="försäkras för"
-                            app:title="Jag och min familj" />
-
-                        <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
-                            android:id="@+id/homeCoverageCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginEnd="24dp"
-                            android:clipChildren="false"
-                            app:categoryIcon="@drawable/ic_home"
-                            app:layout_constraintTop_toBottomOf="@id/personalCoverageCard"
-                            app:subtitle="försäkras för"
-                            app:title="Lomvägen 641" />
-
-                        <com.hedvig.android.owldroid.ui.dashboard.PerilCategoryView
-                            android:id="@+id/thingsCoverageCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginEnd="24dp"
-                            android:clipChildren="false"
-                            app:categoryIcon="@drawable/ic_things"
-                            app:layout_constraintTop_toBottomOf="@id/homeCoverageCard"
-                            app:subtitle="försäkras för"
-                            app:title="Våra prylar" />
-            -->
-
-            <LinearLayout
-                android:id="@+id/deductibleFootnote"
-                android:layout_marginTop="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toBottomOf="@id/perilCategoryContainer"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:src="@drawable/ic_filled_checkmark"
-                    android:contentDescription="@null"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp" />
-
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/circular_book"
-                    android:textSize="14sp"
-                    android:textColor="@color/off_black"
-                    android:text="Din självrisk är 1 500 kr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/totalCoverageFootnote"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="24dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/deductibleFootnote"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:src="@drawable/ic_filled_checkmark"
-                    android:contentDescription="@null"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp" />
-
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/circular_book"
-                    android:textSize="14sp"
-                    android:textColor="@color/off_black"
-                    android:text="Prylarna försäkras till totalt 1 000 000 kr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/travelFootnote"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="24dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/totalCoverageFootnote"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:src="@drawable/ic_filled_checkmark"
-                    android:contentDescription="@null"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp" />
-
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/circular_book"
-                    android:textSize="14sp"
-                    android:textColor="@color/off_black"
-                    android:text="Gäller på resor vartsomhelst i världen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-            </LinearLayout>
-
+                android:layout_marginTop="@dimen/base_margin_double"
+                android:paddingBottom="@dimen/base_margin_double"
+                app:layout_constraintTop_toBottomOf="@id/insuranceActive" />
 
         </android.support.constraint.ConstraintLayout>
 
