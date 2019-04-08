@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/base_margin"
         android:layout_marginBottom="@dimen/base_margin"
         android:text="@string/CHARITY_INFO_DIALOG_TITLE"
-        android:theme="@style/DialogTitle" />
+        android:theme="@style/SmallTitle" />
 
     <TextView
         android:layout_width="wrap_content"
