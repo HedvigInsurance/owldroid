@@ -72,11 +72,11 @@ class ReferralFragment : Fragment() {
 
                 youGetDescription.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_REFERRAL_YOU_GET_DESCRIPTION),
-                    hashMapOf("INCENTIVE" to incentive)
+                    "INCENTIVE" to incentive
                 )
                 theyGetDescription.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
-                    hashMapOf("INCENTIVE" to incentive)
+                    "INCENTIVE" to incentive
                 )
 
                 referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
@@ -109,7 +109,7 @@ class ReferralFragment : Fragment() {
                                         Intent.EXTRA_TEXT,
                                         interpolateTextKey(
                                             resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
-                                            hashMapOf("INCENTIVE" to incentive, "LINK" to link.toString())
+                                            "INCENTIVE" to incentive, "LINK" to link.toString()
                                         )
                                     )
                                     type = "text/plain"

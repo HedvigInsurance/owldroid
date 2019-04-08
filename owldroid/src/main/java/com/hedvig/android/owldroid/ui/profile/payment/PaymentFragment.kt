@@ -81,7 +81,9 @@ class PaymentFragment : Fragment() {
 
         autogiroDate.text = interpolateTextKey(
             resources.getString(R.string.PROFILE_PAYMENT_NEXT_CHARGE_DATE),
-            hashMapOf("YEAR" to year, "MONTH" to month, "DAY" to BILLING_DAY.toString())
+            "YEAR" to year,
+            "MONTH" to month,
+            "DAY" to BILLING_DAY.toString()
         )
 
         changeBankAccount.setOnClickListener {
