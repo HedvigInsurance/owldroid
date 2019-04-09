@@ -18,12 +18,7 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.compatColor
-import com.hedvig.android.owldroid.util.extensions.compatSetTint
-import com.hedvig.android.owldroid.util.extensions.increaseTouchableArea
-import com.hedvig.android.owldroid.util.extensions.observe
-import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.*
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_referral.*
@@ -33,9 +28,6 @@ class ReferralFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var remoteConfig: RemoteConfig
 
     private lateinit var profileViewModel: ProfileViewModel
 
@@ -65,6 +57,7 @@ class ReferralFragment : Fragment() {
         setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
             requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
         }
+        referralButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, requireContext().compatDrawable(R.drawable.icon_share_white), null)
 
         profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
             remoteConfigData?.let { rcd ->
@@ -72,11 +65,11 @@ class ReferralFragment : Fragment() {
 
                 youGetDescription.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_REFERRAL_YOU_GET_DESCRIPTION),
-                    hashMapOf("INCENTIVE" to incentive)
+                    "INCENTIVE" to incentive
                 )
                 theyGetDescription.text = interpolateTextKey(
                     resources.getString(R.string.PROFILE_REFERRAL_THEY_GET_DESCRIPTION),
-                    hashMapOf("INCENTIVE" to incentive)
+                    "INCENTIVE" to incentive
                 )
 
                 referralButton.background.compatSetTint(requireContext().compatColor(R.color.purple))
@@ -109,7 +102,7 @@ class ReferralFragment : Fragment() {
                                         Intent.EXTRA_TEXT,
                                         interpolateTextKey(
                                             resources.getString(R.string.PROFILE_REFERRAL_SHARE_TEXT),
-                                            hashMapOf("INCENTIVE" to incentive, "LINK" to link.toString())
+                                            "INCENTIVE" to incentive, "LINK" to link.toString()
                                         )
                                     )
                                     type = "text/plain"

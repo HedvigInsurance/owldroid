@@ -20,6 +20,11 @@
 
             <include layout="@layout/loading_spinner" />
 
+
+            <include
+                android:id="@id/sphereContainer"
+                layout="@layout/sphere_container" />
+
             <LinearLayout
                 android:id="@id/infoContainer"
                 android:layout_width="match_parent"
@@ -31,27 +36,12 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sphereContainer"
                 tools:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/PROFILE_MY_HOME_ADDRESS_LABEL"
-                    android:theme="@style/ProfileFieldLabel" />
-
-                <TextView
-                    android:id="@id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:theme="@style/ProfileField"
-                    tools:text="Testvägen 1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
                     android:text="@string/PROFILE_MY_HOME_POSTAL_CODE_LABEL"
                     android:theme="@style/ProfileFieldLabel" />
 
@@ -59,14 +49,14 @@
                     android:id="@id/postalNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/base_margin"
                     android:theme="@style/ProfileField"
                     tools:text="12345" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/base_margin_quadruple"
                     android:text="@string/PROFILE_MY_HOME_INSURANCE_TYPE_LABEL"
                     android:theme="@style/ProfileFieldLabel" />
 
@@ -74,10 +64,24 @@
                     android:id="@id/insuranceType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/base_margin"
                     android:theme="@style/ProfileField"
                     tools:text="Bostadsrätt" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_quadruple"
+                    android:text="@string/PROFILE_MY_HOME_LIVING_SPACE_LABEL"
+                    android:theme="@style/ProfileFieldLabel" />
+
+                <TextView
+                    android:id="@+id/livingSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:theme="@style/ProfileField"
+                    tools:text="63 m²" />
 
             </LinearLayout>
 

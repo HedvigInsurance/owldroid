@@ -19,25 +19,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="176dp"
-                android:background="@drawable/background_feedback">
+                android:layout_height="176dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/background_feedback" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/soray_extrabold"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:text="@string/PROFILE_FEEDBACK_HEADER"
                     android:textColor="@color/white"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="40sp" />
 
-            </android.support.constraint.ConstraintLayout>
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"

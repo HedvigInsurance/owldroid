@@ -35,7 +35,7 @@ class CharityAdapter(
 
         holder.button.text = interpolateTextKey(
             holder.itemView.resources.getString(R.string.PROFILE_CHARITY_SELECT_BUTTON),
-            hashMapOf("CHARITY" to item.name())
+            "CHARITY" to item.name()
         )
         holder.button.setOnClickListener {
             item.id()?.let { id ->

@@ -16,8 +16,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize">
 
             <include
                 layout="@layout/loading_spinner"
@@ -85,6 +85,13 @@
 
                 </android.support.design.card.MaterialCardView>
 
+                <include
+                    android:id="@+id/charitySelectedHowDoesItWorkButton"
+                    layout="@layout/charity_how_does_it_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -103,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
-                    android:src="@drawable/icon_charity"
+                    app:srcCompat="@drawable/icon_charity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -133,6 +140,16 @@
                     app:layout_constraintTop_toBottomOf="@id/selectCharityExplainer">
 
                 </android.support.v7.widget.RecyclerView>
+
+                <include
+                    android:id="@+id/selectCharityHowDoesItWorkButton"
+                    layout="@layout/charity_how_does_it_work_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_triple"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/selectCharityExplainer" />
 
             </android.support.constraint.ConstraintLayout>
 
