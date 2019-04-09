@@ -21,9 +21,13 @@ import com.hedvig.android.owldroid.data.claims.ClaimsQuickAction
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.claims.quickaction.QuickActionsAdapter
 import com.hedvig.android.owldroid.util.extensions.compatFont
+import com.hedvig.android.owldroid.util.extensions.hide
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
+import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -57,11 +61,12 @@ class ClaimsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+        setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold, R.drawable.ic_back) {
+            requireActivity().findNavController(R.id.claimsNavigationHost).popBackStack()
+        }
 
-        collapsingToolbar.title = resources.getString(R.string.CLAIMS_TITLE)
-        collapsingToolbar.setExpandedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
-        collapsingToolbar.setCollapsedTitleTypeface(requireContext().compatFont(R.font.circular_bold))
         claimsViewModel.apply {
+            loadingSpinner.show()
             fetchQuickActions()
             quickActions.observe(this@ClaimsFragment, Observer { quickActions ->
                 quickActions?.let { setupQuickActions(it) } ?: handleNoQuickActions()
@@ -70,6 +75,7 @@ class ClaimsFragment : Fragment() {
     }
 
     private fun setupQuickActions(quickActions: List<ClaimsQuickAction>) {
+        loadingSpinner.hide()
         quickChoicesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         quickChoicesRecyclerView.adapter = QuickActionsAdapter(quickActions) {
             navController.navigate(R.id.action_claimsFragment_to_quickActionClaimsFragment)
