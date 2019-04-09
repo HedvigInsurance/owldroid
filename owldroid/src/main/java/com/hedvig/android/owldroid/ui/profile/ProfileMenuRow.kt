@@ -3,6 +3,8 @@ package com.hedvig.android.owldroid.ui.profile
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.constraint.ConstraintLayout
+import android.support.v4.content.ContextCompat
+import android.support.v7.content.res.AppCompatResources
 import android.util.AttributeSet
 import android.view.Gravity
 import com.hedvig.android.owldroid.R
@@ -72,7 +74,8 @@ class ProfileMenuRow : ConstraintLayout {
     private fun setupDynamicContent() {
         val attributes = context.obtainStyledAttributes(attributeSet, R.styleable.ProfileMenuRow, defStyle, 0)
 
-        icon = attributes.getDrawable(R.styleable.ProfileMenuRow_iconImage)
+        val iconResourceId = attributes.getResourceId(R.styleable.ProfileMenuRow_iconImage, -1)
+        if (iconResourceId != -1) icon = context.compatDrawable(iconResourceId)
         name = attributes.getText(R.styleable.ProfileMenuRow_name)
 
         val description = attributes.getText(R.styleable.ProfileMenuRow_description)

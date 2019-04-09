@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                android:src="@drawable/celebration"
+                app:srcCompat="@drawable/celebration"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +76,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/icon_success" />
+                    app:srcCompat="@drawable/icon_success" />
 
                 <TextView
                     android:id="@+id/youGetDescription"
@@ -121,7 +121,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/icon_success" />
+                    app:srcCompat="@drawable/icon_success" />
 
                 <TextView
                     android:id="@+id/theyGetDescription"
@@ -180,7 +180,6 @@
         android:theme="@style/HedvigButton"
         android:visibility="gone"
         android:translationY="75dp"
-        android:drawableEnd="@drawable/icon_share_white"
         android:drawablePadding="8dp"
         android:layout_gravity="bottom|center_horizontal"
         app:layout_constraintBottom_toTopOf="@id/termsContainer"
