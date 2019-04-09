@@ -26,16 +26,15 @@ import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
-import com.hedvig.android.owldroid.util.extensions.doOnLayout
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
-import com.hedvig.android.owldroid.util.extensions.remove
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import timber.log.Timber
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class MarketingFragment : Fragment() {

@@ -1,6 +1,5 @@
 package com.hedvig.android.owldroid.ui.dashboard
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -11,6 +10,8 @@ import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
+import com.hedvig.android.owldroid.util.extensions.view.animateExpand
 import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.peril_category_view.view.*
 
@@ -121,20 +122,11 @@ class PerilCategoryView : MaterialCardView {
 
     fun toggle() {
         if (toggled) {
+            expandedContent?.animateCollapse()
+            toggled = false
             return
         } else {
-            val measuredHeight = expandedContentMeasuredHeight ?: return
-            ValueAnimator
-                .ofInt(0, measuredHeight)
-                .apply {
-                    duration = 300
-                    addUpdateListener { va ->
-                        expandedContent?.layoutParams?.let { lp ->
-                            expandedContent?.layoutParams = lp.also { it.height = va.animatedValue as Int }
-                        }
-                    }
-                    start()
-                }
+            expandedContent?.animateExpand()
             toggled = true
         }
     }

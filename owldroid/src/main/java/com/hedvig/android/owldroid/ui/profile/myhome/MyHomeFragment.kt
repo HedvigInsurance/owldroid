@@ -13,12 +13,16 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_my_home.*
-import kotlinx.android.synthetic.main.sphere_container.*
 import kotlinx.android.synthetic.main.loading_spinner.*
+import kotlinx.android.synthetic.main.sphere_container.*
 import javax.inject.Inject
 
 class MyHomeFragment : Fragment() {

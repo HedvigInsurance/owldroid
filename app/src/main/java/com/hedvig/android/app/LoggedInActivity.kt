@@ -5,7 +5,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import androidx.navigation.findNavController
-import com.hedvig.android.owldroid.util.extensions.doOnLayout
+import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
 
 class LoggedInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

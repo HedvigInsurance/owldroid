@@ -19,9 +19,9 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.util.NavigationAnalytics
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
-import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import com.hedvig.android.owldroid.util.newBroadcastReceiver
 import dagger.android.support.AndroidSupportInjection
@@ -61,7 +61,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) } ?: setupNavigationAnalyticsListener()
+        navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
+            ?: setupNavigationAnalyticsListener()
 
         setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
@@ -103,7 +104,6 @@ class ProfileFragment : Fragment() {
             }
         })
     }
-
 
     private fun populateData() {
         profileViewModel.data.observe(this, Observer { profileData ->

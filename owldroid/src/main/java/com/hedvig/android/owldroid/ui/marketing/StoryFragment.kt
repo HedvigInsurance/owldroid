@@ -28,7 +28,7 @@ import com.google.android.exoplayer2.util.Util
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 

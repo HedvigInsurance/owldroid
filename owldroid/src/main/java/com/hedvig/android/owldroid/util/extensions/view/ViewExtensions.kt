@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.util.extensions
+package com.hedvig.android.owldroid.util.extensions.view
 
 import android.graphics.Rect
 import android.view.TouchDelegate

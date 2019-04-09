@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.ActionMenuItemView
 import android.text.TextWatcher
 import android.view.HapticFeedbackConstants
@@ -20,20 +19,18 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
-import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.hideKeyboard
 import com.hedvig.android.owldroid.util.extensions.onChange
-import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.validateEmail
 import com.hedvig.android.owldroid.util.validatePhoneNumber
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_my_info.*
-import kotlinx.android.synthetic.main.sphere_container.*
 import kotlinx.android.synthetic.main.loading_spinner.*
+import kotlinx.android.synthetic.main.sphere_container.*
 import javax.inject.Inject
 
 class MyInfoFragment : Fragment() {
