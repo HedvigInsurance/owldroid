@@ -1,11 +1,14 @@
 package com.hedvig.android.owldroid.ui.dashboard
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.support.design.card.MaterialCardView
 import android.util.AttributeSet
+import android.view.View
+import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.util.whenApiVersion
@@ -65,6 +68,27 @@ class PerilCategoryView : MaterialCardView {
             categorySubtitle.text = value
         }
 
+    var expandedContent: View? = null
+        set(value) {
+            field = value
+            perilsContainer.removeAllViews()
+            perilsContainer.addView(value)
+
+            expandedContentMeasuredHeight = field?.measuredHeight
+
+            if (!toggled) {
+                value?.layoutParams?.let { lp ->
+                    value.layoutParams = lp.also { it.height = 0 }
+                }
+            }
+        }
+
+    private var expandedContentMeasuredHeight: Int? = null
+
+    val expandedContentContainer: FrameLayout by lazy { perilsContainer }
+
+    private var toggled: Boolean = false
+
     private fun setupAttributes() {
         resources.getDimension(R.dimen.base_margin).let { bm ->
             radius = bm
@@ -89,16 +113,29 @@ class PerilCategoryView : MaterialCardView {
         subtitle = attributes.getText(R.styleable.PerilCategoryView_subtitle)
 
         attributes.recycle()
+
+        setOnClickListener {
+            toggle()
+        }
     }
 
-    fun setLast() {
-        val baseMargin = resources.getDimensionPixelSize(R.dimen.base_margin)
-        val doubleMargin = resources.getDimensionPixelSize(R.dimen.base_margin_double)
-
-        setPadding(baseMargin, baseMargin, baseMargin, doubleMargin)
-    }
-
-    fun setExpandedContent() {
-        // TODO Add function to insert expanded content
+    fun toggle() {
+        if (toggled) {
+            return
+        } else {
+            val measuredHeight = expandedContentMeasuredHeight ?: return
+            ValueAnimator
+                .ofInt(0, measuredHeight)
+                .apply {
+                    duration = 300
+                    addUpdateListener { va ->
+                        expandedContent?.layoutParams?.let { lp ->
+                            expandedContent?.layoutParams = lp.also { it.height = va.animatedValue as Int }
+                        }
+                    }
+                    start()
+                }
+            toggled = true
+        }
     }
 }

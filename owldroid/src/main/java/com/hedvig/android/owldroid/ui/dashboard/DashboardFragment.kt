@@ -59,7 +59,7 @@ class DashboardFragment : Fragment() {
             data?.let { d ->
                 val title = interpolateTextKey(
                     resources.getString(R.string.DASHBOARD_TITLE),
-                    hashMapOf("NAME" to d.member().firstName())
+                    "NAME" to d.member().firstName()
                 )
                 setupLargeTitle(title, R.font.circular_bold)
             }
@@ -98,6 +98,11 @@ class DashboardFragment : Fragment() {
                 lp.marginEnd = tripleMargin
                 lp.bottomMargin = tripleMargin
             }
+            additionalInformation.expandedContent = layoutInflater.inflate(
+                R.layout.dashboard_footnotes,
+                additionalInformation.expandedContentContainer,
+                false
+            )
 
             perilCategoryContainer.addView(additionalInformation)
         }
