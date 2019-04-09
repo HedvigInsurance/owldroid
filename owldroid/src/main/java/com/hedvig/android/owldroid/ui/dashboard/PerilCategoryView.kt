@@ -45,9 +45,12 @@ class PerilCategoryView : MaterialCardView {
         set(value) {
             field = value
 
+            val size = resources.getDimensionPixelSize(R.dimen.dashboard_icon)
+
             Glide
                 .with(context)
                 .load(value)
+                .override(size)
                 .into(catIcon)
         }
 

@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:layout_marginStart="@dimen/base_margin_half"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/deductibleFootnote"
         android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:src="@drawable/ic_filled_checkmark"
             android:contentDescription="@null"
             android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_height="16dp"
+            app:srcCompat="@drawable/ic_filled_checkmark" />
 
         <TextView
             android:layout_marginStart="8dp"
             android:fontFamily="@font/circular_book"
             android:textSize="14sp"
             android:textColor="@color/off_black"
-            android:text="Din självrisk är 1 500 kr"
+            android:text="@string/DASHBOARD_DEDUCTIBLE_FOOTNOTE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -34,24 +35,23 @@
     <LinearLayout
         android:id="@+id/totalCoverageFootnote"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:src="@drawable/ic_filled_checkmark"
             android:contentDescription="@null"
             android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_height="16dp"
+            app:srcCompat="@drawable/ic_filled_checkmark" />
 
         <TextView
             android:layout_marginStart="8dp"
             android:fontFamily="@font/circular_book"
             android:textSize="14sp"
             android:textColor="@color/off_black"
-            android:text="Prylarna försäkras till totalt 1 000 000 kr"
+            android:text="@string/DASHBOARD_INSURANCE_AMOUNT_FOOTNOTE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -60,24 +60,23 @@
     <LinearLayout
         android:id="@+id/travelFootnote"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:src="@drawable/ic_filled_checkmark"
             android:contentDescription="@null"
             android:layout_width="16dp"
-            android:layout_height="16dp" />
+            android:layout_height="16dp"
+            app:srcCompat="@drawable/ic_filled_checkmark" />
 
         <TextView
             android:layout_marginStart="8dp"
             android:fontFamily="@font/circular_book"
             android:textSize="14sp"
             android:textColor="@color/off_black"
-            android:text="Gäller på resor vartsomhelst i världen"
+            android:text="@string/DASHBOARD_TRAVEL_FOOTNOTE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
