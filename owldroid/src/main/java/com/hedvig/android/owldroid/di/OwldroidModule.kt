@@ -12,12 +12,11 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
-class OwldroidModule {
+object OwldroidModule {
     @Provides
-    @Singleton
+    @JvmStatic
     fun okHttpClient(
         asyncStorageNativeReader: AsyncStorageNativeReader,
         httpLoggingInterceptor: HttpLoggingInterceptor?
@@ -42,13 +41,13 @@ class OwldroidModule {
     }
 
     @Provides
-    @Singleton
+    @JvmStatic
     fun lruNormalizedCacheFactory(): NormalizedCacheFactory<LruNormalizedCache> {
         return LruNormalizedCacheFactory(EvictionPolicy.builder().maxSizeBytes(10 * 1024).build())
     }
 
     @Provides
-    @Singleton
+    @JvmStatic
     fun apolloClient(
         okHttpClient: OkHttpClient,
         normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,

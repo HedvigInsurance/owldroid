@@ -3,8 +3,9 @@ package com.hedvig.android.owldroid.util.apollo
 import com.apollographql.apollo.Logger
 import com.apollographql.apollo.api.internal.Optional
 import timber.log.Timber
+import javax.inject.Inject
 
-class ApolloTimberLogger : Logger {
+class ApolloTimberLogger @Inject constructor() : Logger {
     override fun log(priority: Int, message: String, t: Optional<Throwable>, vararg args: Any) {
         when (priority) {
             Logger.DEBUG -> {
