@@ -2,14 +2,16 @@ package com.hedvig.android.owldroid.ui.dashboard
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.graphql.DashboardQuery
+import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
@@ -26,7 +28,11 @@ class DashboardFragment : Fragment() {
 
     lateinit var dashboardViewModel: DashboardViewModel
 
-    private var personalCoverageCardOpen: Boolean = false
+    private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
+    private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
+    private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
+    private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + doubleMargin * 2 }
+    private val rowWidth: Int by lazy { dashboardParent.measuredWidth - doubleMargin * 2 }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -50,9 +56,6 @@ class DashboardFragment : Fragment() {
     }
 
     private fun loadData() {
-        val halfMargin = resources.getDimensionPixelSize(R.dimen.base_margin_half)
-        val tripleMargin = resources.getDimensionPixelSize(R.dimen.base_margin_triple)
-
         dashboardViewModel.data.observe(this) { data ->
             loadingSpinner.remove()
 
@@ -67,44 +70,114 @@ class DashboardFragment : Fragment() {
             perilCategoryContainer.removeAllViews()
 
             data?.insurance()?.perilCategories()?.forEach { category ->
-                val categoryView = PerilCategoryView(requireContext())
-                categoryView.categoryIconUrl = Uri.parse(category.iconUrl())
-                categoryView.layoutParams = ViewGroup.MarginLayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ).also { lp ->
-                    lp.topMargin = halfMargin
-                    lp.marginStart = tripleMargin
-                    lp.marginEnd = tripleMargin
-                    lp.bottomMargin = halfMargin
-                }
-                categoryView.title = category.title()
-                categoryView.subtitle = category.description()
+                val categoryView = makePerilCategoryRow(category)
                 perilCategoryContainer.addView(categoryView)
             }
 
-            val additionalInformation = PerilCategoryView(requireContext())
-
-            additionalInformation.categoryIcon = requireContext().compatDrawable(R.drawable.ic_more_info)
-            additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
-            additionalInformation.subtitle = resources.getString(R.string.DASHBOARD_MORE_INFO_SUBTITLE)
-
-            additionalInformation.layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).also { lp ->
-                lp.topMargin = halfMargin
-                lp.marginStart = tripleMargin
-                lp.marginEnd = tripleMargin
-                lp.bottomMargin = tripleMargin
-            }
-            additionalInformation.expandedContent = layoutInflater.inflate(
-                R.layout.dashboard_footnotes,
-                additionalInformation.expandedContentContainer,
-                false
-            )
-
-            perilCategoryContainer.addView(additionalInformation)
+            setupAdditionalInformationRow()
         }
+    }
+
+    private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {
+        val categoryView = PerilCategoryView(requireContext())
+        categoryView.categoryIconId = category.iconUrl()
+        categoryView.layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).also { lp ->
+            lp.topMargin = halfMargin
+            lp.marginStart = tripleMargin
+            lp.marginEnd = tripleMargin
+            lp.bottomMargin = halfMargin
+        }
+        categoryView.title = category.title()
+        categoryView.subtitle = category.description()
+        categoryView.expandedContentContainer.measure(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        category.perils()?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it) }
+
+        return categoryView
+    }
+
+    private fun makePerilCategoryExpandContent(perils: List<DashboardQuery.Peril>): LinearLayout {
+        val expandedContent = LinearLayout(requireContext())
+
+        val maxPerilsPerRow = calculateMaxPerilsPerRow()
+        if (perils.size > maxPerilsPerRow) {
+            expandedContent.orientation = LinearLayout.VERTICAL
+            val firstRowPerils = perils.take(maxPerilsPerRow)
+            val lastRowPerils = perils.drop(maxPerilsPerRow)
+
+            val firstRow = LinearLayout(requireContext())
+            firstRow.addViews(firstRowPerils.map { makePeril(it) })
+
+            val lastRow = LinearLayout(requireContext())
+            lastRow.addViews(lastRowPerils.map { makePeril(it) })
+
+            expandedContent.addViews(firstRow, lastRow)
+        } else {
+            expandedContent.addViews(perils.map { makePeril(it) })
+        }
+
+
+        return expandedContent
+    }
+
+    private fun calculateMaxPerilsPerRow(): Int {
+        var counter = 0
+        var accumulator = 0
+        while (true) {
+            if (accumulator + perilTotalWidth > rowWidth) {
+                break
+            }
+            accumulator += perilTotalWidth
+            counter += 1
+        }
+
+        return counter
+    }
+
+    private fun makePeril(peril: DashboardQuery.Peril): PerilView {
+        val perilView = PerilView(requireContext())
+        perilView.layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).also { lp ->
+            lp.topMargin = doubleMargin
+            lp.marginStart = doubleMargin
+            lp.marginEnd = doubleMargin
+        }
+
+        perilView.perilName = peril.title()
+        peril.id()?.let { perilView.perilIconId = it }
+
+        return perilView
+    }
+
+    private fun setupAdditionalInformationRow() {
+        val additionalInformation = PerilCategoryView(requireContext())
+
+        additionalInformation.categoryIcon = requireContext().compatDrawable(R.drawable.ic_more_info)
+        additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
+        additionalInformation.subtitle = resources.getString(R.string.DASHBOARD_MORE_INFO_SUBTITLE)
+
+        additionalInformation.layoutParams = ViewGroup.MarginLayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).also { lp ->
+            lp.topMargin = halfMargin
+            lp.marginStart = tripleMargin
+            lp.marginEnd = tripleMargin
+            lp.bottomMargin = tripleMargin
+        }
+        additionalInformation.expandedContent = layoutInflater.inflate(
+            R.layout.dashboard_footnotes,
+            additionalInformation.expandedContentContainer,
+            false
+        )
+
+        perilCategoryContainer.addView(additionalInformation)
     }
 }
