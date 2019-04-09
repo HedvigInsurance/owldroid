@@ -3,6 +3,7 @@ package com.hedvig.android.owldroid.ui.claims
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -20,10 +21,8 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.data.claims.ClaimsQuickAction
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.claims.quickaction.QuickActionsAdapter
-import com.hedvig.android.owldroid.util.extensions.compatFont
-import com.hedvig.android.owldroid.util.extensions.hide
-import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
+import com.hedvig.android.owldroid.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
@@ -72,13 +71,22 @@ class ClaimsFragment : Fragment() {
                 quickActions?.let { setupQuickActions(it) } ?: handleNoQuickActions()
             })
         }
+        setupButtons()
+    }
+
+    private fun setupButtons() {
+        createClaimButton.setOnClickListener {
+            //todo open create a claim chat
+            val intent = Intent("chat")
+            localBroadcastManager.sendBroadcast(intent)
+        }
     }
 
     private fun setupQuickActions(quickActions: List<ClaimsQuickAction>) {
         loadingSpinner.hide()
         quickChoicesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         quickChoicesRecyclerView.adapter = QuickActionsAdapter(quickActions) {
-            navController.navigate(R.id.action_claimsFragment_to_quickActionClaimsFragment)
+            navController.navigate(com.hedvig.android.owldroid.R.id.action_claimsFragment_to_quickActionClaimsFragment)
         }
     }
 
