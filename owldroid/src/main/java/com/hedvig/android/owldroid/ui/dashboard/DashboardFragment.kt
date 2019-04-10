@@ -102,18 +102,10 @@ class DashboardFragment : Fragment() {
         actionContainer.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 outRect.apply {
-                    left = if (parent.getChildAdapterPosition(view) == 0) {
-                        doubleMargin
-                    } else {
-                        halfMargin
-                    }
+                    left = if (parent.getChildAdapterPosition(view) == 0) doubleMargin else halfMargin
 
                     parent.adapter?.itemCount?.let { count ->
-                        right = if (parent.getChildAdapterPosition(view) == count - 1) {
-                            doubleMargin
-                        } else {
-                            halfMargin
-                        }
+                        right = if (parent.getChildAdapterPosition(view) == count - 1) doubleMargin else halfMargin
                     }
 
                 }
