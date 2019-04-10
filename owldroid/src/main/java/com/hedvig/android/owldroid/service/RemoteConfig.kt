@@ -27,10 +27,8 @@ class RemoteConfig @Inject constructor() {
             emitter.onNext(RemoteConfigData.from(firebaseRemoteConfig))
 
             firebaseRemoteConfig
-                .fetch()
+                .fetchAndActivate()
                 .addOnSuccessListener {
-                    firebaseRemoteConfig
-                        .activateFetched()
                     emitter.onNext(RemoteConfigData.from(firebaseRemoteConfig))
                 }
                 .addOnFailureListener { error ->

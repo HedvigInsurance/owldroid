@@ -26,8 +26,9 @@
             style="@style/HedvigButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/base_margin"
             android:text="@string/button_open_marketing"
+            app:backgroundTint="@color/dark_purple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/debug_title" />
@@ -37,8 +38,9 @@
             style="@style/HedvigButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/base_margin"
             android:text="@string/button_open_logo"
+            app:backgroundTint="@color/dark_purple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/debug_open_marketing" />
@@ -48,8 +50,9 @@
             style="@style/HedvigButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/base_margin"
             android:text="@string/button_open_logged_in"
+            app:backgroundTint="@color/dark_purple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/debug_open_logo" />
@@ -59,8 +62,9 @@
             style="@style/HedvigButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/base_margin"
             android:text="@string/open_referral_acceptance_page"
+            app:backgroundTint="@color/dark_purple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/debug_open_profile" />

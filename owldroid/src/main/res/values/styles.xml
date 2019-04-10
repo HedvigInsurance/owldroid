@@ -24,7 +24,7 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
-    <style name="ProfileSectionHeader">
+    <style name="SectionHeader">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">16dp</item>
@@ -49,7 +49,6 @@
     </style>
 
     <style name="HedvigButton">
-        <item name="android:layout_marginTop">32dp</item>
         <item name="android:background">@drawable/button_primary</item>
         <item name="android:fontFamily">@font/circular_book</item>
         <item name="android:paddingStart">32dp</item>
@@ -144,4 +143,8 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="LoadingSpinner" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/purple</item>
+    </style>
 </resources>
