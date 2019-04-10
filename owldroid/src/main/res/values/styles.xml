@@ -144,6 +144,14 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
+    <style name="PerilBottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="bottomSheetStyle">@style/PerilBottomSheet</item>
+    </style>
+
+    <style name="PerilBottomSheet">
+        <item name="android:background">@drawable/peril_bottom_sheet_background</item>
+    </style>
+
     <style name="LoadingSpinner" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/purple</item>
     </style>

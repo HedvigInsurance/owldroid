@@ -19,7 +19,6 @@ import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.showBottomSheetDialog
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
@@ -134,12 +133,15 @@ class DashboardFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        category.perils()?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it) }
+        category.perils()?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it, category) }
 
         return categoryView
     }
 
-    private fun makePerilCategoryExpandContent(perils: List<DashboardQuery.Peril>): LinearLayout {
+    private fun makePerilCategoryExpandContent(
+        perils: List<DashboardQuery.Peril>,
+        category: DashboardQuery.PerilCategory
+    ): LinearLayout {
         val expandedContent = LinearLayout(requireContext())
 
         val maxPerilsPerRow = calculateMaxPerilsPerRow()
@@ -149,14 +151,14 @@ class DashboardFragment : Fragment() {
             val lastRowPerils = perils.drop(maxPerilsPerRow)
 
             val firstRow = LinearLayout(requireContext())
-            firstRow.addViews(firstRowPerils.map { makePeril(it) })
+            firstRow.addViews(firstRowPerils.map { makePeril(it, category) })
 
             val lastRow = LinearLayout(requireContext())
-            lastRow.addViews(lastRowPerils.map { makePeril(it) })
+            lastRow.addViews(lastRowPerils.map { makePeril(it, category) })
 
             expandedContent.addViews(firstRow, lastRow)
         } else {
-            expandedContent.addViews(perils.map { makePeril(it) })
+            expandedContent.addViews(perils.map { makePeril(it, category) })
         }
 
 
@@ -177,7 +179,7 @@ class DashboardFragment : Fragment() {
         return counter
     }
 
-    private fun makePeril(peril: DashboardQuery.Peril): PerilView {
+    private fun makePeril(peril: DashboardQuery.Peril, subject: DashboardQuery.PerilCategory): PerilView {
         val perilView = PerilView(requireContext())
         perilView.layoutParams = ViewGroup.MarginLayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -191,7 +193,20 @@ class DashboardFragment : Fragment() {
         perilView.perilName = peril.title()
         peril.id()?.let { perilView.perilIconId = it }
         perilView.setOnClickListener {
-            //requireFragmentManager().showBottomSheetDialog()
+
+            val subjectName = subject.title()
+            val id = peril.id()
+            val title = peril.title()
+            val description = peril.description()
+
+            if (subjectName != null && id != null && title != null && description != null) {
+                PerilBottomSheet.newInstance(
+                    subjectName,
+                    PerilIcon.from(id),
+                    title,
+                    description
+                ).show(requireFragmentManager(), "perilSheet")
+            }
         }
 
         return perilView
