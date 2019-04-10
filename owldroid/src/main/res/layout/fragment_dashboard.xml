@@ -22,44 +22,18 @@
                 tools:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/insuranceActive"
+                android:id="@+id/directDebitNeedsSetup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_triple"
-                android:layout_marginTop="@dimen/base_margin_quadruple"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseCompoundDrawables">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_book"
-                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="@dimen/base_margin_half"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_filled_checkmark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/insuranceNeedsSetup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_margin_triple"
-                android:layout_marginTop="@dimen/base_margin_quadruple"
+                android:layout_marginTop="@dimen/base_margin_double"
                 android:layout_marginEnd="@dimen/base_margin_triple"
                 android:background="@drawable/rounded_corners_background_light_gray"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/base_margin_double"
-                app:layout_constraintTop_toBottomOf="@id/insuranceActive">
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     style="@style/DialogParagraph"
@@ -83,16 +57,45 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/insurancePending"
+                android:id="@+id/insuranceActive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_triple"
                 android:layout_marginTop="@dimen/base_margin_quadruple"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/directDebitNeedsSetup"
+                tools:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="@dimen/base_margin_half"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_filled_checkmark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/insurancePending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:layout_marginTop="@dimen/base_margin_double"
                 android:layout_marginEnd="@dimen/base_margin_triple"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/base_margin_double"
-                app:layout_constraintTop_toBottomOf="@id/insuranceNeedsSetup">
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/insuranceActive">
 
                 <TextView
                     style="@style/DialogParagraph"
@@ -117,6 +120,7 @@
                     android:id="@+id/insurancePendingCountDownContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin_double"
                     android:gravity="center_horizontal|top"
                     android:orientation="horizontal">
 
@@ -209,6 +213,15 @@
                         android:textSize="@dimen/small_text" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/insurancePendingExplanation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/base_margin"
+                    android:paddingBottom="@dimen/base_margin"
+                    android:textSize="@dimen/medium_text" />
 
                 <TextView
                     android:id="@+id/insurancePendingMoreInfo"

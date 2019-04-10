@@ -11,9 +11,12 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.type.DirectDebitStatus
+import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
+import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
+import com.hedvig.android.owldroid.util.extensions.view.animateExpand
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
@@ -28,6 +31,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -39,6 +43,8 @@ class DashboardFragment : Fragment() {
     lateinit var dashboardViewModel: DashboardViewModel
 
     private var personalCoverageCardOpen: Boolean = false
+
+    private var isInsurancePendingExplanationExpanded = false
 
     private var setActivationFiguresInterval: Disposable? = null
     private val compositeDisposable = CompositeDisposable()
@@ -89,7 +95,8 @@ class DashboardFragment : Fragment() {
                     "NAME" to d.member().firstName()
                 )
                 setupLargeTitle(title, R.font.circular_bold)
-                setupDirectDebitStatus(data.directDebitStatus(), data.insurance().activeFrom())
+                setupDirectDebitStatus(data.directDebitStatus())
+                setupInsuranceStatusStatus(data.insurance().status(), data.insurance().activeFrom())
             }
 
             perilCategoryContainer.removeAllViews()
@@ -137,26 +144,59 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun setupDirectDebitStatus(directDebitStatus: DirectDebitStatus, activeFrom: LocalDate?) {
+    private fun setupDirectDebitStatus(directDebitStatus: DirectDebitStatus) {
         when (directDebitStatus) {
             DirectDebitStatus.ACTIVE -> {
-                insuranceActive.show()
+                directDebitNeedsSetup.remove()
             }
-            DirectDebitStatus.PENDING -> {
-                insurancePending.show()
-                activeFrom?.let { localDate ->
-                    setActivationFigures(localDate)
-                } ?: run {
-                    insurancePendingLoadingAnimation.show()
-                    insurancePendingLoadingAnimation.playAnimation()
-                }
-            }
+            DirectDebitStatus.PENDING,
             DirectDebitStatus.NEEDS_SETUP -> {
-                insuranceNeedsSetup.show()
+                directDebitNeedsSetup.show()
             }
             else -> {
-                // TODO handle unknown
+                directDebitNeedsSetup.show()
             }
+        }
+    }
+
+    private fun setupInsuranceStatusStatus(insuranceStatus: InsuranceStatus, activeFrom: LocalDate?) {
+        insurancePending.remove()
+        insuranceActive.remove()
+        when (insuranceStatus) {
+            InsuranceStatus.ACTIVE -> {
+                insuranceActive.show()
+            }
+            InsuranceStatus.INACTIVE,
+            InsuranceStatus.INACTIVE_WITH_START_DATE -> {
+                insurancePending.show()
+                activeFrom?.let { localDate ->
+                    insurancePendingCountDownContainer.show()
+                    insurancePendingLoadingAnimation.remove()
+
+                    setActivationFigures(localDate)
+                    val formattedString = localDate.format(DateTimeFormatter.ofPattern("d LLLL yyyy"))
+                    insurancePendingExplanation.text = interpolateTextKey(getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_HAS_START_DATE_EXPLANATION), "START_DATE" to formattedString)
+                } ?: run {
+                    insurancePendingCountDownContainer.remove()
+                    insurancePendingLoadingAnimation.show()
+
+                    insurancePendingLoadingAnimation.playAnimation()
+                    insurancePendingExplanation.text = getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_NO_START_DATE_EXPLANATION)
+                }
+                insurancePendingMoreInfo.setOnClickListener {
+                    if (isInsurancePendingExplanationExpanded) {
+                        insurancePendingExplanation.animateCollapse()
+                    } else {
+                        insurancePendingExplanation.animateExpand()
+                    }
+                    isInsurancePendingExplanationExpanded = !isInsurancePendingExplanationExpanded
+                }
+                insurancePendingExplanation.animateCollapse(0, 0)
+                isInsurancePendingExplanationExpanded = false
+            }
+            InsuranceStatus.`$UNKNOWN`,
+            InsuranceStatus.PENDING,
+            InsuranceStatus.TERMINATED -> {}
         }
     }
 
