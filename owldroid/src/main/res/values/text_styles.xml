@@ -19,7 +19,7 @@
         <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
-    <style name="Headline.Large">
+    <style name="Headline.Large" parent="Headline">
         <item name="android:textSize">24sp</item>
     </style>
 
@@ -27,7 +27,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Headline.Medium">
+    <style name="Headline.Medium" parent="Headline">
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">8sp</item>
     </style>
@@ -36,7 +36,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Headline.Small">
+    <style name="Headline.Small" parent="Headline">
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingExtra">6sp</item>
     </style>
@@ -88,7 +88,7 @@
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="Body.Small.Link.Emphasized">
+    <style name="Body.Small.Link.Emphasized" parent="Body.Small.Link">
         <item name="android:fontFamily">@font/circular_medium</item>
     </style>
 
