@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Header">
+        <item name="android:fontFamily">@font/soray_extrabold</item>
+        <item name="android:textColor">@color/off_black_dark</item>
+    </style>
+
+    <style name="Header.Large" parent="Header">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="Header.Regular" parent="Header">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Headline">
+        <item name="android:fontFamily">@font/soray_extrabold</item>
+        <item name="android:textColor">@color/off_black_dark</item>
+    </style>
+
+    <style name="Headline.Large">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="Headline.Large.Negative" parent="Headline.Large">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Headline.Medium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+    <style name="Headline.Medium.Negative" parent="Headline.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Headline.Small">
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+    </style>
+
+    <style name="Headline.Small.Negative" parent="Headline.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Body">
+        <item name="android:fontFamily">@font/circular_book</item>
+        <item name="android:textColor">@color/off_black</item>
+    </style>
+
+    <style name="Body.Regular" parent="Body">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
+    <style name="Body.Regular.Link" parent="Body.Regular">
+        <item name="android:textColor">@color/purple</item>
+    </style>
+
+    <style name="Body.Regular.Link.Caution" parent="Body.Regular.Link">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="Body.Regular.Link.Emphasized" parent="Body.Regular.Link">
+        <item name="android:fontFamily">@font/circular_medium</item>
+    </style>
+
+    <style name="Body.Regular.Link.Emphasized.Caution" parent="Body.Regular.Link.Emphasized">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="Body.Regular.Negative" parent="Body.Regular">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Body.Small" parent="Body">
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+    </style>
+
+    <style name="Body.Small.Link" parent="Body.Small">
+        <item name="android:textColor">@color/purple</item>
+    </style>
+
+    <style name="Body.Small.Link.Caution" parent="Body.Small.Link">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="Body.Small.Link.Emphasized">
+        <item name="android:fontFamily">@font/circular_medium</item>
+    </style>
+
+    <style name="Body.Small.Link.Emphasized.Caution" parent="Body.Small.Link.Emphasized">
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+    <style name="Body.Small.Negative" parent="Body.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Body.XSmall" parent="Body">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="Body.XSmall.Negative" parent="Body.XSmall">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TabBar">
+        <item name="android:fontFamily">@font/circular_book</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/off_black</item>
+    </style>
+
+    <style name="TabBar.Active" parent="TabBar">
+        <item name="android:textColor">@color/purple</item>
+    </style>
+</resources>
