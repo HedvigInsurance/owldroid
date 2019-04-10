@@ -123,8 +123,10 @@
                     <TextView
                         android:id="@+id/insurancePendingCountdownMonths"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin_half"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:textColor="@color/pink"
                         android:textSize="@dimen/huge_text"
                         tools:text="8" />
@@ -132,16 +134,21 @@
                     <TextView
                         android:id="@+id/insurancePendingCountdownMonthsLabel"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_MONTH"
+                        android:textColor="@color/off_black_dark"
                         android:textSize="@dimen/small_text" />
 
                     <TextView
                         android:id="@+id/insurancePendingCountdownDays"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin_half"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:textColor="@color/dark_purple"
                         android:textSize="@dimen/huge_text"
                         tools:text="23" />
@@ -149,16 +156,21 @@
                     <TextView
                         android:id="@+id/insurancePendingCountdownDaysLabel"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_DAYS"
+                        android:textColor="@color/off_black_dark"
                         android:textSize="@dimen/small_text" />
 
                     <TextView
                         android:id="@+id/insurancePendingCountdownHours"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin_half"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:textColor="@color/purple"
                         android:textSize="@dimen/huge_text"
                         tools:text="23" />
@@ -166,16 +178,21 @@
                     <TextView
                         android:id="@+id/insurancePendingCountdownHoursLabel"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_HOURS"
+                        android:textColor="@color/off_black_dark"
                         android:textSize="@dimen/small_text" />
 
                     <TextView
                         android:id="@+id/insurancePendingCountdownMinutes"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin_half"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:textColor="@color/green"
                         android:textSize="@dimen/huge_text"
                         tools:text="23" />
@@ -183,9 +200,12 @@
                     <TextView
                         android:id="@+id/insurancePendingCountdownMinutesLabel"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/base_margin"
                         android:fontFamily="@font/soray_extrabold"
+                        android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_MINUTES"
+                        android:textColor="@color/off_black_dark"
                         android:textSize="@dimen/small_text" />
 
                 </LinearLayout>
@@ -198,7 +218,7 @@
                     android:layout_marginTop="@dimen/base_margin"
                     android:gravity="center"
                     android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_BUTTON_LABEL"
-                    android:textSize="@dimen/medium_text"/>
+                    android:textSize="@dimen/medium_text" />
 
             </LinearLayout>
 

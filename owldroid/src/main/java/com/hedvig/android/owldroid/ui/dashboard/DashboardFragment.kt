@@ -18,12 +18,19 @@ import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
+import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.loading_spinner.*
-import org.jetbrains.annotations.Nullable
 import org.threeten.bp.LocalDate
 import java.util.*
 import javax.inject.Inject
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
+
 
 class DashboardFragment : Fragment() {
     @Inject
@@ -32,6 +39,9 @@ class DashboardFragment : Fragment() {
     lateinit var dashboardViewModel: DashboardViewModel
 
     private var personalCoverageCardOpen: Boolean = false
+
+    private var setActivationFiguresInterval: Disposable? = null
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -47,6 +57,18 @@ class DashboardFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_dashboard, container, false)
+
+    override fun onResume() {
+        super.onResume()
+        dashboardViewModel.data.value?.insurance()?.activeFrom()?.let { localDate ->
+            setActivationFigures(localDate)
+        }
+    }
+
+    override fun onPause() {
+        compositeDisposable.clear()
+        super.onPause()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -116,20 +138,18 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupDirectDebitStatus(directDebitStatus: DirectDebitStatus, activeFrom: LocalDate?) {
-        insuranceActive.show()
-        insuranceNeedsSetup.show()
-        insurancePending.show()
-        insurancePendingLoadingAnimation.show()
-        insurancePendingLoadingAnimation.playAnimation()
-        insurancePendingCountDownContainer.remove()
         when (directDebitStatus) {
             DirectDebitStatus.ACTIVE -> {
                 insuranceActive.show()
             }
             DirectDebitStatus.PENDING -> {
                 insurancePending.show()
-                insurancePendingLoadingAnimation.show()
-                insurancePendingLoadingAnimation.playAnimation()
+                activeFrom?.let { localDate ->
+                    setActivationFigures(localDate)
+                } ?: run {
+                    insurancePendingLoadingAnimation.show()
+                    insurancePendingLoadingAnimation.playAnimation()
+                }
             }
             DirectDebitStatus.NEEDS_SETUP -> {
                 insuranceNeedsSetup.show()
@@ -140,27 +160,35 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun getActivationFigures(startDate: LocalDate) {
-        val now = LocalDate.now()
+    private fun setActivationFigures(startDate: LocalDate) {
+        val period = LocalDate.now().until(startDate)
 
-        var totalMinutes = differenceInMinutes(startDate, now)
+        insurancePendingCountdownMonths.text = period.months.toString()
+        insurancePendingCountdownDays.text = period.days.toString()
 
-        val months = totalMinutes / 43829.0639
-        val actualMonths = Math.floor(months)
+        // insurances is started at mid night
+        val midnight = GregorianCalendar().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            add(Calendar.DAY_OF_MONTH, 1)
+        }
+        val millisToMidnight = midnight.timeInMillis - System.currentTimeMillis()
+        val hours = ((millisToMidnight / (1000 * 60 * 60)) % 24)
+        val minutes = ((millisToMidnight / (1000 * 60)) % 60)
 
-        totalMinutes =- actualMonths * 43829.0639
+        insurancePendingCountdownHours.text = hours.toString()
+        insurancePendingCountdownMinutes.text = minutes.toString()
 
-        val days = totalMinutes / 1440
-        val actualDays = Math.floor(days)
-
-        totalMinutes =- actualDays * 1440
-
-        val hours = totalMinutes / 60
-        val actualHours = Math.floor(hours)
-
-        totalMinutes =- actualHours * 60
-
-        var actualMinutes = Math.floor(totalMinutes)
-
-    };
+        // dispose interval if one all ready exists
+        setActivationFiguresInterval?.dispose()
+        // start interval
+        val disposable = Flowable.interval(30, TimeUnit.SECONDS, Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                { setActivationFigures(startDate) }, { Timber.e(it) }
+            )
+        compositeDisposable.add(disposable)
+        setActivationFiguresInterval = disposable
+    }
 }
