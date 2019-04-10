@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboardChatAction"
+    style="@style/HedvigButton"
+    android:background="@drawable/button_primary"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:backgroundTint="@color/purple"
+    tools:backgroundTint="@color/purple"
+    tools:text="Prata med Hedvig">
+
+</Button>

@@ -17,6 +17,12 @@ query DashboardQuery {
         }
     }
 
+    chatActions {
+        text
+        triggerUrl
+        enabled
+    }
+
     member {
         firstName
     }

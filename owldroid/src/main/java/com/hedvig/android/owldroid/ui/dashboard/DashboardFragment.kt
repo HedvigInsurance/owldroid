@@ -2,8 +2,11 @@ package com.hedvig.android.owldroid.ui.dashboard
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +14,13 @@ import android.widget.LinearLayout
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.DashboardQuery
+import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -68,14 +73,54 @@ class DashboardFragment : Fragment() {
             }
 
             perilCategoryContainer.removeAllViews()
+            data?.chatActions()?.let { setupActionMenu(it) }
 
             data?.insurance()?.perilCategories()?.forEach { category ->
                 val categoryView = makePerilCategoryRow(category)
                 perilCategoryContainer.addView(categoryView)
             }
 
+            data?.insurance()?.status()?.let { insuranceStatus ->
+                when (insuranceStatus) {
+                    InsuranceStatus.ACTIVE -> insuranceActive.show()
+                    else -> {
+                    }
+                }
+            }
+
             setupAdditionalInformationRow()
         }
+    }
+
+    private fun setupActionMenu(actions: List<DashboardQuery.ChatAction>) {
+        actionMenuTitle.show()
+
+        actionContainer.isNestedScrollingEnabled = false
+        actionContainer.layoutManager =
+            LinearLayoutManager(requireContext()).also { it.orientation = LinearLayoutManager.HORIZONTAL }
+        actionContainer.adapter = ActionAdapter(actions, requireContext())
+        actionContainer.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                outRect.apply {
+                    left = if (parent.getChildAdapterPosition(view) == 0) {
+                        doubleMargin
+                    } else {
+                        halfMargin
+                    }
+
+                    parent.adapter?.itemCount?.let { count ->
+                        right = if (parent.getChildAdapterPosition(view) == count - 1) {
+                            doubleMargin
+                        } else {
+                            halfMargin
+                        }
+                    }
+
+                }
+            }
+        })
+
+        actionContainer.show()
     }
 
     private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {
