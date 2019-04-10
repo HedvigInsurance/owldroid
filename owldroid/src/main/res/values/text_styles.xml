@@ -16,11 +16,11 @@
         <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
-    <style name="Header.Large" parent="Header">
+    <style name="Header.Large">
         <item name="android:textSize">@dimen/text_xxlarge</item>
     </style>
 
-    <style name="Header.Regular" parent="Header">
+    <style name="Header.Regular">
         <item name="android:textSize">@dimen/text_large</item>
     </style>
 
@@ -29,30 +29,30 @@
         <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
-    <style name="Headline.Large" parent="Headline">
+    <style name="Headline.Large">
         <item name="android:fontFamily">@font/soray_extrabold</item>
         <item name="android:textSize">@dimen/text_xlarge</item>
     </style>
 
-    <style name="Headline.Large.Negative" parent="Headline.Large">
+    <style name="Headline.Large.Negative">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Headline.Medium" parent="Headline">
+    <style name="Headline.Medium">
         <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_large</item>
     </style>
 
-    <style name="Headline.Medium.Negative" parent="Headline.Medium">
+    <style name="Headline.Medium.Negative">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Headline.Small" parent="Headline">
+    <style name="Headline.Small">
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_medium</item>
     </style>
 
-    <style name="Headline.Small.Negative" parent="Headline.Small">
+    <style name="Headline.Small.Negative">
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -61,62 +61,62 @@
         <item name="android:textColor">@color/off_black</item>
     </style>
 
-    <style name="Body.Regular" parent="Body">
+    <style name="Body.Regular">
         <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_large</item>
     </style>
 
-    <style name="Body.Regular.Link" parent="Body.Regular">
+    <style name="Body.Regular.Link">
         <item name="android:textColor">@color/purple</item>
     </style>
 
-    <style name="Body.Regular.Link.Caution" parent="Body.Regular.Link">
+    <style name="Body.Regular.Link.Caution">
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="Body.Regular.Link.Emphasized" parent="Body.Regular.Link">
+    <style name="Body.Regular.Link.Emphasized">
         <item name="android:fontFamily">@font/circular_medium</item>
     </style>
 
-    <style name="Body.Regular.Link.Emphasized.Caution" parent="Body.Regular.Link.Emphasized">
+    <style name="Body.Regular.Link.Emphasized.Caution">
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="Body.Regular.Negative" parent="Body.Regular">
+    <style name="Body.Regular.Negative">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Body.Small" parent="Body">
+    <style name="Body.Small">
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_large</item>
     </style>
 
-    <style name="Body.Small.Link" parent="Body.Small">
+    <style name="Body.Small.Link">
         <item name="android:textColor">@color/purple</item>
     </style>
 
-    <style name="Body.Small.Link.Caution" parent="Body.Small.Link">
+    <style name="Body.Small.Link.Caution">
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="Body.Small.Link.Emphasized" parent="Body.Small.Link">
+    <style name="Body.Small.Link.Emphasized">
         <item name="android:fontFamily">@font/circular_medium</item>
     </style>
 
-    <style name="Body.Small.Link.Emphasized.Caution" parent="Body.Small.Link.Emphasized">
+    <style name="Body.Small.Link.Emphasized.Caution">
         <item name="android:textColor">@color/pink</item>
     </style>
 
-    <style name="Body.Small.Negative" parent="Body.Small">
+    <style name="Body.Small.Negative">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Body.XSmall" parent="Body">
+    <style name="Body.XSmall">
         <item name="android:textSize">@dimen/text_xsmall</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_small</item>
     </style>
 
-    <style name="Body.XSmall.Negative" parent="Body.XSmall">
+    <style name="Body.XSmall.Negative">
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -126,7 +126,7 @@
         <item name="android:textColor">@color/off_black</item>
     </style>
 
-    <style name="TabBar.Active" parent="TabBar">
+    <style name="TabBar.Active">
         <item name="android:textColor">@color/purple</item>
     </style>
 </resources>
