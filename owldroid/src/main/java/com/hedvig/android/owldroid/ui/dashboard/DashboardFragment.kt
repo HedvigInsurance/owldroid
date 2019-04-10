@@ -10,14 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.loading_spinner.*
+import org.jetbrains.annotations.Nullable
+import org.threeten.bp.LocalDate
+import java.util.*
 import javax.inject.Inject
 
 class DashboardFragment : Fragment() {
@@ -62,6 +67,7 @@ class DashboardFragment : Fragment() {
                     "NAME" to d.member().firstName()
                 )
                 setupLargeTitle(title, R.font.circular_bold)
+                setupDirectDebitStatus(data.directDebitStatus(), data.insurance().activeFrom())
             }
 
             perilCategoryContainer.removeAllViews()
@@ -105,6 +111,56 @@ class DashboardFragment : Fragment() {
             )
 
             perilCategoryContainer.addView(additionalInformation)
+
         }
     }
+
+    private fun setupDirectDebitStatus(directDebitStatus: DirectDebitStatus, activeFrom: LocalDate?) {
+        insuranceActive.show()
+        insuranceNeedsSetup.show()
+        insurancePending.show()
+        insurancePendingLoadingAnimation.show()
+        insurancePendingLoadingAnimation.playAnimation()
+        insurancePendingCountDownContainer.remove()
+        when (directDebitStatus) {
+            DirectDebitStatus.ACTIVE -> {
+                insuranceActive.show()
+            }
+            DirectDebitStatus.PENDING -> {
+                insurancePending.show()
+                insurancePendingLoadingAnimation.show()
+                insurancePendingLoadingAnimation.playAnimation()
+            }
+            DirectDebitStatus.NEEDS_SETUP -> {
+                insuranceNeedsSetup.show()
+            }
+            else -> {
+                // TODO handle unknown
+            }
+        }
+    }
+
+    private fun getActivationFigures(startDate: LocalDate) {
+        val now = LocalDate.now()
+
+        var totalMinutes = differenceInMinutes(startDate, now)
+
+        val months = totalMinutes / 43829.0639
+        val actualMonths = Math.floor(months)
+
+        totalMinutes =- actualMonths * 43829.0639
+
+        val days = totalMinutes / 1440
+        val actualDays = Math.floor(days)
+
+        totalMinutes =- actualDays * 1440
+
+        val hours = totalMinutes / 60
+        val actualHours = Math.floor(hours)
+
+        totalMinutes =- actualHours * 60
+
+        var actualMinutes = Math.floor(totalMinutes)
+
+    };
 }

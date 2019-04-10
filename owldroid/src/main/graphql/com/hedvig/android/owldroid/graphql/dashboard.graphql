@@ -18,6 +18,8 @@ query DashboardQuery {
         }
     }
 
+    directDebitStatus
+
     member {
         firstName
     }

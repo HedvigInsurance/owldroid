@@ -13,6 +13,7 @@
     <dimen name="bottom_sheet_dialog_fragment_title_height">40dp</dimen>
     <dimen name="bottom_sheet_corner_radius">20dp</dimen>
 
+
     <dimen name="dialog_width">280dp</dimen>
     <dimen name="dialog_height">188dp</dimen>
 
@@ -21,4 +22,12 @@
     <dimen name="sphere_text_max_text_size">20sp</dimen>
     <dimen name="sphere_text_step_granularity">2sp</dimen>
     <dimen name="sphere_text_padding">4dp</dimen>
+
+    <dimen name="dashboard_need_setup_container_height">120dp</dimen>
+    <dimen name="dashboard_need_set_up_background_radius">5dp</dimen>
+    <dimen name="huge_text">40sp</dimen>
+    <dimen name="medium_text">14sp</dimen>
+    <dimen name="small_text">12sp</dimen>
+    <dimen name="insurancePendingLoadingAnimationHeight">40dp</dimen>
+    <dimen name="insurancePendingLoadingAnimationWidth">189dp</dimen>
 </resources>

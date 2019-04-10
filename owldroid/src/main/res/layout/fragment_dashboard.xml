@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/off_white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/off_white">
 
     <include layout="@layout/app_bar" />
 
@@ -23,39 +23,193 @@
 
             <LinearLayout
                 android:id="@+id/insuranceActive"
-                android:layout_marginTop="@dimen/base_margin_quadruple"
-                android:layout_marginStart="@dimen/base_margin_triple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:layout_marginTop="@dimen/base_margin_quadruple"
                 android:gravity="center_vertical"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="UseCompoundDrawables">
 
                 <TextView
-                    android:fontFamily="@font/circular_book"
-                    android:textSize="14sp"
-                    android:textColor="@color/off_black_dark"
-                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE"
+                    android:textColor="@color/off_black_dark"
+                    android:textSize="14sp" />
 
                 <ImageView
-                    android:src="@drawable/ic_filled_checkmark"
-                    android:contentDescription="@null"
-                    android:layout_marginStart="@dimen/base_margin_half"
                     android:layout_width="16dp"
-                    android:layout_height="16dp" />
+                    android:layout_height="16dp"
+                    android:layout_marginStart="@dimen/base_margin_half"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_filled_checkmark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/insuranceNeedsSetup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:layout_marginTop="@dimen/base_margin_quadruple"
+                android:layout_marginEnd="@dimen/base_margin_triple"
+                android:background="@drawable/rounded_corners_background_light_gray"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/base_margin_double"
+                app:layout_constraintTop_toBottomOf="@id/insuranceActive">
+
+                <TextView
+                    style="@style/DialogParagraph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:gravity="center"
+                    android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_NEED_SETUP_DESCRIPTION" />
+
+                <Button
+                    android:id="@+id/referralButton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="@dimen/base_margin_double"
+                    android:background="@drawable/button_border_purple"
+                    android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_NEED_SETUP_BUTTON_LABEL"
+                    android:textColor="@color/purple"
+                    android:theme="@style/HedvigButton" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/insurancePending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:layout_marginTop="@dimen/base_margin_quadruple"
+                android:layout_marginEnd="@dimen/base_margin_triple"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/base_margin_double"
+                app:layout_constraintTop_toBottomOf="@id/insuranceNeedsSetup">
+
+                <TextView
+                    style="@style/DialogParagraph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_book"
+                    android:gravity="center"
+                    android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_TITLE" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/insurancePendingLoadingAnimation"
+                    android:layout_width="@dimen/insurancePendingLoadingAnimationWidth"
+                    android:layout_height="@dimen/insurancePendingLoadingAnimationHeight"
+                    android:layout_marginTop="@dimen/base_margin_double"
+                    android:scaleType="centerInside"
+                    android:visibility="gone"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/banner_loading_icons"
+                    tools:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/insurancePendingCountDownContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|top"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownMonths"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/huge_text"
+                        tools:text="8" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownMonthsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_MONTH"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:textColor="@color/dark_purple"
+                        android:textSize="@dimen/huge_text"
+                        tools:text="23" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownDaysLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_DAYS"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownHours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:textColor="@color/purple"
+                        android:textSize="@dimen/huge_text"
+                        tools:text="23" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownHoursLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_HOURS"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownMinutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/huge_text"
+                        tools:text="23" />
+
+                    <TextView
+                        android:id="@+id/insurancePendingCountdownMinutesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/soray_extrabold"
+                        android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_MINUTES"
+                        android:textSize="@dimen/small_text" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/insurancePendingMoreInfo"
+                    style="@style/SmallButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:gravity="center"
+                    android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_BUTTON_LABEL"
+                    android:textSize="@dimen/medium_text"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/perilCategoryContainer"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/base_margin_double"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/base_margin_double"
-                app:layout_constraintTop_toBottomOf="@id/insuranceActive" />
+                app:layout_constraintTop_toBottomOf="@id/insurancePending" />
 
         </android.support.constraint.ConstraintLayout>
 
