@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="text_xxlarge">32sp</dimen>
+    <dimen name="text_xlarge">24sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_xsmall">12sp</dimen>
+
+    <dimen name="spacing_large">8sp</dimen>
+    <dimen name="spacing_medium">6sp</dimen>
+    <dimen name="spacing_small">4sp</dimen>
 
     <style name="Header">
         <item name="android:fontFamily">@font/soray_extrabold</item>
@@ -7,20 +17,21 @@
     </style>
 
     <style name="Header.Large" parent="Header">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">@dimen/text_xxlarge</item>
     </style>
 
     <style name="Header.Regular" parent="Header">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 
     <style name="Headline">
-        <item name="android:fontFamily">@font/soray_extrabold</item>
+        <item name="android:fontFamily">@font/circular_bold</item>
         <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
     <style name="Headline.Large" parent="Headline">
-        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/soray_extrabold</item>
+        <item name="android:textSize">@dimen/text_xlarge</item>
     </style>
 
     <style name="Headline.Large.Negative" parent="Headline.Large">
@@ -28,8 +39,8 @@
     </style>
 
     <style name="Headline.Medium" parent="Headline">
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_large</item>
     </style>
 
     <style name="Headline.Medium.Negative" parent="Headline.Medium">
@@ -37,8 +48,8 @@
     </style>
 
     <style name="Headline.Small" parent="Headline">
-        <item name="android:textSize">14sp</item>
-        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_medium</item>
     </style>
 
     <style name="Headline.Small.Negative" parent="Headline.Small">
@@ -51,8 +62,8 @@
     </style>
 
     <style name="Body.Regular" parent="Body">
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_large</item>
     </style>
 
     <style name="Body.Regular.Link" parent="Body.Regular">
@@ -76,8 +87,8 @@
     </style>
 
     <style name="Body.Small" parent="Body">
-        <item name="android:textSize">14sp</item>
-        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_large</item>
     </style>
 
     <style name="Body.Small.Link" parent="Body.Small">
@@ -101,8 +112,8 @@
     </style>
 
     <style name="Body.XSmall" parent="Body">
-        <item name="android:textSize">12sp</item>
-        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textSize">@dimen/text_xsmall</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_small</item>
     </style>
 
     <style name="Body.XSmall.Negative" parent="Body.XSmall">
