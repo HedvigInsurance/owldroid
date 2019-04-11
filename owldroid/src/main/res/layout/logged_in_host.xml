@@ -16,12 +16,10 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomTabs"
+        style="@style/NavigationBar"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blur_white"
-        app:itemIconTint="@color/purple"
-        app:itemTextColor="@color/purple"
         app:menu="@menu/logged_in_menu" />
 
 </FrameLayout>
