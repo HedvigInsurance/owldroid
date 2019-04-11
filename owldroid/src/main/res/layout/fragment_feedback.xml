@@ -24,9 +24,10 @@
                 android:layout_height="176dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/background_feedback" />
 
                 <TextView
