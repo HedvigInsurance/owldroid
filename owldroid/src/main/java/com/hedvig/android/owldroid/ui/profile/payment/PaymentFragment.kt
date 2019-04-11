@@ -57,7 +57,7 @@ class PaymentFragment : Fragment() {
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
-        directDebitViewModel= requireActivity().run {
+        directDebitViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
         }
     }
