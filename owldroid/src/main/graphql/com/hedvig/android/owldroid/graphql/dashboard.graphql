@@ -1,30 +1,31 @@
 query DashboardQuery {
-    insurance {
-        status
-        type
-        activeFrom
+  insurance {
+    status
+    type
+    activeFrom
 
-        perilCategories {
-            title
-            description
-            iconUrl
+    perilCategories {
+      title
+      description
+      iconUrl
 
-            perils {
-                id
-                title
-                description
-            }
-        }
+      perils {
+        id
+        title
+        description
+      }
     }
+  }
 
-    chatActions {
-        text
-        triggerUrl
-        enabled
-    }
-    directDebitStatus
+  chatActions {
+      text
+      triggerUrl
+      enabled
+  }
+  
+  directDebitStatus
 
-    member {
-        firstName
-    }
+  member {
+    firstName
+  }
 }
