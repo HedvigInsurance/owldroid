@@ -18,10 +18,12 @@ query DashboardQuery {
   }
 
   chatActions {
-    text
-    triggerUrl
-    enabled
+      text
+      triggerUrl
+      enabled
   }
+  
+  directDebitStatus
 
   member {
     firstName
