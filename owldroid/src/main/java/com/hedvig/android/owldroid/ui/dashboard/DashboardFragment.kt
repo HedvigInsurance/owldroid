@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.graphql.DashboardQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
@@ -102,7 +103,7 @@ class DashboardFragment : Fragment() {
                 )
                 setupLargeTitle(title, R.font.circular_bold)
                 setupDirectDebitStatus(data.directDebitStatus())
-                setupInsuranceStatusStatus(data.insurance().status(), data.insurance().activeFrom())
+                setupInsuranceStatusStatus(data.insurance())
             }
 
             perilCategoryContainer.removeAllViews()
@@ -166,46 +167,53 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun setupInsuranceStatusStatus(insuranceStatus: InsuranceStatus, activeFrom: LocalDate?) {
+    private fun setupInsuranceStatusStatus(insurance: DashboardQuery.Insurance) {
         insurancePending.remove()
         insuranceActive.remove()
-        when (insuranceStatus) {
+        when (insurance) {
             InsuranceStatus.ACTIVE -> {
                 insuranceActive.show()
             }
-            InsuranceStatus.INACTIVE,
+            InsuranceStatus.INACTIVE -> {
+                insurancePending.show()
+                insurancePendingCountDownContainer.remove()
+                insurancePendingLoadingAnimation.show()
+
+                insurancePendingLoadingAnimation.playAnimation()
+                insurancePendingExplanation.text = getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_NO_START_DATE_EXPLANATION)
+            }
             InsuranceStatus.INACTIVE_WITH_START_DATE -> {
                 insurancePending.show()
-                activeFrom?.let { localDate ->
+                insurancePendingLoadingAnimation.remove()
+
+                insurance.activeFrom()?.let { localDate ->
                     insurancePendingCountDownContainer.show()
-                    insurancePendingLoadingAnimation.remove()
 
                     setActivationFigures(localDate)
                     val formattedString = localDate.format(DateTimeFormatter.ofPattern("d LLLL yyyy"))
-                    insurancePendingExplanation.text = interpolateTextKey(getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_HAS_START_DATE_EXPLANATION), "START_DATE" to formattedString)
-                } ?: run {
-                    insurancePendingCountDownContainer.remove()
-                    insurancePendingLoadingAnimation.show()
-
-                    insurancePendingLoadingAnimation.playAnimation()
-                    insurancePendingExplanation.text = getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_NO_START_DATE_EXPLANATION)
-                }
-                insurancePendingMoreInfo.setOnClickListener {
-                    if (isInsurancePendingExplanationExpanded) {
-                        insurancePendingExplanation.animateCollapse()
-                    } else {
-                        insurancePendingExplanation.animateExpand()
-                    }
-                    isInsurancePendingExplanationExpanded = !isInsurancePendingExplanationExpanded
-                }
-                insurancePendingExplanation.animateCollapse(0, 0)
-                isInsurancePendingExplanationExpanded = false
+                    insurancePendingExplanation.text = interpolateTextKey(
+                        getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_HAS_START_DATE_EXPLANATION),
+                        "START_DATE" to formattedString)
+                } ?: Timber.e("InsuranceStatus INACTIVE_WITH_START_DATE but got no start date")
             }
             InsuranceStatus.`$UNKNOWN`,
             InsuranceStatus.PENDING,
             InsuranceStatus.TERMINATED -> {
             }
         }
+    }
+
+    private fun setupInsurancePendingMoreInfo() {
+        insurancePendingMoreInfo.setOnClickListener {
+            if (isInsurancePendingExplanationExpanded) {
+                insurancePendingExplanation.animateCollapse()
+            } else {
+                insurancePendingExplanation.animateExpand()
+            }
+            isInsurancePendingExplanationExpanded = !isInsurancePendingExplanationExpanded
+        }
+        insurancePendingExplanation.animateCollapse(0, 0)
+        isInsurancePendingExplanationExpanded = false
     }
 
     private fun setActivationFigures(startDate: LocalDate) {
