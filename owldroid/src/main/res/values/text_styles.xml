@@ -123,10 +123,5 @@
     <style name="TabBar">
         <item name="android:fontFamily">@font/circular_book</item>
         <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/off_black</item>
-    </style>
-
-    <style name="TabBar.Active">
-        <item name="android:textColor">@color/purple</item>
     </style>
 </resources>

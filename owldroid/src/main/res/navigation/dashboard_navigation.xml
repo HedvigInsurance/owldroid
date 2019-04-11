@@ -7,5 +7,21 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.hedvig.android.owldroid.ui.dashboard.DashboardFragment"
-        android:label="DashboardFragment" />
+        android:label="DashboardFragment">
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_trustlyFragment"
+            app:destination="@id/trustlyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/paymentFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/trustlyFragment"
+        android:name="com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment"
+        android:label="TrustlyFragment" />
 </navigation>

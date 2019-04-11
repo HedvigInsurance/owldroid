@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -28,6 +27,7 @@ import com.google.android.exoplayer2.util.Util
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -36,6 +36,9 @@ class StoryFragment : Fragment() {
 
     @Inject
     lateinit var cache: SimpleCache
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -50,12 +53,12 @@ class StoryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         marketingStoriesViewModel = requireActivity().run {
-            ViewModelProviders.of(this).get(MarketingStoriesViewModel::class.java)
+            ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val position = arguments?.getInt(POSITION_KEY) ?: throw Error("No position provided")
+        val position = arguments?.getInt(POSITION_KEY) ?: return View(context)
 
         val view = inflater.inflate(R.layout.page_marketing_story, container, false) as LinearLayout
 
