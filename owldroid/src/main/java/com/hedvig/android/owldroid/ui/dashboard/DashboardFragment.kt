@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.type.DirectDebitStatus
@@ -48,6 +50,10 @@ class DashboardFragment : Fragment() {
 
     private var setActivationFiguresInterval: Disposable? = null
     private val compositeDisposable = CompositeDisposable()
+
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(R.id.loggedInNavigationHost)
+    }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -146,15 +152,16 @@ class DashboardFragment : Fragment() {
 
     private fun setupDirectDebitStatus(directDebitStatus: DirectDebitStatus) {
         when (directDebitStatus) {
-            DirectDebitStatus.ACTIVE -> {
+            DirectDebitStatus.ACTIVE,
+            DirectDebitStatus.PENDING,
+            DirectDebitStatus.`$UNKNOWN` -> {
                 directDebitNeedsSetup.remove()
             }
-            DirectDebitStatus.PENDING,
             DirectDebitStatus.NEEDS_SETUP -> {
                 directDebitNeedsSetup.show()
-            }
-            else -> {
-                directDebitNeedsSetup.show()
+                directDebitConnectButton.setOnClickListener {
+                    navController.navigate(R.id.action_dashboardFragment_to_trustlyFragment)
+                }
             }
         }
     }
@@ -196,7 +203,8 @@ class DashboardFragment : Fragment() {
             }
             InsuranceStatus.`$UNKNOWN`,
             InsuranceStatus.PENDING,
-            InsuranceStatus.TERMINATED -> {}
+            InsuranceStatus.TERMINATED -> {
+            }
         }
     }
 

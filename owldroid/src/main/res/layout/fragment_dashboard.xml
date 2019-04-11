@@ -44,7 +44,7 @@
                     android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_NEED_SETUP_DESCRIPTION" />
 
                 <Button
-                    android:id="@+id/referralButton"
+                    android:id="@+id/directDebitConnectButton"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
