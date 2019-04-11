@@ -128,7 +128,7 @@ class PaymentFragment : Fragment() {
 
             bindBankAccountInformation()
         })
-        directDebitViewModel.data.observe(this, Observer { directDebitData ->
+        directDebitViewModel.data.observe(this, Observer {
             bindBankAccountInformation()
         })
     }
