@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
+import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
 import com.hedvig.android.owldroid.util.NavigationAnalytics
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
@@ -34,6 +35,7 @@ class ProfileFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var directDebitViewModel: DirectDebitViewModel
 
     private var broadcastReceiver: BroadcastReceiver? = null
 
@@ -52,6 +54,9 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
+        }
+        directDebitViewModel = requireActivity().run {
+            ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
         }
     }
 

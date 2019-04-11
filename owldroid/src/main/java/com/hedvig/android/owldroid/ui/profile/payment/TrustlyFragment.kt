@@ -16,6 +16,7 @@ import android.webkit.WebViewClient
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
 import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
@@ -34,6 +35,7 @@ class TrustlyFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var directDebitViewModel: DirectDebitViewModel
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -123,6 +125,7 @@ class TrustlyFragment : Fragment() {
         resultClose.background.compatSetTint(requireContext().compatColor(R.color.green))
         resultClose.setOnClickListener {
             profileViewModel.refreshBankAccountInfo()
+            directDebitViewModel.refreshDirectDebitStatus()
             localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
                 putExtra("action", "clearDirectDebitStatus")
             })
