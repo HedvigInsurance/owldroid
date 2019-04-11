@@ -35,7 +35,6 @@ class DashboardFragment : Fragment() {
 
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
-    private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
     private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + doubleMargin * 2 }
     private val rowWidth: Int by lazy { dashboardParent.measuredWidth - doubleMargin * 2 }
 
@@ -116,17 +115,9 @@ class DashboardFragment : Fragment() {
     }
 
     private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {
-        val categoryView = PerilCategoryView(requireContext())
+        val categoryView = PerilCategoryView.build(requireContext())
+
         categoryView.categoryIconId = category.iconUrl()
-        categoryView.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        ).also { lp ->
-            lp.topMargin = halfMargin
-            lp.marginStart = tripleMargin
-            lp.marginEnd = tripleMargin
-            lp.bottomMargin = halfMargin
-        }
         categoryView.title = category.title()
         categoryView.subtitle = category.description()
         categoryView.expandedContentContainer.measure(
@@ -180,15 +171,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun makePeril(peril: DashboardQuery.Peril, subject: DashboardQuery.PerilCategory): PerilView {
-        val perilView = PerilView(requireContext())
-        perilView.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        ).also { lp ->
-            lp.topMargin = doubleMargin
-            lp.marginStart = doubleMargin
-            lp.marginEnd = doubleMargin
-        }
+        val perilView = PerilView.build(requireContext())
 
         perilView.perilName = peril.title()
         peril.id()?.let { perilView.perilIconId = it }
@@ -213,21 +196,12 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupAdditionalInformationRow() {
-        val additionalInformation = PerilCategoryView(requireContext())
+        val additionalInformation = PerilCategoryView.build(requireContext())
 
         additionalInformation.categoryIcon = requireContext().compatDrawable(R.drawable.ic_more_info)
         additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
         additionalInformation.subtitle = resources.getString(R.string.DASHBOARD_MORE_INFO_SUBTITLE)
 
-        additionalInformation.layoutParams = ViewGroup.MarginLayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        ).also { lp ->
-            lp.topMargin = halfMargin
-            lp.marginStart = tripleMargin
-            lp.marginEnd = tripleMargin
-            lp.bottomMargin = tripleMargin
-        }
         additionalInformation.expandedContent = layoutInflater.inflate(
             R.layout.dashboard_footnotes,
             additionalInformation.expandedContentContainer,

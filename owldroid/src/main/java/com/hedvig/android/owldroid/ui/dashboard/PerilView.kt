@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
@@ -15,6 +16,8 @@ class PerilView : LinearLayout {
     private var defStyle: Int = 0
 
     private val iconSize: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_icon) }
+
+    private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
 
     constructor(context: Context) : super(context) {
         inflate(context, R.layout.peril_view, this)
@@ -75,5 +78,19 @@ class PerilView : LinearLayout {
         perilName = attributes.getText(R.styleable.PerilView_perilText)
 
         attributes.recycle()
+    }
+
+    companion object {
+        fun build(
+            context: Context,
+            width: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
+            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+        ) = PerilView(context).apply {
+            layoutParams = MarginLayoutParams(width, height).also { lp ->
+                lp.topMargin = doubleMargin
+                lp.marginStart = doubleMargin
+                lp.marginEnd = doubleMargin
+            }
+        }
     }
 }

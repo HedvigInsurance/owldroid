@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import android.support.design.card.MaterialCardView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
@@ -22,6 +23,9 @@ class PerilCategoryView : MaterialCardView {
     private var defStyle: Int = 0
 
     private val iconSize: Int by lazy { resources.getDimensionPixelSize(R.dimen.dashboard_icon) }
+
+    private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
+    private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
 
     constructor(context: Context) : super(context) {
         inflate(context, R.layout.peril_category_view, this)
@@ -148,5 +152,22 @@ class PerilCategoryView : MaterialCardView {
             expandedContent?.animateExpand()
             toggled = true
         }
+    }
+
+    companion object {
+        fun build(
+            context: Context,
+            width: Int = ViewGroup.LayoutParams.MATCH_PARENT,
+            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+        ) =
+            PerilCategoryView(context)
+                .apply {
+                    layoutParams = MarginLayoutParams(width, height).also { lp ->
+                        lp.topMargin = halfMargin
+                        lp.marginStart = tripleMargin
+                        lp.marginEnd = tripleMargin
+                        lp.bottomMargin = halfMargin
+                    }
+                }
     }
 }
