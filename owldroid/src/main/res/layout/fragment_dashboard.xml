@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboardParent"
     android:layout_width="match_parent"
     android:background="@color/off_white"
     android:layout_height="match_parent">
@@ -15,21 +16,48 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:layout_height="match_parent">
 
             <include
                 layout="@layout/loading_spinner"
                 tools:visibility="gone" />
 
+            <TextView
+                android:id="@+id/actionMenuTitle"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:theme="@style/SectionHeader"
+                android:text="@string/DASHBOARD_ACTION_MENU_TITLE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/actionContainer"
+                android:paddingTop="@dimen/base_margin_double"
+                android:paddingBottom="@dimen/base_margin_quadruple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/actionMenuTitle"
+                tools:itemCount="3"
+                tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/dashboard_action"
+                tools:orientation="horizontal" />
+
             <LinearLayout
                 android:id="@+id/insuranceActive"
-                android:layout_marginTop="@dimen/base_margin_quadruple"
                 android:layout_marginStart="@dimen/base_margin_triple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseCompoundDrawables">
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/actionContainer"
+                tools:ignore="UseCompoundDrawables"
+                tools:visibility="visible">
 
                 <TextView
                     android:fontFamily="@font/circular_book"
@@ -40,11 +68,11 @@
                     android:layout_height="wrap_content" />
 
                 <ImageView
-                    android:src="@drawable/ic_filled_checkmark"
                     android:contentDescription="@null"
                     android:layout_marginStart="@dimen/base_margin_half"
                     android:layout_width="16dp"
-                    android:layout_height="16dp" />
+                    android:layout_height="16dp"
+                    app:srcCompat="@drawable/ic_filled_checkmark" />
 
             </LinearLayout>
 

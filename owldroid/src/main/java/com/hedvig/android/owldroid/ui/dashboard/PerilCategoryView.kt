@@ -4,12 +4,15 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.support.annotation.DrawableRes
 import android.support.design.card.MaterialCardView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
 import com.hedvig.android.owldroid.util.extensions.view.animateExpand
 import com.hedvig.android.owldroid.util.whenApiVersion
@@ -18,6 +21,11 @@ import kotlinx.android.synthetic.main.peril_category_view.view.*
 class PerilCategoryView : MaterialCardView {
     private var attributeSet: AttributeSet? = null
     private var defStyle: Int = 0
+
+    private val iconSize: Int by lazy { resources.getDimensionPixelSize(R.dimen.dashboard_icon) }
+
+    private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
+    private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
 
     constructor(context: Context) : super(context) {
         inflate(context, R.layout.peril_category_view, this)
@@ -45,12 +53,10 @@ class PerilCategoryView : MaterialCardView {
         set(value) {
             field = value
 
-            val size = resources.getDimensionPixelSize(R.dimen.dashboard_icon)
-
             Glide
                 .with(context)
                 .load(value)
-                .override(size)
+                .override(iconSize)
                 .into(catIcon)
         }
 
@@ -58,6 +64,20 @@ class PerilCategoryView : MaterialCardView {
         set(value) {
             field = value
             catIcon.setImageDrawable(value)
+        }
+
+    var categoryIconId: String? = null
+        set(value) {
+            field = value
+
+            @DrawableRes val icon = when (value) { // FIXME Oh god this is extremely wack
+                "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/du_och_din_familj%402x.png" -> R.drawable.ic_family
+                "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/lagenhet%402x.png" -> R.drawable.ic_home
+                "https://s3.eu-central-1.amazonaws.com/com-hedvig-web-content/prylar%402x.png" -> R.drawable.ic_things
+                else -> R.drawable.ic_family
+            }
+
+            catIcon.setImageDrawable(context.compatDrawable(icon))
         }
 
     var title: CharSequence? = null
@@ -132,5 +152,22 @@ class PerilCategoryView : MaterialCardView {
             expandedContent?.animateExpand()
             toggled = true
         }
+    }
+
+    companion object {
+        fun build(
+            context: Context,
+            width: Int = ViewGroup.LayoutParams.MATCH_PARENT,
+            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+        ) =
+            PerilCategoryView(context)
+                .apply {
+                    layoutParams = MarginLayoutParams(width, height).also { lp ->
+                        lp.topMargin = halfMargin
+                        lp.marginStart = tripleMargin
+                        lp.marginEnd = tripleMargin
+                        lp.bottomMargin = halfMargin
+                    }
+                }
     }
 }

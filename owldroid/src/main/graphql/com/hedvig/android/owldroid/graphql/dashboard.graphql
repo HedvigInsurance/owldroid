@@ -12,10 +12,15 @@ query DashboardQuery {
             perils {
                 id
                 title
-                imageUrl
                 description
             }
         }
+    }
+
+    chatActions {
+        text
+        triggerUrl
+        enabled
     }
 
     member {
