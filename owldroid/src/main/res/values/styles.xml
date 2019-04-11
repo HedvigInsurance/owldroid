@@ -24,7 +24,7 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
-    <style name="ProfileSectionHeader">
+    <style name="SectionHeader">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">16dp</item>
@@ -49,7 +49,6 @@
     </style>
 
     <style name="HedvigButton">
-        <item name="android:layout_marginTop">32dp</item>
         <item name="android:background">@drawable/button_primary</item>
         <item name="android:fontFamily">@font/circular_book</item>
         <item name="android:paddingStart">32dp</item>
@@ -124,6 +123,10 @@
         <item name="android:textColor">@color/off_black_dark</item>
     </style>
 
+    <style name="SmallParagraph" parent="DefaultParagraph">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="ProfileField.ValidationError">
         <item name="android:fontFamily">@font/circular_book</item>
         <item name="android:textSize">14sp</item>
@@ -140,6 +143,18 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="PerilBottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="bottomSheetStyle">@style/PerilBottomSheet</item>
+    </style>
+
+    <style name="PerilBottomSheet">
+        <item name="android:background">@drawable/peril_bottom_sheet_background</item>
+    </style>
+
+    <style name="LoadingSpinner" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/purple</item>
+    </style>
 
     <style name="SmallButton">
         <item name="android:paddingTop">4dp</item>

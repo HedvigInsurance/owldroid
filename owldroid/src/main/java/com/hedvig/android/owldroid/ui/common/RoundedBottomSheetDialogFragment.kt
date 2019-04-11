@@ -10,7 +10,7 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.util.extensions.view.show
 import timber.log.Timber
 
-class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
+open class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 

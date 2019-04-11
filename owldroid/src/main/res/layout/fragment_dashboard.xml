@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboardParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white">
@@ -15,11 +16,13 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize">
 
             <include
                 layout="@layout/loading_spinner"
                 tools:visibility="gone" />
+
 
             <LinearLayout
                 android:id="@+id/directDebitNeedsSetup"
@@ -32,8 +35,10 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/base_margin_double"
+
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
                 <TextView
                     style="@style/DialogParagraph"
@@ -54,18 +59,45 @@
                     android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_NEED_SETUP_BUTTON_LABEL"
                     android:textColor="@color/purple"
                     android:theme="@style/HedvigButton" />
+
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/actionMenuTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/base_margin_triple"
+                android:layout_marginTop="@dimen/base_margin_triple"
+                android:text="@string/DASHBOARD_ACTION_MENU_TITLE"
+                android:theme="@style/SectionHeader"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/directDebitNeedsSetup"
+                tools:visibility="visible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/actionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/base_margin_double"
+                android:paddingBottom="@dimen/base_margin_quadruple"
+                app:layout_constraintTop_toBottomOf="@id/actionMenuTitle"
+                tools:itemCount="3"
+                tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/dashboard_action"
+                tools:orientation="horizontal" />
 
             <LinearLayout
                 android:id="@+id/insuranceActive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin_triple"
-                android:layout_marginTop="@dimen/base_margin_quadruple"
                 android:gravity="center_vertical"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/directDebitNeedsSetup"
-                tools:ignore="UseCompoundDrawables">
+                app:layout_constraintTop_toBottomOf="@id/actionContainer"
+                tools:ignore="UseCompoundDrawables"
+                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,6 +127,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/base_margin_double"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/insuranceActive">
 
                 <TextView
@@ -107,8 +140,8 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/insurancePendingLoadingAnimation"
-                    android:layout_width="@dimen/insurancePendingLoadingAnimationWidth"
-                    android:layout_height="@dimen/insurancePendingLoadingAnimationHeight"
+                    android:layout_width="@dimen/insurance_pending_loading_animation_width"
+                    android:layout_height="@dimen/insurance_pending_loading_animation_height"
                     android:layout_marginTop="@dimen/base_margin_double"
                     android:scaleType="centerInside"
                     android:visibility="gone"
@@ -132,7 +165,7 @@
                         android:fontFamily="@font/soray_extrabold"
                         android:includeFontPadding="false"
                         android:textColor="@color/pink"
-                        android:textSize="@dimen/huge_text"
+                        android:textSize="@dimen/insurance_pending_countdown_text"
                         tools:text="8" />
 
                     <TextView
@@ -144,7 +177,7 @@
                         android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_MONTH"
                         android:textColor="@color/off_black_dark"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/text_small" />
 
                     <TextView
                         android:id="@+id/insurancePendingCountdownDays"
@@ -154,7 +187,7 @@
                         android:fontFamily="@font/soray_extrabold"
                         android:includeFontPadding="false"
                         android:textColor="@color/dark_purple"
-                        android:textSize="@dimen/huge_text"
+                        android:textSize="@dimen/insurance_pending_countdown_text"
                         tools:text="23" />
 
                     <TextView
@@ -166,7 +199,7 @@
                         android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_DAYS"
                         android:textColor="@color/off_black_dark"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/text_small" />
 
                     <TextView
                         android:id="@+id/insurancePendingCountdownHours"
@@ -176,7 +209,7 @@
                         android:fontFamily="@font/soray_extrabold"
                         android:includeFontPadding="false"
                         android:textColor="@color/purple"
-                        android:textSize="@dimen/huge_text"
+                        android:textSize="@dimen/insurance_pending_countdown_text"
                         tools:text="23" />
 
                     <TextView
@@ -188,7 +221,7 @@
                         android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_HOURS"
                         android:textColor="@color/off_black_dark"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/text_small" />
 
                     <TextView
                         android:id="@+id/insurancePendingCountdownMinutes"
@@ -198,7 +231,7 @@
                         android:fontFamily="@font/soray_extrabold"
                         android:includeFontPadding="false"
                         android:textColor="@color/green"
-                        android:textSize="@dimen/huge_text"
+                        android:textSize="@dimen/insurance_pending_countdown_text"
                         tools:text="23" />
 
                     <TextView
@@ -210,7 +243,7 @@
                         android:includeFontPadding="false"
                         android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_COUNTDOWN_MINUTES"
                         android:textColor="@color/off_black_dark"
-                        android:textSize="@dimen/small_text" />
+                        android:textSize="@dimen/text_small" />
 
                 </LinearLayout>
 
@@ -221,7 +254,7 @@
                     android:gravity="center"
                     android:paddingTop="@dimen/base_margin"
                     android:paddingBottom="@dimen/base_margin"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/text_medium" />
 
                 <TextView
                     android:id="@+id/insurancePendingMoreInfo"
@@ -231,7 +264,7 @@
                     android:layout_marginTop="@dimen/base_margin"
                     android:gravity="center"
                     android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_BUTTON_LABEL"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/text_medium" />
 
             </LinearLayout>
 
