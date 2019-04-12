@@ -15,8 +15,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
-import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
+import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.CustomTypefaceSpan
 import com.hedvig.android.owldroid.util.extensions.compatColor
@@ -29,6 +29,7 @@ import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_payment.*
+import timber.log.Timber
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -38,6 +39,7 @@ class PaymentFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var directDebitViewModel: DirectDebitViewModel
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.loggedInNavigationHost)
@@ -52,6 +54,9 @@ class PaymentFragment : Fragment() {
         super.onCreate(savedInstanceState)
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
+        }
+        directDebitViewModel = requireActivity().run {
+            ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
         }
     }
 
@@ -121,7 +126,10 @@ class PaymentFragment : Fragment() {
             )
             profile_payment_amount.text = amountPartOne.concat(amountPartTwo)
 
-            setupBankAccountInformation(profileData?.bankAccount(), profileData?.directDebitStatus())
+            bindBankAccountInformation()
+        })
+        directDebitViewModel.data.observe(this, Observer {
+            bindBankAccountInformation()
         })
     }
 
@@ -132,27 +140,31 @@ class PaymentFragment : Fragment() {
         bankAccountUnderChangeParagraph.remove()
     }
 
-    private fun setupBankAccountInformation(
-        bankAccount: ProfileQuery.BankAccount?,
-        directDebitStatus: DirectDebitStatus?
-    ) {
-        if (bankAccount == null) {
-            connectBankAccountContainer.show()
-            return
+    private fun bindBankAccountInformation() {
+        val profileData = profileViewModel.data.value ?: return
+        val directDebitStatus = directDebitViewModel.data.value?.directDebitStatus() ?: return
+
+        when (directDebitStatus) {
+            DirectDebitStatus.ACTIVE -> {
+                paymentDetailsContainer.show()
+                bankName.text = profileData.bankAccount()?.bankName() ?: ""
+
+                separator.show()
+                accountNumber.text = profileData.bankAccount()?.descriptor() ?: ""
+                changeBankAccount.show()
+            }
+            DirectDebitStatus.PENDING -> {
+                paymentDetailsContainer.show()
+                bankName.text = profileData.bankAccount()?.bankName()
+
+                accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
+                bankAccountUnderChangeParagraph.show()
+            }
+            DirectDebitStatus.NEEDS_SETUP -> connectBankAccountContainer.show()
+            else -> {
+                Timber.e("Payment fragment direct debit status UNKNOWN!")
+            }
         }
-
-        paymentDetailsContainer.show()
-        bankName.text = bankAccount.bankName()
-
-        if (directDebitStatus == DirectDebitStatus.PENDING) {
-            accountNumber.text = resources.getString(R.string.PROFILE_PAYMENT_ACCOUNT_NUMBER_CHANGING)
-            bankAccountUnderChangeParagraph.show()
-            return
-        }
-
-        separator.show()
-        accountNumber.text = bankAccount.descriptor()
-        changeBankAccount.show()
     }
 
     companion object {

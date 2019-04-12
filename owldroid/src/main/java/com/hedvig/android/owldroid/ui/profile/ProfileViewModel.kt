@@ -137,7 +137,7 @@ class ProfileViewModel @Inject constructor(
                 .subscribe({ response ->
                     response.data()?.let { data ->
                         data.bankAccount()?.let { bankAccount ->
-                            profileRepository.writeBankAccountInfoToCache(bankAccount, data.directDebitStatus())
+                            profileRepository.writeBankAccountInfoToCache(bankAccount)
                         } ?: Timber.e("Failed to refresh bank account info")
                     } ?: Timber.e("Failed to refresh bank account info")
                 }, { error ->

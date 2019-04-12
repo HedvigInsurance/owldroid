@@ -18,6 +18,7 @@ import com.hedvig.android.owldroid.graphql.DashboardQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import android.widget.LinearLayout
+import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
 import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
@@ -48,6 +49,7 @@ class DashboardFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     lateinit var dashboardViewModel: DashboardViewModel
+    lateinit var directDebitViewModel: DirectDebitViewModel
 
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
@@ -73,6 +75,9 @@ class DashboardFragment : Fragment() {
         dashboardViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java)
         }
+        directDebitViewModel = requireActivity().run {
+            ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -97,37 +102,40 @@ class DashboardFragment : Fragment() {
     }
 
     private fun loadData() {
-        dashboardViewModel.data.observe(this) { data ->
-            loadingSpinner.remove()
+        dashboardViewModel.data.observe(this) { bindData() }
+        directDebitViewModel.data.observe(this) { bindData() }
+    }
 
-            data?.let { d ->
-                val title = interpolateTextKey(
-                    resources.getString(R.string.DASHBOARD_TITLE),
-                    "NAME" to d.member().firstName()
-                )
-                setupLargeTitle(title, R.font.circular_bold)
-                setupDirectDebitStatus(data.directDebitStatus())
-                setupInsuranceStatusStatus(data.insurance())
-            }
+    private fun bindData() {
+        val dashboardData = dashboardViewModel.data.value ?: return
+        val directDebitData = directDebitViewModel.data.value ?: return
+        loadingSpinner.remove()
+        val title = interpolateTextKey(
+            resources.getString(R.string.DASHBOARD_TITLE),
+            "NAME" to dashboardData.member().firstName()
+        )
+        setupLargeTitle(title, R.font.circular_bold)
+        setupInsuranceStatusStatus(dashboardData.insurance())
 
-            perilCategoryContainer.removeAllViews()
-            data?.chatActions()?.let { setupActionMenu(it) }
+        perilCategoryContainer.removeAllViews()
+        dashboardData.chatActions()?.let { setupActionMenu(it) }
 
-            data?.insurance()?.perilCategories()?.forEach { category ->
-                val categoryView = makePerilCategoryRow(category)
-                perilCategoryContainer.addView(categoryView)
-            }
+        dashboardData.insurance().perilCategories()?.forEach { category ->
+            val categoryView = makePerilCategoryRow(category)
+            perilCategoryContainer.addView(categoryView)
+        }
 
-            data?.insurance()?.status()?.let { insuranceStatus ->
-                when (insuranceStatus) {
-                    InsuranceStatus.ACTIVE -> insuranceActive.show()
-                    else -> {
-                    }
+        dashboardData.insurance().status().let { insuranceStatus ->
+            when (insuranceStatus) {
+                InsuranceStatus.ACTIVE -> insuranceActive.show()
+                else -> {
                 }
             }
-
-            setupAdditionalInformationRow()
         }
+
+        setupAdditionalInformationRow()
+
+        setupDirectDebitStatus(directDebitData.directDebitStatus())
     }
 
     private fun setupActionMenu(actions: List<DashboardQuery.ChatAction>) {
