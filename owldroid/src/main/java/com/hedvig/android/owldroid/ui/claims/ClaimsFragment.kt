@@ -11,17 +11,12 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.Navigator
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigator
 import com.hedvig.android.owldroid.R
-import com.hedvig.android.owldroid.data.claims.ClaimsQuickAction
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.quickaction.QuickActionsAdapter
-import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
 import com.hedvig.android.owldroid.util.extensions.*
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
@@ -66,9 +61,9 @@ class ClaimsFragment : Fragment() {
 
         claimsViewModel.apply {
             loadingSpinner.show()
-            fetchQuickActions()
-            quickActions.observe(this@ClaimsFragment, Observer { quickActions ->
-                quickActions?.let { setupQuickActions(it) } ?: handleNoQuickActions()
+            fetchCommonClaims()
+            data.observe(this@ClaimsFragment, Observer { commonClaimsData ->
+                commonClaimsData?.let { setupQuickActions(it) } ?: handleNoQuickActions()
             })
         }
         setupButtons()
@@ -82,10 +77,10 @@ class ClaimsFragment : Fragment() {
         }
     }
 
-    private fun setupQuickActions(quickActions: List<ClaimsQuickAction>) {
+    private fun setupQuickActions(commonClaimsData: CommonClaimQuery.Data) {
         loadingSpinner.hide()
         quickChoicesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        quickChoicesRecyclerView.adapter = QuickActionsAdapter(quickActions) {
+        quickChoicesRecyclerView.adapter = QuickActionsAdapter(commonClaimsData.commonClaims()) {
             navController.navigate(com.hedvig.android.owldroid.R.id.action_claimsFragment_to_quickActionClaimsFragment)
         }
     }
