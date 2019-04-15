@@ -18,12 +18,12 @@
 
     <TextView
         android:id="@+id/text"
-        style="@style/SmallParagraph"
+        style="@style/Body.XSmall"
         android:layout_marginTop="@dimen/base_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:maxWidth="@dimen/peril_icon"
+        android:maxWidth="@dimen/peril_width"
         tools:text="Juridisk tvist" />
 
 </LinearLayout>
