@@ -24,7 +24,7 @@ class PerilBottomSheet : RoundedBottomSheetDialogFragment() {
             // FIXME This old hack needs to die, but there's really no better way right now
             val title = args.getString(PERIL_TITLE)
             title?.let { dialog.perilTitle.text = if (it.contains("-\n")) it.replace("-\n", "") else it }
-            
+
             dialog.perilDescription.text = args.getString(PERIL_DESCRIPTION)
         }
     }
