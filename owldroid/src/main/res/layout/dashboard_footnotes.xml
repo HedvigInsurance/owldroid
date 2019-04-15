@@ -8,8 +8,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/deductibleFootnote"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/base_margin_triple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -17,15 +16,14 @@
 
         <ImageView
             android:contentDescription="@null"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/base_margin_double"
+            android:layout_height="@dimen/base_margin_double"
             app:srcCompat="@drawable/ic_filled_checkmark" />
 
         <TextView
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/circular_book"
-            android:textSize="14sp"
-            android:textColor="@color/off_black"
+            android:id="@+id/deductibleFootnote"
+            style="@style/Body.Small"
+            android:layout_marginStart="@dimen/base_margin"
             android:text="@string/DASHBOARD_DEDUCTIBLE_FOOTNOTE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -33,33 +31,32 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/totalCoverageFootnote"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
+        android:id="@+id/ownerFootnote"
+        android:layout_marginTop="@dimen/base_margin_double"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="UseCompoundDrawables">
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        tools:ignore="UseCompoundDrawables"
+        tools:visibility="visible">
 
         <ImageView
             android:contentDescription="@null"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/base_margin_double"
+            android:layout_height="@dimen/base_margin_double"
             app:srcCompat="@drawable/ic_filled_checkmark" />
 
         <TextView
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/circular_book"
-            android:textSize="14sp"
-            android:textColor="@color/off_black"
-            android:text="@string/DASHBOARD_INSURANCE_AMOUNT_FOOTNOTE"
+            style="@style/Body.Small"
+            android:layout_marginStart="@dimen/base_margin"
+            android:text="@string/DASHBOARD_OWNER_FOOTNOTE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/travelFootnote"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/base_margin_double"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,15 +64,37 @@
 
         <ImageView
             android:contentDescription="@null"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/base_margin_double"
+            android:layout_height="@dimen/base_margin_double"
             app:srcCompat="@drawable/ic_filled_checkmark" />
 
         <TextView
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/circular_book"
-            android:textSize="14sp"
-            android:textColor="@color/off_black"
+            android:id="@+id/totalCoverageFootnote"
+            style="@style/Body.Small"
+            android:layout_marginStart="@dimen/base_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/DASHBOARD_INSURANCE_AMOUNT_FOOTNOTE" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/base_margin_double"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:contentDescription="@null"
+            android:layout_width="@dimen/base_margin_double"
+            android:layout_height="@dimen/base_margin_double"
+            app:srcCompat="@drawable/ic_filled_checkmark" />
+
+        <TextView
+            android:id="@+id/travelFootnote"
+            style="@style/Body.Small"
+            android:layout_marginStart="@dimen/base_margin"
             android:text="@string/DASHBOARD_TRAVEL_FOOTNOTE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

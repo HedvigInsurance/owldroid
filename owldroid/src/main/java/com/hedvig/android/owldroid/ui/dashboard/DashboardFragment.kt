@@ -11,6 +11,7 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
@@ -18,8 +19,10 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.DashboardQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.type.InsuranceStatus
-import android.widget.LinearLayout
+import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
+import com.hedvig.android.owldroid.util.InsuranceUtils.isApartmentOwner
+import com.hedvig.android.owldroid.util.InsuranceUtils.isStudentInsurance
 import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
@@ -31,19 +34,20 @@ import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Flowable
-import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.loading_spinner.*
-import org.threeten.bp.LocalDate
-import java.util.*
-import javax.inject.Inject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.dashboard_footnotes.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.loading_spinner.*
+import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.util.Calendar
+import java.util.GregorianCalendar
 import java.util.concurrent.TimeUnit
-
+import javax.inject.Inject
 
 class DashboardFragment : Fragment() {
     @Inject
@@ -135,7 +139,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        setupAdditionalInformationRow()
+        dashboardData.insurance().type()?.let { setupAdditionalInformationRow(it) }
 
         setupDirectDebitStatus(directDebitData.directDebitStatus())
     }
@@ -254,11 +258,21 @@ class DashboardFragment : Fragment() {
         additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
         additionalInformation.subtitle = resources.getString(R.string.DASHBOARD_MORE_INFO_SUBTITLE)
 
-        additionalInformation.expandedContent = layoutInflater.inflate(
+        val content = layoutInflater.inflate(
             R.layout.dashboard_footnotes,
             additionalInformation.expandedContentContainer,
             false
         )
+
+        content.totalCoverageFootnote.text = interpolateTextKey(
+            resources.getString(R.string.DASHBOARD_INSURANCE_AMOUNT_FOOTNOTE),
+            "AMOUNT" to if (isStudentInsurance(insuranceType)) "200 000" else "1 000 000"
+        )
+        if (isApartmentOwner(insuranceType)) {
+            content.ownerFootnote.show()
+        }
+
+        additionalInformation.expandedContent = content
 
         perilCategoryContainer.addView(additionalInformation)
     }
