@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.ui.claims.quickaction
+package com.hedvig.android.owldroid.ui.claims.commonclaim.bulletpoint
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

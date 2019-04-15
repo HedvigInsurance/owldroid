@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/app_bar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/off_white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/common_claim_first_message" />
+
+                <android.support.design.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/base_margin_double"
+                        android:layout_marginTop="@dimen/base_margin_triple"
+                        android:layout_marginEnd="@dimen/base_margin_double"
+                        android:layout_marginBottom="@dimen/base_margin_triple"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/Headline.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CLAIMS_EMERGENCY_FIRST_BOX_TITLE" />
+
+                        <TextView
+                            style="@style/Body"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CLAIMS_EMERGENCY_FIRST_BOX_DESCRIPTION" />
+
+                        <Button
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginTop="@dimen/base_margin_double"
+                            android:background="@drawable/button_primary"
+                            android:text="@string/CLAIMS_EMERGENCY_FIRST_BOX_BUTTON_LABEL"
+                            android:theme="@style/HedvigButton"
+                            app:backgroundTint="@color/purple"
+                            tools:backgroundTint="@color/purple"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+                </android.support.design.card.MaterialCardView>
+
+                <android.support.design.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/base_margin_double"
+                        android:layout_marginTop="@dimen/base_margin_triple"
+                        android:layout_marginEnd="@dimen/base_margin_double"
+                        android:layout_marginBottom="@dimen/base_margin_triple"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/Headline.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CLAIMS_EMERGENCY_SECOND_BOX_TITLE" />
+
+                        <TextView
+                            style="@style/Body"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CLAIMS_EMERGENCY_SECOND_BOX_DESCRIPTION" />
+
+                        <Button
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginTop="@dimen/base_margin_double"
+                            android:background="@drawable/button_primary"
+                            android:text="@string/CLAIMS_EMERGENCY_SECOND_BOX_BUTTON_LABEL"
+                            android:theme="@style/HedvigButton"
+                            app:backgroundTint="@color/purple"
+                            tools:backgroundTint="@color/purple"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+                </android.support.design.card.MaterialCardView>
+
+                <android.support.design.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/base_margin_double"
+                        android:layout_marginTop="@dimen/base_margin_triple"
+                        android:layout_marginEnd="@dimen/base_margin_double"
+                        android:layout_marginBottom="@dimen/base_margin_triple"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/Headline.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CLAIMS_EMERGENCY_THIRD_BOX_TITLE" />
+
+                        <TextView
+                            style="@style/Body"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CLAIMS_EMERGENCY_THIRD_BOX_DESCRIPTION" />
+
+                        <Button
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:layout_marginTop="@dimen/base_margin_double"
+                            android:background="@drawable/button_primary"
+                            android:text="@string/CLAIMS_EMERGENCY_THIRD_BOX_BUTTON_LABEL"
+                            android:theme="@style/HedvigButton"
+                            app:backgroundTint="@color/purple"
+                            tools:backgroundTint="@color/purple"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+
+                </android.support.design.card.MaterialCardView>
+
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

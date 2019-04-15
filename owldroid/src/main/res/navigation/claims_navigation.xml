@@ -10,8 +10,17 @@
         android:label="ClaimsFragment">
 
         <action
-            android:id="@+id/action_claimsFragment_to_quickActionClaimsFragment"
-            app:destination="@+id/claimsQuickActionFragment"
+            android:id="@+id/action_claimsFragment_to_commonClaimsFragment"
+            app:destination="@+id/claimsCommonClaimFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/claimsFragment" />
+
+        <action
+            android:id="@+id/action_claimsFragment_to_emergencyFragment"
+            app:destination="@+id/claimsEmergencyFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -20,8 +29,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/claimsQuickActionFragment"
-        android:name="com.hedvig.android.owldroid.ui.claims.quickaction.CommonClaimFragment"
+        android:id="@+id/claimsCommonClaimFragment"
+        android:name="com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimFragment"
         android:label="QuickActionFragment" />
+
+    <fragment
+        android:id="@+id/claimsEmergencyFragment"
+        android:name="com.hedvig.android.owldroid.ui.claims.commonclaim.emergency.EmergencyFragment"
+        android:label="QuickActionFragment" />
+
 
 </navigation>

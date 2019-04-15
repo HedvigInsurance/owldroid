@@ -1,11 +1,10 @@
-package com.hedvig.android.owldroid.ui.claims.quickaction
+package com.hedvig.android.owldroid.ui.claims.commonclaim
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +15,14 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.ClaimsViewModel
+import com.hedvig.android.owldroid.ui.claims.commonclaim.bulletpoint.BulletPointsAdapter
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.mapppedColor
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_common_claim.*
 import javax.inject.Inject
 
@@ -40,8 +41,8 @@ class CommonClaimFragment : Fragment() {
         inflater.inflate(R.layout.fragment_common_claim, container, false)
 
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,7 @@ class CommonClaimFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        claimsViewModel.titleAndBulletPoint.observe(this, Observer { titleAndBulletPoint ->
+        claimsViewModel.titleAndBulletPointData.observe(this, Observer { titleAndBulletPoint ->
             titleAndBulletPoint?.let { bindData(it) } // todo ?: handleNoQuickActions()
         })
     }
@@ -67,10 +68,10 @@ class CommonClaimFragment : Fragment() {
 
         commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)
         //todo change
-        commonClaimIcon.setImageDrawable(requireContext().compatDrawable(R.drawable.icon_charity))
+        commonClaimCellIcon.setImageDrawable(requireContext().compatDrawable(R.drawable.icon_charity))
         commonClaimFirstMessage.text = data.claimFirstMessage()
-        createClaimButton.text = data.buttonTitle()
-        createClaimButton.setOnClickListener {
+        commonClaimCreateClaimButton.text = data.buttonTitle()
+        commonClaimCreateClaimButton.setOnClickListener {
             //todo
         }
 
