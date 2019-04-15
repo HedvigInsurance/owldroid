@@ -25,4 +25,5 @@
     <dimen name="loading_spinner_width">24dp</dimen>
     <dimen name="loading_spinner_height">24dp</dimen>
     <dimen name="claim_bullet_point_row_icon">24dp</dimen>
+    <dimen name="common_claim_first_message_bottom_margin">60dp</dimen>
 </resources>

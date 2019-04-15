@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="@dimen/base_margin_triple"
-    android:paddingBottom="@dimen/base_margin_triple"
+    android:paddingBottom="@dimen/common_claim_first_message_bottom_margin"
     tools:background="#D7FDF4">
 
     <ImageView
@@ -36,7 +36,6 @@
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/base_margin_triple"
-        android:layout_marginBottom="15dp"
         android:background="@drawable/button_primary"
         android:fontFamily="@font/circular_book"
         android:paddingLeft="32dp"

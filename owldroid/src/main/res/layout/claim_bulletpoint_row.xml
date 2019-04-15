@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/base_margin"
+    android:layout_marginTop="@dimen/base_margin_half"
     android:layout_marginStart="@dimen/base_margin"
     android:layout_marginEnd="@dimen/base_margin"
     app:cardUseCompatPadding="true"

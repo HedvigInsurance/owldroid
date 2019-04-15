@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/claimsEmergencyFragment"
-        android:name="com.hedvig.android.owldroid.ui.claims.commonclaim.emergency.EmergencyFragment"
+        android:name="com.hedvig.android.owldroid.ui.claims.commonclaim.EmergencyFragment"
         android:label="QuickActionFragment" />
 
 

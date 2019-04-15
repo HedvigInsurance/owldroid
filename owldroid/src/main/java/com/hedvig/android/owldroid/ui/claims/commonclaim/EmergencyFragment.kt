@@ -1,4 +1,4 @@
-package com.hedvig.android.owldroid.ui.claims.commonclaim.emergency
+package com.hedvig.android.owldroid.ui.claims.commonclaim
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -22,6 +22,7 @@ import com.hedvig.android.owldroid.util.mapppedColor
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.common_claim_first_message.*
+import kotlinx.android.synthetic.main.fragment_emergency.*
 import javax.inject.Inject
 
 class EmergencyFragment : Fragment() {
@@ -69,5 +70,15 @@ class EmergencyFragment : Fragment() {
         commonClaimCellIcon.setImageDrawable(requireContext().compatDrawable(R.drawable.icon_charity))
         commonClaimFirstMessage.text = getString(R.string.CLAIMS_EMERGENCY_FIRST_MESSAGE)
         commonClaimCreateClaimButton.remove()
+
+        firstEmergencyButton.setOnClickListener {
+            // todo: Call hedvig
+        }
+        secondEmergencyButton.setOnClickListener {
+            // todo: Call global assistance
+        }
+        thirdEmergencyButton.setOnClickListener {
+            // todo: Write to hedvig
+        }
     }
 }
