@@ -23,7 +23,6 @@
                 layout="@layout/loading_spinner"
                 tools:visibility="gone" />
 
-
             <LinearLayout
                 android:id="@+id/directDebitNeedsSetup"
                 android:layout_width="match_parent"
@@ -35,7 +34,6 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/base_margin_double"
-
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible">
@@ -127,8 +125,8 @@
                 android:orientation="vertical"
                 android:padding="@dimen/base_margin_double"
                 android:visibility="gone"
-                tools:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@id/insuranceActive">
+                app:layout_constraintTop_toBottomOf="@id/insuranceActive"
+                tools:visibility="visible">
 
                 <TextView
                     style="@style/DialogParagraph"
