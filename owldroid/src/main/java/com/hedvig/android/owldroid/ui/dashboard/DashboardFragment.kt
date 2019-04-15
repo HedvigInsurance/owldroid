@@ -54,6 +54,7 @@ class DashboardFragment : Fragment() {
 
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
+    private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
     private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + doubleMargin * 2 }
     private val rowWidth: Int by lazy { dashboardParent.measuredWidth - doubleMargin * 2 }
 
@@ -281,7 +282,7 @@ class DashboardFragment : Fragment() {
     private fun setupInsuranceStatusStatus(insurance: DashboardQuery.Insurance) {
         insurancePending.remove()
         insuranceActive.remove()
-        when (insurance) {
+        when (insurance.status()) {
             InsuranceStatus.ACTIVE -> {
                 insuranceActive.show()
             }
@@ -291,7 +292,9 @@ class DashboardFragment : Fragment() {
                 insurancePendingLoadingAnimation.show()
 
                 insurancePendingLoadingAnimation.playAnimation()
-                insurancePendingExplanation.text = getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_NO_START_DATE_EXPLANATION)
+                insurancePendingExplanation.text =
+                    getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_NO_START_DATE_EXPLANATION)
+                setupInsurancePendingMoreInfo()
             }
             InsuranceStatus.INACTIVE_WITH_START_DATE -> {
                 insurancePending.show()
@@ -304,8 +307,11 @@ class DashboardFragment : Fragment() {
                     val formattedString = localDate.format(DateTimeFormatter.ofPattern("d LLLL yyyy"))
                     insurancePendingExplanation.text = interpolateTextKey(
                         getString(R.string.DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_HAS_START_DATE_EXPLANATION),
-                        "START_DATE" to formattedString)
+                        "START_DATE" to formattedString
+                    )
                 } ?: Timber.e("InsuranceStatus INACTIVE_WITH_START_DATE but got no start date")
+
+                setupInsurancePendingMoreInfo()
             }
             InsuranceStatus.`$UNKNOWN`,
             InsuranceStatus.PENDING,
