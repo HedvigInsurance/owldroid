@@ -242,8 +242,11 @@ class DashboardFragment : Fragment() {
         return perilView
     }
 
-    private fun setupAdditionalInformationRow() {
-        val additionalInformation = PerilCategoryView.build(requireContext())
+    private fun setupAdditionalInformationRow(insuranceType: InsuranceType) {
+        val additionalInformation = PerilCategoryView.build(
+            requireContext(),
+            bottomMargin = tripleMargin
+        )
 
         additionalInformation.categoryIcon = requireContext().compatDrawable(R.drawable.ic_more_info)
         additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
