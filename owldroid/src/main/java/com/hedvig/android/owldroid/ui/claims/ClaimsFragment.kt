@@ -3,7 +3,6 @@ package com.hedvig.android.owldroid.ui.claims
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -72,16 +71,15 @@ class ClaimsFragment : Fragment() {
     private fun setupButtons() {
         createClaimButton.setOnClickListener {
             //todo open create a claim chat
-            val intent = Intent("chat")
-            localBroadcastManager.sendBroadcast(intent)
         }
     }
 
     private fun setupQuickActions(commonClaimsData: CommonClaimQuery.Data) {
         loadingSpinner.hide()
         quickChoicesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        quickChoicesRecyclerView.adapter = QuickActionsAdapter(commonClaimsData.commonClaims()) {
-            navController.navigate(com.hedvig.android.owldroid.R.id.action_claimsFragment_to_quickActionClaimsFragment)
+        quickChoicesRecyclerView.adapter = QuickActionsAdapter(commonClaimsData.commonClaims()) { title ->
+            claimsViewModel.setCommonClaimByTitle(title)
+            navController.navigate(R.id.action_claimsFragment_to_quickActionClaimsFragment)
         }
     }
 

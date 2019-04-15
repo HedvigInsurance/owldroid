@@ -1,6 +1,7 @@
 package com.hedvig.android.owldroid.di
 
 import com.hedvig.android.owldroid.ui.claims.ClaimsFragment
+import com.hedvig.android.owldroid.ui.claims.quickaction.CommonClaimFragment
 import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
 import com.hedvig.android.owldroid.ui.marketing.StoryFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileFragment
@@ -52,4 +53,7 @@ abstract class FragmentContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeClaimsFragment(): ClaimsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeQuickActionFragment(): CommonClaimFragment
 }

@@ -9,31 +9,31 @@ import android.widget.TextView
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
-import kotlinx.android.synthetic.main.claims_quick_action_cell.view.*
+import kotlinx.android.synthetic.main.claim_bulletpoint_row.view.*
 import org.jetbrains.annotations.NotNull
 
-class QuickActionsAdapter(private val commonClaims: @NotNull MutableList<CommonClaimQuery.CommonClaim>, private val openQuickActionFragment: (String) -> Unit): RecyclerView.Adapter<QuickActionsAdapter.ViewHolder>(){
+class BulletPointsAdapter(private val bulletPoints: @NotNull MutableList<CommonClaimQuery.BulletPoint>): RecyclerView.Adapter<BulletPointsAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.claims_quick_action_cell,
+                R.layout.claim_bulletpoint_row,
                 parent,
                 false))
 
-    override fun getItemCount(): Int = commonClaims.size
+    override fun getItemCount(): Int = bulletPoints.size
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val commonClaim = commonClaims[position]
+        val bulletPoint = bulletPoints[position]
         viewHolder.apply {
-            view.setOnClickListener { openQuickActionFragment(commonClaim.title()) }
-            quickActionIcon.setImageDrawable(quickActionIcon.context.compatDrawable(R.drawable.icon_failure))
-            quickActionTitle.text = commonClaim.title()
+            bulletPointIcon.setImageDrawable(bulletPointIcon.context.compatDrawable(R.drawable.icon_failure))
+            bulletPointTitle.text = bulletPoint.title()
+            bulletPointDescription.text = bulletPoint.description()
         }
     }
 
     inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView) {
-        val view = itemView
-        val quickActionIcon: ImageView = itemView.commonClaimIcon
-        val quickActionTitle: TextView = itemView.claimsQuickActionTitle
+        val bulletPointIcon: ImageView = itemView.bulletPointIcon
+        val bulletPointTitle: TextView = itemView.bulletPointTitle
+        val bulletPointDescription: TextView = itemView.bulletPointDescription
     }
 }

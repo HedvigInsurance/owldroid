@@ -1,9 +1,6 @@
 package com.hedvig.android.owldroid.util.extensions
 
-import android.support.annotation.LayoutRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.annotation.StringRes
+import android.support.annotation.*
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
@@ -20,13 +17,29 @@ fun Fragment.setupLargeTitle(
     @StringRes title: Int,
     @FontRes font: Int,
     @DrawableRes icon: Int? = null,
+    @ColorInt backgroundColor: Int? = null,
+    backAction: (() -> Unit)? = null
+) {
+    setupLargeTitle(getString(title), font, icon, backgroundColor, backAction)
+}
+
+fun Fragment.setupLargeTitle(
+    title: String,
+    @FontRes font: Int,
+    @DrawableRes icon: Int? = null,
+    @ColorInt backgroundColor: Int? = null,
     backAction: (() -> Unit)? = null
 ) {
     (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-    collapsingToolbar.title = resources.getString(title)
+    collapsingToolbar.title = title
     val resolvedFont = requireContext().compatFont(font)
     collapsingToolbar.setExpandedTitleTypeface(resolvedFont)
     collapsingToolbar.setCollapsedTitleTypeface(resolvedFont)
+
+    backgroundColor?.let {color ->
+        toolbar.setBackgroundColor(color)
+        collapsingToolbar.setBackgroundColor(color)
+    }
 
     icon?.let { toolbar.setNavigationIcon(it) }
     backAction?.let { toolbar.setNavigationOnClickListener { it() } }

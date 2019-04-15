@@ -2,6 +2,9 @@ package com.hedvig.android.owldroid.util
 
 import android.graphics.Color
 import android.support.annotation.ColorInt
+import android.support.annotation.ColorRes
+import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.type.HedvigColor
 
 @ColorInt
 fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): Int {
@@ -55,4 +58,20 @@ fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): I
     }
 
     return Color.argb(resAlpha, resRed, resGreen, resBlue)
+}
+
+@ColorRes
+fun HedvigColor.mapppedColor(): Int = when (this) {
+    HedvigColor.DARKPURPLE -> R.color.dark_purple
+    HedvigColor.LIGHTGRAY -> R.color.light_gray
+    HedvigColor.OFFWHITE -> R.color.off_white
+    HedvigColor.DARKGRAY -> R.color.gray
+    HedvigColor.PURPLE -> R.color.purple
+    HedvigColor.WHITE -> R.color.white
+    HedvigColor.OFFBLACK -> R.color.off_black
+    HedvigColor.BLACK -> R.color.black
+    HedvigColor.TURQUOISE -> R.color.green
+    HedvigColor.PINK -> R.color.pink
+    HedvigColor.BLACKPURPLE -> R.color.off_black_dark
+    HedvigColor.`$UNKNOWN` -> R.color.purple
 }

@@ -13,6 +13,7 @@ class ClaimsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val data: MutableLiveData<CommonClaimQuery.Data> = MutableLiveData()
+    val titleAndBulletPoint: MutableLiveData<CommonClaimQuery.AsTitleAndBulletPoints> = MutableLiveData()
 
     private val disposables = CompositeDisposable()
 
@@ -28,5 +29,11 @@ class ClaimsViewModel @Inject constructor(
                 Timber.e(error, "Failed to fetch claims data")
             })
         disposables.add(disposable)
+    }
+
+    fun setCommonClaimByTitle(title: String) {
+        val l = data.value?.commonClaims()?.first { it.layout() is CommonClaimQuery.AsTitleAndBulletPoints && it.title() == title }?.layout() as CommonClaimQuery.AsTitleAndBulletPoints
+
+        titleAndBulletPoint.postValue(l        )
     }
 }

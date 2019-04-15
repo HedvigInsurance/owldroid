@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/claimsQuickActionFragment"
-        android:name="com.hedvig.android.owldroid.ui.claims.quickaction.QuickActionFragment"
+        android:name="com.hedvig.android.owldroid.ui.claims.quickaction.CommonClaimFragment"
         android:label="QuickActionFragment" />
 
 </navigation>

@@ -140,4 +140,8 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="CircularToolbarTheme" parent="AppTheme.PopupOverlay">
+        <item name="android:fontFamily">@font/circular_medium</item>
+    </style>
 </resources>

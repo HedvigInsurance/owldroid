@@ -6,5 +6,28 @@ query CommonClaim {
             pdfUrl
             svgUrl
         }
+        layout {
+            ... on TitleAndBulletPoints {
+                bulletPoints {
+                    description
+                    title
+                    description
+                    icon {
+                        svgUrl
+                    }
+                }
+                buttonTitle
+                claimFirstMessage
+                color
+                icon {
+                    svgUrl
+                }
+                title
+            }
+            ... on Emergency {
+                color
+                title
+            }
+        }
     }
 }
