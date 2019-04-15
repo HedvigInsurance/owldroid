@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -223,7 +224,7 @@ class DashboardFragment : Fragment() {
         perilView.perilName = peril.title()
         peril.id()?.let { perilView.perilIconId = it }
         perilView.setOnClickListener {
-
+            perilView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             val subjectName = subject.title()
             val id = peril.id()
             val title = peril.title()

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.RecyclerView
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class ActionAdapter(
     override fun onBindViewHolder(holder: ActionViewHolder, position: Int) {
         holder.button.text = items[position].text()
         holder.button.setOnClickListener {
+            holder.button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             LocalBroadcastManager
                 .getInstance(context)
                 .sendBroadcast(Intent(DASHBOARD_NAVIGATION).also { intent ->
