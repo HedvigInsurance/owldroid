@@ -158,7 +158,8 @@ class PerilCategoryView : MaterialCardView {
         fun build(
             context: Context,
             width: Int = ViewGroup.LayoutParams.MATCH_PARENT,
-            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+            height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
+            bottomMargin: Int? = null
         ) =
             PerilCategoryView(context)
                 .apply {
@@ -166,7 +167,7 @@ class PerilCategoryView : MaterialCardView {
                         lp.topMargin = halfMargin
                         lp.marginStart = tripleMargin
                         lp.marginEnd = tripleMargin
-                        lp.bottomMargin = halfMargin
+                        lp.bottomMargin = bottomMargin ?: halfMargin
                     }
                 }
     }
