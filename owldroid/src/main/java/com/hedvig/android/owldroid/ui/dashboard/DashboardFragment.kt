@@ -21,8 +21,6 @@ import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.type.InsuranceStatus
 import com.hedvig.android.owldroid.type.InsuranceType
 import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
-import com.hedvig.android.owldroid.util.InsuranceUtils.isApartmentOwner
-import com.hedvig.android.owldroid.util.InsuranceUtils.isStudentInsurance
 import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
@@ -32,6 +30,8 @@ import com.hedvig.android.owldroid.util.extensions.view.animateExpand
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
+import com.hedvig.android.owldroid.util.isApartmentOwner
+import com.hedvig.android.owldroid.util.isStudentInsurance
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
