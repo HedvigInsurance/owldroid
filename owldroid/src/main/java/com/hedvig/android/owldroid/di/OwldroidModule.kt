@@ -52,12 +52,12 @@ class OwldroidModule {
     fun apolloClient(
         okHttpClient: OkHttpClient,
         normalizedCacheFactory: NormalizedCacheFactory<LruNormalizedCache>,
-        @Named("GRAPHQL_URL") graphqlUrl: String,
+        @Named("GIRAFFE_URL") giraffeUrl: String,
         logger: Logger?
     ): ApolloClient {
         val builder = ApolloClient
             .builder()
-            .serverUrl(graphqlUrl)
+            .serverUrl("$giraffeUrl/graphql")
             .okHttpClient(okHttpClient)
             .normalizedCache(normalizedCacheFactory)
 

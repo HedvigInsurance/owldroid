@@ -17,19 +17,30 @@ import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
+import com.hedvig.android.owldroid.service.remotevectordrawable.RemoteVectorDrawable
 import com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimsAdapter
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.remove
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
+import com.hedvig.android.owldroid.util.extensions.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 class ClaimsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var remoteVectorDrawable: RemoteVectorDrawable
+
+    @Inject
+    @field:Named("GIRAFFE_URL")
+    lateinit var giraffeUrl: String
 
     private lateinit var claimsViewModel: ClaimsViewModel
     private val baseMarginHalf: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
@@ -102,7 +113,9 @@ class ClaimsFragment : Fragment() {
             navigateToEmergencyFragment = { emergency ->
                 claimsViewModel.setEmergencyData(emergency)
                 navController.navigate(R.id.action_claimsFragment_to_emergencyFragment)
-            }
+            },
+            remoteVectorDrawable = remoteVectorDrawable,
+            giraffeUrl = giraffeUrl
         )
     }
 

@@ -8,14 +8,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
-import com.hedvig.android.owldroid.util.extensions.compatDrawable
+import com.hedvig.android.owldroid.service.remotevectordrawable.RemoteVectorDrawable
 import kotlinx.android.synthetic.main.claims_common_claim_cell.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
 import timber.log.Timber
+import java.net.URL
 
-class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonClaimQuery.CommonClaim>,
-                          private val navigateToCommonClaimFragment: (CommonClaimQuery.AsTitleAndBulletPoints) -> Unit,
-                          private val navigateToEmergencyFragment: (CommonClaimQuery.AsEmergency) -> Unit
+class CommonClaimsAdapter(
+    private val commonClaims: @NotNull MutableList<CommonClaimQuery.CommonClaim>,
+    private val navigateToCommonClaimFragment: (CommonClaimQuery.AsTitleAndBulletPoints) -> Unit,
+    private val navigateToEmergencyFragment: (CommonClaimQuery.AsEmergency) -> Unit,
+    private val remoteVectorDrawable: RemoteVectorDrawable,
+    private val giraffeUrl: String
 ) : RecyclerView.Adapter<CommonClaimsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -23,7 +30,9 @@ class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonC
             LayoutInflater.from(parent.context).inflate(
                 R.layout.claims_common_claim_cell,
                 parent,
-                false))
+                false
+            )
+        )
 
     override fun getItemCount(): Int = commonClaims.size
 
@@ -31,7 +40,7 @@ class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonC
         viewHolder.apply {
             val commonClaim = commonClaims[position]
 
-            when (val layout = commonClaim.layout()){
+            when (val layout = commonClaim.layout()) {
                 is CommonClaimQuery.AsTitleAndBulletPoints ->
                     view.setOnClickListener { navigateToCommonClaimFragment.invoke(layout) }
                 is CommonClaimQuery.AsEmergency ->
@@ -40,7 +49,17 @@ class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonC
                     view.setOnClickListener { Timber.i("Not a recognized view") }
             }
 
-            commonClaimIcon.setImageDrawable(commonClaimIcon.context.compatDrawable(R.drawable.icon_failure)) //todo
+            //commonClaimIcon.setImageDrawable(commonClaimIcon.context.compatDrawable(R.drawable.icon_failure)) //todo
+            GlobalScope.launch(Dispatchers.IO) {
+                val drawable = remoteVectorDrawable.downloadVectorDrawable(
+                    URL(giraffeUrl + commonClaim.icon().vectorDrawableUrl())
+                )
+                GlobalScope.launch(Dispatchers.Main) {
+                    commonClaimIcon.post {
+                        commonClaimIcon.setImageDrawable(drawable)
+                    }
+                }
+            }
             commonClaimLabel.text = commonClaim.title()
         }
     }
