@@ -18,7 +18,7 @@ import timber.log.Timber
 class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonClaimQuery.CommonClaim>,
                           private val requestBuilder: RequestBuilder<PictureDrawable>,
                           private val baseUrl: String,
-                          private val navigateToCommonClaimFragment: (CommonClaimQuery.AsTitleAndBulletPoints) -> Unit,
+                          private val navigateToCommonClaimFragment: (CommonClaimQuery.CommonClaim) -> Unit,
                           private val navigateToEmergencyFragment: (CommonClaimQuery.CommonClaim) -> Unit
 ) : RecyclerView.Adapter<CommonClaimsAdapter.ViewHolder>() {
 
@@ -37,7 +37,7 @@ class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonC
 
             when (val layout = commonClaim.layout()) {
                 is CommonClaimQuery.AsTitleAndBulletPoints ->
-                    view.setOnClickListener { navigateToCommonClaimFragment.invoke(layout) }
+                    view.setOnClickListener { navigateToCommonClaimFragment.invoke(commonClaim) }
                 is CommonClaimQuery.AsEmergency ->
                     view.setOnClickListener { navigateToEmergencyFragment.invoke(commonClaim) }
                 else ->

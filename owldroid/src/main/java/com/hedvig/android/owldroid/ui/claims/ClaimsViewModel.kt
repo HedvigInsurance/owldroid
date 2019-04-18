@@ -13,8 +13,7 @@ class ClaimsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val data: MutableLiveData<CommonClaimQuery.Data> = MutableLiveData()
-    val titleAndBulletPointData: MutableLiveData<CommonClaimQuery.AsTitleAndBulletPoints> = MutableLiveData()
-    val emergencyData: MutableLiveData<CommonClaimQuery.CommonClaim> = MutableLiveData()
+    val selectedSubViewData: MutableLiveData<CommonClaimQuery.CommonClaim> = MutableLiveData()
 
     private val disposables = CompositeDisposable()
 
@@ -32,9 +31,6 @@ class ClaimsViewModel @Inject constructor(
         disposables.add(disposable)
     }
 
-    fun setCommonClaimByTitle(titleAndBulletPoints: CommonClaimQuery.AsTitleAndBulletPoints) =
-        titleAndBulletPointData.postValue(titleAndBulletPoints)
-
-    fun setEmergencyData(emergency: CommonClaimQuery.CommonClaim) =
-        emergencyData.postValue(emergency)
+    fun setSelectedSubViewData(selectedSubView: CommonClaimQuery.CommonClaim) =
+        selectedSubViewData.postValue(selectedSubView)
 }

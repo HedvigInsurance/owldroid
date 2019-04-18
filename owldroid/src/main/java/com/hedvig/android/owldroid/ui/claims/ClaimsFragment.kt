@@ -106,12 +106,12 @@ class ClaimsFragment : Fragment() {
             commonClaims = commonClaimsData.commonClaims(),
             baseUrl = baseUrl,
             requestBuilder = requestBuilder,
-            navigateToCommonClaimFragment = { titleAndBulletPoint ->
-                claimsViewModel.setCommonClaimByTitle(titleAndBulletPoint)
+            navigateToCommonClaimFragment = { commonClaim ->
+                claimsViewModel.setSelectedSubViewData(commonClaim)
                 navController.navigate(R.id.action_claimsFragment_to_commonClaimsFragment)
             },
-            navigateToEmergencyFragment = { emergency ->
-                claimsViewModel.setEmergencyData(emergency)
+            navigateToEmergencyFragment = { commonClaim ->
+                claimsViewModel.setSelectedSubViewData(commonClaim)
                 navController.navigate(R.id.action_claimsFragment_to_emergencyFragment)
             }
         )

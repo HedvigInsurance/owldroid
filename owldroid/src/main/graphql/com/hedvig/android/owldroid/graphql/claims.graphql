@@ -2,8 +2,6 @@ query CommonClaim {
     commonClaims(locale: sv_SE) {
         title
         icon {
-            vectorDrawableUrl
-            pdfUrl
             svgUrl
         }
         layout {
@@ -19,9 +17,6 @@ query CommonClaim {
                 buttonTitle
                 claimFirstMessage
                 color
-                icon {
-                    svgUrl
-                }
                 title
             }
             ... on Emergency {
