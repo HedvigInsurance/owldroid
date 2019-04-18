@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/catIcon"
             android:contentDescription="@null"
-            android:layout_width="32dp"
+            android:layout_width="@dimen/peril_category_icon_size"
             android:layout_height="32dp"
             app:layout_constraintBottom_toTopOf="@id/perilsContainer"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,18 +34,14 @@
 
             <TextView
                 android:id="@+id/categoryTitle"
-                android:textSize="16sp"
-                android:textColor="@color/off_black_dark"
-                android:fontFamily="@font/circular_bold"
+                style="@style/Body.Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Jag och min familj" />
 
             <TextView
                 android:id="@+id/categorySubtitle"
-                android:fontFamily="@font/circular_book"
-                android:textSize="14sp"
-                android:textColor="@color/off_black"
+                style="@style/Body.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="försäkras för" />
