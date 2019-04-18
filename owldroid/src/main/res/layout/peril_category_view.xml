@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/base_margin_double"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
