@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.commonclaim.bulletpoint.BulletPointsAdapter
+import com.hedvig.android.owldroid.ui.claims.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.mapppedColor
@@ -32,7 +33,9 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
         commonClaimFirstMessage.text = layout.claimFirstMessage()
         commonClaimCreateClaimButton.text = layout.buttonTitle()
         commonClaimCreateClaimButton.setOnClickListener {
-            //todo
+            HonestyPledgeBottomSheet
+                .newInstance(data.title())
+                .show(requireFragmentManager(), "honestyPledge")
         }
 
         bulletPointsRecyclerView.layoutManager = LinearLayoutManager(requireContext())

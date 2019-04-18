@@ -20,6 +20,7 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimsAdapter
+import com.hedvig.android.owldroid.ui.claims.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.util.extensions.*
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
@@ -97,7 +98,9 @@ class ClaimsFragment : Fragment() {
 
     private fun setupButtons() {
         commonClaimCreateClaimButton.setOnClickListener {
-            //todo open create a claim chat
+            HonestyPledgeBottomSheet
+                .newInstance("main_screen")
+                .show(requireFragmentManager(), "honestyPledge")
         }
     }
 

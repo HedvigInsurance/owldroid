@@ -135,6 +135,14 @@
         <item name="android:background">@drawable/peril_bottom_sheet_background</item>
     </style>
 
+    <style name="NoTitleBottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
+    </style>
+
+    <style name="NoTitleBottomSheet">
+        <item name="android:background">@drawable/bottom_sheet_dialog_no_title_fragment_background</item>
+    </style>
+
     <style name="LoadingSpinner" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/purple</item>
     </style>
