@@ -44,7 +44,7 @@
                     app:layout_constraintTop_toBottomOf="@id/sphereContainer">
 
                     <TextView
-                        style="@style/ProfileSectionHeader"
+                        style="@style/SectionHeader"
                         android:text="@string/PROFILE_MY_INFO_SECTION_TITLE_CONTACT_DETAILS" />
 
                     <android.support.design.widget.TextInputLayout

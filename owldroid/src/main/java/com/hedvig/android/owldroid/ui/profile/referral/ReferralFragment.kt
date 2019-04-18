@@ -16,9 +16,14 @@ import androidx.navigation.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
-import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.compatDrawable
+import com.hedvig.android.owldroid.util.extensions.compatSetTint
+import com.hedvig.android.owldroid.util.extensions.observe
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
+import com.hedvig.android.owldroid.util.extensions.view.increaseTouchableArea
+import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_referral.*
@@ -55,9 +60,14 @@ class ReferralFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
         }
-        referralButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, requireContext().compatDrawable(R.drawable.icon_share_white), null)
+        referralButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            null,
+            null,
+            requireContext().compatDrawable(R.drawable.icon_share_white),
+            null
+        )
 
         profileViewModel.remoteConfigData.observe(this) { remoteConfigData ->
             remoteConfigData?.let { rcd ->

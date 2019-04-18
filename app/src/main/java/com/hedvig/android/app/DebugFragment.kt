@@ -24,12 +24,8 @@ class DebugFragment : Fragment() {
         super.onAttach(context)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_debug, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_debug, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val sharedPreferences = requireContext().getSharedPreferences("debug", Context.MODE_PRIVATE)
@@ -51,7 +47,7 @@ class DebugFragment : Fragment() {
         }
 
         debug_open_profile.setOnClickListener {
-            startActivity(Intent(requireContext(), ProfileActivity::class.java))
+            startActivity(Intent(requireContext(), LoggedInActivity::class.java))
         }
 
         openClaimsScreen.setOnClickListener {

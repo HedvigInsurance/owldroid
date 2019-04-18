@@ -130,7 +130,7 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
             )
     }
 
-    fun writeBankAccountInfoToCache(bankAccount: BankAccountQuery.BankAccount, directDebitStatus: DirectDebitStatus) {
+    fun writeBankAccountInfoToCache(bankAccount: BankAccountQuery.BankAccount) {
         val cachedData = apolloClient
             .apolloStore()
             .read(profileQuery)
@@ -146,7 +146,6 @@ class ProfileRepository @Inject constructor(private val apolloClient: ApolloClie
         val newData = cachedData
             .toBuilder()
             .bankAccount(newBankAccount)
-            .directDebitStatus(directDebitStatus)
             .build()
 
         apolloClient

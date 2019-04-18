@@ -6,6 +6,8 @@ import com.apollographql.apollo.cache.normalized.NormalizedCacheFactory
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
+import com.hedvig.android.owldroid.type.CustomType
+import com.hedvig.android.owldroid.util.apollo.PromiscuousLocalDateAdapter
 import com.hedvig.android.owldroid.util.react.AsyncStorageNativeReader
 import dagger.Module
 import dagger.Provides
@@ -59,6 +61,7 @@ class OwldroidModule {
             .builder()
             .serverUrl(graphqlUrl)
             .okHttpClient(okHttpClient)
+            .addCustomTypeAdapter(CustomType.LOCALDATE, PromiscuousLocalDateAdapter())
             .normalizedCache(normalizedCacheFactory)
 
         logger?.let { builder.logger(it) }

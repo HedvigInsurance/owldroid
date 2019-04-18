@@ -13,17 +13,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.navArgs
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
 import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
 import com.hedvig.android.owldroid.util.extensions.observe
-import com.hedvig.android.owldroid.util.extensions.remove
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_trustly.*
 import javax.inject.Inject
@@ -34,6 +37,7 @@ class TrustlyFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var directDebitViewModel: DirectDebitViewModel
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -44,6 +48,9 @@ class TrustlyFragment : Fragment() {
         super.onCreate(savedInstanceState)
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
+        }
+        directDebitViewModel = requireActivity().run {
+            ViewModelProviders.of(this, viewModelFactory).get(DirectDebitViewModel::class.java)
         }
     }
 
@@ -112,7 +119,7 @@ class TrustlyFragment : Fragment() {
     }
 
     private fun goBack() {
-        requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
+        this.view?.findNavController()?.popBackStack()
     }
 
     fun showSuccess() {
@@ -123,6 +130,7 @@ class TrustlyFragment : Fragment() {
         resultClose.background.compatSetTint(requireContext().compatColor(R.color.green))
         resultClose.setOnClickListener {
             profileViewModel.refreshBankAccountInfo()
+            directDebitViewModel.refreshDirectDebitStatus()
             localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
                 putExtra("action", "clearDirectDebitStatus")
             })

@@ -10,8 +10,11 @@
 
     <dimen name="background_rounded_corners_radius">20dp</dimen>
 
+    <dimen name="dashboard_icon">32dp</dimen>
+
     <dimen name="bottom_sheet_dialog_fragment_title_height">40dp</dimen>
     <dimen name="bottom_sheet_corner_radius">20dp</dimen>
+
 
     <dimen name="dialog_width">280dp</dimen>
     <dimen name="dialog_height">188dp</dimen>
@@ -26,4 +29,15 @@
     <dimen name="loading_spinner_height">24dp</dimen>
     <dimen name="claim_bullet_point_row_icon">24dp</dimen>
     <dimen name="common_claim_first_message_bottom_margin">60dp</dimen>
+
+    <dimen name="dashboard_need_setup_container_height">120dp</dimen>
+    <dimen name="dashboard_need_set_up_background_radius">5dp</dimen>
+    <dimen name="peril_icon">40dp</dimen>
+    <dimen name="peril_width">50dp</dimen>
+    <dimen name="peril_bottom_sheet_title_height">88dp</dimen>
+    <dimen name="peril_title_extra_spacing">40dp</dimen>
+    <dimen name="peril_bottom_extra_spacing">48dp</dimen>
+    <dimen name="insurance_pending_loading_animation_height">40dp</dimen>
+    <dimen name="insurance_pending_loading_animation_width">189dp</dimen>
+    <dimen name="insurance_pending_countdown_text">40sp</dimen>
 </resources>

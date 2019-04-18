@@ -6,6 +6,7 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheUtil
@@ -14,17 +15,19 @@ import com.google.android.exoplayer2.util.Util
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.android.owldroid.util.extensions.head
 import com.hedvig.android.owldroid.util.extensions.tail
-import com.squareup.picasso.BuildConfig
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
+import javax.inject.Named
 
 class MarketingStoriesRepository @Inject constructor(
     private val apolloClient: ApolloClient,
     private val context: Context,
-    private val cache: SimpleCache
+    private val cache: SimpleCache,
+    @Named("APPLICATION_ID") private val applicationId: String
 ) {
 
     fun fetchMarketingStories(completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit) {
@@ -50,44 +53,47 @@ class MarketingStoriesRepository @Inject constructor(
             })
     }
 
-    private fun cacheAssets(data: List<MarketingStoriesQuery.MarketingStory>,
-                            completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit) {
+    private fun cacheAssets(
+        data: List<MarketingStoriesQuery.MarketingStory>,
+        completion: (result: List<MarketingStoriesQuery.MarketingStory>) -> Unit
+    ) {
         data.tail.forEach { story ->
-            story.asset()?.let { GlobalScope.launch {cacheAsset(it)} }
+            story.asset()?.let { GlobalScope.launch { cacheAsset(it) } }
         }
 
-        data.head.asset()?.let { GlobalScope.launch {cacheAsset(it) { completion(data) } } }
+        data.head.asset()?.let { GlobalScope.launch { cacheAsset(it) { completion(data) } } }
     }
 
     private fun handleNoMarketingStories() = Timber.e("No Marketing Stories")
 
-    private suspend fun cacheAsset(asset: MarketingStoriesQuery.Asset, onEnd: (() -> Unit)? = null) = withContext(Dispatchers.IO) {
-        try {
-            val mimeType = asset.mimeType()
-            val url = asset.url()
-            when (mimeType) {
-                // TODO Figure out how to make this block the completion of the AsyncTask
-                "image/jpeg" -> Picasso.get().load(url).fetch()
-                "video/mp4", "video/quicktime" -> {
-                    val dataSourceFactory = DefaultDataSourceFactory(
-                        context,
-                        Util.getUserAgent(
+    private suspend fun cacheAsset(asset: MarketingStoriesQuery.Asset, onEnd: (() -> Unit)? = null) =
+        withContext(Dispatchers.IO) {
+            try {
+                val mimeType = asset.mimeType()
+                val url = asset.url()
+                when (mimeType) {
+                    // TODO Figure out how to make this block the completion of the AsyncTask
+                    "image/jpeg" -> Glide.with(context).load(Uri.parse(url)).preload()
+                    "video/mp4", "video/quicktime" -> {
+                        val dataSourceFactory = DefaultDataSourceFactory(
                             context,
-                            BuildConfig.APPLICATION_ID
+                            Util.getUserAgent(
+                                context,
+                                applicationId
+                            )
                         )
-                    )
-                    CacheUtil.cache(
-                        DataSpec(Uri.parse(url)),
-                        cache,
-                        dataSourceFactory.createDataSource(),
-                        null
-                    )
+                        CacheUtil.cache(
+                            DataSpec(Uri.parse(url)),
+                            cache,
+                            dataSourceFactory.createDataSource(),
+                            null
+                        )
+                    }
                 }
+            } catch (e: Exception) {
+                Timber.e(e)
             }
-        } catch (e: Exception) {
-            Timber.e(e)
+            //To be sure let's launch this on main thread
+            onEnd?.let { GlobalScope.launch(Dispatchers.Main) { it() } }
         }
-        //To be sure let's launch this on main thread
-        onEnd?.let { GlobalScope.launch(Dispatchers.Main) { it() } }
-    }
 }

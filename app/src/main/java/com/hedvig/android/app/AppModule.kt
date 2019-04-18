@@ -58,6 +58,10 @@ class AppModule {
     }
 
     @Provides
+    @Named("APPLICATION_ID")
+    fun provideApplicationId() = BuildConfig.APPLICATION_ID
+
+    @Provides
     @Nullable
     fun provideApolloLogger(): Logger? {
         return ApolloTimberLogger()

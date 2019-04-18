@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.BottomSheetDialogFragment
-import com.hedvig.android.owldroid.R
 import android.view.LayoutInflater
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.util.extensions.view.show
 import timber.log.Timber
 
-
-class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
+open class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 

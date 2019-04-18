@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.mapppedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_emergency.*
