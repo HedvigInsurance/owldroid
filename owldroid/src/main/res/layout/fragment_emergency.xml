@@ -15,10 +15,12 @@
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <!-- TODO remove paddingBottom and when we fixed navigation-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/base_margin_double"
+            android:paddingBottom="80dp"
             android:orientation="vertical">
 
             <include layout="@layout/common_claim_first_message" />

@@ -58,17 +58,6 @@
             app:layout_constraintTop_toBottomOf="@id/debug_open_logo" />
 
         <Button
-            android:id="@+id/openClaimsScreen"
-            style="@style/HedvigButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/open_claims_screen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/debug_open_profile" />
-
-        <Button
             android:id="@+id/debugOpenReferralAcceptance"
             style="@style/HedvigButton"
             android:layout_width="wrap_content"
@@ -78,7 +67,7 @@
             app:backgroundTint="@color/dark_purple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/openClaimsScreen" />
+            app:layout_constraintTop_toBottomOf="@id/debug_open_profile" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/debug_text_input_layout"

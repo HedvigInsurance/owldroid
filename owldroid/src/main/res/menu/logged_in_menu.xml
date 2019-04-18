@@ -4,6 +4,12 @@
         android:id="@+id/dashboard_navigation"
         android:icon="@drawable/ic_home"
         android:title="Min försäkring" />
+
+    <item
+        android:id="@+id/claims_navigation"
+        android:icon="@drawable/ic_claims"
+        android:title="Skador" />
+
     <item
         android:id="@+id/profile_navigation"
         android:icon="@drawable/ic_family"

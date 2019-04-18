@@ -35,7 +35,7 @@ class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonC
         viewHolder.apply {
             val commonClaim = commonClaims[position]
 
-            when (val layout = commonClaim.layout()) {
+            when (commonClaim.layout()) {
                 is CommonClaimQuery.AsTitleAndBulletPoints ->
                     view.setOnClickListener { navigateToCommonClaimFragment.invoke(commonClaim) }
                 is CommonClaimQuery.AsEmergency ->

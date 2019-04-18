@@ -40,4 +40,5 @@
     <dimen name="insurance_pending_loading_animation_height">40dp</dimen>
     <dimen name="insurance_pending_loading_animation_width">189dp</dimen>
     <dimen name="insurance_pending_countdown_text">40sp</dimen>
+    <dimen name="claims_fragment_image_height">180dp</dimen>
 </resources>

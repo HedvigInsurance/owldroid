@@ -47,7 +47,7 @@ class ClaimsFragment : Fragment() {
     private val baseMarginHalf: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.claimsNavigationHost)
+        requireActivity().findNavController(R.id.loggedInNavigationHost)
     }
 
     override fun onAttach(context: Context?) {
@@ -69,8 +69,8 @@ class ClaimsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.claimsNavigationHost).popBackStack()
+        setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold) {
+            navController.popBackStack()
         }
 
         claimsViewModel.apply {

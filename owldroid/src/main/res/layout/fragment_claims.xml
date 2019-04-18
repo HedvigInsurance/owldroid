@@ -21,7 +21,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="@dimen/claims_fragment_image_height"
                 android:background="@drawable/background_rounded_corners_pink">
 
                 <ImageView
@@ -74,12 +74,13 @@
                 android:layout_height="@dimen/loading_spinner_height"
                 android:layout_gravity="center" />
 
+            <!-- TODO remove paddingBottom and when we fixed navigation-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commonClaimsRecyclerView"
-                android:layout_marginTop="@dimen/base_margin"
-                android:clipToPadding="false"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/base_margin"
+                android:paddingBottom="80dp" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

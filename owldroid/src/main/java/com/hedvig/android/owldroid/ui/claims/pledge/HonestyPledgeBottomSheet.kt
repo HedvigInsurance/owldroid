@@ -17,7 +17,7 @@ class HonestyPledgeBottomSheet: RoundedBottomSheetDialogFragment() {
         dialog.setContentView(view)
 
         dialog.bottomSheetHonestyPledgeButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Navigate to chat with the key'${arguments?.getString(ARGS_CLAIM_KEY)}'!", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Navigate to chat with the key '${arguments?.getString(ARGS_CLAIM_KEY)}'!", Toast.LENGTH_LONG).show()
         }
     }
 

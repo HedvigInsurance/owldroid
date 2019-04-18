@@ -36,7 +36,7 @@ abstract class BaseCommonClaimFragment : Fragment() {
     lateinit var claimsViewModel: ClaimsViewModel
 
     val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.claimsNavigationHost)
+        requireActivity().findNavController(R.id.loggedInNavigationHost)
     }
 
     override fun onAttach(context: Context?) {
