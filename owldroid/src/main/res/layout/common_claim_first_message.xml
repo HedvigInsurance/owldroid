@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/commonClaimFirstMessageIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/common_claim_icon_size"
+        android:layout_height="@dimen/common_claim_icon_size"
         android:layout_marginStart="@dimen/base_margin_triple"
         tools:src="@drawable/icon_charity" />
 

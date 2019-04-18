@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
+    app:cardElevation="8dp"
     android:clipToPadding="false"
     app:cardUseCompatPadding="true">
 
@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/commonClaimCellIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/common_claim_icon_size"
+            android:layout_height="@dimen/common_claim_icon_size"
             tools:src="@drawable/icon_failure" />
 
         <TextView
