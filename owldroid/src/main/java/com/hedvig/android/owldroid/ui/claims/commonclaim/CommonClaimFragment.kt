@@ -64,7 +64,7 @@ class CommonClaimFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         claimsViewModel.titleAndBulletPointData.observe(this, Observer { titleAndBulletPoint ->
-            titleAndBulletPoint?.let { bindData(it) } // todo ?: handleNoQuickActions()
+            titleAndBulletPoint?.let { bindData(it) }
         })
     }
 

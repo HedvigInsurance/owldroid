@@ -17,7 +17,6 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.ClaimsViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
-import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.mapppedColor
@@ -27,10 +26,10 @@ import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_emergency.*
 import javax.inject.Inject
 import com.bumptech.glide.RequestBuilder
-import com.hedvig.android.owldroid.util.svg.GlideApp
-import com.hedvig.android.owldroid.util.svg.SvgSoftwareLayerSetter
 import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
 import javax.inject.Named
+import android.content.Intent
+import com.hedvig.android.owldroid.util.extensions.makeACall
 
 class EmergencyFragment : Fragment() {
 
@@ -67,7 +66,7 @@ class EmergencyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         claimsViewModel.emergencyData.observe(this, Observer { emergency ->
-            emergency?.let { bindData(it) } // todo ?: handleNoQuickActions()
+            emergency?.let { bindData(it) }
         })
     }
 
@@ -87,14 +86,18 @@ class EmergencyFragment : Fragment() {
         commonClaimCreateClaimButton.remove()
 
         firstEmergencyButton.setOnClickListener {
-            // todo: Call hedvig
+            // todo: Hedvig call me
         }
         secondEmergencyButton.setOnClickListener {
-            // todo: Call global assistance
+            makeACall(GLOBAL_ASSISTANCE_URI)
         }
         thirdEmergencyButton.setOnClickListener {
             // todo: Write to hedvig
         }
+    }
+
+    companion object {
+        private val GLOBAL_ASSISTANCE_URI = Uri.parse("tel:0123456789") // todo actual global assistance number
     }
 }
 
