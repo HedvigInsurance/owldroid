@@ -22,7 +22,6 @@ class ClaimsViewModel @Inject constructor(
     }
 
     fun fetchCommonClaims() {
-        Timber.i("fetchCommonClaims OkHttp")
         val disposable = claimsRepository.fetchCommonClaims().subscribe(
             { data.postValue(it) },
             { error ->

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="22dp"
-            android:theme="@style/SmallTitle"
+            android:theme="@style/Headline.Small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="SOS Barnbyar" />
@@ -29,7 +29,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
-            android:theme="@style/DialogParagraph"
+            android:theme="@style/Body.Small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cashbackOptionTitle"
             tools:text="För att bli en trygg vuxen krävs en trygg barndom. Därför arbetar SOS Barnbyar med långsiktiga insatser för att inte ett enda barn ska behöva växa upp ensamt." />

@@ -41,7 +41,7 @@ class EmergencyFragment : BaseCommonClaimFragment() {
     }
 
     companion object {
-        private val GLOBAL_ASSISTANCE_URI = Uri.parse("tel:0123456789") // todo actual global assistance number
+        private val GLOBAL_ASSISTANCE_URI = Uri.parse("tel:+4538489461")
     }
 }
 

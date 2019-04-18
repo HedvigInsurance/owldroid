@@ -104,7 +104,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/circular_book"
                     android:text="@string/PROFILE_COINSURED_MORE_TO_COME_DESCRIPTION"
-                    android:theme="@style/Paragraph" />
+                    android:theme="@style/Body.Small" />
 
             </LinearLayout>
 

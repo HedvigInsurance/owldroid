@@ -18,7 +18,7 @@ class ClaimsRepository @Inject constructor(private val apolloClient: ApolloClien
             .build()
 
         return Rx2Apollo
-            .from(apolloClient.query(claimsQuery).watcher())
+            .from(apolloClient.query(claimsQuery))
             .map { it.data() }
     }
 }
