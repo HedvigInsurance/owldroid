@@ -11,9 +11,9 @@
     tools:background="#D7FDF4">
 
     <ImageView
-        android:id="@+id/commonClaimCellIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/commonClaimFirstMessageIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginStart="@dimen/base_margin_triple"
         tools:src="@drawable/icon_charity" />
 

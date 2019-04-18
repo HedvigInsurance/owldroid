@@ -40,9 +40,15 @@ class AppModule {
     }
 
     @Provides
+    @Named("BASE_URL")
+    fun provideBaseUrl(): String {
+        return "https://graphql.dev.hedvigit.com"
+    }
+
+    @Provides
     @Named("GRAPHQL_URL")
     fun provideGraphqlUrl(): String {
-        return "https://graphql.dev.hedvigit.com/graphql"
+        return provideBaseUrl() + "/graphql"
     }
 
     @Provides

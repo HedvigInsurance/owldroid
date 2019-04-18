@@ -1,21 +1,25 @@
 package com.hedvig.android.owldroid.ui.claims.commonclaim
 
+import android.graphics.drawable.PictureDrawable
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
-import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import kotlinx.android.synthetic.main.claims_common_claim_cell.view.*
 import org.jetbrains.annotations.NotNull
 import timber.log.Timber
 
 class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonClaimQuery.CommonClaim>,
+                          private val requestBuilder: RequestBuilder<PictureDrawable>,
+                          private val baseUrl: String,
                           private val navigateToCommonClaimFragment: (CommonClaimQuery.AsTitleAndBulletPoints) -> Unit,
-                          private val navigateToEmergencyFragment: (CommonClaimQuery.AsEmergency) -> Unit
+                          private val navigateToEmergencyFragment: (CommonClaimQuery.CommonClaim) -> Unit
 ) : RecyclerView.Adapter<CommonClaimsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -31,16 +35,16 @@ class CommonClaimsAdapter(private val commonClaims: @NotNull MutableList<CommonC
         viewHolder.apply {
             val commonClaim = commonClaims[position]
 
-            when (val layout = commonClaim.layout()){
+            when (val layout = commonClaim.layout()) {
                 is CommonClaimQuery.AsTitleAndBulletPoints ->
                     view.setOnClickListener { navigateToCommonClaimFragment.invoke(layout) }
                 is CommonClaimQuery.AsEmergency ->
-                    view.setOnClickListener { navigateToEmergencyFragment.invoke(layout) }
+                    view.setOnClickListener { navigateToEmergencyFragment.invoke(commonClaim) }
                 else ->
                     view.setOnClickListener { Timber.i("Not a recognized view") }
             }
 
-            commonClaimIcon.setImageDrawable(commonClaimIcon.context.compatDrawable(R.drawable.icon_failure)) //todo
+            requestBuilder.load(Uri.parse(baseUrl + commonClaim.icon().svgUrl())).into(commonClaimIcon)
             commonClaimLabel.text = commonClaim.title()
         }
     }

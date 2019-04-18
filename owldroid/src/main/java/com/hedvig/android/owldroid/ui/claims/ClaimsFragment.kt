@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.graphics.Rect
+import android.graphics.drawable.PictureDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -14,22 +15,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimsAdapter
 import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.svg.GlideApp
+import com.hedvig.android.owldroid.util.svg.SvgSoftwareLayerSetter
+import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 class ClaimsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    @field:Named("BASE_URL")
+    lateinit var baseUrl: String
+    private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
 
     private lateinit var claimsViewModel: ClaimsViewModel
     private val baseMarginHalf: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
@@ -95,6 +106,8 @@ class ClaimsFragment : Fragment() {
         commonClaimsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         commonClaimsRecyclerView.adapter = CommonClaimsAdapter(
             commonClaims = commonClaimsData.commonClaims(),
+            baseUrl = baseUrl,
+            requestBuilder = requestBuilder,
             navigateToCommonClaimFragment = { titleAndBulletPoint ->
                 claimsViewModel.setCommonClaimByTitle(titleAndBulletPoint)
                 navController.navigate(R.id.action_claimsFragment_to_commonClaimsFragment)

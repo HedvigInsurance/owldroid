@@ -3,6 +3,8 @@ package com.hedvig.android.owldroid.ui.claims.commonclaim
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.graphics.drawable.PictureDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -24,11 +26,22 @@ import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_emergency.*
 import javax.inject.Inject
+import com.bumptech.glide.RequestBuilder
+import com.hedvig.android.owldroid.util.svg.GlideApp
+import com.hedvig.android.owldroid.util.svg.SvgSoftwareLayerSetter
+import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
+import javax.inject.Named
 
 class EmergencyFragment : Fragment() {
 
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    @field:Named("BASE_URL")
+    lateinit var baseUrl: String
+    private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
 
     private lateinit var claimsViewModel: ClaimsViewModel
 
@@ -58,16 +71,18 @@ class EmergencyFragment : Fragment() {
         })
     }
 
-    private fun bindData(data: CommonClaimQuery.AsEmergency) {
-        val backgroundColor = requireContext().compatColor(data.color().mapppedColor())
-        setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
-            navController.popBackStack()
+    private fun bindData(data: CommonClaimQuery.CommonClaim) {
+        (data.layout() as CommonClaimQuery.AsEmergency).let { layout ->
+            val backgroundColor = requireContext().compatColor(layout.color().mapppedColor())
+            setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
+                navController.popBackStack()
+            }
+            commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)
         }
 
         appBarLayout.setExpanded(false, false)
-        commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)
-        //todo change
-        commonClaimCellIcon.setImageDrawable(requireContext().compatDrawable(R.drawable.icon_charity))
+
+        requestBuilder.load(Uri.parse(baseUrl + data.icon().svgUrl())).into(commonClaimFirstMessageIcon)
         commonClaimFirstMessage.text = getString(R.string.CLAIMS_EMERGENCY_FIRST_MESSAGE)
         commonClaimCreateClaimButton.remove()
 
@@ -82,3 +97,5 @@ class EmergencyFragment : Fragment() {
         }
     }
 }
+
+
