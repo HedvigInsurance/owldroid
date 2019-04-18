@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
                 app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -75,9 +75,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin_half"
                 android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginTop="@dimen/material_card_elevation_margin_compensation"
                 app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -121,9 +122,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin_half"
                 android:layout_marginEnd="@dimen/base_margin"
+                android:layout_marginTop="@dimen/material_card_elevation_margin_compensation"
                 app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
