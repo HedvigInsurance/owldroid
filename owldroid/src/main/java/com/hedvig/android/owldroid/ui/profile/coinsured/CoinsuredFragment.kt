@@ -20,9 +20,9 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatFont
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.concat
-import com.hedvig.android.owldroid.util.extensions.remove
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_coinsured.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -54,7 +54,7 @@ class CoinsuredFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_COINSURED_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.profileNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
         }
 
         coinsuredSphere.drawable.compatSetTint(requireContext().compatColor(R.color.purple))

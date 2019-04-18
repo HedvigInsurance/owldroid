@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/base_margin_triple"
+        android:paddingBottom="@dimen/base_margin_triple"
+        android:paddingStart="@dimen/base_margin_double"
+        android:paddingEnd="@dimen/base_margin_double"
+        tools:layout_height="120dp">
+
+        <ImageView
+            android:id="@+id/catIcon"
+            android:contentDescription="@null"
+            android:layout_width="@dimen/peril_category_icon_size"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toTopOf="@id/perilsContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_family" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/base_margin_double"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/perilsContainer"
+            app:layout_constraintStart_toEndOf="@id/catIcon"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/categoryTitle"
+                style="@style/Body.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Jag och min familj" />
+
+            <TextView
+                android:id="@+id/categorySubtitle"
+                style="@style/Body.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="försäkras för" />
+        </LinearLayout>
+
+        <ImageView
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/perilsContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_expand" />
+
+        <FrameLayout
+            android:id="@+id/perilsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</merge>

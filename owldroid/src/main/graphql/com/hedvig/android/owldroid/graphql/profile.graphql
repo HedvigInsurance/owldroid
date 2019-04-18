@@ -1,33 +1,32 @@
 query Profile {
-    member {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-    }
-    insurance {
-        address
-        postalNumber
-        type
-        certificateUrl
-        monthlyCost
-        personsInHousehold
-        livingSpace
-    }
-    bankAccount {
-        bankName
-        descriptor
-    }
-    directDebitStatus
-    cashback {
-        name
-        imageUrl
-        paragraph
-    }
-    cashbackOptions {
-        id
-        name
-        paragraph
-    }
+  member {
+    id
+    firstName
+    lastName
+    email
+    phoneNumber
+  }
+  insurance {
+    address
+    postalNumber
+    type
+    certificateUrl
+    monthlyCost
+    personsInHousehold
+    livingSpace
+  }
+  bankAccount {
+    bankName
+    descriptor
+  }
+  cashback {
+    name
+    imageUrl
+    paragraph
+  }
+  cashbackOptions {
+    id
+    name
+    paragraph
+  }
 }

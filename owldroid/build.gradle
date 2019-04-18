@@ -12,7 +12,8 @@ apply plugin: 'com.apollographql.android'
 apollo {
     generateModelBuilder = true
     customTypeMapping = [
-            "URL": "java.lang.String"
+            "URL"      : "java.lang.String",
+            "LocalDate": "org.threeten.bp.LocalDate"
     ]
 }
 
@@ -97,20 +98,19 @@ dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3_version"
 
-    api 'com.squareup.picasso:picasso:2.71828'
-
     api 'com.google.android.exoplayer:exoplayer:2.7.3'
 
     implementation "com.airbnb.android:lottie:2.5.5"
 
     api "com.google.firebase:firebase-core:16.0.8"
     api "com.google.firebase:firebase-dynamic-links:16.1.8"
-    api "com.google.firebase:firebase-firestore:18.1.0"
-    api 'com.google.firebase:firebase-config:16.4.1'
+    api "com.google.firebase:firebase-firestore:18.2.0"
+    api 'com.google.firebase:firebase-config:16.5.0'
 
-    implementation "com.github.bumptech.glide:glide:4.8.0"
+    implementation "com.github.bumptech.glide:glide:4.9.0"
     api 'com.ice.restring:restring:1.0.0'
 
+    api 'com.jakewharton.threetenabp:threetenabp:1.2.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 }

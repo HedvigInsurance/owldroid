@@ -4,6 +4,7 @@ import android.content.Context
 import com.hedvig.android.owldroid.service.RemoteConfig
 import com.hedvig.android.owldroid.service.TextKeys
 import com.ice.restring.Restring
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -26,6 +27,7 @@ class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
 
         LeakCanary.install(this)
         Timber.plant(Timber.DebugTree())

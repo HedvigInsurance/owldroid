@@ -3,15 +3,13 @@ package com.hedvig.android.owldroid.ui.profile
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.constraint.ConstraintLayout
-import android.support.v4.content.ContextCompat
-import android.support.v7.content.res.AppCompatResources
 import android.util.AttributeSet
 import android.view.Gravity
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
-import com.hedvig.android.owldroid.util.extensions.remove
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.show
 import kotlinx.android.synthetic.main.profile_menu_row.view.*
 
 class ProfileMenuRow : ConstraintLayout {

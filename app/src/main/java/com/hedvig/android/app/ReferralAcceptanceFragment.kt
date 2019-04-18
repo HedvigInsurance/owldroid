@@ -13,8 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.hedvig.android.owldroid.graphql.MemberIdQuery
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
-import com.hedvig.android.owldroid.util.extensions.hide
-import com.hedvig.android.owldroid.util.extensions.show
+import com.hedvig.android.owldroid.util.extensions.view.hide
+import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
