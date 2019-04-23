@@ -47,4 +47,5 @@
 
     <dimen name="peril_category_icon_size">32dp</dimen>
     <dimen name="checkmark_size">16dp</dimen>
+    <dimen name="common_claims_card_elevation">8dp</dimen>
 </resources>
