@@ -44,4 +44,7 @@
     <dimen name="insurance_pending_countdown_text">40sp</dimen>
     <dimen name="claims_fragment_image_height">180dp</dimen>
     <dimen name="common_claim_icon_size">32dp</dimen>
+
+    <dimen name="peril_category_icon_size">32dp</dimen>
+    <dimen name="checkmark_size">16dp</dimen>
 </resources>

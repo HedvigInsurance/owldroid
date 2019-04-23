@@ -266,7 +266,9 @@ class DashboardFragment : Fragment() {
 
         content.totalCoverageFootnote.text = interpolateTextKey(
             resources.getString(R.string.DASHBOARD_INSURANCE_AMOUNT_FOOTNOTE),
-            "AMOUNT" to if (isStudentInsurance(insuranceType)) "200 000" else "1 000 000"
+            "AMOUNT" to
+                if (isStudentInsurance(insuranceType)) resources.getString(R.string.two_hundred_thousand)
+                else resources.getString(R.string.one_million)
         )
         if (isApartmentOwner(insuranceType)) {
             content.ownerFootnote.show()

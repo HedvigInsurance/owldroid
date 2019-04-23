@@ -98,16 +98,14 @@
                 tools:visibility="visible">
 
                 <TextView
+                    style="@style/Headline.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_book"
-                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE"
-                    android:textColor="@color/off_black_dark"
-                    android:textSize="14sp" />
+                    android:text="@string/DASHBOARD_INSURANCE_ACTIVE" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="@dimen/checkmark_size"
+                    android:layout_height="@dimen/checkmark_size"
                     android:layout_marginStart="@dimen/base_margin_half"
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_filled_checkmark" />
@@ -132,7 +130,6 @@
                     style="@style/Body.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/circular_book"
                     android:gravity="center"
                     android:text="@string/DASHBOARD_DIRECT_DEBIT_STATUS_PENDING_TITLE" />
 
