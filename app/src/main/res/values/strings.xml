@@ -7,4 +7,5 @@
     <string name="hint_edit_token">Enter your Hedvig Token here</string>
     <string name="button_save_inputs">Save inputs</string>
     <string name="open_referral_acceptance_page">Open referral acceptance page</string>
+    <string name="open_claims_screen">Open claims screen</string>
 </resources>

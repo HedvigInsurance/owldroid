@@ -2,6 +2,7 @@ package com.hedvig.android.owldroid.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.hedvig.android.owldroid.ui.claims.ClaimsViewModel
 import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
 import com.hedvig.android.owldroid.ui.dashboard.DashboardViewModel
 import com.hedvig.android.owldroid.ui.marketing.MarketingStoriesViewModel
@@ -24,6 +25,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     internal abstract fun profileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ClaimsViewModel::class)
+    internal abstract fun claimsViewModel(viewModel: ClaimsViewModel): ViewModel
 
     @Binds
     @IntoMap

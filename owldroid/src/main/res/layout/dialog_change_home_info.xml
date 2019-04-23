@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_TITLE"
-                android:theme="@style/DialogTitle" />
+                android:theme="@style/Headline.Small" />
 
             <TextView
                 android:id="@id/dialogParagraph"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/PROFILE_MY_HOME_CHANGE_DIALOG_DESCRIPTION"
-                android:theme="@style/DialogParagraph" />
+                android:theme="@style/Body.Small" />
 
         </LinearLayout>
 

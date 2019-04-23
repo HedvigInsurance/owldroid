@@ -8,6 +8,10 @@
     <dimen name="base_margin_triple">24dp</dimen>
     <dimen name="base_margin_quadruple">32dp</dimen>
 
+    <dimen name="material_card_elevation_margin_compensation">-16dp</dimen>
+
+    <dimen name="background_rounded_corners_radius">20dp</dimen>
+
     <dimen name="dashboard_icon">32dp</dimen>
 
     <dimen name="bottom_sheet_dialog_fragment_title_height">40dp</dimen>
@@ -23,6 +27,11 @@
     <dimen name="sphere_text_step_granularity">2sp</dimen>
     <dimen name="sphere_text_padding">4dp</dimen>
 
+    <dimen name="loading_spinner_width">24dp</dimen>
+    <dimen name="loading_spinner_height">24dp</dimen>
+    <dimen name="claim_bullet_point_row_icon">24dp</dimen>
+    <dimen name="common_claim_first_message_bottom_margin">60dp</dimen>
+
     <dimen name="dashboard_need_setup_container_height">120dp</dimen>
     <dimen name="dashboard_need_set_up_background_radius">5dp</dimen>
     <dimen name="peril_icon">40dp</dimen>
@@ -33,6 +42,10 @@
     <dimen name="insurance_pending_loading_animation_height">40dp</dimen>
     <dimen name="insurance_pending_loading_animation_width">189dp</dimen>
     <dimen name="insurance_pending_countdown_text">40sp</dimen>
+    <dimen name="claims_fragment_image_height">180dp</dimen>
+    <dimen name="common_claim_icon_size">32dp</dimen>
+
     <dimen name="peril_category_icon_size">32dp</dimen>
     <dimen name="checkmark_size">16dp</dimen>
+    <dimen name="common_claims_card_elevation">8dp</dimen>
 </resources>
