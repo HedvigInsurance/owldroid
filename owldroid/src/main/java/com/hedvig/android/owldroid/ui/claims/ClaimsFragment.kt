@@ -44,7 +44,7 @@ class ClaimsFragment : Fragment() {
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
 
     private lateinit var claimsViewModel: ClaimsViewModel
-    private val baseMarginHalf: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
+    private val baseMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin) }
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.loggedInNavigationHost)
@@ -87,10 +87,10 @@ class ClaimsFragment : Fragment() {
                 val position = parent.getChildAdapterPosition(view)
                 val column = position % 2
 
-                outRect.left = column * baseMarginHalf / 2
-                outRect.right = baseMarginHalf - (column + 1) * baseMarginHalf / 2
+                outRect.left = column * baseMargin / 2
+                outRect.right = baseMargin - (column + 1) * baseMargin / 2
                 if (position >= 2) {
-                    outRect.top = baseMarginHalf
+                    outRect.top = baseMargin
                 }
             }
         })
