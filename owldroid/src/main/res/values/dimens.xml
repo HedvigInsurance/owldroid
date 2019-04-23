@@ -48,4 +48,8 @@
     <dimen name="hedvig_card_view_inset_horizontal">16dp</dimen>
     <dimen name="hedvig_card_view_inset_top">16dp</dimen>
     <dimen name="hedvig_card_view_inset_bottom">12dp</dimen>
+
+    <dimen name="peril_category_icon_size">32dp</dimen>
+    <dimen name="checkmark_size">16dp</dimen>
+    <dimen name="common_claims_card_elevation">8dp</dimen>
 </resources>
