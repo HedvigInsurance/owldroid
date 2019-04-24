@@ -102,6 +102,7 @@ dependencies {
     api "com.google.firebase:firebase-dynamic-links:16.1.8"
     api "com.google.firebase:firebase-firestore:18.2.0"
     api 'com.google.firebase:firebase-config:16.5.0'
+    api "com.google.firebase:firebase-messaging:17.5.0"
 
     implementation "com.github.bumptech.glide:glide:4.9.0"
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
