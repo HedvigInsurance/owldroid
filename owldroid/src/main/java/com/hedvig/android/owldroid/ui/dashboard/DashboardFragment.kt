@@ -37,6 +37,7 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dashboard_footnotes.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -68,7 +69,7 @@ class DashboardFragment : Fragment() {
     private val compositeDisposable = CompositeDisposable()
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
+        requireActivity().findNavController(R.id.rootNavigationHost)
     }
 
     override fun onAttach(context: Context?) {
@@ -377,7 +378,7 @@ class DashboardFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
                 { setActivationFigures(startDate) }, { Timber.e(it) }
             )
-        compositeDisposable.add(disposable)
+        compositeDisposable += disposable
         setActivationFiguresInterval = disposable
     }
 }
