@@ -8,8 +8,6 @@
     <dimen name="base_margin_triple">24dp</dimen>
     <dimen name="base_margin_quadruple">32dp</dimen>
 
-    <dimen name="material_card_elevation_margin_compensation">-16dp</dimen>
-
     <dimen name="background_rounded_corners_radius">20dp</dimen>
 
     <dimen name="dashboard_icon">32dp</dimen>
@@ -44,6 +42,12 @@
     <dimen name="insurance_pending_countdown_text">40sp</dimen>
     <dimen name="claims_fragment_image_height">180dp</dimen>
     <dimen name="common_claim_icon_size">32dp</dimen>
+
+    <dimen name="hedvig_card_view_radius">8dp</dimen>
+    <dimen name="hedvig_card_view_elevation">10dp</dimen>
+    <dimen name="hedvig_card_view_inset_horizontal">16dp</dimen>
+    <dimen name="hedvig_card_view_inset_top">16dp</dimen>
+    <dimen name="hedvig_card_view_inset_bottom">12dp</dimen>
 
     <dimen name="peril_category_icon_size">32dp</dimen>
     <dimen name="checkmark_size">16dp</dimen>
