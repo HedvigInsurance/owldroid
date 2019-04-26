@@ -21,7 +21,7 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimsAdapter
 import com.hedvig.android.owldroid.ui.claims.pledge.HonestyPledgeBottomSheet
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
@@ -47,7 +47,7 @@ class ClaimsFragment : Fragment() {
     private val baseMarginHalf: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
+        requireActivity().findNavController(R.id.rootNavigationHost)
     }
 
     override fun onAttach(context: Context?) {
@@ -113,11 +113,11 @@ class ClaimsFragment : Fragment() {
             requestBuilder = requestBuilder,
             navigateToCommonClaimFragment = { commonClaim ->
                 claimsViewModel.setSelectedSubViewData(commonClaim)
-                navController.navigate(R.id.action_claimsFragment_to_commonClaimsFragment)
+                navController.navigate(R.id.action_loggedInFragment_to_commonClaimsFragment)
             },
             navigateToEmergencyFragment = { commonClaim ->
                 claimsViewModel.setSelectedSubViewData(commonClaim)
-                navController.navigate(R.id.action_claimsFragment_to_emergencyFragment)
+                navController.navigate(R.id.action_loggedInFragment_to_emergencyFragment)
             }
         )
     }

@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
     private var navigationAnalytics: NavigationAnalytics? = null
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
+        requireActivity().findNavController(R.id.rootNavigationHost)
     }
 
     override fun onAttach(context: Context?) {
@@ -103,7 +103,7 @@ class ProfileFragment : Fragment() {
                     "INCENTIVE" to "${rcd.referralsIncentiveAmount}"
                 )
                 profileReferralRow.setOnClickListener {
-                    navController.navigate(R.id.action_profileFragment_to_referralFragment)
+                    navController.navigate(R.id.action_loggedInFragment_to_referralFragment)
                 }
                 profileReferralRow.show()
             }
@@ -126,10 +126,10 @@ class ProfileFragment : Fragment() {
             }
 
             feedbackRow.setOnClickListener {
-                navController.navigate(R.id.action_profileFragment_to_feedbackFragment)
+                navController.navigate(R.id.action_loggedInFragment_to_feedbackFragment)
             }
             aboutAppRow.setOnClickListener {
-                navController.navigate(R.id.action_profileFragment_to_aboutAppFragment)
+                navController.navigate(R.id.action_loggedInFragment_to_aboutAppFragment)
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
@@ -146,14 +146,14 @@ class ProfileFragment : Fragment() {
         val lastName = profileData.member().lastName() ?: ""
         myInfoRow.description = "$firstName $lastName"
         myInfoRow.setOnClickListener {
-            navController.navigate(R.id.action_profileFragment_to_myInfoFragment)
+            navController.navigate(R.id.action_loggedInFragment_to_myInfoFragment)
         }
     }
 
     private fun setupMyHomeRow(profileData: ProfileQuery.Data) {
         myHomeRow.description = profileData.insurance().address()
         myHomeRow.setOnClickListener {
-            navController.navigate(R.id.action_profileFragment_to_myHomeFragment)
+            navController.navigate(R.id.action_loggedInFragment_to_myHomeFragment)
         }
     }
 
@@ -164,14 +164,14 @@ class ProfileFragment : Fragment() {
             "NUMBER" to "$personsInHousehold"
         )
         coinsuredRow.setOnClickListener {
-            navController.navigate(R.id.action_profileFragment_to_coinsuredFragment)
+            navController.navigate(R.id.action_loggedInFragment_to_coinsuredFragment)
         }
     }
 
     private fun setupCharity(profileData: ProfileQuery.Data) {
         charityRow.description = profileData.cashback()?.name()
         charityRow.setOnClickListener {
-            navController.navigate(R.id.action_profileFragment_to_charityFragment)
+            navController.navigate(R.id.action_loggedInFragment_to_charityFragment)
         }
     }
 
@@ -181,7 +181,7 @@ class ProfileFragment : Fragment() {
             "COST" to profileData.insurance().monthlyCost()?.toString()
         )
         paymentRow.setOnClickListener {
-            navController.navigate(R.id.action_profileFragment_to_paymentFragment)
+            navController.navigate(R.id.action_loggedInFragment_to_paymentFragment)
         }
     }
 

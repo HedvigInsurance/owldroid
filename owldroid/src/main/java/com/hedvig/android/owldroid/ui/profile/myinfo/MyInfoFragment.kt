@@ -63,7 +63,7 @@ class MyInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_MY_INFO_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
         }
 
         sphere.drawable.compatSetTint(requireContext().compatColor(R.color.dark_purple))

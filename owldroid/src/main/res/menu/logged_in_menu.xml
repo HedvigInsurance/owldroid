@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/dashboard_navigation"
+        android:id="@+id/dashboard"
         android:icon="@drawable/ic_home"
-        android:title="Min försäkring" />
+        android:title="Min försäkring"/>
 
     <item
-        android:id="@+id/claims_navigation"
+        android:id="@+id/claims"
         android:icon="@drawable/ic_claims"
-        android:title="Skador" />
+        android:title="Skador"/>
 
     <item
-        android:id="@+id/profile_navigation"
+        android:id="@+id/profile"
         android:icon="@drawable/ic_family"
-        android:title="Profil" />
+        android:title="Profil"/>
 </menu>

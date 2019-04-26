@@ -42,7 +42,7 @@ class PaymentFragment : Fragment() {
     private lateinit var directDebitViewModel: DirectDebitViewModel
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
+        requireActivity().findNavController(R.id.rootNavigationHost)
     }
 
     override fun onAttach(context: Context?) {
