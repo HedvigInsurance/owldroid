@@ -73,5 +73,6 @@ fun HedvigColor.mapppedColor(): Int = when (this) {
     HedvigColor.TURQUOISE -> R.color.green
     HedvigColor.PINK -> R.color.pink
     HedvigColor.BLACKPURPLE -> R.color.off_black_dark
+    HedvigColor.YELLOW -> R.color.yellow
     HedvigColor.`$UNKNOWN` -> R.color.purple
 }
