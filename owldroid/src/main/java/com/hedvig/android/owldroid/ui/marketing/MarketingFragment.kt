@@ -312,6 +312,7 @@ class MarketingFragment : Fragment() {
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "login")
+            args.putBoolean("show_restart", true)
             navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
 
@@ -321,6 +322,7 @@ class MarketingFragment : Fragment() {
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "onboarding")
+            args.putBoolean("show_restart", true)
             navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
     }
