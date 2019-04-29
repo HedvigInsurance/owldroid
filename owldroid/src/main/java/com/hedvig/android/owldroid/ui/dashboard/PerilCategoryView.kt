@@ -3,22 +3,20 @@ package com.hedvig.android.owldroid.ui.dashboard
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.support.annotation.DrawableRes
-import android.support.design.card.MaterialCardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
+import com.hedvig.android.owldroid.ui.common.HedvigCardView
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
 import com.hedvig.android.owldroid.util.extensions.view.animateExpand
-import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.peril_category_view.view.*
 
-class PerilCategoryView : MaterialCardView {
+class PerilCategoryView : HedvigCardView {
     private var attributeSet: AttributeSet? = null
     private var defStyle: Int = 0
 
@@ -114,12 +112,6 @@ class PerilCategoryView : MaterialCardView {
     private var toggled: Boolean = false
 
     private fun setupAttributes() {
-        resources.getDimension(R.dimen.base_margin).let { bm ->
-            radius = bm
-            whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
-                elevation = bm
-            }
-        }
         resources.getDimensionPixelSize(R.dimen.base_margin).let { setPadding(it, it, it, it) }
         clipToPadding = true
 
