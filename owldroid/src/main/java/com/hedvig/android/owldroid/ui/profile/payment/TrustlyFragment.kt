@@ -132,9 +132,6 @@ class TrustlyFragment : Fragment() {
         resultClose.setOnClickListener {
             profileViewModel.refreshBankAccountInfo()
             directDebitViewModel.refreshDirectDebitStatus()
-            localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
-                putExtra("action", "clearDirectDebitStatus")
-            })
             goBack()
         }
         resultScreen.show()

@@ -2,10 +2,8 @@ package com.hedvig.android.owldroid.ui.profile
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,28 +16,29 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
-import com.hedvig.android.owldroid.util.NavigationAnalytics
 import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
+import com.hedvig.android.owldroid.util.extensions.setIsLoggedIn
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
+import com.hedvig.android.owldroid.util.extensions.triggerRestartCurrentActivity
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
-import com.hedvig.android.owldroid.util.newBroadcastReceiver
+import com.hedvig.android.owldroid.util.react.AsyncStorageNativeReader
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
+
+    @Inject
+    lateinit var asyncStorageNativeReader: AsyncStorageNativeReader
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var directDebitViewModel: DirectDebitViewModel
-
-    private var broadcastReceiver: BroadcastReceiver? = null
-
-    private var navigationAnalytics: NavigationAnalytics? = null
 
     private val navController: NavController by lazy {
         requireActivity().findNavController(R.id.rootNavigationHost)
@@ -66,29 +65,10 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
-            ?: setupNavigationAnalyticsListener()
-
         setupLargeTitle(R.string.PROFILE_TITLE, R.font.circular_bold)
 
         populateData()
         loadReferralFeature()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        navigationAnalytics?.let { navController.removeOnDestinationChangedListener(it) }
-        broadcastReceiver?.let { localBroadcastManager.unregisterReceiver(it) }
-    }
-
-    private fun setupNavigationAnalyticsListener() {
-        broadcastReceiver = newBroadcastReceiver { _, _ ->
-            if (navigationAnalytics == null) {
-                navigationAnalytics = NavigationAnalytics(requireActivity())
-            }
-
-            navigationAnalytics?.let { navController.addOnDestinationChangedListener(it) }
-        }.also { localBroadcastManager.registerReceiver(it, IntentFilter(PROFILE_SCREEN_DID_APPEAR)) }
     }
 
     private fun loadReferralFeature() {
@@ -133,9 +113,12 @@ class ProfileFragment : Fragment() {
             }
             logout.setOnClickListener {
                 profileViewModel.logout {
+                    requireContext().applicationContext.setIsLoggedIn(false)
                     localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
                         putExtra("action", "logout")
                     })
+                    asyncStorageNativeReader.deleteKey("@hedvig:token")
+                    requireActivity().triggerRestartCurrentActivity()
                 }
             }
         })
@@ -197,6 +180,5 @@ class ProfileFragment : Fragment() {
 
     companion object {
         const val PROFILE_NAVIGATION_BROADCAST = "profileNavigation"
-        const val PROFILE_SCREEN_DID_APPEAR = "profileScreenDidAppear"
     }
 }
