@@ -99,7 +99,7 @@ class ClaimsFragment : Fragment() {
     private fun setupButtons() {
         commonClaimCreateClaimButton.setOnClickListener {
             HonestyPledgeBottomSheet
-                .newInstance("main_screen")
+                .newInstance("main_screen", R.id.action_loggedInFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")
         }
     }

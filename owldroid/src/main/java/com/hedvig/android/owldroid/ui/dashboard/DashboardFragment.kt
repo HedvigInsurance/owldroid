@@ -148,7 +148,7 @@ class DashboardFragment : Fragment() {
         actionContainer.isNestedScrollingEnabled = false
         actionContainer.layoutManager =
             LinearLayoutManager(requireContext()).also { it.orientation = LinearLayoutManager.HORIZONTAL }
-        actionContainer.adapter = ActionAdapter(actions, requireContext(), requireActivity())
+        actionContainer.adapter = ActionAdapter(actions, requireContext(), requireActivity(), dashboardViewModel)
         actionContainer.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 outRect.apply {

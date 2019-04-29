@@ -3,6 +3,7 @@ package com.hedvig.android.owldroid.ui.profile
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
+import com.hedvig.android.owldroid.data.chat.ChatRepository
 import com.hedvig.android.owldroid.data.profile.ProfileRepository
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.service.Referrals
@@ -13,6 +14,7 @@ import com.hedvig.android.owldroid.util.Optional
 import com.hedvig.android.owldroid.util.extensions.default
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.zipWith
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val referrals: Referrals,
-    private val remoteConfig: RemoteConfig
+    private val remoteConfig: RemoteConfig,
+    private val chatRepository: ChatRepository
 ) :
     ViewModel() {
     val data: MutableLiveData<ProfileQuery.Data> = MutableLiveData()
@@ -37,27 +40,23 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun loadRemoteConfig() {
-        disposables.add(
-            remoteConfig
-                .fetch()
-                .subscribe(
-                    { remoteConfigData.postValue(it) },
-                    { error ->
-                        Timber.e(error, "Failed to fetch RemoteConfig data")
-                    })
-        )
+        disposables += remoteConfig
+            .fetch()
+            .subscribe(
+                { remoteConfigData.postValue(it) },
+                { error ->
+                    Timber.e(error, "Failed to fetch RemoteConfig data")
+                })
     }
 
     fun startTrustlySession() {
-        disposables.add(
-            profileRepository
-                .startTrustlySession()
-                .subscribe({ url ->
-                    trustlyUrl.postValue(url.startDirectDebitRegistration())
-                }, { error ->
-                    Timber.e(error)
-                })
-        )
+        disposables += profileRepository
+            .startTrustlySession()
+            .subscribe({ url ->
+                trustlyUrl.postValue(url.startDirectDebitRegistration())
+            }, { error ->
+                Timber.e(error)
+            })
     }
 
     override fun onCleared() {
@@ -81,27 +80,23 @@ class ProfileViewModel @Inject constructor(
                 .map { Optional.Some(it.data()?.updatePhoneNumber()?.phoneNumber()) }
         } else Observable.just(Optional.None)
 
-        disposables.add(
-            emailObservable
-                .zipWith(phoneNumberObservable) { t1, t2 -> Pair(t1, t2) }
-                .subscribe({ (email, phoneNumber) ->
-                    profileRepository.writeEmailAndPhoneNumberInCache(email.getOrNull(), phoneNumber.getOrNull())
-                    dirty.postValue(false)
-                }, { error ->
-                    Timber.e(error, "Failed to update email and/or phone number")
-                })
-        )
+        disposables += emailObservable
+            .zipWith(phoneNumberObservable) { t1, t2 -> Pair(t1, t2) }
+            .subscribe({ (email, phoneNumber) ->
+                profileRepository.writeEmailAndPhoneNumberInCache(email.getOrNull(), phoneNumber.getOrNull())
+                dirty.postValue(false)
+            }, { error ->
+                Timber.e(error, "Failed to update email and/or phone number")
+            })
     }
 
     private fun loadProfile() {
-        disposables.add(
-            profileRepository.fetchProfile()
-                .subscribe({ response ->
-                    data.postValue(response)
-                }, { error ->
-                    Timber.e(error, "Failed to load profile data")
-                })
-        )
+        disposables += profileRepository.fetchProfile()
+            .subscribe({ response ->
+                data.postValue(response)
+            }, { error ->
+                Timber.e(error, "Failed to load profile data")
+            })
     }
 
     fun emailChanged(newEmail: String) {
@@ -119,55 +114,53 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun selectCashback(id: String) {
-        disposables.add(
-            profileRepository.selectCashback(id)
-                .subscribe({ response ->
-                    response.data()?.selectCashbackOption()?.let { cashback ->
-                        profileRepository.writeCashbackToCache(cashback)
-                    }
-                }, { error ->
-                    Timber.e(error, "Failed to select cashback")
-                })
-        )
+        disposables += profileRepository.selectCashback(id)
+            .subscribe({ response ->
+                response.data()?.selectCashbackOption()?.let { cashback ->
+                    profileRepository.writeCashbackToCache(cashback)
+                }
+            }, { error ->
+                Timber.e(error, "Failed to select cashback")
+            })
     }
 
     fun refreshBankAccountInfo() {
-        disposables.add(
-            profileRepository.refreshBankAccountInfo()
-                .subscribe({ response ->
-                    response.data()?.let { data ->
-                        data.bankAccount()?.let { bankAccount ->
-                            profileRepository.writeBankAccountInfoToCache(bankAccount)
-                        } ?: Timber.e("Failed to refresh bank account info")
+        disposables += profileRepository.refreshBankAccountInfo()
+            .subscribe({ response ->
+                response.data()?.let { data ->
+                    data.bankAccount()?.let { bankAccount ->
+                        profileRepository.writeBankAccountInfoToCache(bankAccount)
                     } ?: Timber.e("Failed to refresh bank account info")
-                }, { error ->
-                    Timber.e(error, "Failed to refresh bank account info")
-                })
-        )
+                } ?: Timber.e("Failed to refresh bank account info")
+            }, { error ->
+                Timber.e(error, "Failed to refresh bank account info")
+            })
     }
 
     fun generateReferralLink(memberId: String) {
         remoteConfigData.value?.let { data ->
-            disposables.add(
-                referrals.generateFirebaseLink(memberId, data)
-                    .subscribe({ uri ->
-                        firebaseLink.postValue(uri)
-                    }, { error ->
-                        Timber.e(error)
-                    })
-            )
+            disposables += referrals.generateFirebaseLink(memberId, data)
+                .subscribe({ uri ->
+                    firebaseLink.postValue(uri)
+                }, { error ->
+                    Timber.e(error)
+                })
         }
     }
 
     fun logout(callback: () -> Unit) {
-        disposables.add(
-            profileRepository
-                .logout()
-                .subscribe({
-                    callback()
-                }, { error ->
-                    Timber.e(error, "Failed to log out")
-                })
-        )
+        disposables += profileRepository
+            .logout()
+            .subscribe({
+                callback()
+            }, { error ->
+                Timber.e(error, "Failed to log out")
+            })
+    }
+
+    fun triggerFreeTextChat(done: () -> Unit) {
+        disposables += chatRepository
+            .triggerFreeTextChat()
+            .subscribe({ done() }, { Timber.e(it) })
     }
 }

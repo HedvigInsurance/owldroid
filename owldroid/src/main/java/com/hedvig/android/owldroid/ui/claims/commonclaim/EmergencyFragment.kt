@@ -33,13 +33,17 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         commonClaimCreateClaimButton.remove()
 
         firstEmergencyButton.setOnClickListener {
-            navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
+            claimsViewModel.triggerClaimsChat {
+                navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
+            }
         }
         secondEmergencyButton.setOnClickListener {
             makeACall(GLOBAL_ASSISTANCE_URI)
         }
         thirdEmergencyButton.setOnClickListener {
-            navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
+            claimsViewModel.triggerFreeTextChat {
+                navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
+            }
         }
     }
 

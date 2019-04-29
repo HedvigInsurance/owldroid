@@ -34,15 +34,11 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
         commonClaimCreateClaimButton.text = layout.buttonTitle()
         commonClaimCreateClaimButton.setOnClickListener {
             HonestyPledgeBottomSheet
-                .newInstance(data.title())
+                .newInstance(data.title(), R.id.action_claimsCommonClaimFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")
         }
 
         bulletPointsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         bulletPointsRecyclerView.adapter = BulletPointsAdapter(layout.bulletPoints(), baseUrl, requestBuilder)
-
-        commonClaimCreateClaimButton.setOnClickListener {
-            navController.navigate(R.id.action_claimsCommonClaimFragment_to_chatFragment)
-        }
     }
 }
