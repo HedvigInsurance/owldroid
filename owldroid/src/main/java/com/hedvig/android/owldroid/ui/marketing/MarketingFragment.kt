@@ -28,12 +28,14 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
 import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
+import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import javax.inject.Inject
 import com.hedvig.app.common.R as CommonR
@@ -306,21 +308,23 @@ class MarketingFragment : Fragment() {
         login.show()
         getHedvig.show()
 
-        login.setOnClickListener { view ->
+        login.setOnClickListener {
             trackClickLogin()
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            login.performOnTapHapticFeedback()
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "login")
+            args.putBoolean("show_restart", true)
             navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
 
-        getHedvig.setOnClickListener { view ->
+        getHedvig.setOnClickListener {
             trackClickGetHedvig()
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            getHedvig.performOnTapHapticFeedback()
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "onboarding")
+            args.putBoolean("show_restart", true)
             navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
     }

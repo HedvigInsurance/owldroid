@@ -28,6 +28,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -177,12 +178,12 @@ class StoryFragment : Fragment() {
             if (x > oneFourth) {
                 if (marketingStoriesViewModel.nextScreen()) {
                     trackClickNextScreen()
-                    view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                    view.performOnTapHapticFeedback()
                 }
             } else {
                 if (marketingStoriesViewModel.previousScreen()) {
                     trackClickPreviousScreen()
-                    view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                    view.performOnTapHapticFeedback()
                 }
             }
             true

@@ -1,6 +1,7 @@
 package com.hedvig.android.owldroid.util.extensions.view
 
 import android.graphics.Rect
+import android.view.HapticFeedbackConstants
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewTreeObserver
@@ -50,4 +51,6 @@ inline fun View.doOnLayout(crossinline action: () -> Unit) =
             action()
         }
     })
+
+fun View.performOnTapHapticFeedback() = performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
 
