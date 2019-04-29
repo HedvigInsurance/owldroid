@@ -12,14 +12,13 @@ import javax.inject.Inject
 class DirectDebitRepository @Inject constructor(private val apolloClient: ApolloClient) {
     private lateinit var directDebitQuery: DirectDebitQuery
 
-    fun fetchDirectDebit(): Observable<DirectDebitQuery.Data?> {
+    fun fetchDirectDebit(): Observable<Response<DirectDebitQuery.Data>> {
         directDebitQuery = DirectDebitQuery
             .builder()
             .build()
 
         return Rx2Apollo
             .from(apolloClient.query(directDebitQuery).watcher())
-            .map { it.data() }
     }
 
     fun refreshDirectdebitStatus(): Observable<Response<DirectDebitQuery.Data>> {

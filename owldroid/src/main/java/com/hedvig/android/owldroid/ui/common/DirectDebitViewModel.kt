@@ -22,7 +22,7 @@ class DirectDebitViewModel @Inject constructor(
     private fun fetchDirectDebit() {
         val disposable = directDebitRepository.fetchDirectDebit()
             .subscribe({ response ->
-                data.postValue(response)
+                data.postValue(response.data())
             }, { error ->
                 Timber.e(error, "Failed to load direct debit data")
             })

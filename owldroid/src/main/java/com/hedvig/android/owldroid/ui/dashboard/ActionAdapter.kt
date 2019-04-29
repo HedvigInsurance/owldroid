@@ -1,5 +1,6 @@
 package com.hedvig.android.owldroid.ui.dashboard
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
@@ -8,14 +9,19 @@ import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.DashboardQuery
 import kotlinx.android.synthetic.main.dashboard_action.view.*
 
 class ActionAdapter(
     val items: List<DashboardQuery.ChatAction>,
-    val context: Context
+    val context: Context,
+    val activity: Activity
 ) : RecyclerView.Adapter<ActionAdapter.ActionViewHolder>() {
+
+    val navController by lazy { activity.findNavController(R.id.rootNavigationHost) }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ActionViewHolder(
             LayoutInflater
@@ -29,12 +35,15 @@ class ActionAdapter(
         holder.button.text = items[position].text()
         holder.button.setOnClickListener {
             holder.button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-            LocalBroadcastManager
-                .getInstance(context)
-                .sendBroadcast(Intent(DASHBOARD_NAVIGATION).also { intent ->
-                    intent.putExtra(ACTION, OPEN_CHAT)
-                    intent.putExtra(CHAT_ACTION_URL, items[position].triggerUrl())
-                })
+
+            navController.navigate(R.id.action_loggedInFragment_to_chatFragment)
+
+            // LocalBroadcastManager
+            //     .getInstance(context)
+            //     .sendBroadcast(Intent(DASHBOARD_NAVIGATION).also { intent ->
+            //         intent.putExtra(ACTION, OPEN_CHAT)
+            //         intent.putExtra(CHAT_ACTION_URL, items[position].triggerUrl())
+            //     })
         }
     }
 
