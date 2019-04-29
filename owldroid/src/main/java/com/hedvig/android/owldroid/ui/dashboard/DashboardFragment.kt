@@ -26,6 +26,7 @@ import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
 import com.hedvig.android.owldroid.util.extensions.view.animateExpand
+import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
@@ -227,7 +228,7 @@ class DashboardFragment : Fragment() {
         perilView.perilName = peril.title()
         peril.id()?.let { perilView.perilIconId = it }
         perilView.setOnClickListener {
-            perilView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            perilView.performOnTapHapticFeedback()
             val subjectName = subject.title()
             val id = peril.id()
             val title = peril.title()

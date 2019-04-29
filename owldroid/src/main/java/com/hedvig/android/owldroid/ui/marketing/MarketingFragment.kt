@@ -28,6 +28,7 @@ import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
 import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
+import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.percentageFade
@@ -307,9 +308,9 @@ class MarketingFragment : Fragment() {
         login.show()
         getHedvig.show()
 
-        login.setOnClickListener { view ->
+        login.setOnClickListener {
             trackClickLogin()
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            login.performOnTapHapticFeedback()
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "login")
@@ -317,9 +318,9 @@ class MarketingFragment : Fragment() {
             navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
 
-        getHedvig.setOnClickListener { view ->
+        getHedvig.setOnClickListener {
             trackClickGetHedvig()
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            getHedvig.performOnTapHapticFeedback()
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "onboarding")

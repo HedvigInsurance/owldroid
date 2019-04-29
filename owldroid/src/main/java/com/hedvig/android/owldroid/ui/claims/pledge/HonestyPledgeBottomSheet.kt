@@ -11,6 +11,7 @@ import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.ui.claims.ClaimsViewModel
 import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
+import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.bottom_sheet_honesty_pledge.*
 import javax.inject.Inject
@@ -42,7 +43,8 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_honesty_pledge, null)
         dialog.setContentView(view)
 
-        dialog.bottomSheetHonestyPledgeButton.setOnClickListener {
+        dialog.bottomSheetHonestyPledgeButton.setOnClickListener { button ->
+            button.performOnTapHapticFeedback()
             claimsViewModel.triggerClaimsChat {
                 dismiss()
                 arguments?.getInt(ARGS_NAVIGATION_ACTION)?.let { navController.navigate(it) }
