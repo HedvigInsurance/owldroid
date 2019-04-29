@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
 import android.view.View
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
@@ -35,9 +34,7 @@ abstract class BaseCommonClaimFragment : Fragment() {
 
     lateinit var claimsViewModel: ClaimsViewModel
 
-    val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.rootNavigationHost)
-    }
+    val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

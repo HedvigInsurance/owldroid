@@ -40,5 +40,9 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
 
         bulletPointsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         bulletPointsRecyclerView.adapter = BulletPointsAdapter(layout.bulletPoints(), baseUrl, requestBuilder)
+
+        commonClaimCreateClaimButton.setOnClickListener {
+            navController.navigate(R.id.action_claimsCommonClaimFragment_to_chatFragment)
+        }
     }
 }

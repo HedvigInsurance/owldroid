@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
-import com.hedvig.android.owldroid.util.extensions.*
+import com.hedvig.android.owldroid.util.extensions.compatColor
+import com.hedvig.android.owldroid.util.extensions.makeACall
+import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.mapppedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
@@ -31,13 +33,13 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         commonClaimCreateClaimButton.remove()
 
         firstEmergencyButton.setOnClickListener {
-            // todo: Hedvig call me
+            navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
         }
         secondEmergencyButton.setOnClickListener {
             makeACall(GLOBAL_ASSISTANCE_URI)
         }
         thirdEmergencyButton.setOnClickListener {
-            // todo: Write to hedvig
+            navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
         }
     }
 

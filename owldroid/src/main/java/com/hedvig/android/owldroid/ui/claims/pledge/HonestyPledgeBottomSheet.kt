@@ -3,12 +3,14 @@ package com.hedvig.android.owldroid.ui.claims.pledge
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.Toast
+import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_honesty_pledge.*
 
-class HonestyPledgeBottomSheet: RoundedBottomSheetDialogFragment() {
+class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
+
+    val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
 
     override fun getTheme() = R.style.NoTitleBottomSheetDialogTheme
 
@@ -17,7 +19,8 @@ class HonestyPledgeBottomSheet: RoundedBottomSheetDialogFragment() {
         dialog.setContentView(view)
 
         dialog.bottomSheetHonestyPledgeButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Navigate to chat with the key '${arguments?.getString(ARGS_CLAIM_KEY)}'!", Toast.LENGTH_LONG).show()
+            dismiss()
+            navController.navigate(R.id.action_loggedInFragment_to_chatFragment)
         }
     }
 
