@@ -34,6 +34,7 @@ import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import javax.inject.Inject
 import com.hedvig.app.common.R as CommonR
