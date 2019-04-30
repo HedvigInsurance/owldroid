@@ -4,7 +4,7 @@ import android.content.Context
 import timber.log.Timber
 import javax.inject.Inject
 
-class SharedPreferencesAsyncStorageNativeReader @Inject constructor(val context: Context) : AsyncStorageNativeReader {
+class SharedPreferencesAsyncStorageNative @Inject constructor(val context: Context) : AsyncStorageNative {
 
     override fun getKey(key: String): String {
         val sharedPreferences = context.getSharedPreferences("debug", Context.MODE_PRIVATE)

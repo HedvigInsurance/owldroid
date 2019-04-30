@@ -8,7 +8,7 @@ import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCache
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.hedvig.android.owldroid.type.CustomType
 import com.hedvig.android.owldroid.util.apollo.PromiscuousLocalDateAdapter
-import com.hedvig.android.owldroid.util.react.AsyncStorageNativeReader
+import com.hedvig.android.owldroid.util.react.AsyncStorageNative
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -21,7 +21,7 @@ class OwldroidModule {
     @Provides
     @Singleton
     fun okHttpClient(
-        asyncStorageNativeReader: AsyncStorageNativeReader,
+        asyncStorageNative: AsyncStorageNative,
         httpLoggingInterceptor: HttpLoggingInterceptor?
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
@@ -31,7 +31,7 @@ class OwldroidModule {
                     .newBuilder()
                     .method(original.method(), original.body())
                 try {
-                    asyncStorageNativeReader.getKey("@hedvig:token")
+                    asyncStorageNative.getKey("@hedvig:token")
                 } catch (exception: Exception) {
                     null
                 }?.let { token ->

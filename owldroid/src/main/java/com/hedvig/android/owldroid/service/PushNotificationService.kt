@@ -12,7 +12,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.RegisterPushTokenMutation
-import com.hedvig.android.owldroid.util.react.AsyncStorageNativeReader
+import com.hedvig.android.owldroid.util.react.AsyncStorageNative
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.AndroidInjection
 import timber.log.Timber
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class PushNotificationService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var asyncStorageNativeReader: AsyncStorageNativeReader
+    lateinit var asyncStorageNative: AsyncStorageNative
 
     @Inject
     lateinit var apolloClient: ApolloClient
@@ -70,7 +70,7 @@ class PushNotificationService : FirebaseMessagingService() {
 
     private fun registerPushToken(token: String) {
         val hedvigToken = try {
-            asyncStorageNativeReader.getKey("@hedvig:token")
+            asyncStorageNative.getKey("@hedvig:token")
         } catch (exception: Exception) {
             null
         }

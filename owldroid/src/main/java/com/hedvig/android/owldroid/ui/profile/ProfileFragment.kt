@@ -23,7 +23,7 @@ import com.hedvig.android.owldroid.util.extensions.triggerRestartCurrentActivity
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
-import com.hedvig.android.owldroid.util.react.AsyncStorageNativeReader
+import com.hedvig.android.owldroid.util.react.AsyncStorageNative
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class ProfileFragment : Fragment() {
 
     @Inject
-    lateinit var asyncStorageNativeReader: AsyncStorageNativeReader
+    lateinit var asyncStorageNative: AsyncStorageNative
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -117,7 +117,7 @@ class ProfileFragment : Fragment() {
                     localBroadcastManager.sendBroadcast(Intent(PROFILE_NAVIGATION_BROADCAST).apply {
                         putExtra("action", "logout")
                     })
-                    asyncStorageNativeReader.deleteKey("@hedvig:token")
+                    asyncStorageNative.deleteKey("@hedvig:token")
                     requireActivity().triggerRestartCurrentActivity()
                 }
             }
