@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context="com.hedvig.android.owldroid.ui.marketing.MarketingFragment">
+    tools:context="com.hedvig.android.owldroid.feature.marketing.ui.MarketingFragment">
 
-    <com.hedvig.android.owldroid.ui.marketing.StoryPager
+    <com.hedvig.android.owldroid.feature.marketing.ui.StoryPager
         android:id="@id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

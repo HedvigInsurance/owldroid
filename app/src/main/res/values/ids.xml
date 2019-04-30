@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="profileNavigation" type="id" />
-    <item name="claimsNavigation" type="id" />
-    <item name="claimsScreen" type="id" />
-    <item name="loggedIn" type="id" />
-</resources>

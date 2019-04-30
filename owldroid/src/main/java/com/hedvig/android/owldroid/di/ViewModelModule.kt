@@ -2,11 +2,11 @@ package com.hedvig.android.owldroid.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.hedvig.android.owldroid.ui.claims.ClaimsViewModel
+import com.hedvig.android.owldroid.feature.claims.ui.ClaimsViewModel
+import com.hedvig.android.owldroid.feature.dashboard.ui.DashboardViewModel
+import com.hedvig.android.owldroid.feature.marketing.ui.MarketingStoriesViewModel
+import com.hedvig.android.owldroid.feature.profile.ui.ProfileViewModel
 import com.hedvig.android.owldroid.ui.common.DirectDebitViewModel
-import com.hedvig.android.owldroid.ui.dashboard.DashboardViewModel
-import com.hedvig.android.owldroid.ui.marketing.MarketingStoriesViewModel
-import com.hedvig.android.owldroid.ui.profile.ProfileViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

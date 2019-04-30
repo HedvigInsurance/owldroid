@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"
-        tools:context="com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment">
+        tools:context="com.hedvig.android.owldroid.feature.profile.ui.myinfo.MyInfoFragment">
 
-        <include layout="@layout/app_bar" />
+        <include layout="@layout/app_bar"/>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -26,11 +26,11 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:layout_height="match_parent">
 
-                <include layout="@layout/loading_spinner" />
+                <include layout="@layout/loading_spinner"/>
 
                 <include
                     android:id="@id/sphereContainer"
-                    layout="@layout/sphere_container" />
+                    layout="@layout/sphere_container"/>
 
                 <LinearLayout
                     android:id="@id/contactDetailsContainer"
@@ -45,7 +45,7 @@
 
                     <TextView
                         style="@style/SectionHeader"
-                        android:text="@string/PROFILE_MY_INFO_SECTION_TITLE_CONTACT_DETAILS" />
+                        android:text="@string/PROFILE_MY_INFO_SECTION_TITLE_CONTACT_DETAILS"/>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@id/emailInputContainer"
@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/PROFILE_MY_INFO_EMAIL_LABEL"
                             android:inputType="textEmailAddress"
-                            tools:text="test@hedvig.com" />
+                            tools:text="test@hedvig.com"/>
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -84,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/PROFILE_MY_INFO_PHONE_NUMBER_LABEL"
                             android:inputType="phone"
-                            tools:text="0701234567" />
+                            tools:text="0701234567"/>
 
                     </android.support.design.widget.TextInputLayout>
 
