@@ -3,15 +3,15 @@
     <item
         android:id="@+id/dashboard"
         android:icon="@drawable/ic_home"
-        android:title="Min försäkring"/>
+        android:title="@string/TAB_TITLE_HOME"/>
 
     <item
         android:id="@+id/claims"
         android:icon="@drawable/ic_claims"
-        android:title="Skador"/>
+        android:title="@string/TAB_TITLE_CLAIM"/>
 
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_family"
-        android:title="Profil"/>
+        android:title="@string/TAB_TITLE_PROFILE"/>
 </menu>
