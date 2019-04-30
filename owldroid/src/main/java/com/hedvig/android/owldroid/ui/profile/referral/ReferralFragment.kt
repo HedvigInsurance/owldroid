@@ -60,7 +60,7 @@ class ReferralFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLargeTitle(R.string.PROFILE_REFERRAL_TITLE, R.font.circular_bold, R.drawable.ic_back) {
-            requireActivity().findNavController(R.id.loggedInNavigationHost).popBackStack()
+            requireActivity().findNavController(R.id.rootNavigationHost).popBackStack()
         }
         referralButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
             null,

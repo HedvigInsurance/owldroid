@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
@@ -25,10 +24,7 @@ import com.hedvig.android.owldroid.util.extensions.addViews
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.observe
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
-import com.hedvig.android.owldroid.util.extensions.view.animateExpand
-import com.hedvig.android.owldroid.util.extensions.view.remove
-import com.hedvig.android.owldroid.util.extensions.view.show
+import com.hedvig.android.owldroid.util.extensions.view.*
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import com.hedvig.android.owldroid.util.isApartmentOwner
 import com.hedvig.android.owldroid.util.isStudentInsurance
@@ -37,6 +33,7 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dashboard_footnotes.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -67,9 +64,7 @@ class DashboardFragment : Fragment() {
     private var setActivationFiguresInterval: Disposable? = null
     private val compositeDisposable = CompositeDisposable()
 
-    private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
-    }
+    private val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -150,7 +145,7 @@ class DashboardFragment : Fragment() {
         actionContainer.isNestedScrollingEnabled = false
         actionContainer.layoutManager =
             LinearLayoutManager(requireContext()).also { it.orientation = LinearLayoutManager.HORIZONTAL }
-        actionContainer.adapter = ActionAdapter(actions, requireContext())
+        actionContainer.adapter = ActionAdapter(actions, requireContext(), requireActivity(), dashboardViewModel)
         actionContainer.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 outRect.apply {
@@ -228,8 +223,7 @@ class DashboardFragment : Fragment() {
 
         perilView.perilName = peril.title()
         peril.id()?.let { perilView.perilIconId = it }
-        perilView.setOnClickListener {
-            perilView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+        perilView.setHapticClickListener {
             val subjectName = subject.title()
             val id = peril.id()
             val title = peril.title()
@@ -377,7 +371,7 @@ class DashboardFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread()).subscribe(
                 { setActivationFigures(startDate) }, { Timber.e(it) }
             )
-        compositeDisposable.add(disposable)
+        compositeDisposable += disposable
         setActivationFiguresInterval = disposable
     }
 }

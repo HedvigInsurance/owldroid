@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/off_white"
-    tools:context="com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/off_white"
+             tools:context="com.hedvig.android.owldroid.ui.profile.payment.TrustlyFragment">
 
     <WebView
         android:id="@id/trustlyContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/resultScreen"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/icon_success" />
+            tools:src="@drawable/icon_success"/>
 
         <TextView
             android:id="@+id/resultTitle"
@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultIcon"
-            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE" />
+            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_TITLE"/>
 
         <TextView
             android:id="@+id/resultParagraph"
@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultTitle"
-            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION" />
+            tools:text="@string/PROFILE_TRUSTLY_SUCCESS_DESCRIPTION"/>
 
         <Button
             android:id="@+id/resultClose"
@@ -68,15 +68,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultParagraph"
-            tools:backgroundTint="@color/green" />
+            tools:backgroundTint="@color/green"/>
 
     </android.support.constraint.ConstraintLayout>
 
-    <ProgressBar
-        android:id="@+id/loadingSpinner"
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/loading_spinner"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:visibility="gone" />
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"/>
 
 </FrameLayout>

@@ -29,6 +29,7 @@ import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_payment.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import java.util.Calendar
 import javax.inject.Inject
@@ -42,7 +43,7 @@ class PaymentFragment : Fragment() {
     private lateinit var directDebitViewModel: DirectDebitViewModel
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
+        requireActivity().findNavController(R.id.rootNavigationHost)
     }
 
     override fun onAttach(context: Context?) {

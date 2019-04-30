@@ -29,6 +29,7 @@ import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_trustly.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import javax.inject.Inject
 
 class TrustlyFragment : Fragment() {
@@ -131,9 +132,6 @@ class TrustlyFragment : Fragment() {
         resultClose.setOnClickListener {
             profileViewModel.refreshBankAccountInfo()
             directDebitViewModel.refreshDirectDebitStatus()
-            localBroadcastManager.sendBroadcast(Intent(ProfileFragment.PROFILE_NAVIGATION_BROADCAST).apply {
-                putExtra("action", "clearDirectDebitStatus")
-            })
             goBack()
         }
         resultScreen.show()

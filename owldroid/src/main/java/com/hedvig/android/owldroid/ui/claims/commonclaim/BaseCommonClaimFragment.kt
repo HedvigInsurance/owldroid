@@ -8,19 +8,18 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
 import android.view.View
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.ClaimsViewModel
+import com.hedvig.android.owldroid.util.extensions.observe
+import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import javax.inject.Inject
-import com.bumptech.glide.RequestBuilder
-import com.hedvig.android.owldroid.util.extensions.observe
-import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
 import javax.inject.Named
 
 abstract class BaseCommonClaimFragment : Fragment() {
@@ -35,9 +34,7 @@ abstract class BaseCommonClaimFragment : Fragment() {
 
     lateinit var claimsViewModel: ClaimsViewModel
 
-    val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
-    }
+    val navController by lazy { requireActivity().findNavController(R.id.rootNavigationHost) }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

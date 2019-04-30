@@ -3,6 +3,7 @@ package com.hedvig.android.owldroid.di
 import com.hedvig.android.owldroid.ui.claims.ClaimsFragment
 import com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimFragment
 import com.hedvig.android.owldroid.ui.claims.commonclaim.EmergencyFragment
+import com.hedvig.android.owldroid.ui.claims.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.ui.dashboard.DashboardFragment
 import com.hedvig.android.owldroid.ui.marketing.MarketingFragment
 import com.hedvig.android.owldroid.ui.marketing.StoryFragment
@@ -10,6 +11,7 @@ import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.ui.profile.aboutapp.AboutAppFragment
 import com.hedvig.android.owldroid.ui.profile.charity.CharityFragment
 import com.hedvig.android.owldroid.ui.profile.coinsured.CoinsuredFragment
+import com.hedvig.android.owldroid.ui.profile.myhome.ChangeHomeInfoDialog
 import com.hedvig.android.owldroid.ui.profile.myhome.MyHomeFragment
 import com.hedvig.android.owldroid.ui.profile.myinfo.MyInfoFragment
 import com.hedvig.android.owldroid.ui.profile.payment.PaymentFragment
@@ -64,4 +66,10 @@ abstract class FragmentContributorModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDashboardFragment(): DashboardFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeHonestyPledgeBottomSheet(): HonestyPledgeBottomSheet
+
+    @ContributesAndroidInjector
+    abstract fun contributeChangeHomeInfoDialog(): ChangeHomeInfoDialog
 }

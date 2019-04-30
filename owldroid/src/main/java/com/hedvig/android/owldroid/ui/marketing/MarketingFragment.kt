@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -17,6 +16,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
@@ -26,16 +27,15 @@ import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
-import com.hedvig.android.owldroid.util.extensions.localBroadcastManager
-import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
-import com.hedvig.android.owldroid.util.extensions.view.remove
-import com.hedvig.android.owldroid.util.extensions.view.show
+import com.hedvig.android.owldroid.util.extensions.view.*
 import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
+import kotlinx.android.synthetic.main.loading_spinner.*
 import timber.log.Timber
 import javax.inject.Inject
+import com.hedvig.app.common.R as CommonR
 
 class MarketingFragment : Fragment() {
 
@@ -60,6 +60,10 @@ class MarketingFragment : Fragment() {
     private var buttonsAnimator: ValueAnimator? = null
     private var blurDismissAnimator: ValueAnimator? = null
     private var topHideAnimation: ValueAnimator? = null
+
+    private val navController: NavController by lazy {
+        requireActivity().findNavController(CommonR.id.rootNavigationHost)
+    }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -301,22 +305,22 @@ class MarketingFragment : Fragment() {
         login.show()
         getHedvig.show()
 
-        login.setOnClickListener { view ->
+        login.setHapticClickListener {
             trackClickLogin()
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
-            val intent = Intent("marketingResult")
-            intent.putExtra("type", MarketingResult.LOGIN)
-            localBroadcastManager.sendBroadcast(intent)
+            val args = Bundle()
+            args.putString("intent", "login")
+            args.putBoolean("show_restart", true)
+            navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
 
-        getHedvig.setOnClickListener { view ->
+        getHedvig.setHapticClickListener {
             trackClickGetHedvig()
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             restoreStatusBar()
-            val intent = Intent("marketingResult")
-            intent.putExtra("type", MarketingResult.ONBOARD)
-            localBroadcastManager.sendBroadcast(intent)
+            val args = Bundle()
+            args.putString("intent", "onboarding")
+            args.putBoolean("show_restart", true)
+            navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
     }
 

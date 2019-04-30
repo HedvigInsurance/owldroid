@@ -37,7 +37,7 @@ class AboutAppFragment : Fragment() {
     }
 
     private val navController: NavController by lazy {
-        requireActivity().findNavController(R.id.loggedInNavigationHost)
+        requireActivity().findNavController(R.id.rootNavigationHost)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
