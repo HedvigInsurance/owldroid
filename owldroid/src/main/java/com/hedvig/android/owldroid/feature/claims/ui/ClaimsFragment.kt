@@ -52,8 +52,8 @@ class ClaimsFragment : Fragment() {
     }
 
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,10 +69,8 @@ class ClaimsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold) {
-            navController.popBackStack()
-        }
+        setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold)
+        appBarLayout.setExpanded(true)
 
         claimsViewModel.apply {
             loadingSpinner.show()

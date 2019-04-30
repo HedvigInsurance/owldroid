@@ -6,8 +6,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_claims_cell_height"
         android:layout_margin="@dimen/base_margin_double"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
         <ImageView
@@ -16,12 +17,16 @@
             android:layout_height="@dimen/common_claim_icon_size"
             tools:src="@drawable/icon_failure" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
         <TextView
             android:id="@+id/commonClaimCellLabel"
             style="@style/Body.Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/base_margin_quadruple"
             tools:text="Drulle" />
     </LinearLayout>
 </com.hedvig.android.owldroid.ui.common.HedvigCardView>
