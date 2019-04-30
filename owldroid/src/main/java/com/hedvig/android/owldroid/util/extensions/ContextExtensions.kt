@@ -30,8 +30,9 @@ fun Context.hideKeyboard(view: View) {
 
 fun Activity.triggerRestartCurrentActivity() {
     val startActivity = Intent(this, this::class.java)
-    val pendingIntentId = 56665
-    val pendingIntent = PendingIntent.getActivity(this, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
+    val pendingIntentId = 56665 // Randomly chosen identifier, this number has no significance.
+    val pendingIntent =
+        PendingIntent.getActivity(this, pendingIntentId, startActivity, PendingIntent.FLAG_CANCEL_CURRENT)
     val mgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent)
     System.exit(0)
