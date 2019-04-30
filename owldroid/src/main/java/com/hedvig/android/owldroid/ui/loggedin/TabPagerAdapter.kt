@@ -12,12 +12,10 @@ import com.hedvig.android.owldroid.ui.profile.ProfileFragment
 import com.hedvig.android.owldroid.util.extensions.byOrdinal
 
 class TabPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
-    override fun getItem(page: Int): Fragment {
-        return when (byOrdinal<LoggedInTabs>(page)) {
-            LoggedInTabs.DASHBOARD -> DashboardFragment()
-            LoggedInTabs.CLAIMS -> ClaimsFragment()
-            LoggedInTabs.PROFILE -> ProfileFragment()
-        }
+    override fun getItem(page: Int): Fragment = when (byOrdinal<LoggedInTabs>(page)) {
+        LoggedInTabs.DASHBOARD -> DashboardFragment()
+        LoggedInTabs.CLAIMS -> ClaimsFragment()
+        LoggedInTabs.PROFILE -> ProfileFragment()
     }
 
     override fun getCount() = 3
