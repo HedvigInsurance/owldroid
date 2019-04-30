@@ -12,6 +12,7 @@ import com.hedvig.android.owldroid.util.extensions.makeACall
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.mapppedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_emergency.*
@@ -33,18 +34,15 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         commonClaimFirstMessage.text = getString(R.string.CLAIMS_EMERGENCY_FIRST_MESSAGE)
         commonClaimCreateClaimButton.remove()
 
-        firstEmergencyButton.setOnClickListener {
-            firstEmergencyButton.performOnTapHapticFeedback()
+        firstEmergencyButton.setHapticClickListener {
             claimsViewModel.triggerClaimsChat {
                 navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
             }
         }
-        secondEmergencyButton.setOnClickListener {
-            secondEmergencyButton.performOnTapHapticFeedback()
+        secondEmergencyButton.setHapticClickListener {
             makeACall(GLOBAL_ASSISTANCE_URI)
         }
-        thirdEmergencyButton.setOnClickListener {
-            thirdEmergencyButton.performOnTapHapticFeedback()
+        thirdEmergencyButton.setHapticClickListener {
             claimsViewModel.triggerFreeTextChat {
                 navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
             }

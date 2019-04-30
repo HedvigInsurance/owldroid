@@ -3,14 +3,13 @@ package com.hedvig.android.owldroid.ui.dashboard
 import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.graphql.DashboardQuery
-import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
+import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import kotlinx.android.synthetic.main.dashboard_action.view.*
 
 class ActionAdapter(
@@ -33,9 +32,7 @@ class ActionAdapter(
 
     override fun onBindViewHolder(holder: ActionViewHolder, position: Int) {
         holder.button.text = items[position].text()
-        holder.button.setOnClickListener {
-            holder.button.performOnTapHapticFeedback()
-
+        holder.button.setHapticClickListener {
             dashboardViewModel.triggerFreeTextChat {
                 navController.navigate(R.id.action_loggedInFragment_to_chatFragment)
             }

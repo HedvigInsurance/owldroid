@@ -27,10 +27,7 @@ import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
-import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
-import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
-import com.hedvig.android.owldroid.util.extensions.view.remove
-import com.hedvig.android.owldroid.util.extensions.view.show
+import com.hedvig.android.owldroid.util.extensions.view.*
 import com.hedvig.android.owldroid.util.percentageFade
 import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
@@ -308,9 +305,8 @@ class MarketingFragment : Fragment() {
         login.show()
         getHedvig.show()
 
-        login.setOnClickListener {
+        login.setHapticClickListener {
             trackClickLogin()
-            login.performOnTapHapticFeedback()
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "login")
@@ -318,9 +314,8 @@ class MarketingFragment : Fragment() {
             navController.navigate(CommonR.id.action_marketingFragment_to_chatFragment, args)
         }
 
-        getHedvig.setOnClickListener {
+        getHedvig.setHapticClickListener {
             trackClickGetHedvig()
-            getHedvig.performOnTapHapticFeedback()
             restoreStatusBar()
             val args = Bundle()
             args.putString("intent", "onboarding")

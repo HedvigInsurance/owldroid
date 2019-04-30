@@ -11,7 +11,7 @@ import com.hedvig.android.owldroid.ui.claims.commonclaim.bulletpoint.BulletPoint
 import com.hedvig.android.owldroid.ui.claims.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
+import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.mapppedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_common_claim.*
@@ -33,8 +33,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
 
         commonClaimFirstMessage.text = layout.claimFirstMessage()
         commonClaimCreateClaimButton.text = layout.buttonTitle()
-        commonClaimCreateClaimButton.setOnClickListener {
-            commonClaimCreateClaimButton.performOnTapHapticFeedback()
+        commonClaimCreateClaimButton.setHapticClickListener {
             HonestyPledgeBottomSheet
                 .newInstance(data.title(), R.id.action_claimsCommonClaimFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")

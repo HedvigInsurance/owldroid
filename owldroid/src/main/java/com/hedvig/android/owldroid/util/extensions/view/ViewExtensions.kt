@@ -52,5 +52,10 @@ inline fun View.doOnLayout(crossinline action: () -> Unit) =
         }
     })
 
+fun View.setHapticClickListener(onClickListener: (View) -> Unit) {
+    performOnTapHapticFeedback()
+    setOnClickListener(onClickListener)
+}
+
 fun View.performOnTapHapticFeedback() = performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
 

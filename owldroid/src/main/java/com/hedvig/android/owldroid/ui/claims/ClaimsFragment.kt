@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +22,8 @@ import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.ui.claims.commonclaim.CommonClaimsAdapter
 import com.hedvig.android.owldroid.ui.claims.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
-import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
 import dagger.android.support.AndroidSupportInjection
@@ -99,8 +98,7 @@ class ClaimsFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        commonClaimCreateClaimButton.setOnClickListener {
-            commonClaimCreateClaimButton.performOnTapHapticFeedback()
+        commonClaimCreateClaimButton.setHapticClickListener {
             HonestyPledgeBottomSheet
                 .newInstance("main_screen", R.id.action_loggedInFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")

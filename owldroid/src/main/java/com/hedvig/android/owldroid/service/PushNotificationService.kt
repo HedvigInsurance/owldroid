@@ -18,7 +18,7 @@ import dagger.android.AndroidInjection
 import timber.log.Timber
 import javax.inject.Inject
 
-class PushNotificationService: FirebaseMessagingService() {
+class PushNotificationService : FirebaseMessagingService() {
 
     @Inject
     lateinit var asyncStorageNativeReader: AsyncStorageNativeReader
@@ -40,17 +40,15 @@ class PushNotificationService: FirebaseMessagingService() {
         sendChatMessageNotification()
     }
 
-    private fun setupNotificationChannel() {
-        whenApiVersion(Build.VERSION_CODES.O) {
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-            notificationManager?.createNotificationChannel(
-                NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID,
-                    resources.getString(R.string.NOTIFICATION_CHANNEL_NAME),
-                    NotificationManager.IMPORTANCE_HIGH
-                ).apply { description = resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION) }
-            )
-        }
+    private fun setupNotificationChannel() = whenApiVersion(Build.VERSION_CODES.O) {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+        notificationManager?.createNotificationChannel(
+            NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                resources.getString(R.string.NOTIFICATION_CHANNEL_NAME),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply { description = resources.getString(R.string.NOTIFICATION_CHANNEL_DESCRIPTION) }
+        )
     }
 
     private fun sendChatMessageNotification() {
