@@ -376,14 +376,14 @@ class DashboardFragment : Fragment() {
     }
 
     private fun handleExpandShowEntireView(view: View) {
-        val height = Resources.getSystem().displayMetrics.heightPixels - (bottomNavigationHeight + doubleMargin)
+        val bottomBreakPoint = Resources.getSystem().displayMetrics.heightPixels - (bottomNavigationHeight + doubleMargin)
         val position = intArrayOf(0,0)
         view.getLocationOnScreen(position)
         val viewBottomPos = position[1] + view.measuredHeight
 
-        if (viewBottomPos > height) {
+        if (viewBottomPos > bottomBreakPoint) {
             appBarLayout.setExpanded(false, true)
-            val d = viewBottomPos - height
+            val d = viewBottomPos - bottomBreakPoint
             dashboardNestedScrollView.scrollY += d
         }
     }
