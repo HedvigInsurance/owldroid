@@ -2,6 +2,7 @@ package com.hedvig.android.owldroid.feature.dashboard.ui
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -38,6 +39,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.dashboard_footnotes.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -56,6 +58,7 @@ class DashboardFragment : Fragment() {
     lateinit var dashboardViewModel: DashboardViewModel
     lateinit var directDebitViewModel: DirectDebitViewModel
 
+    private val bottomNavigationHeight: Int by lazy { resources.getDimensionPixelSize(R.dimen.bottom_navigation_height) }
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
     private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
@@ -117,7 +120,7 @@ class DashboardFragment : Fragment() {
 
     private fun bindData() {
         val dashboardData = dashboardViewModel.data.value ?: return
-        val directDebitData = directDebitViewModel.data.value ?: return
+        //val directDebitData = directDebitViewModel.data.value ?: return
         loadingSpinner.remove()
         val title = interpolateTextKey(
             resources.getString(R.string.DASHBOARD_TITLE),
@@ -144,7 +147,7 @@ class DashboardFragment : Fragment() {
 
         dashboardData.insurance().type()?.let { setupAdditionalInformationRow(it) }
 
-        setupDirectDebitStatus(directDebitData.directDebitStatus())
+        //setupDirectDebitStatus(directDebitData.directDebitStatus())
     }
 
     private fun setupActionMenu(actions: List<DashboardQuery.ChatAction>) {
@@ -186,6 +189,7 @@ class DashboardFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+        categoryView.expandAnimateCallback = { handleExpandShowEntireView(categoryView) }
         category.perils()?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it, category) }
 
         return categoryView
@@ -243,6 +247,7 @@ class DashboardFragment : Fragment() {
             bottomMargin = tripleMargin
         )
 
+        additionalInformation.expandAnimateCallback = { handleExpandShowEntireView(additionalInformation) }
         additionalInformation.categoryIcon = requireContext().compatDrawable(R.drawable.ic_more_info)
         additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
         additionalInformation.subtitle = resources.getString(R.string.DASHBOARD_MORE_INFO_SUBTITLE)
@@ -368,5 +373,18 @@ class DashboardFragment : Fragment() {
             )
         compositeDisposable += disposable
         setActivationFiguresInterval = disposable
+    }
+
+    private fun handleExpandShowEntireView(view: View) {
+        val height = Resources.getSystem().displayMetrics.heightPixels - (bottomNavigationHeight + doubleMargin)
+        val position = intArrayOf(0,0)
+        view.getLocationOnScreen(position)
+        val viewBottomPos = position[1] + view.measuredHeight
+
+        if (viewBottomPos > height) {
+            appBarLayout.setExpanded(false, true)
+            val d = viewBottomPos - height
+            dashboardNestedScrollView.scrollY += d
+        }
     }
 }

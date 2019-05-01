@@ -25,6 +25,8 @@ class PerilCategoryView : HedvigCardView {
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
 
+    var expandAnimateCallback: (() -> Unit)? = null
+
     constructor(context: Context) : super(context) {
         inflate(context, R.layout.peril_category_view, this)
         setupAttributes()
@@ -135,13 +137,13 @@ class PerilCategoryView : HedvigCardView {
         }
     }
 
-    fun toggle() {
+    private fun toggle() {
         if (toggled) {
             expandedContent?.animateCollapse()
             toggled = false
             return
         } else {
-            expandedContent?.animateExpand()
+            expandedContent?.animateExpand(updateCallBack = expandAnimateCallback)
             toggled = true
         }
     }
