@@ -59,8 +59,13 @@ class DashboardFragment : Fragment() {
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val doubleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_double) }
     private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
-    private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + doubleMargin * 2 }
-    private val rowWidth: Int by lazy { dashboardParent.measuredWidth - doubleMargin * 2 }
+    private val perilTotalWidth: Int by lazy { resources.getDimensionPixelSize(R.dimen.peril_width) + (doubleMargin * 2) }
+    private val rowWidth: Int by lazy {
+        var margin = tripleMargin * 2 // perilCategoryView margin
+        margin += halfMargin * 2 // strange padding in perilCategoryView
+        margin += doubleMargin * 2 // perilCategoryView ConstraintLayout padding
+        dashboardParent.measuredWidth - margin
+    }
 
     private var isInsurancePendingExplanationExpanded = false
 
@@ -191,40 +196,21 @@ class DashboardFragment : Fragment() {
         category: DashboardQuery.PerilCategory
     ): LinearLayout {
         val expandedContent = LinearLayout(requireContext())
-
-        val maxPerilsPerRow = calculateMaxPerilsPerRow()
+        val maxPerilsPerRow = rowWidth / perilTotalWidth
         if (perils.size > maxPerilsPerRow) {
-            expandedContent.orientation = LinearLayout.VERTICAL
-            val firstRowPerils = perils.take(maxPerilsPerRow)
-            val lastRowPerils = perils.drop(maxPerilsPerRow)
-
-            val firstRow = LinearLayout(requireContext())
-            firstRow.addViews(firstRowPerils.map { makePeril(it, category) })
-
-            val lastRow = LinearLayout(requireContext())
-            lastRow.addViews(lastRowPerils.map { makePeril(it, category) })
-
-            expandedContent.addViews(firstRow, lastRow)
+            for (row in 0 until perils.size step maxPerilsPerRow) {
+                expandedContent.orientation = LinearLayout.VERTICAL
+                val rowView = LinearLayout(requireContext())
+                val rowPerils = perils.subList(row, Math.min(row + maxPerilsPerRow, perils.size - 1))
+                rowView.addViews(rowPerils.map { makePeril(it, category) })
+                expandedContent.addView(rowView)
+            }
         } else {
             expandedContent.addViews(perils.map { makePeril(it, category) })
         }
 
 
         return expandedContent
-    }
-
-    private fun calculateMaxPerilsPerRow(): Int {
-        var counter = 0
-        var accumulator = 0
-        while (true) {
-            if (accumulator + perilTotalWidth > rowWidth) {
-                break
-            }
-            accumulator += perilTotalWidth
-            counter += 1
-        }
-
-        return counter
     }
 
     private fun makePeril(peril: DashboardQuery.Peril, subject: DashboardQuery.PerilCategory): PerilView {
