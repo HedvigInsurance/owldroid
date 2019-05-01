@@ -120,7 +120,7 @@ class DashboardFragment : Fragment() {
 
     private fun bindData() {
         val dashboardData = dashboardViewModel.data.value ?: return
-        //val directDebitData = directDebitViewModel.data.value ?: return
+        val directDebitData = directDebitViewModel.data.value ?: return
         loadingSpinner.remove()
         val title = interpolateTextKey(
             resources.getString(R.string.DASHBOARD_TITLE),
@@ -144,10 +144,9 @@ class DashboardFragment : Fragment() {
                 }
             }
         }
-
         dashboardData.insurance().type()?.let { setupAdditionalInformationRow(it) }
 
-        //setupDirectDebitStatus(directDebitData.directDebitStatus())
+        setupDirectDebitStatus(directDebitData.directDebitStatus())
     }
 
     private fun setupActionMenu(actions: List<DashboardQuery.ChatAction>) {

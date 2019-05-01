@@ -2,6 +2,7 @@ package com.hedvig.android.owldroid.util.extensions
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
+import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
 
 val Fragment.localBroadcastManager get() = LocalBroadcastManager.getInstance(requireContext())
@@ -45,6 +47,9 @@ fun Fragment.setupLargeTitle(
     backgroundColor?.let { color ->
         toolbar.setBackgroundColor(color)
         collapsingToolbar.setBackgroundColor(color)
+        whenApiVersion(Build.VERSION_CODES.M) {
+            requireActivity().window.statusBarColor = backgroundColor
+        }
     }
 
     icon?.let { toolbar.setNavigationIcon(it) }

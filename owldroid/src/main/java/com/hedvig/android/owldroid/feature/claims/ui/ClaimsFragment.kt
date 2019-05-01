@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.PictureDrawable
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -21,11 +22,13 @@ import com.hedvig.android.owldroid.di.ViewModelFactory
 import com.hedvig.android.owldroid.feature.claims.ui.commonclaim.CommonClaimsAdapter
 import com.hedvig.android.owldroid.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
+import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.svg.buildRequestBuilder
+import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_claims.*
@@ -93,6 +96,13 @@ class ClaimsFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        whenApiVersion(Build.VERSION_CODES.M) {
+            requireActivity().window.statusBarColor = requireContext().compatColor(R.color.off_white)
+        }
     }
 
     private fun setupButtons() {
