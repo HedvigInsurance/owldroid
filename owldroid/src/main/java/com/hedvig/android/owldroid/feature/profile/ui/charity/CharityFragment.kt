@@ -15,11 +15,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.profile.service.ProfileTracker
 import com.hedvig.android.owldroid.feature.profile.ui.ProfileViewModel
 import com.hedvig.android.owldroid.graphql.ProfileQuery
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.showBottomSheetDialog
 import com.hedvig.android.owldroid.util.extensions.view.remove
+import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_charity.*
@@ -30,6 +32,9 @@ class CharityFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var tracker: ProfileTracker
 
     private lateinit var profileViewModel: ProfileViewModel
 
@@ -85,7 +90,8 @@ class CharityFragment : Fragment() {
 
         selectedCharityCardTitle.text = cashback.name()
         selectedCharityCardParagraph.text = cashback.paragraph()
-        charitySelectedHowDoesItWorkButton.setOnClickListener {
+        charitySelectedHowDoesItWorkButton.setHapticClickListener {
+            tracker.howDoesItWorkClick()
             requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }
@@ -97,7 +103,8 @@ class CharityFragment : Fragment() {
             CharityAdapter(options, requireContext()) { id ->
                 profileViewModel.selectCashback(id)
             }
-        selectCharityHowDoesItWorkButton.setOnClickListener {
+        selectCharityHowDoesItWorkButton.setHapticClickListener {
+            tracker.howDoesItWorkClick()
             requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }

@@ -23,10 +23,10 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.BuildConfig
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.marketing.service.MarketingTracker
 import com.hedvig.android.owldroid.util.extensions.view.performOnTapHapticFeedback
 import com.hedvig.android.owldroid.util.extensions.view.show
 import dagger.android.support.AndroidSupportInjection
@@ -40,13 +40,14 @@ class StoryFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var tracker: MarketingTracker
+
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var player: SimpleExoPlayer? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context)
         super.onAttach(context)
     }
 
@@ -152,7 +153,7 @@ class StoryFragment : Fragment() {
         val holding = Runnable {
             isHolding = true
             marketingStoriesViewModel.pauseStory()
-            trackClickPausedStory()
+            tracker.pause(arguments?.getInt(POSITION_KEY))
         }
         view.setOnTouchListener { _, event ->
             if (marketingStoriesViewModel.blurred.value != null && marketingStoriesViewModel.blurred.value == true) {
@@ -176,35 +177,17 @@ class StoryFragment : Fragment() {
             val oneFourth = view.measuredWidth * 0.25
             if (x > oneFourth) {
                 if (marketingStoriesViewModel.nextScreen()) {
-                    trackClickNextScreen()
+                    tracker.nextScreen(arguments?.getInt(POSITION_KEY))
                     view.performOnTapHapticFeedback()
                 }
             } else {
                 if (marketingStoriesViewModel.previousScreen()) {
-                    trackClickPreviousScreen()
+                    tracker.previousSreen(arguments?.getInt(POSITION_KEY))
                     view.performOnTapHapticFeedback()
                 }
             }
             true
         }
-    }
-
-    private fun trackClickPausedStory() {
-        val bundle = Bundle()
-        arguments?.getInt(POSITION_KEY)?.let { bundle.putInt("story", it + 1) }
-        firebaseAnalytics.logEvent("click_pause_story", bundle)
-    }
-
-    private fun trackClickNextScreen() {
-        val bundle = Bundle()
-        arguments?.getInt(POSITION_KEY)?.let { bundle.putInt("story", it + 1) }
-        firebaseAnalytics.logEvent("click_next_screen", bundle)
-    }
-
-    private fun trackClickPreviousScreen() {
-        val bundle = Bundle()
-        arguments?.getInt(POSITION_KEY)?.let { bundle.putInt("story", it + 1) }
-        firebaseAnalytics.logEvent("click_prev_screen", bundle)
     }
 
     companion object {

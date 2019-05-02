@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.dashboard.service.DashboardTracker
 import com.hedvig.android.owldroid.graphql.DashboardQuery
 import com.hedvig.android.owldroid.type.DirectDebitStatus
 import com.hedvig.android.owldroid.type.InsuranceStatus
@@ -54,6 +55,9 @@ import javax.inject.Inject
 class DashboardFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var tracker: DashboardTracker
 
     lateinit var dashboardViewModel: DashboardViewModel
     lateinit var directDebitViewModel: DirectDebitViewModel
@@ -227,6 +231,8 @@ class DashboardFragment : Fragment() {
             val title = peril.title()
             val description = peril.description()
 
+            tracker.perilClick(id)
+
             if (subjectName != null && id != null && title != null && description != null) {
                 PerilBottomSheet.newInstance(
                     subjectName,
@@ -281,7 +287,8 @@ class DashboardFragment : Fragment() {
             }
             DirectDebitStatus.NEEDS_SETUP -> {
                 directDebitNeedsSetup.show()
-                directDebitConnectButton.setOnClickListener {
+                directDebitConnectButton.setHapticClickListener {
+                    tracker.setupDirectDebit()
                     navController.navigate(R.id.action_dashboardFragment_to_trustlyFragment)
                 }
             }
@@ -332,8 +339,10 @@ class DashboardFragment : Fragment() {
     private fun setupInsurancePendingMoreInfo() {
         insurancePendingMoreInfo.setOnClickListener {
             if (isInsurancePendingExplanationExpanded) {
+                tracker.expandInsurancePendingInfo()
                 insurancePendingExplanation.animateCollapse()
             } else {
+                tracker.collapseInsurancePendingInfo()
                 insurancePendingExplanation.animateExpand()
             }
             isInsurancePendingExplanationExpanded = !isInsurancePendingExplanationExpanded
