@@ -25,7 +25,7 @@ class PerilCategoryView : HedvigCardView {
     private val halfMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_half) }
     private val tripleMargin: Int by lazy { resources.getDimensionPixelSize(R.dimen.base_margin_triple) }
 
-    var expandAnimateCallback: (() -> Unit)? = null
+    var onAnimateExpand: (() -> Unit)? = null
 
     constructor(context: Context) : super(context) {
         inflate(context, R.layout.peril_category_view, this)
