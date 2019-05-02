@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.claims.service.ClaimsTracker
 import com.hedvig.android.owldroid.feature.claims.ui.commonclaim.CommonClaimsAdapter
 import com.hedvig.android.owldroid.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
@@ -38,6 +39,9 @@ class ClaimsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var tracker: ClaimsTracker
 
     @Inject
     @field:Named("BASE_URL")
@@ -101,6 +105,7 @@ class ClaimsFragment : Fragment() {
 
     private fun setupButtons() {
         commonClaimCreateClaimButton.setHapticClickListener {
+            tracker.createClaimClick("main_screen")
             HonestyPledgeBottomSheet
                 .newInstance("main_screen", R.id.action_loggedInFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")

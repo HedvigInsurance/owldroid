@@ -34,6 +34,7 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
         commonClaimFirstMessage.text = layout.claimFirstMessage()
         commonClaimCreateClaimButton.text = layout.buttonTitle()
         commonClaimCreateClaimButton.setHapticClickListener {
+            tracker.createClaimClick(data.title())
             HonestyPledgeBottomSheet
                 .newInstance(data.title(), R.id.action_claimsCommonClaimFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")
