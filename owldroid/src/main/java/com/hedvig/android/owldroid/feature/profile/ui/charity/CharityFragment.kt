@@ -90,7 +90,8 @@ class CharityFragment : Fragment() {
 
         selectedCharityCardTitle.text = cashback.name()
         selectedCharityCardParagraph.text = cashback.paragraph()
-        charitySelectedHowDoesItWorkButton.setOnClickListener {
+        charitySelectedHowDoesItWorkButton.setHapticClickListener {
+            tracker.howDoesItWorkClick()
             requireFragmentManager().showBottomSheetDialog(R.layout.bottom_sheet_charity_explanation)
         }
     }
