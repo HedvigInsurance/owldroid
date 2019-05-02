@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -12,7 +11,6 @@ import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
 import androidx.navigation.NavController
@@ -26,12 +24,15 @@ import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.extensions.hideStatusBar
+import com.hedvig.android.owldroid.util.extensions.setDarkNavigationBar
+import com.hedvig.android.owldroid.util.extensions.setLightNavigationBar
+import com.hedvig.android.owldroid.util.extensions.showStatusBar
 import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.percentageFade
-import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -75,7 +76,6 @@ class MarketingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hideStatusBar()
         marketingStoriesViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
         }
@@ -85,10 +85,7 @@ class MarketingFragment : Fragment() {
         inflater.inflate(R.layout.fragment_marketing, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
-            getHedvig.elevation = 2f
-            login.elevation = 2f
-        }
+        setupSystemDecoration()
         observeMarketingStories()
     }
 
@@ -312,7 +309,7 @@ class MarketingFragment : Fragment() {
 
         login.setHapticClickListener {
             trackClickLogin()
-            restoreStatusBar()
+            cleanupSystemDecoration()
             val args = Bundle()
             args.putString("intent", "login")
             args.putBoolean("show_restart", true)
@@ -321,7 +318,7 @@ class MarketingFragment : Fragment() {
 
         getHedvig.setHapticClickListener {
             trackClickGetHedvig()
-            restoreStatusBar()
+            cleanupSystemDecoration()
             val args = Bundle()
             args.putString("intent", "onboarding")
             args.putBoolean("show_restart", true)
@@ -329,12 +326,14 @@ class MarketingFragment : Fragment() {
         }
     }
 
-    private fun hideStatusBar() {
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    private fun setupSystemDecoration() {
+        activity?.hideStatusBar()
+        activity?.setDarkNavigationBar()
     }
 
-    private fun restoreStatusBar() {
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    private fun cleanupSystemDecoration() {
+        activity?.showStatusBar()
+        activity?.setLightNavigationBar()
     }
 
     private fun trackViewedStory(storyIndex: Int) {
