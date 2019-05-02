@@ -31,13 +31,25 @@
                 android:layout_margin="@dimen/base_margin_double"
                 android:orientation="vertical">
 
-                <!-- TODO fix this animation
-                <com.airbnb.lottie.LottieAnimationView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/claims_fragment_image_height"
-                    app:lottie_loop="false"
-                    app:lottie_autoPlay="true"
-                    app:lottie_rawRes="@raw/hedvig_bouncing_phone_animation_claims" /> -->
+                    android:layout_height="180dp">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        app:lottie_rawRes="@raw/claims_animation_background" />
+
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:lottie_loop="true"
+                        app:lottie_autoPlay="true"
+                        app:lottie_rawRes="@raw/claims_animation_phone" />
+                </FrameLayout>
 
                 <TextView
                     style="@style/Headline.Large"
