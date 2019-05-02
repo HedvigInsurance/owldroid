@@ -188,7 +188,7 @@ class DashboardFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        categoryView.expandAnimateCallback = { handleExpandShowEntireView(categoryView) }
+        categoryView.onAnimateExpand = { handleExpandShowEntireView(categoryView) }
         category.perils()?.let { categoryView.expandedContent = makePerilCategoryExpandContent(it, category) }
 
         return categoryView
@@ -246,7 +246,7 @@ class DashboardFragment : Fragment() {
             bottomMargin = tripleMargin
         )
 
-        additionalInformation.expandAnimateCallback = { handleExpandShowEntireView(additionalInformation) }
+        additionalInformation.onAnimateExpand = { handleExpandShowEntireView(additionalInformation) }
         additionalInformation.categoryIcon = requireContext().compatDrawable(R.drawable.ic_more_info)
         additionalInformation.title = resources.getString(R.string.DASHBOARD_MORE_INFO_TITLE)
         additionalInformation.subtitle = resources.getString(R.string.DASHBOARD_MORE_INFO_SUBTITLE)
@@ -375,8 +375,9 @@ class DashboardFragment : Fragment() {
     }
 
     private fun handleExpandShowEntireView(view: View) {
-        val bottomBreakPoint = Resources.getSystem().displayMetrics.heightPixels - (bottomNavigationHeight + doubleMargin)
-        val position = intArrayOf(0,0)
+        val bottomBreakPoint =
+            Resources.getSystem().displayMetrics.heightPixels - (bottomNavigationHeight + doubleMargin)
+        val position = intArrayOf(0, 0)
         view.getLocationOnScreen(position)
         val viewBottomPos = position[1] + view.measuredHeight
 

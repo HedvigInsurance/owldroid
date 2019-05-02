@@ -8,6 +8,8 @@
     android:background="@color/gray"
     tools:context="com.hedvig.android.owldroid.feature.marketing.ui.MarketingFragment">
 
+    <include layout="@layout/loading_spinner" />
+
     <com.hedvig.android.owldroid.feature.marketing.ui.StoryPager
         android:id="@id/pager"
         android:layout_width="match_parent"
@@ -30,7 +32,7 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@id/marketing_hedvig_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,8 +41,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_hedvig_wordmark_white" />
-
-    <include layout="@layout/loading_spinner" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@id/hedvigFaceAnimation"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_rawRes="@raw/hedvig_happy_avatar" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@id/sayHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,13 +68,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@id/getHedvig"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/button_primary"
+        android:elevation="2dp"
         android:fontFamily="@font/circular_book"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
@@ -87,13 +88,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@id/login"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/button_secondary"
+        android:elevation="2dp"
         android:fontFamily="@font/circular_book"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
