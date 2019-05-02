@@ -10,7 +10,7 @@ import android.widget.TextView
 fun View.animateExpand(
     duration: Long = 200,
     interpolator: TimeInterpolator = DecelerateInterpolator(),
-    updateCallBack: (() -> Unit)? = null
+    updateCallback: (() -> Unit)? = null
 ) {
     val targetHeight = if (this is TextView) {
         val parentWidth = (parent as View).measuredWidth
@@ -27,7 +27,7 @@ fun View.animateExpand(
     valueAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
         requestLayout()
-        updateCallBack?.invoke()
+        updateCallback?.invoke()
     }
 
     valueAnimator.interpolator = interpolator
