@@ -143,7 +143,7 @@ class PerilCategoryView : HedvigCardView {
             toggled = false
             return
         } else {
-            expandedContent?.animateExpand(updateCallBack = onAnimateExpand)
+            expandedContent?.animateExpand(updateCallback = onAnimateExpand)
             toggled = true
         }
     }
