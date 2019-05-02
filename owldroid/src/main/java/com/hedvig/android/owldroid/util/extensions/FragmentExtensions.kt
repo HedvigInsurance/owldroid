@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
 import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
@@ -48,6 +49,8 @@ fun Fragment.setupLargeTitle(
         toolbar.setBackgroundColor(color)
         collapsingToolbar.setBackgroundColor(color)
         whenApiVersion(Build.VERSION_CODES.M) {
+            val flags = requireActivity().window.decorView.systemUiVisibility
+            requireActivity().window.decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             requireActivity().window.statusBarColor = backgroundColor
         }
     }
