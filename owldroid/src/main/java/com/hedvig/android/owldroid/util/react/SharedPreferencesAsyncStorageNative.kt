@@ -5,6 +5,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class SharedPreferencesAsyncStorageNative @Inject constructor(val context: Context) : AsyncStorageNative {
+    override fun close() {
+        Timber.e("not used!?")
+    }
+
     override fun setKey(key: String, value: String) {
         Timber.e("not used!?")
     }
