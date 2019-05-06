@@ -64,3 +64,9 @@ fun Fragment.makeACall(uri: Uri) {
     intent.data = uri
     startActivity(intent)
 }
+
+var Fragment.statusBarColor: Int
+    @ColorInt get() = requireActivity().window.statusBarColor
+    set(@ColorInt value) {
+         requireActivity().window.statusBarColor = value
+    }
