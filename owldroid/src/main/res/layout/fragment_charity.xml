@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.hedvig.android.owldroid.ui.profile.charity.CharityFragment">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 tools:context="com.hedvig.android.owldroid.feature.profile.ui.charity.CharityFragment">
 
-    <include layout="@layout/app_bar" />
+    <include layout="@layout/app_bar"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
 
             <include
                 layout="@layout/loading_spinner"
-                tools:visibility="gone" />
+                tools:visibility="gone"/>
 
             <LinearLayout
                 android:id="@id/selectedCharityContainer"
@@ -41,7 +41,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:contentDescription="@null" />
+                    android:contentDescription="@null"/>
 
                 <com.hedvig.android.owldroid.ui.common.HedvigCardView
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                             android:layout_marginEnd="20dp"
                             android:fontFamily="@font/circular_bold"
                             android:textColor="@color/off_black_dark"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"/>
 
                         <TextView
                             android:id="@id/selectedCharityCardParagraph"
@@ -78,7 +78,7 @@
                             android:fontFamily="@font/circular_book"
                             android:lineSpacingExtra="6dp"
                             android:textColor="@color/off_black"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"/>
 
                     </LinearLayout>
 
@@ -89,7 +89,7 @@
                     layout="@layout/charity_how_does_it_work_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>
 
@@ -112,7 +112,7 @@
                     app:srcCompat="@drawable/icon_charity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@id/selectCharityExplainer"
@@ -129,7 +129,7 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/charityIcon" />
+                    app:layout_constraintTop_toBottomOf="@id/charityIcon"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@id/cashbackOptions"
@@ -148,7 +148,7 @@
                     android:layout_marginTop="@dimen/base_margin_triple"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/selectCharityExplainer" />
+                    app:layout_constraintTop_toBottomOf="@+id/selectCharityExplainer"/>
 
             </android.support.constraint.ConstraintLayout>
 

@@ -25,8 +25,8 @@
     <dimen name="sphere_text_step_granularity">2sp</dimen>
     <dimen name="sphere_text_padding">4dp</dimen>
 
-    <dimen name="loading_spinner_width">24dp</dimen>
-    <dimen name="loading_spinner_height">24dp</dimen>
+    <dimen name="loading_spinner_width">32dp</dimen>
+    <dimen name="loading_spinner_height">32dp</dimen>
     <dimen name="claim_bullet_point_row_icon">24dp</dimen>
     <dimen name="common_claim_first_message_bottom_margin">60dp</dimen>
 
@@ -52,4 +52,6 @@
     <dimen name="peril_category_icon_size">32dp</dimen>
     <dimen name="checkmark_size">16dp</dimen>
     <dimen name="common_claims_card_elevation">8dp</dimen>
+    <dimen name="bottom_navigation_height">60dp</dimen>
+    <dimen name="common_claims_cell_height">90dp</dimen>
 </resources>

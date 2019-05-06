@@ -2,7 +2,8 @@ package com.hedvig.android.owldroid.util.extensions
 
 import android.content.Intent
 import android.net.Uri
-import android.support.annotation.*
+import android.os.Build
+import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.FontRes
 import android.support.annotation.LayoutRes
@@ -11,8 +12,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
-import com.hedvig.android.owldroid.ui.claims.commonclaim.EmergencyFragment
+import android.view.View
 import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
+import com.hedvig.android.owldroid.util.whenApiVersion
 import kotlinx.android.synthetic.main.app_bar.*
 
 val Fragment.localBroadcastManager get() = LocalBroadcastManager.getInstance(requireContext())
@@ -43,9 +45,14 @@ fun Fragment.setupLargeTitle(
     collapsingToolbar.setExpandedTitleTypeface(resolvedFont)
     collapsingToolbar.setCollapsedTitleTypeface(resolvedFont)
 
-    backgroundColor?.let {color ->
+    backgroundColor?.let { color ->
         toolbar.setBackgroundColor(color)
         collapsingToolbar.setBackgroundColor(color)
+        whenApiVersion(Build.VERSION_CODES.M) {
+            val flags = requireActivity().window.decorView.systemUiVisibility
+            requireActivity().window.decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            requireActivity().window.statusBarColor = backgroundColor
+        }
     }
 
     icon?.let { toolbar.setNavigationIcon(it) }
@@ -57,3 +64,9 @@ fun Fragment.makeACall(uri: Uri) {
     intent.data = uri
     startActivity(intent)
 }
+
+var Fragment.statusBarColor: Int
+    @ColorInt get() = requireActivity().window.statusBarColor
+    set(@ColorInt value) {
+         requireActivity().window.statusBarColor = value
+    }

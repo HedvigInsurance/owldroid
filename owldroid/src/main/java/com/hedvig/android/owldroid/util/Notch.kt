@@ -3,18 +3,22 @@ package com.hedvig.android.owldroid.util
 import android.app.Activity
 import android.content.res.Resources
 import android.os.Build
+import android.view.WindowInsets
 
-@Suppress("unused", "MagicNumber")
-fun hasNotch(activity: Activity): Boolean {
+@Suppress("MagicNumber")
+fun Activity.hasNotch(): Boolean {
     whenApiVersion(Build.VERSION_CODES.P) {
-        val displayCutout = activity.window.decorView.rootWindowInsets.displayCutout
-        if (displayCutout != null) {
-            return true
+        val windowInsets = window.decorView.rootWindowInsets as WindowInsets? // This one is nullable despite what kotlin thinks
+        if (windowInsets != null) {
+            val displayCutout = windowInsets.displayCutout
+            if (displayCutout != null) {
+                return true
+            }
         }
     }
 
-    val statusBarHeight = activity.resources.getDimensionPixelSize(
-        activity.resources.getIdentifier("status_bar_height", "dimen", "android")
+    val statusBarHeight = resources.getDimensionPixelSize(
+        resources.getIdentifier("status_bar_height", "dimen", "android")
     )
     return (statusBarHeight > convertDpToPixel(24f))
 }

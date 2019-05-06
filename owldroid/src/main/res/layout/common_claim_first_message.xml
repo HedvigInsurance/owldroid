@@ -20,10 +20,10 @@
 
     <TextView
         android:id="@+id/commonClaimFirstMessage"
-        style="@style/Header.Regular"
+        style="@style/Headline.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="@dimen/base_margin_triple"
         android:layout_marginTop="@dimen/base_margin_triple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

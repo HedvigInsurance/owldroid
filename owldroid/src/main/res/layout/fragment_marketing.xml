@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@id/activity_marketing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context="com.hedvig.android.owldroid.ui.marketing.MarketingFragment">
+    tools:context="com.hedvig.android.owldroid.feature.marketing.ui.MarketingFragment">
 
-    <com.hedvig.android.owldroid.ui.marketing.StoryPager
+    <include layout="@layout/loading_spinner" />
+
+    <com.hedvig.android.owldroid.feature.marketing.ui.StoryPager
         android:id="@id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <View
         android:id="@id/blurOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_white"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@id/storyProgressIndicatorContainer"
@@ -29,19 +30,17 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@id/marketing_hedvig_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:srcCompat="@drawable/ic_hedvig_wordmark_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <include layout="@layout/loading_spinner"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_hedvig_wordmark_white" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@id/hedvigFaceAnimation"
@@ -53,9 +52,9 @@
         app:layout_constraintBottom_toTopOf="@id/sayHello"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:lottie_rawRes="@raw/hedvig_happy_avatar"/>
+        app:lottie_rawRes="@raw/hedvig_happy_avatar" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@id/sayHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,15 +66,16 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/getHedvig"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@id/getHedvig"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/button_primary"
+        android:elevation="2dp"
         android:fontFamily="@font/circular_book"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
@@ -86,15 +86,16 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@id/login"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/button_secondary"
+        android:elevation="2dp"
         android:fontFamily="@font/circular_book"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
@@ -105,6 +106,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

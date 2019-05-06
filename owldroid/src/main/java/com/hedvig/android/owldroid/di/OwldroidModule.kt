@@ -13,6 +13,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import timber.log.Timber
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -33,6 +34,7 @@ class OwldroidModule {
                 try {
                     asyncStorageNative.getKey("@hedvig:token")
                 } catch (exception: Exception) {
+                    Timber.e(exception, "Got an exception while trying to retrieve token")
                     null
                 }?.let { token ->
                     builder.header("Authorization", token)

@@ -4,11 +4,10 @@ import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
 import com.hedvig.android.owldroid.R
-import com.hedvig.android.owldroid.ui.claims.ClaimsFragment
-import com.hedvig.android.owldroid.ui.dashboard.DashboardFragment
-import com.hedvig.android.owldroid.ui.profile.ProfileFragment
+import com.hedvig.android.owldroid.feature.claims.ui.ClaimsFragment
+import com.hedvig.android.owldroid.feature.dashboard.ui.DashboardFragment
+import com.hedvig.android.owldroid.feature.profile.ui.ProfileFragment
 import com.hedvig.android.owldroid.util.extensions.byOrdinal
 
 class TabPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
