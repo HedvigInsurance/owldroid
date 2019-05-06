@@ -8,8 +8,11 @@ import androidx.navigation.fragment.FragmentNavigator
 import com.google.firebase.analytics.FirebaseAnalytics
 import timber.log.Timber
 
-class NavigationAnalytics(val activity: Activity) : NavController.OnDestinationChangedListener {
-    private val firebaseAnalytics = FirebaseAnalytics.getInstance(activity)
+class NavigationAnalytics(
+    private val firebaseAnalytics: FirebaseAnalytics,
+    private val activity: Activity
+) : NavController.OnDestinationChangedListener {
+
     private var lastDestinationName: String? = null
     private var lastDestinationClassName: String? = null
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {

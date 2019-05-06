@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.animation.FastOutSlowInInterpolator
@@ -12,7 +11,6 @@ import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
 import androidx.navigation.NavController
@@ -20,18 +18,22 @@ import androidx.navigation.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.marketing.service.MarketingTracker
 import com.hedvig.android.owldroid.graphql.MarketingStoriesQuery
 import com.hedvig.android.owldroid.util.OnSwipeListener
 import com.hedvig.android.owldroid.util.SimpleOnSwipeListener
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatSetTint
 import com.hedvig.android.owldroid.util.extensions.doOnEnd
+import com.hedvig.android.owldroid.util.extensions.hideStatusBar
+import com.hedvig.android.owldroid.util.extensions.setDarkNavigationBar
+import com.hedvig.android.owldroid.util.extensions.setLightNavigationBar
+import com.hedvig.android.owldroid.util.extensions.showStatusBar
 import com.hedvig.android.owldroid.util.extensions.view.doOnLayout
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.extensions.view.show
 import com.hedvig.android.owldroid.util.percentageFade
-import com.hedvig.android.owldroid.util.whenApiVersion
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_marketing.*
 import kotlinx.android.synthetic.main.loading_spinner.*
@@ -56,8 +58,10 @@ class MarketingFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var tracker: MarketingTracker
+
     private lateinit var marketingStoriesViewModel: MarketingStoriesViewModel
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var buttonsAnimator: ValueAnimator? = null
     private var blurDismissAnimator: ValueAnimator? = null
@@ -69,13 +73,11 @@ class MarketingFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hideStatusBar()
         marketingStoriesViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(MarketingStoriesViewModel::class.java)
         }
@@ -85,10 +87,7 @@ class MarketingFragment : Fragment() {
         inflater.inflate(R.layout.fragment_marketing, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        whenApiVersion(Build.VERSION_CODES.LOLLIPOP) {
-            getHedvig.elevation = 2f
-            login.elevation = 2f
-        }
+        setupSystemDecoration()
         observeMarketingStories()
     }
 
@@ -174,7 +173,7 @@ class MarketingFragment : Fragment() {
             if (newPage == null) {
                 return@Observer
             }
-            trackViewedStory(newPage)
+            tracker.viewedStory(newPage)
             try {
                 pager.currentItem = newPage
             } catch (e: IllegalStateException) {
@@ -192,8 +191,7 @@ class MarketingFragment : Fragment() {
 
             blurOverlay.show()
             topHideAnimation = ValueAnimator.ofFloat(1f, 0f).apply {
-                duration =
-                    BLUR_ANIMATION_SHOW_DURATION
+                duration = BLUR_ANIMATION_SHOW_DURATION
                 addUpdateListener { opacity ->
                     marketing_hedvig_logo.alpha = opacity.animatedValue as Float
                     storyProgressIndicatorContainer.alpha = opacity.animatedValue as Float
@@ -215,7 +213,7 @@ class MarketingFragment : Fragment() {
             val swipeListener = GestureDetector(context, SimpleOnSwipeListener { direction ->
                 when (direction) {
                     OnSwipeListener.Direction.DOWN -> {
-                        trackDismissBlurOverlay()
+                        tracker.dismissBlurOverlay()
                         blurOverlay.setOnTouchListener(null)
                         hedvigFaceAnimation.remove()
                         sayHello.remove()
@@ -311,8 +309,11 @@ class MarketingFragment : Fragment() {
         getHedvig.show()
 
         login.setHapticClickListener {
-            trackClickLogin()
-            restoreStatusBar()
+            tracker.loginClick(
+                marketingStoriesViewModel.page.value,
+                marketingStoriesViewModel.blurred.value
+            )
+            cleanupSystemDecoration()
             val args = Bundle()
             args.putString("intent", "login")
             args.putBoolean("show_restart", true)
@@ -320,8 +321,11 @@ class MarketingFragment : Fragment() {
         }
 
         getHedvig.setHapticClickListener {
-            trackClickGetHedvig()
-            restoreStatusBar()
+            tracker.getHedvigClick(
+                marketingStoriesViewModel.page.value,
+                marketingStoriesViewModel.blurred.value
+            )
+            cleanupSystemDecoration()
             val args = Bundle()
             args.putString("intent", "onboarding")
             args.putBoolean("show_restart", true)
@@ -329,36 +333,14 @@ class MarketingFragment : Fragment() {
         }
     }
 
-    private fun hideStatusBar() {
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    private fun setupSystemDecoration() {
+        activity?.hideStatusBar()
+        activity?.setDarkNavigationBar()
     }
 
-    private fun restoreStatusBar() {
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    }
-
-    private fun trackViewedStory(storyIndex: Int) {
-        val bundle = Bundle()
-        bundle.putInt("story_number", storyIndex + 1)
-        firebaseAnalytics.logEvent("viewed_story", bundle)
-    }
-
-    private fun trackClickGetHedvig() {
-        val bundle = Bundle()
-        marketingStoriesViewModel.page.value?.let { bundle.putInt("story_number", it + 1) }
-        bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
-        firebaseAnalytics.logEvent("click_get_hedvig", bundle)
-    }
-
-    private fun trackClickLogin() {
-        val bundle = Bundle()
-        marketingStoriesViewModel.page.value?.let { bundle.putInt("story_number", it + 1) }
-        bundle.putBoolean("final_screen_active", marketingStoriesViewModel.blurred.value ?: false)
-        firebaseAnalytics.logEvent("click_login", bundle)
-    }
-
-    private fun trackDismissBlurOverlay() {
-        firebaseAnalytics.logEvent("dismiss_blur_overlay", null)
+    private fun cleanupSystemDecoration() {
+        activity?.showStatusBar()
+        activity?.setLightNavigationBar()
     }
 
     companion object {

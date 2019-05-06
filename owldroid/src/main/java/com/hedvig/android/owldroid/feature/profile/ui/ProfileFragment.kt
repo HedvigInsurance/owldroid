@@ -45,8 +45,8 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

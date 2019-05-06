@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import androidx.navigation.findNavController
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.claims.service.ClaimsTracker
 import com.hedvig.android.owldroid.feature.claims.ui.ClaimsViewModel
 import com.hedvig.android.owldroid.ui.common.RoundedBottomSheetDialogFragment
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
@@ -20,6 +21,9 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var tracker: ClaimsTracker
 
     lateinit var claimsViewModel: ClaimsViewModel
 
@@ -44,6 +48,7 @@ class HonestyPledgeBottomSheet : RoundedBottomSheetDialogFragment() {
         dialog.setContentView(view)
 
         dialog.bottomSheetHonestyPledgeButton.setHapticClickListener {
+            tracker.pledgeHonesty(arguments?.getString(ARGS_CLAIM_KEY))
             claimsViewModel.triggerClaimsChat {
                 dismiss()
                 arguments?.getInt(ARGS_NAVIGATION_ACTION)?.let { navController.navigate(it) }

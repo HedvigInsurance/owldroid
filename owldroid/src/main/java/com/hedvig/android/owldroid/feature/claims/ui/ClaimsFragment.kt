@@ -7,7 +7,6 @@ import android.graphics.Rect
 import android.graphics.drawable.PictureDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -18,9 +17,11 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.claims.service.ClaimsTracker
 import com.hedvig.android.owldroid.feature.claims.ui.commonclaim.CommonClaimsAdapter
 import com.hedvig.android.owldroid.feature.claims.ui.pledge.HonestyPledgeBottomSheet
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
+import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
@@ -40,6 +41,9 @@ class ClaimsFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
+    lateinit var tracker: ClaimsTracker
+
+    @Inject
     @field:Named("BASE_URL")
     lateinit var baseUrl: String
     private val requestBuilder: RequestBuilder<PictureDrawable> by lazy { buildRequestBuilder() }
@@ -52,8 +56,8 @@ class ClaimsFragment : Fragment() {
     }
 
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,10 +73,12 @@ class ClaimsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-        setupLargeTitle(R.string.CLAIMS_TITLE, R.font.circular_bold) {
-            navController.popBackStack()
-        }
+        setupLargeTitle(
+            R.string.CLAIMS_TITLE,
+            R.font.circular_bold,
+            backgroundColor = requireContext().compatColor(R.color.off_white)
+        )
+        appBarLayout.setExpanded(true)
 
         claimsViewModel.apply {
             loadingSpinner.show()
@@ -99,6 +105,7 @@ class ClaimsFragment : Fragment() {
 
     private fun setupButtons() {
         commonClaimCreateClaimButton.setHapticClickListener {
+            tracker.createClaimClick("main_screen")
             HonestyPledgeBottomSheet
                 .newInstance("main_screen", R.id.action_loggedInFragment_to_chatFragment)
                 .show(requireFragmentManager(), "honestyPledge")

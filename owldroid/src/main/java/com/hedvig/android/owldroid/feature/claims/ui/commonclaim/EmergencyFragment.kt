@@ -34,14 +34,17 @@ class EmergencyFragment : BaseCommonClaimFragment() {
         commonClaimCreateClaimButton.remove()
 
         firstEmergencyButton.setHapticClickListener {
+            tracker.emergencyClick()
             claimsViewModel.triggerClaimsChat {
                 navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
             }
         }
         secondEmergencyButton.setHapticClickListener {
+            tracker.callGlobalAssistance()
             makeACall(GLOBAL_ASSISTANCE_URI)
         }
         thirdEmergencyButton.setHapticClickListener {
+            tracker.emergencyChat()
             claimsViewModel.triggerFreeTextChat {
                 navController.navigate(R.id.action_claimsEmergencyFragment_to_chatFragment)
             }

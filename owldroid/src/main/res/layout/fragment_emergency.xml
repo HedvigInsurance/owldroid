@@ -11,18 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/off_white"
-        android:paddingBottom="?attr/actionBarSize"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- TODO remove paddingBottom and when we fixed navigation-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/base_margin_double"
-            android:paddingBottom="80dp"
-            android:orientation="vertical"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:orientation="vertical">
 
             <include layout="@layout/common_claim_first_message" />
 
@@ -30,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin">
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,9 +46,10 @@
                         android:text="@string/CLAIMS_EMERGENCY_FIRST_BOX_TITLE" />
 
                     <TextView
-                        style="@style/Body"
+                        style="@style/Body.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/base_margin"
                         android:text="@string/CLAIMS_EMERGENCY_FIRST_BOX_DESCRIPTION" />
 
                     <Button
@@ -74,8 +72,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin">
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -93,9 +91,10 @@
                         android:text="@string/CLAIMS_EMERGENCY_SECOND_BOX_TITLE" />
 
                     <TextView
-                        style="@style/Body"
+                        style="@style/Body.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/base_margin"
                         android:text="@string/CLAIMS_EMERGENCY_SECOND_BOX_DESCRIPTION" />
 
                     <Button
@@ -118,8 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin">
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,9 +136,10 @@
                         android:text="@string/CLAIMS_EMERGENCY_THIRD_BOX_TITLE" />
 
                     <TextView
-                        style="@style/Body"
+                        style="@style/Body.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/base_margin"
                         android:text="@string/CLAIMS_EMERGENCY_THIRD_BOX_DESCRIPTION" />
 
                     <Button

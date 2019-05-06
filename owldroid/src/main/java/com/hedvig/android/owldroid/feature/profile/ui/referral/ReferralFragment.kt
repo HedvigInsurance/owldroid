@@ -16,6 +16,7 @@ import androidx.navigation.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.profile.service.ProfileTracker
 import com.hedvig.android.owldroid.feature.profile.ui.ProfileViewModel
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
@@ -34,9 +35,10 @@ class ReferralFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var profileViewModel: ProfileViewModel
+    @Inject
+    lateinit var tracker: ProfileTracker
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var profileViewModel: ProfileViewModel
 
     private var buttonAnimator: ValueAnimator? = null
 
@@ -47,7 +49,6 @@ class ReferralFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         profileViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
         }
@@ -105,7 +106,7 @@ class ReferralFragment : Fragment() {
                                 }
                             }
                             referralButton.setOnClickListener {
-                                trackReferralSend()
+                                tracker.clickReferral(profileViewModel.remoteConfigData.value?.referralsIncentiveAmount)
                                 val shareIntent = Intent().apply {
                                     action = Intent.ACTION_SEND
                                     putExtra(
@@ -134,18 +135,5 @@ class ReferralFragment : Fragment() {
         super.onStop()
         buttonAnimator?.removeAllListeners()
         buttonAnimator?.cancel()
-    }
-
-    private fun trackReferralSend() {
-        val bundle = Bundle()
-        profileViewModel.remoteConfigData.value?.let { rcd ->
-            bundle.putInt(INCENTIVE, rcd.referralsIncentiveAmount)
-        }
-        firebaseAnalytics.logEvent(CLICK_REFERRAL, bundle)
-    }
-
-    companion object {
-        const val INCENTIVE = "incentive"
-        const val CLICK_REFERRAL = "click_referral"
     }
 }

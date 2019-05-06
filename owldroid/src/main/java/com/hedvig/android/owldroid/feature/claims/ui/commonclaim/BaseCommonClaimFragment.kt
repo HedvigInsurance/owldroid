@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.RequestBuilder
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.di.ViewModelFactory
+import com.hedvig.android.owldroid.feature.claims.service.ClaimsTracker
 import com.hedvig.android.owldroid.feature.claims.ui.ClaimsViewModel
 import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.util.extensions.observe
@@ -26,6 +27,9 @@ abstract class BaseCommonClaimFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var tracker: ClaimsTracker
 
     @Inject
     @field:Named("BASE_URL")
