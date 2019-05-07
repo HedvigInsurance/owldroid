@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.view.WindowInsets
 
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "USELESS_CAST")
 fun Activity.hasNotch(): Boolean {
     whenApiVersion(Build.VERSION_CODES.P) {
         val windowInsets = window.decorView.rootWindowInsets as WindowInsets? // This one is nullable despite what kotlin thinks

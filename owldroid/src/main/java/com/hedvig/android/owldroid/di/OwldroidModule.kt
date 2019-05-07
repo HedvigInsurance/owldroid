@@ -48,7 +48,7 @@ class OwldroidModule {
     @Provides
     @Singleton
     fun lruNormalizedCacheFactory(): NormalizedCacheFactory<LruNormalizedCache> {
-        return LruNormalizedCacheFactory(EvictionPolicy.builder().maxSizeBytes(10 * 1024).build())
+        return LruNormalizedCacheFactory(EvictionPolicy.builder().maxSizeBytes(1000 * 1024).build())
     }
 
     @Provides
