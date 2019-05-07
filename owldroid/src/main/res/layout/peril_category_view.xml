@@ -6,7 +6,6 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false"
         android:padding="@dimen/base_margin_double"
         tools:layout_height="120dp">
 
@@ -62,7 +61,6 @@
             android:id="@+id/perilsContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:clipChildren="false"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
