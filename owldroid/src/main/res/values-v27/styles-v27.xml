@@ -11,6 +11,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
+        <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
     </style>
 
     <style name="PerilBottomSheetDialogTheme" parent="BaseBottomSheetDialog">

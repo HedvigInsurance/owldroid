@@ -7,6 +7,7 @@
     </style>
 
     <style name="NoTitleBottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="bottomSheetStyle">@style/NoTitleBottomSheet</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
