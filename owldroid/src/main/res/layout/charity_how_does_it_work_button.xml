@@ -9,17 +9,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/ic_info_purple"/>
+        android:contentDescription="@null"
+        app:srcCompat="@drawable/ic_info_purple" />
 
     <TextView
+        style="@style/Body.Small.Link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/base_margin_half"
-        android:paddingEnd="@dimen/base_margin_half"
         android:paddingTop="@dimen/base_margin"
+        android:paddingEnd="@dimen/base_margin_half"
         android:paddingBottom="@dimen/base_margin"
         android:text="@string/CHARITY_INFO_BUTTON_LABEL"
-        android:textAllCaps="false"
-        android:textColor="@color/purple"
-        android:textSize="14sp"/>
+        android:textAllCaps="false" />
 </LinearLayout>
