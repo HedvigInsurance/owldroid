@@ -57,17 +57,6 @@ class PerilView : LinearLayout {
             }
         }
 
-    var perilIconUrl: Uri? = null
-        set(value) {
-            field = value
-
-            Glide
-                .with(context)
-                .load(value)
-                .override(iconSize)
-                .into(image)
-        }
-
     var perilName: CharSequence? = null
         set(value) {
             field = value
@@ -75,6 +64,8 @@ class PerilView : LinearLayout {
         }
 
     fun setupAttributes() {
+        orientation = VERTICAL
+
         val attributes = context.obtainStyledAttributes(
             attributeSet,
             R.styleable.PerilView,

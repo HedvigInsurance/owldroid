@@ -7,6 +7,7 @@ import android.support.annotation.DrawableRes
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hedvig.android.owldroid.R
@@ -139,14 +140,27 @@ class PerilCategoryView : HedvigCardView {
 
     private fun toggle() {
         if (toggled) {
-            expandedContent?.animateCollapse()
+            expandedContent?.animateCollapse(withOpacity = true)
+            expandCollapse
+                .animate()
+                .withLayer()
+                .setDuration(200)
+                .setInterpolator(DecelerateInterpolator())
+                .rotation(0f)
+                .start()
             toggled = false
             expandCollapse.setImageDrawable(context.compatDrawable(R.drawable.ic_expand))
             return
         } else {
-            expandedContent?.animateExpand(updateCallback = onAnimateExpand)
+            expandedContent?.animateExpand(updateCallback = onAnimateExpand, withOpacity = true)
             toggled = true
-            expandCollapse.setImageDrawable(context.compatDrawable(R.drawable.ic_collapse))
+            expandCollapse
+                .animate()
+                .withLayer()
+                .setDuration(200)
+                .setInterpolator(DecelerateInterpolator())
+                .rotation(-180f)
+                .start()
         }
     }
 

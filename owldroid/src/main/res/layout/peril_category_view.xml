@@ -6,10 +6,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/base_margin_double"
-        android:paddingTop="@dimen/base_margin_triple"
-        android:paddingEnd="@dimen/base_margin_double"
-        android:paddingBottom="@dimen/base_margin_triple"
+        android:clipChildren="false"
+        android:padding="@dimen/base_margin_double"
         tools:layout_height="120dp">
 
         <ImageView
@@ -37,7 +35,7 @@
 
             <TextView
                 android:id="@+id/categoryTitle"
-                style="@style/Body.Regular"
+                style="@style/Headline.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Jag och min familj" />
@@ -64,6 +62,7 @@
             android:id="@+id/perilsContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clipChildren="false"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
