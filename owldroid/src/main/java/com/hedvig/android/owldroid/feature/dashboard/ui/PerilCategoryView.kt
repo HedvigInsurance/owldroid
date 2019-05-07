@@ -141,10 +141,12 @@ class PerilCategoryView : HedvigCardView {
         if (toggled) {
             expandedContent?.animateCollapse()
             toggled = false
+            expandCollapse.setImageDrawable(context.compatDrawable(R.drawable.ic_expand))
             return
         } else {
             expandedContent?.animateExpand(updateCallback = onAnimateExpand)
             toggled = true
+            expandCollapse.setImageDrawable(context.compatDrawable(R.drawable.ic_collapse))
         }
     }
 
