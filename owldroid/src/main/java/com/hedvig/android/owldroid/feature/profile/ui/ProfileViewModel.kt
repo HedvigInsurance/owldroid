@@ -61,7 +61,7 @@ class ProfileViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        disposables.dispose()
+        disposables.clear()
     }
 
     fun saveInputs(emailInput: String, phoneNumberInput: String) {

@@ -3,6 +3,7 @@ package com.hedvig.android.owldroid.util
 import android.graphics.Color
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
+import android.support.v4.graphics.ColorUtils
 import com.hedvig.android.owldroid.R
 import com.hedvig.android.owldroid.type.HedvigColor
 
@@ -34,25 +35,25 @@ fun percentageFade(@ColorInt from: Int, @ColorInt to: Int, percentage: Float): I
     var resBlue = if (fromBlue > toBlue) fromBlue - factorBlue else fromBlue + factorBlue
 
     resAlpha = when (toAlpha) {
-        in resAlpha..(fromAlpha - 1) -> toAlpha
+        in resAlpha until fromAlpha -> toAlpha
         in (fromAlpha + 1)..resAlpha -> toAlpha
         else -> resAlpha
     }
 
     resRed = when (toRed) {
-        in resRed..(fromRed - 1) -> toRed
+        in resRed until fromRed -> toRed
         in (fromRed + 1)..resRed -> toRed
         else -> resRed
     }
 
     resGreen = when (toGreen) {
-        in resGreen..(fromGreen - 1) -> toGreen
+        in resGreen until fromGreen -> toGreen
         in (fromGreen + 1)..resGreen -> toGreen
         else -> resGreen
     }
 
     resBlue = when (toBlue) {
-        in resBlue..(fromBlue - 1) -> toBlue
+        in resBlue until fromBlue -> toBlue
         in (fromBlue + 1)..resBlue -> toBlue
         else -> resBlue
     }
@@ -76,3 +77,15 @@ fun HedvigColor.mapppedColor(): Int = when (this) {
     HedvigColor.YELLOW -> R.color.yellow
     HedvigColor.`$UNKNOWN` -> R.color.purple
 }
+
+@ColorInt
+fun lightenColor(@ColorInt color: Int, factor: Float): Int {
+    val hsl = FloatArray(3)
+    ColorUtils.colorToHSL(color, hsl)
+
+    hsl[2] += factor
+    hsl[2] = Math.max(0f, Math.min(hsl[2], 1f))
+
+    return ColorUtils.HSLToColor(hsl)
+}
+
