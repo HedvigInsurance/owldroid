@@ -38,7 +38,7 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     override fun onDestroy() {
-        disposables.dispose()
+        disposables.clear()
         super.onDestroy()
     }
 
