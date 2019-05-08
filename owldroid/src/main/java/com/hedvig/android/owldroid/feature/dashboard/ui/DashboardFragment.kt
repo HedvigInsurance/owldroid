@@ -89,7 +89,6 @@ class DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         dashboardViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java)
         }
@@ -145,6 +144,7 @@ class DashboardFragment : Fragment() {
             "NAME" to dashboardData.member().firstName()
         )
         setupLargeTitle(title, R.font.circular_bold)
+        setHasOptionsMenu(true)
         setupInsuranceStatusStatus(dashboardData.insurance())
 
         perilCategoryContainer.removeAllViews()
