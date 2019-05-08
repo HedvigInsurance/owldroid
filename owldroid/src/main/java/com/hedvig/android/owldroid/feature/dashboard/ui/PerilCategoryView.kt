@@ -15,6 +15,7 @@ import com.hedvig.android.owldroid.ui.common.HedvigCardView
 import com.hedvig.android.owldroid.util.extensions.compatDrawable
 import com.hedvig.android.owldroid.util.extensions.view.animateCollapse
 import com.hedvig.android.owldroid.util.extensions.view.animateExpand
+import com.hedvig.android.owldroid.util.extensions.view.show
 import kotlinx.android.synthetic.main.peril_category_view.view.*
 
 class PerilCategoryView : HedvigCardView {
@@ -149,10 +150,10 @@ class PerilCategoryView : HedvigCardView {
                 .rotation(0f)
                 .start()
             toggled = false
-            expandCollapse.setImageDrawable(context.compatDrawable(R.drawable.ic_expand))
             return
         } else {
             expandedContent?.animateExpand(updateCallback = onAnimateExpand, withOpacity = true)
+            expandedContentContainer.show()
             toggled = true
             expandCollapse
                 .animate()
