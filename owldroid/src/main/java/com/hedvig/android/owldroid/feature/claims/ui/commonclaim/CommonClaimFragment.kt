@@ -12,6 +12,7 @@ import com.hedvig.android.owldroid.graphql.CommonClaimQuery
 import com.hedvig.android.owldroid.util.extensions.compatColor
 import com.hedvig.android.owldroid.util.extensions.setupLargeTitle
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
+import com.hedvig.android.owldroid.util.lightenColor
 import com.hedvig.android.owldroid.util.mapppedColor
 import kotlinx.android.synthetic.main.common_claim_first_message.*
 import kotlinx.android.synthetic.main.fragment_common_claim.*
@@ -24,14 +25,14 @@ class CommonClaimFragment : BaseCommonClaimFragment() {
     override fun bindData(data: CommonClaimQuery.CommonClaim) {
         super.bindData(data)
         val layout = data.layout() as? CommonClaimQuery.AsTitleAndBulletPoints ?: return
-        val backgroundColor = requireContext().compatColor(layout.color().mapppedColor())
+        val backgroundColor = lightenColor(requireContext().compatColor(layout.color().mapppedColor()), 0.3f)
         setupLargeTitle(data.title(), R.font.circular_bold, R.drawable.ic_back, backgroundColor) {
             navController.popBackStack()
         }
 
         commonClaimFirstMessageContainer.setBackgroundColor(backgroundColor)
 
-        commonClaimFirstMessage.text = layout.claimFirstMessage()
+        commonClaimFirstMessage.text = layout.title()
         commonClaimCreateClaimButton.text = layout.buttonTitle()
         commonClaimCreateClaimButton.setHapticClickListener {
             tracker.createClaimClick(data.title())
