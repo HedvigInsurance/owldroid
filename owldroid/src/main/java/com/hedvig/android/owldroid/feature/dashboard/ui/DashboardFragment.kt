@@ -3,12 +3,12 @@ package com.hedvig.android.owldroid.feature.dashboard.ui
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -30,6 +30,7 @@ import com.hedvig.android.owldroid.util.extensions.view.animateExpand
 import com.hedvig.android.owldroid.util.extensions.view.remove
 import com.hedvig.android.owldroid.util.extensions.view.setHapticClickListener
 import com.hedvig.android.owldroid.util.extensions.view.show
+import com.hedvig.android.owldroid.util.extensions.view.updatePadding
 import com.hedvig.android.owldroid.util.interpolateTextKey
 import com.hedvig.android.owldroid.util.isApartmentOwner
 import com.hedvig.android.owldroid.util.isStudentInsurance
@@ -88,6 +89,7 @@ class DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         dashboardViewModel = requireActivity().run {
             ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java)
         }
@@ -114,7 +116,19 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toolbar.updatePadding(end = doubleMargin)
+
         loadData()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.dashboard_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        navController.navigate(R.id.action_loggedInFragment_to_chatFragment)
+        return true
     }
 
     private fun loadData() {
@@ -134,7 +148,6 @@ class DashboardFragment : Fragment() {
         setupInsuranceStatusStatus(dashboardData.insurance())
 
         perilCategoryContainer.removeAllViews()
-        dashboardData.chatActions()?.let { setupActionMenu(it) }
 
         dashboardData.insurance().perilCategories()?.forEach { category ->
             val categoryView = makePerilCategoryRow(category)
@@ -151,34 +164,6 @@ class DashboardFragment : Fragment() {
         dashboardData.insurance().type()?.let { setupAdditionalInformationRow(it) }
 
         setupDirectDebitStatus(directDebitData.directDebitStatus())
-    }
-
-    private fun setupActionMenu(actions: List<DashboardQuery.ChatAction>) {
-        actionMenuTitle.show()
-
-        actionContainer.isNestedScrollingEnabled = false
-        actionContainer.layoutManager =
-            LinearLayoutManager(requireContext()).also { it.orientation = LinearLayoutManager.HORIZONTAL }
-        actionContainer.adapter = ActionAdapter(
-            actions,
-            requireContext(),
-            requireActivity(),
-            dashboardViewModel
-        )
-        actionContainer.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                outRect.apply {
-                    left = if (parent.getChildAdapterPosition(view) == 0) doubleMargin else halfMargin
-
-                    parent.adapter?.itemCount?.let { count ->
-                        right = if (parent.getChildAdapterPosition(view) == count - 1) doubleMargin else halfMargin
-                    }
-
-                }
-            }
-        })
-
-        actionContainer.show()
     }
 
     private fun makePerilCategoryRow(category: DashboardQuery.PerilCategory): PerilCategoryView {

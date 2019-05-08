@@ -1,6 +1,7 @@
 package com.hedvig.android.owldroid.util.extensions.view
 
 import android.graphics.Rect
+import android.support.annotation.Dimension
 import android.view.HapticFeedbackConstants
 import android.view.TouchDelegate
 import android.view.View
@@ -60,4 +61,17 @@ fun View.setHapticClickListener(onClickListener: (View) -> Unit) {
 }
 
 fun View.performOnTapHapticFeedback() = performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+
+fun View.updatePadding(
+    @Dimension start: Int? = null,
+    @Dimension top: Int? = null,
+    @Dimension end: Int? = null,
+    @Dimension bottom: Int? = null
+) = setPaddingRelative(
+    start ?: paddingStart,
+    top ?: paddingTop,
+    end ?: paddingEnd,
+    bottom ?: paddingBottom
+
+)
 

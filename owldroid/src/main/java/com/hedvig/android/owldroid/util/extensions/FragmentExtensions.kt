@@ -40,6 +40,7 @@ fun Fragment.setupLargeTitle(
     backAction: (() -> Unit)? = null
 ) {
     (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+    toolbar.title = null // Always remove the underlying toolbar title
     collapsingToolbar.title = title
     val resolvedFont = requireContext().compatFont(font)
     collapsingToolbar.setExpandedTitleTypeface(resolvedFont)
@@ -68,5 +69,5 @@ fun Fragment.makeACall(uri: Uri) {
 var Fragment.statusBarColor: Int
     @ColorInt get() = requireActivity().window.statusBarColor
     set(@ColorInt value) {
-         requireActivity().window.statusBarColor = value
+        requireActivity().window.statusBarColor = value
     }
