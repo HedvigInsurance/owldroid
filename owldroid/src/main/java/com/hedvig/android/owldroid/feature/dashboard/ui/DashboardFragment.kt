@@ -126,7 +126,11 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        navController.navigate(R.id.action_loggedInFragment_to_chatFragment)
+        dashboardViewModel.triggerFreeTextChat {
+            navController.navigate(R.id.action_loggedInFragment_to_chatFragment, Bundle().apply {
+                putBoolean("show_close", true)
+            })
+        }
         return true
     }
 
