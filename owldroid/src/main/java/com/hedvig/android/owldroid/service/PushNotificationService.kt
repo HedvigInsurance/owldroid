@@ -38,6 +38,7 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     override fun onDestroy() {
+        Timber.i("Destroying ${javaClass.simpleName}")
         disposables.clear()
         super.onDestroy()
     }
@@ -63,6 +64,7 @@ class PushNotificationService : FirebaseMessagingService() {
                 }
                 response.data()?.createSessionV2()?.token()?.let { hedvigToken ->
                     asyncStorageNative.setKey(HEDVIG_TOKEN, hedvigToken)
+                    Timber.i("Successfully saved hedvig token")
                     done()
                 } ?: Timber.e("createSession returned no token")
             }, { Timber.e(it) })
@@ -113,6 +115,7 @@ class PushNotificationService : FirebaseMessagingService() {
     }
 
     private fun registerPushToken(pushToken: String) {
+        Timber.i("Registering push token")
         val registerPushTokenMutation = RegisterPushTokenMutation
             .builder()
             .pushToken(pushToken)
