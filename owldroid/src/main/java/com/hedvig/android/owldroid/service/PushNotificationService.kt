@@ -37,12 +37,6 @@ class PushNotificationService : FirebaseMessagingService() {
         setupNotificationChannel()
     }
 
-    override fun onDestroy() {
-        Timber.i("Destroying ${javaClass.simpleName}")
-        disposables.clear()
-        super.onDestroy()
-    }
-
     override fun onNewToken(token: String) {
         Timber.i("Acquired new token: %s", token)
         if (!hasHedvigToken()) {
