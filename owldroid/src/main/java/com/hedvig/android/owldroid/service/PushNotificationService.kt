@@ -42,16 +42,15 @@ class PushNotificationService : FirebaseMessagingService() {
         super.onDestroy()
     }
 
-    override fun onNewToken(token: String?) {
-        token?.let { pushToken ->
-            if (!hasHedvigToken()) {
-                acquireHedvigToken {
-                    registerPushToken(pushToken)
-                }
-                return
+    override fun onNewToken(token: String) {
+        Timber.i("Acquired new token: %s", token)
+        if (!hasHedvigToken()) {
+            acquireHedvigToken {
+                registerPushToken(token)
             }
-            registerPushToken(pushToken)
+            return
         }
+        registerPushToken(token)
     }
 
     private fun acquireHedvigToken(done: () -> Unit) {
@@ -103,11 +102,14 @@ class PushNotificationService : FirebaseMessagingService() {
 
     private fun hasHedvigToken(): Boolean {
         try {
-            asyncStorageNative.getKey("@hedvig:token")
-            return true
-        } catch (_: Exception) {
-            return false
+            val hedvigToken = asyncStorageNative.getKey("@hedvig:token")
+            if (hedvigToken != null) {
+                return true
+            }
+        } catch (exception: Exception) {
+            Timber.e(exception)
         }
+        return false
     }
 
     private fun registerPushToken(pushToken: String) {
