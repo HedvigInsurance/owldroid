@@ -102,7 +102,7 @@ class PushNotificationService : FirebaseMessagingService() {
 
     private fun hasHedvigToken(): Boolean {
         try {
-            val hedvigToken = asyncStorageNative.getKey("@hedvig:token")
+            val hedvigToken = asyncStorageNative.getKey(HEDVIG_TOKEN)
             if (hedvigToken != null) {
                 return true
             }
